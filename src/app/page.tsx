@@ -21,8 +21,21 @@ export default function Home() {
       
       {/* Hero Section */}
       <section className="relative px-4 pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden bg-brand-navy-900 border-b border-white/5">
-        {/* Abstract Background Element for Premium feel */}
+        {/* Background Video / Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* YouTube Video Background */}
+          <div className="absolute inset-0 w-full h-full">
+            <iframe
+              src="https://www.youtube.com/embed/8lLicnhx0yE?autoplay=1&mute=1&controls=0&loop=1&playlist=8lLicnhx0yE&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-full min-h-[56.25vw] pointer-events-none opacity-40 grayscale-[0.2]"
+              allow="autoplay; encrypted-media"
+              title="Stronger Built Background"
+            />
+            {/* Dark Overlay for Text Legibility */}
+            <div className="absolute inset-0 bg-brand-navy-900/40 bg-gradient-to-r from-brand-navy-900 via-brand-navy-900/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/40 via-transparent to-brand-navy-900" />
+          </div>
+          
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
         </div>
