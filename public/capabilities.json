@@ -1,0 +1,57 @@
+{
+  "organization": {
+    "name": "Stronger Built Group LLC",
+    "legalName": "Stronger Built Group LLC",
+    "type": "General Building Contractor",
+    "certifications": [
+      "DVBE (California)",
+      "SB (Small Business)",
+      "SDVOSB (Service-Disabled Veteran Owned Small Business)"
+    ],
+    "identifiers": {
+      "CSLB": "1057434",
+      "CA_SOS": "B20260157630",
+      "EIN": "39-4458240",
+      "DIR": "PENDING"
+    },
+    "location": {
+      "hq": "San Diego, CA",
+      "serviceArea": "State of California (All 58 Counties)"
+    }
+  },
+  "capabilities": {
+    "core": [
+      "Construction Consulting",
+      "Project Management",
+      "Subcontracting Services",
+      "Facility Maintenance",
+      "Janitorial Services",
+      "Material Supply & Logistics"
+    ],
+    "specialized": [
+      "Landscape & Grounds Maintenance",
+      "Graffiti Abatement",
+      "Parking Lot Striping",
+      "Window Cleaning",
+      "Painting Services",
+      "Roofing Repair",
+      "HVAC Maintenance",
+      "Electrical Repair",
+      "Plumbing Repair",
+      "Moving & Relocation"
+    ],
+    "digital_it": [
+      "Website Build & Redesign",
+      "AI Bid Proposal Support",
+      "Search Visibility (SEO/AEO/GEO)"
+    ]
+  },
+  "compliance": {
+    "wcag": "2.1 AA",
+    "genai": "SAM § 4986.9 Compliant",
+    "evaq": "In-Process"
+  },
+  "service_areas": [
+    "Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte", "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kern", "Kings", "Lake", "Lassen", "Los Angeles", "Madera", "Marin", "Mariposa", "Mendocino", "Merced", "Modoc", "Mono", "Monterey", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento", "San Benito", "San Bernardino", "San Diego", "San Francisco", "San Joaquin", "San Luis Obispo", "San Mateo", "Santa Barbara", "Santa Clara", "Santa Cruz", "Shasta", "Sierra", "Siskiyou", "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura", "Yolo", "Yuba"
+  ]
+}

@@ -1,26 +1,48 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
+  --color-brand-navy-900: #0B1F3A;
+  --color-brand-blue-600: #1E6FD9;
+  --color-brand-steel-800: #2E3A48;
+  --color-background-light: #F8FAFC;
+  --color-surface-white: #FFFFFF;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-alert: #DC2626;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0B1F3A;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0B1F3A; /* Deep Navy Background for Premium dark mode */
+    --foreground: #f8fafc;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  @apply antialiased;
+}
+
+/* Glassmorphism Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-white/10;
+  }
+  .glass-card {
+    @apply bg-white/70 dark:bg-brand-navy-900/50 backdrop-blur-lg border border-white/20 dark:border-white/10 shadow-xl;
+  }
 }
