@@ -11,7 +11,7 @@ export function Footer() {
           
           <div className="space-y-4">
             <Link href="/" className="flex flex-col items-start gap-1 group">
-              <span className="text-2xl font-black tracking-tight text-white uppercase leading-none">
+              <span className="text-2xl font-black tracking-tight text-white leading-none">
                 STRONGER<span className="text-brand-blue-600">built</span>
               </span>
               <span className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase leading-none">

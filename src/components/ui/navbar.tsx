@@ -45,7 +45,7 @@ export function Navbar() {
         <div className="px-6 sm:px-8">
           <div className="flex justify-between items-center h-16 md:h-18">
             <Link href="/" className="flex flex-col items-start gap-0.5 group">
-              <span className="text-xl md:text-2xl font-black tracking-tight text-brand-navy-900 dark:text-white uppercase leading-none">
+              <span className="text-xl md:text-2xl font-black tracking-tight text-brand-navy-900 dark:text-white leading-none">
                 STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
               </span>
               <span className="text-[9px] md:text-[10px] font-semibold tracking-widest text-brand-steel-800 dark:text-gray-400 uppercase leading-none">
