@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FADE_UP: Variants = {
@@ -154,7 +154,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Placeholder for Projects */}
+      {/* Featured Projects */}
       <section className="py-24 bg-white dark:bg-brand-navy-900 border-t border-gray-100 dark:border-white/5 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -169,19 +169,67 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Project Placeholders */}
-            {[1, 2].map((p) => (
-              <div key={p} className="group relative aspect-[4/3] rounded-3xl overflow-hidden bg-slate-100 dark:bg-white/5 border border-gray-200 dark:border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="text-slate-400 dark:text-slate-500 font-medium tracking-widest uppercase text-sm border border-slate-300 dark:border-white/10 px-4 py-2 rounded-full">Coming Soon: Project Image {p}</p>
-                </div>
-                <div className="absolute bottom-0 left-0 p-8 z-20 w-full transition-transform duration-300 transform translate-y-4 group-hover:translate-y-0">
-                  <div className="flex gap-2 mb-3">
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-white bg-brand-blue-600 px-2 py-1 rounded">Government</span>
+            {[
+              {
+                slug: "480-sqft-adu",
+                title: "480 Square Foot ADU",
+                client: "Resident",
+                imageStyle: "bg-gradient-to-br from-brand-navy-900 to-blue-900/30",
+                scope: "Complete Construction",
+                size: "480 sqft",
+                role: "Modular Manufacturer / Site...",
+                work: "Fabrication and Installation"
+              },
+              {
+                slug: "affordable-housing-project",
+                title: "Affordable Housing Project",
+                client: "City of LA",
+                imageStyle: "bg-gradient-to-br from-brand-blue-600 to-slate-900",
+                scope: "32 Unit Housing Project",
+                size: "150,000 sqft",
+                role: "Modular Manufacturer / Site...",
+                work: "Fabrication / Installation"
+              }
+            ].map((proj) => (
+              <div key={proj.slug} className="flex flex-col rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 bg-background-light dark:bg-brand-navy-900 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                {/* Image Placeholder */}
+                <div className={`h-64 w-full ${proj.imageStyle} relative overflow-hidden flex items-center justify-center`}>
+                  <Building2 className="w-16 h-16 text-white/20" />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
+                  <div className="absolute top-6 right-6 bg-brand-navy-900/60 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/5">
+                    Project Data Verified
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2">Facility Improvement placeholder {p}</h4>
-                  <p className="text-slate-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">Scope: General layout, plumbing updates, and modernization.</p>
+                </div>
+                
+                <div className="p-10 flex flex-col flex-1">
+                  <h3 className="text-3xl font-black text-brand-navy-900 dark:text-white mb-8 uppercase tracking-tight leading-none">
+                    {proj.title}
+                  </h3>
+                  
+                  {/* Tech Specs Grid */}
+                  <div className="grid grid-cols-1 gap-5 mb-10">
+                    {[
+                      { label: "Scope", value: proj.scope },
+                      { label: "Size", value: proj.size },
+                      { label: "Role", value: proj.role },
+                      { label: "Work", value: proj.work },
+                      { label: "Client", value: proj.client }
+                    ].map((spec) => (
+                      <div key={spec.label} className="flex gap-4 text-xs uppercase tracking-widest">
+                        <span className="font-black text-brand-blue-600 w-20 shrink-0">{spec.label}:</span>
+                        <span className="font-bold text-slate-600 dark:text-slate-200">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto grid grid-cols-2 gap-4">
+                    <Link href={`/projects/${proj.slug}`} className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-white/5 border border-transparent rounded-2xl px-6 py-4 text-[11px] font-black text-brand-navy-900 dark:text-white hover:border-brand-blue-600 transition-all uppercase tracking-widest">
+                      Study <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link href="/contact" className="flex items-center justify-center gap-2 bg-brand-blue-600 text-white rounded-2xl px-6 py-4 text-[11px] font-black hover:bg-blue-500 transition-all uppercase tracking-widest">
+                      Refer <Info className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
