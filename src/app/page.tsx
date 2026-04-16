@@ -106,25 +106,49 @@ export default function Home() {
             <p className="text-lg text-slate-600 dark:text-slate-400">Self-performed and rigorously managed construction, consulting, and facility services for government and commercial sectors.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: HardHat, title: "Construction Consulting", desc: "Feasibility studies, cost estimation, and constructability reviews.", href: "/services/construction-consulting" },
-              { icon: CheckCircle2, title: "Project Management", desc: "CPM scheduling, QA/QC, and rigorous design-build oversight.", href: "/services/project-management" },
-              { icon: Building2, title: "Subcontracting Services", desc: "Certified DVBE partnership managing premium specialized trades.", href: "/services/subcontracting-services" },
-              { icon: Wrench, title: "Facility Maintenance", desc: "Multi-trade ongoing maintenance. Rapid emergency responses.", href: "/services/facility-maintenance" },
-              { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered commercial cleaning and deep sanitization.", href: "/services/janitorial-services" },
-              { icon: Package, title: "Material Supply", desc: "Bulk sourcing and logistics to hit diversity spend targets.", href: "/services/construction-material-supply" },
+              { icon: HardHat, title: "Construction Consulting", desc: "Feasibility studies, cost estimation, and constructability reviews.", href: "/services/construction-consulting", image: "/images/services/construction-consulting.jpg" },
+              { icon: CheckCircle2, title: "Project Management", desc: "CPM scheduling, QA/QC, and rigorous design-build oversight.", href: "/services/project-management", image: "/images/services/project-management-team.jpg" },
+              { icon: Building2, title: "Subcontracting Services", desc: "Certified DVBE partnership managing premium specialized trades.", href: "/services/subcontracting-services", image: "/images/services/subcontracting-logistics.jpg" },
+              { icon: Wrench, title: "Facility Maintenance", desc: "Multi-trade ongoing maintenance. Rapid emergency responses.", href: "/services/facility-maintenance", image: "/images/services/hvac-service.jpg" },
+              { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered commercial cleaning and deep sanitization.", href: "/services/janitorial-services", image: "/images/services/janitorial-service.jpg" },
+              { icon: Package, title: "Material Supply", desc: "Bulk sourcing and logistics to hit diversity spend targets.", href: "/services/construction-material-supply", image: "/images/services/material-supply.jpg" },
             ].map((srv, i) => (
-              <Link key={i} href={srv.href} className="group relative bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 hover:shadow-2xl hover:shadow-brand-blue-600/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowUpRight className="w-5 h-5 text-brand-blue-600" />
+              <div key={i} className="group flex flex-col bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-brand-blue-600/10 transition-all duration-300 hover:-translate-y-2">
+                {/* Image Section */}
+                <div className="aspect-[16/10] relative overflow-hidden">
+                  <img 
+                    src={srv.image} 
+                    alt={srv.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 rounded-xl bg-white/90 dark:bg-brand-navy-900/90 backdrop-blur-md flex items-center justify-center text-brand-blue-600 shadow-lg">
+                      <srv.icon className="w-5 h-5" />
+                    </div>
+                  </div>
                 </div>
-                <div className="w-14 h-14 rounded-xl bg-brand-blue-600/10 flex items-center justify-center mb-6 text-brand-blue-600 group-hover:scale-110 group-hover:bg-brand-blue-600 group-hover:text-white transition-all duration-300">
-                  <srv.icon className="w-7 h-7" />
+
+                {/* Content Section */}
+                <div className="p-8 flex flex-col flex-grow">
+                  <h4 className="text-2xl font-bold text-brand-navy-900 dark:text-white mb-4 tracking-tight group-hover:text-brand-blue-600 transition-colors">
+                    {srv.title}
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow">
+                    {srv.desc}
+                  </p>
+                  
+                  <Link 
+                    href={srv.href} 
+                    className="inline-flex items-center gap-2 text-sm font-black text-brand-blue-600 uppercase tracking-widest group/link"
+                  >
+                    <span>Learn More</span>
+                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-2 transition-transform" />
+                  </Link>
                 </div>
-                <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-3 tracking-wide">{srv.title}</h4>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">{srv.desc}</p>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
