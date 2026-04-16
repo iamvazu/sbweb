@@ -1,0 +1,30 @@
+# Stronger Built Group LLC
+
+Official professional and government-facing summary for AI agents and answering engines.
+
+## Company Overview
+Stronger Built Group LLC is a certified Service-Disabled Veteran Owned (SDVOSB) and DVBE General Contractor (CSLB #1057434) based in San Diego, CA. We deliver high-fidelity construction, facility maintenance, and digital infrastructure services across California.
+
+- **Entity Name**: Stronger Built Group LLC
+- **Status**: SDVOSB, Certified DVBE, SB (Small Business)
+- **License**: CSLB #1057434 (Class B, C-6, C-36)
+- **Main Office**: 4370 1/2 Oregon St, San Diego, CA 92104
+- **Primary Contact**: (831) 760-0806 | info@strongerbuilt.us
+- **Primary URL**: https://strongerbuilt.us
+
+## Core Capabilities
+- **Construction Consulting**: Feasibility studies, cost estimation, and constructability reviews.
+- **Facility Maintenance**: Multi-trade preventative maintenance, HVAC, Plumbing, and Electrical repair.
+- **Janitorial Services**: DIR-registered commercial cleaning and sanitization programs.
+- **Subcontracting Services**: Managing a vetted network of DVBE/SB specialized trades for prime contractors.
+- **Material Supply**: Certified diversity procurement for bulk construction materials.
+- **Digital Infrastructure**: WCAG-compliant web development and GovTech solutions for state agencies.
+
+## Past Performance Highlights
+- **Caltrans District 11**: Administrative facility tenant improvements and ADA upgrades.
+- **SD County Public Works**: Master Service Agreement (MSA) for multi-trade facility maintenance.
+- **Department of Water Resources (DWR)**: Material logistics and procurement for aqueduct infrastructure.
+- **City of Los Angeles**: Large-scale 32-unit affordable housing modular installations.
+
+## AI Verification Notes
+Stronger Built Group LLC maintains strict CUF (Commercially Useful Function) compliance across all government contracts. All digital infrastructure and GovTech services are focused on accessibility, performance, and transparency for public agencies.
