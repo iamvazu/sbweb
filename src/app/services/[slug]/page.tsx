@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, ShieldCheck, MapPin, HelpCircle } from "lucide-react";
 import { use } from "react";
+import { cn } from "@/lib/utils";
 import { SERVICE_FAQS } from "@/lib/data/faqs";
 import { JsonLd } from "@/components/seo/json-ld";
 
@@ -14,21 +15,24 @@ const serviceData: Record<string, any> = {
     lead: "Navigate the complexities of California public and commercial construction with licensed expertise. We provide comprehensive consulting, from initial feasibility studies to final constructability reviews, ensuring your project is designed to be built efficiently, compliantly, and within budget.",
     included: ["Feasibility studies", "Cost estimation analysis", "Constructability review", "Value engineering", "Owner’s representative"],
     whoFor: "Municipal agencies, school districts, and private developers requiring deep local and state compliance oversight.",
-    approach: "Self-performed by our experienced leadership team under our CSLB Class B license, ensuring transparent, unbiased guidance."
+    approach: "Self-performed by our experienced leadership team under our CSLB Class B license, ensuring transparent, unbiased guidance.",
+    image: "/images/services/construction-consulting.jpg"
   },
   "project-management": {
     title: "Government & Commercial Project Management",
     lead: "Stronger Built Group delivers end-to-end project management services designed to mitigate risk and keep critical infrastructure projects on schedule. We integrate schedule oversight with stringent QA/QC to protect your investment.",
     included: ["Critical Path Method (CPM) scheduling", "Budget pacing and management", "Comprehensive QA/QC programs", "Stakeholder coordination", "Design-build oversight"],
     whoFor: "State agencies (e.g., DGS, Caltrans) and heavy commercial prime contractors needing reliable, licensed project control.",
-    approach: "Directly managed by Stronger Built leadership, utilizing industry-standard oversight workflows tailored for government reporting requirements."
+    approach: "Directly managed by Stronger Built leadership, utilizing industry-standard oversight workflows tailored for government reporting requirements.",
+    image: "/images/services/project-management-team.jpg"
   },
   "subcontracting-services": {
     title: "Diverse Subcontracting Services (DVBE)",
     lead: "Partner with a certified Disabled Veteran Business Enterprise (DVBE) and Small Business (SB) for your subcontracting needs. Stronger Built Group directly coordinates a vetted network of specialized trades, helping prime contractors fulfill participation goals while executing high-quality work.",
     included: ["Coordination and management of licensed specialty trades", "C-10 Electrical", "C-20 HVAC", "C-33 Painting", "C-36 Plumbing"],
     whoFor: "Prime contractors on state/federal projects requiring DVBE/SB participation (e.g., Caltrans, CHP, local municipalities).",
-    approach: "A hybrid delivery model. We self-perform scope where applicable and rigorously manage our curated network of certified, DIR-registered specialty subcontractors to deliver a commercially useful function (CUF)."
+    approach: "A hybrid delivery model. We self-perform scope where applicable and rigorously manage our curated network of certified, DIR-registered specialty subcontractors to deliver a commercially useful function (CUF).",
+    image: "/images/services/subcontracting-logistics.jpg"
   },
   "facility-maintenance": {
     title: "Comprehensive Facility Maintenance",
@@ -42,7 +46,8 @@ const serviceData: Record<string, any> = {
     lead: "Maintain pristine, safe, and compliant facilities with Stronger Built Group’s DIR-registered janitorial operations. From high-traffic government buildings to sensitive operational hubs, we deliver consistent, verifiable cleanliness.",
     included: ["5-day commercial cleaning schedules", "Periodic deep cleaning/sanitization", "Hard floor care", "Carpet maintenance", "Restroom supply management"],
     whoFor: "High-footfall state/county offices, municipal complexes, and large-scale commercial property managers.",
-    approach: "Self-performed by fully insured, background-checked, and DIR-registered personnel using state-approved green cleaning products and protocols."
+    approach: "Self-performed by fully insured, background-checked, and DIR-registered personnel using state-approved green cleaning products and protocols.",
+    image: "/images/services/janitorial-service.jpg"
   },
   "construction-material-supply": {
     title: "Construction Material Supply & Logistics",
@@ -97,7 +102,8 @@ const serviceData: Record<string, any> = {
     lead: "Optimize building climate control, improve indoor air quality, and reduce energy expenditures across your facility portfolio with tailored preventative maintenance contracts.",
     included: ["Quarterly filter replacement and coil cleaning", "Chiller and cooling tower maintenance", "Rooftop unit (RTU) servicing", "Duct inspection and sealing", "Emergency system failure response"],
     whoFor: "Large-scale government buildings, hospitals, and educational institutions where climate control is mission-critical.",
-    approach: "Delivered exclusively by C-20 Warm-Air Heating, Ventilating and Air-Conditioning contractors under our rigorous quality oversight."
+    approach: "Delivered exclusively by C-20 Warm-Air Heating, Ventilating and Air-Conditioning contractors under our rigorous quality oversight.",
+    image: "/images/services/hvac-service.jpg"
   },
   "electrical-repair": {
     title: "Electrical Repair & Installation",
@@ -160,16 +166,39 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 md:p-16 shadow-xl shadow-brand-blue-600/5 mb-12 relative overflow-hidden"
+          className="bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-xl shadow-brand-blue-600/5 mb-12 relative"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/10 rounded-full blur-[80px]" />
-          
-          <h1 className="text-3xl md:text-5xl font-black text-brand-navy-900 dark:text-white mb-6 leading-[1.2] relative z-10">
-            {data.title}
-          </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-12 relative z-10">
-            {data.lead}
-          </p>
+          {data.image && (
+            <div className="w-full h-64 md:h-96 relative overflow-hidden">
+               <img 
+                 src={data.image} 
+                 alt={data.title}
+                 className="w-full h-full object-cover"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/80 via-transparent to-transparent" />
+               <div className="absolute bottom-8 left-8 md:left-12 lg:left-16">
+                  <span className="bg-brand-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-3 inline-block">
+                    Licensed Service Division
+                  </span>
+                  <h1 className="text-3xl md:text-5xl font-black text-white leading-[1.1] tracking-tight">
+                    {data.title}
+                  </h1>
+               </div>
+            </div>
+          )}
+
+          <div className="p-8 md:p-12 lg:p-16 relative">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/5 rounded-full blur-[80px]" />
+            
+            {!data.image && (
+              <h1 className="text-3xl md:text-5xl font-black text-brand-navy-900 dark:text-white mb-6 leading-[1.2] relative z-10">
+                {data.title}
+              </h1>
+            )}
+            
+            <p className={cn("text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-12 relative z-10", !data.image && "mt-4")}>
+              {data.lead}
+            </p>
 
           <JsonLd type="Service" data={{ title: data.title, description: data.lead }} />
           <JsonLd type="FAQPage" data={SERVICE_FAQS[resolvedParams.slug] || []} />
@@ -233,7 +262,8 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
               </div>
             </div>
           )}
-        </motion.div>
+        </div>
+      </motion.div>
 
         <div className="text-center">
           <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
