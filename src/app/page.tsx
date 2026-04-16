@@ -26,14 +26,14 @@ export default function Home() {
           {/* YouTube Video Background */}
           <div className="absolute inset-0 w-full h-full">
             <iframe
-              src="https://www.youtube.com/embed/8lLicnhx0yE?autoplay=1&mute=1&controls=0&loop=1&playlist=8lLicnhx0yE&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-full min-h-[56.25vw] pointer-events-none opacity-40 grayscale-[0.2]"
+              src="https://www.youtube.com/embed/G6FPnOQpdhw?autoplay=1&mute=1&controls=0&loop=1&playlist=G6FPnOQpdhw&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-full min-h-[56.25vw] pointer-events-none opacity-60 grayscale-[0.1]"
               allow="autoplay; encrypted-media"
               title="Stronger Built Background"
             />
-            {/* Dark Overlay for Text Legibility */}
-            <div className="absolute inset-0 bg-brand-navy-900/40 bg-gradient-to-r from-brand-navy-900 via-brand-navy-900/60 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/40 via-transparent to-brand-navy-900" />
+            {/* Dark Overlay for Text Legibility - Lightened for visibility */}
+            <div className="absolute inset-0 bg-brand-navy-900/20 bg-gradient-to-r from-brand-navy-900/80 via-brand-navy-900/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/30 via-transparent to-brand-navy-900/60" />
           </div>
           
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
