@@ -36,12 +36,12 @@ export default function ContactHub() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-brand-navy-900 shrink-0 flex items-center justify-center shadow-sm">
-                    <Phone className="w-5 h-5 text-brand-blue-600" />
+                  <div className="w-14 h-14 rounded-2xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600">
+                    <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Direct</h4>
-                    <p className="font-semibold text-brand-navy-900 dark:text-gray-200">(555) 123-4567</p>
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Call Us</p>
+                    <p className="text-xl font-bold text-brand-navy-900 dark:text-white">(831) 760-0806</p>
                   </div>
                 </li>
                 <li className="flex gap-4">

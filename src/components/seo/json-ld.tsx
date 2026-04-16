@@ -18,7 +18,7 @@ export function JsonLd({ type, data }: JsonLdProps) {
         "@type": "LocalBusiness",
         "name": "Stronger Built Group LLC",
         "image": "https://strongerbuilt.us/logo.png",
-        "teleprompt": "(555) 123-4567",
+        "teleprompt": "(831) 760-0806",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "4370 1/2 Oregon St",
@@ -73,7 +73,7 @@ export function JsonLd({ type, data }: JsonLdProps) {
       "image": "https://strongerbuilt.us/logo.png",
       "@id": "https://strongerbuilt.us",
       "url": "https://strongerbuilt.us",
-      "telephone": "(555) 123-4567",
+      "telephone": "(831) 760-0806",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "4370 1/2 Oregon St",
