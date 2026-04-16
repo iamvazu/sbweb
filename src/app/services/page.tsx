@@ -1,15 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, HardHat, CheckCircle2, Building2, Wrench, ShieldCheck, Package, Trees, Droplets, ArrowRightLeft, AppWindow, Paintbrush, Hammer, Wind, Zap, Truck, Navigation, Globe, BrainCircuit, SearchCode } from "lucide-react";
 
-const STAGGER = {
+const STAGGER: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
-const FADE_UP = {
+const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 }
 };
