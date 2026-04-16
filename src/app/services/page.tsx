@@ -35,7 +35,7 @@ const services = [
 
 const digitalServices = [
   { icon: Globe, title: "Website Build & Redesign", desc: "WCAG 2.1 AA compliant, high-performance digital infrastructure for agencies.", href: "/services/website-build-redesign" },
-  { icon: BrainCircuit, title: "AI Bid Proposal Support", desc: "Navigating deep procurement complexity with AI-driven document analysis.", href: "/services/ai-bid-proposal-support" },
+  { icon: BrainCircuit, title: "Strategic Bid & Procurement Management", desc: "Navigating deep procurement complexity with high-precision bidding and RFP support led by Roy Krautstrunk.", href: "/services/strategic-bid-advisory" },
   { icon: SearchCode, title: "Modern Search (SEO/AEO/GEO)", desc: "Semantic authority for AI-driven search environments and answer engines.", href: "/services/search-visibility-seo-aeo" },
 ];
 

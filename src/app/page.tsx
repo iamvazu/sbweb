@@ -171,14 +171,15 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                slug: "480-sqft-adu",
-                title: "480 Square Foot ADU",
-                client: "Resident",
-                imageStyle: "bg-gradient-to-br from-brand-navy-900 to-blue-900/30",
-                scope: "Complete Construction",
-                size: "480 sqft",
-                role: "Modular Manufacturer / Site...",
-                work: "Fabrication and Installation"
+                slug: "strategic-bid-advisory",
+                title: "Strategic Bid Management",
+                client: "Procurement Advisory",
+                imageStyle: "bg-gradient-to-br from-brand-blue-600 to-brand-navy-900",
+                scope: "High-Precision Bidding",
+                size: "Data-Driven RFP Response",
+                role: "Executive Oversight / CEO Roy Krautstrunk",
+                work: "Full-Cycle Bid Management",
+                clientLabel: "Specialized Trades"
               },
               {
                 slug: "affordable-housing-project",
@@ -206,14 +207,13 @@ export default function Home() {
                     {proj.title}
                   </h3>
                   
-                  {/* Tech Specs Grid */}
                   <div className="grid grid-cols-1 gap-5 mb-10">
                     {[
                       { label: "Scope", value: proj.scope },
                       { label: "Size", value: proj.size },
                       { label: "Role", value: proj.role },
                       { label: "Work", value: proj.work },
-                      { label: "Client", value: proj.client }
+                      { label: "Lead", value: proj.client }
                     ].map((spec) => (
                       <div key={spec.label} className="flex gap-4 text-xs uppercase tracking-widest">
                         <span className="font-black text-brand-blue-600 w-20 shrink-0">{spec.label}:</span>

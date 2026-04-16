@@ -89,10 +89,10 @@ export const SERVICE_FAQS: Record<string, FAQItem[]> = {
     { question: "Do you redesign old government sites?", answer: "Yes. We take old, slow websites and make them fast and easy to use on phones. We follow all state digital safety rules." },
     { question: "How do I get a tech quote?", answer: "You can send us a request through our contact page. As a DVBE, we offer a specialized edge for municipal and state IT projects." }
   ],
-  "ai-bid-proposal-support": [
-    { question: "How does AI help with government bids?", answer: "Our AI tools read long RFP documents fast. They find the most important rules for you. This helps you write better bids in less time." },
-    { question: "Can you find SB/DVBE bid opportunities?", answer: "Yes. We use technology to match your company to open state contracts. This stops you from missing winnable work." },
-    { question: "Do you help other contractors?", answer: "Yes. We assist small businesses and DVBEs in scaling their bidding process using modern software tools." }
+  "strategic-bid-advisory": [
+    { question: "How does Strategic Bid Management differ from basic consulting?", answer: "We provide high-precision, executive-led oversight by Roy Krautstrunk. We combine advanced data analytics with deep DIR compliance knowledge to build winnable, low-risk proposals that secure multi-million dollar contracts." },
+    { question: "Do you represent clients at mandatory site walks?", answer: "Yes. Both our Growth and Enterprise tracks include mandatory site walk representation by Roy Krautstrunk or our senior technical lead to ensure all site-specific risks are accounted for in the bid." },
+    { question: "How do the deposit payments work?", answer: "Clients pay a 50% deposit (Growth or Enterprise track) to secure Roy's advisory time. The remaining 50% is due once the full bid package is ready for submission." }
   ],
   "search-visibility-seo-aeo": [
     { question: "What is AEO for government agencies?", answer: "Answer Engine Optimization (AEO) helps your agency appear in direct answers when people ask questions on Google or AI like ChatGPT." },

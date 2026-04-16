@@ -23,7 +23,7 @@ const SERVICE_SLUGS = [
   "plumbing-repair",
   "moving-relocation",
   "website-build-redesign",
-  "ai-bid-proposal-support",
+  "strategic-bid-advisory",
   "search-visibility-seo-aeo"
 ];
 

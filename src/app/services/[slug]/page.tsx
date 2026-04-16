@@ -8,6 +8,7 @@ import { use } from "react";
 import { cn } from "@/lib/utils";
 import { SERVICE_FAQS } from "@/lib/data/faqs";
 import { JsonLd } from "@/components/seo/json-ld";
+import BidAdvisoryCheckout from "@/components/checkout/BidAdvisoryCheckout";
 
 const serviceData: Record<string, any> = {
   "construction-consulting": {
@@ -133,12 +134,14 @@ const serviceData: Record<string, any> = {
     whoFor: "Local city departments, municipal districts, and public-sector agencies requiring modernized digital front-ends.",
     approach: "Built using the same core technology powering Stronger Built's own infrastructure—Next.js, Tailwind CSS, and Vercel—ensuring elite performance and near-zero downtime."
   },
-  "ai-bid-proposal-support": {
-    title: "AI-Driven Bid & Proposal Support",
-    lead: "Leveraging sophisticated AI analysis to navigate the complexities of government procurement. We assist fellow contractors and DVBE entities in identifying, parsing, and responding to RFPs with higher accuracy and efficiency.",
-    included: ["AI-powered RFP analysis", "Compliance tracking & bid matching", "Document structure automation", "Technical writing support", "Competitor intelligence reporting"],
-    whoFor: "DVBE/SB contractors, prime subcontractors, and firms looking to scale their public-sector bidding volume.",
-    approach: "Combining expert general contracting insight with modern LLM analysis tools to surgically identify winnable opportunities and automate lower-level documentation."
+  "strategic-bid-advisory": {
+    title: "Strategic Bid & Procurement Management",
+    lead: "High-precision government procurement and RFP response services led by CEO Roy Krautstrunk. We leverage advanced analytics and decades of executive oversight to secure multi-million dollar contracts for specialized trades across California.",
+    included: ["Full-Cycle Bid Management", "DIR & Prevailing Wage Compliance", "Financial modeling & QA", "RFP Analysis & Compliance Tracking", "Mandatory Site Walk Representation"],
+    whoFor: "Specialized trade contractors and high-capacity firms looking to secure complex municipal and state contracts with expert precision.",
+    approach: "Expert-led strategy managed directly by Roy Krautstrunk. We combine deep DIR compliance knowledge with modern data analytics to build winnable, compliant, and highly competitive proposals.",
+    image: "/images/services/construction-consulting.jpg", // Reusing consulting image for professional tone
+    isPremium: true
   },
   "search-visibility-seo-aeo": {
     title: "Modern Search & Visibility (SEO/AEO/GEO)",
@@ -265,11 +268,43 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
         </div>
       </motion.div>
 
-        <div className="text-center">
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
-            Request a Proposal for this Service
-          </Link>
-        </div>
+        {data.isPremium ? (
+          <div className="max-w-2xl mx-auto space-y-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-3xl p-8 flex flex-col shadow-sm">
+                <h3 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-2">Growth Track</h3>
+                <p className="text-slate-500 mb-6 text-sm">For contractors targeting regional municipal bids.</p>
+                <div className="text-3xl font-black text-brand-navy-900 dark:text-white mb-8">
+                  $750 <span className="text-sm font-normal text-slate-400">/ 50% Deposit</span>
+                </div>
+                <div className="mt-auto">
+                  <BidAdvisoryCheckout priceId="price_growth_track_placeholder" tierName="Growth Track" depositAmount="$750" />
+                </div>
+              </div>
+
+              <div className="bg-brand-navy-900 border border-brand-blue-600/30 rounded-3xl p-8 flex flex-col shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 bg-brand-blue-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl">Recommended</div>
+                <h3 className="text-xl font-bold text-white mb-2">Enterprise Track</h3>
+                <p className="text-slate-400 mb-6 text-sm">For high-capacity firms eyeing multi-million dollar state contracts.</p>
+                <div className="text-3xl font-black text-white mb-8">
+                  $1,250 <span className="text-sm font-normal text-slate-500">/ 50% Deposit</span>
+                </div>
+                <div className="mt-auto">
+                  <BidAdvisoryCheckout priceId="price_enterprise_track_placeholder" tierName="Enterprise Track" depositAmount="$1,250" />
+                </div>
+              </div>
+            </div>
+            <p className="text-center text-xs text-slate-400">
+              *Full compliance consult and CEO site-walk representation are included in both tracks. Remaining 50% due upon bid submission.
+            </p>
+          </div>
+        ) : (
+          <div className="text-center">
+            <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
+              Request a Proposal for this Service
+            </Link>
+          </div>
+        )}
 
       </div>
     </div>
