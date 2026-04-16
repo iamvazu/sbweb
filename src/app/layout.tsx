@@ -4,6 +4,8 @@ import "./globals.css";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { AuthProvider } from "@/lib/auth-context";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -26,6 +28,8 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Analytics />
+          <SpeedInsights />
         </AuthProvider>
       </body>
     </html>
