@@ -69,6 +69,30 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
                   <p className="font-semibold text-brand-navy-900 dark:text-white">{data.client}</p>
                 </li>
                 <li>
+                  <div className="flex items-center gap-2 text-brand-blue-600 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest">Scope</span>
+                  </div>
+                  <p className="font-bold text-brand-navy-900 dark:text-white text-sm">{data.scope}</p>
+                </li>
+                <li>
+                  <div className="flex items-center gap-2 text-brand-blue-600 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest">Size</span>
+                  </div>
+                  <p className="font-bold text-brand-navy-900 dark:text-white text-sm">{data.size}</p>
+                </li>
+                <li>
+                  <div className="flex items-center gap-2 text-brand-blue-600 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest">Role</span>
+                  </div>
+                  <p className="font-bold text-brand-navy-900 dark:text-white text-sm">{data.role}</p>
+                </li>
+                <li>
+                  <div className="flex items-center gap-2 text-brand-blue-600 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest">Work</span>
+                  </div>
+                  <p className="font-bold text-brand-navy-900 dark:text-white text-sm">{data.work}</p>
+                </li>
+                <li>
                   <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 mb-1">
                     <MapPin className="w-4 h-4" /> <span className="text-xs font-bold uppercase tracking-wider">Location</span>
                   </div>
