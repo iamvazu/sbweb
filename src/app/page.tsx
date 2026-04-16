@@ -27,7 +27,7 @@ export default function Home() {
           <div className="absolute inset-0 w-full h-full">
             <iframe
               src="https://www.youtube.com/embed/G6FPnOQpdhw?autoplay=1&mute=1&controls=0&loop=1&playlist=G6FPnOQpdhw&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.77vh] min-w-full h-full min-h-[56.25vw] pointer-events-none opacity-60 grayscale-[0.1]"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[48%] w-[177.77vh] min-w-full h-[115%] min-h-[65vw] pointer-events-none opacity-60 grayscale-[0.1]"
               allow="autoplay; encrypted-media"
               title="Stronger Built Background"
             />

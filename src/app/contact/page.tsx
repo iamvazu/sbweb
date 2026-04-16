@@ -49,8 +49,8 @@ export default function ContactHub() {
                     <Mail className="w-5 h-5 text-brand-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Bids & Government</h4>
-                    <p className="font-semibold text-brand-navy-900 dark:text-gray-200">bids@strongerbuilt.us</p>
+                    <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">General & Government</h4>
+                    <p className="font-semibold text-brand-navy-900 dark:text-gray-200">info@strongerbuilt.us</p>
                   </div>
                 </li>
               </ul>

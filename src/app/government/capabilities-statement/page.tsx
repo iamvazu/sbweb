@@ -48,8 +48,8 @@ export default function CapabilitiesStatement() {
             </div>
             <div className="text-right text-sm space-y-1 font-medium">
               <p>4370 1/2 Oregon St, San Diego, CA 92104</p>
-              <p>(555) 123-4567</p>
-              <p>bids@strongerbuilt.us</p>
+              <p>(831) 760-0806</p>
+              <p>info@strongerbuilt.us</p>
               <p>www.strongerbuilt.us</p>
             </div>
           </header>
