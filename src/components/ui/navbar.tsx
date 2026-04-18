@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Phone, Mail, ChevronDown, LayoutDashboard, LogIn } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +18,29 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
+  const [session, setSession] = useState<any>(null);
+  const supabase = createClient();
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    // Dynamic Auth State
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      subscription.unsubscribe();
+    };
+  }, [supabase.auth]);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -145,6 +162,23 @@ export function Navbar() {
               >
                 <Mail className="w-4 h-4" />
               </a>
+
+              {session ? (
+                <Link
+                  href="/portal/vendor"
+                  className="bg-brand-blue-600 text-white px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest italic flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all ml-2"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="border-2 border-brand-navy-900 dark:border-white text-brand-navy-900 dark:text-white px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest italic hover:bg-brand-navy-900 hover:text-white dark:hover:bg-white dark:hover:text-brand-navy-900 transition-all ml-2"
+                >
+                  Portal Login
+                </Link>
+              )}
             </div>
 
             {/* Mobile Menu Button */}

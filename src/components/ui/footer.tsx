@@ -1,8 +1,23 @@
-import Link from "next/link";
-import { ShieldCheck, Award, MapPin, Phone, Mail } from "lucide-react";
+import { ShieldCheck, Award, MapPin, Phone, Mail, LayoutDashboard, LogIn } from "lucide-react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [session, setSession] = useState<any>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
 
   return (
     <footer className="bg-brand-navy-900 text-slate-300 pt-16 pb-8 border-t border-white/10">
@@ -50,9 +65,17 @@ export function Footer() {
               <li><Link href="/partners" className="hover:text-white transition-colors">Join Vendor Network</Link></li>
               <li><Link href="/service-areas" className="hover:text-white transition-colors">Service Areas</Link></li>
               <li className="pt-4 mt-2">
-                <Link href="/login" className="inline-flex items-center justify-center w-full bg-brand-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-brand-blue-600/20 transition-all">
-                  Portal Login
-                </Link>
+                {session ? (
+                  <Link href="/portal/vendor" className="inline-flex items-center justify-center gap-2 w-full bg-brand-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-brand-blue-600/20 transition-all">
+                    <LayoutDashboard className="w-3.5 h-3.5" />
+                    My Dashboard
+                  </Link>
+                ) : (
+                  <Link href="/login" className="inline-flex items-center justify-center gap-2 w-full bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg transition-all">
+                    <LogIn className="w-3.5 h-3.5" />
+                    Portal Login
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

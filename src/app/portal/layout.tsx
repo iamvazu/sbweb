@@ -1,0 +1,251 @@
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { 
+  LayoutDashboard, 
+  Star, 
+  Search, 
+  Kanban, 
+  BarChart2, 
+  Handshake, 
+  FileCheck, 
+  User, 
+  LogOut,
+  Bell,
+  RefreshCw,
+  Menu,
+  ChevronRight
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+const NAV_ITEMS = [
+  { label: "Dashboard", href: "/portal/vendor", icon: LayoutDashboard },
+  { label: "My Matches", href: "/portal/matches", icon: Star, badge: 14 },
+  { label: "Browse All Bids", href: "/portal/bids", icon: Search },
+  { label: "My Pipeline", href: "/portal/pipeline", icon: Kanban },
+  { label: "Analytics", href: "/portal/analytics", icon: BarChart2 },
+];
+
+const SECONDARY_NAV = [
+  { label: "Hire Us", href: "/portal/hire", icon: Handshake, highlight: true },
+  { label: "My Engagements", href: "/portal/engagements", icon: FileCheck },
+];
+
+export default function PortalLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClient();
+  const [userProfile, setUserProfile] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    async function loadProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        setUserProfile(data);
+      }
+    }
+    loadProfile();
+  }, [supabase]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
+  const getInitials = (name: string) => {
+    if (!name) return "??";
+    return name.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2);
+  };
+
+  const Navigation = () => (
+    <div className="flex flex-col h-full py-6 space-y-8">
+      <div className="px-6">
+        <Link href="/" className="flex flex-col">
+          <span className="text-xl font-bold text-white tracking-tight">
+            Bid<span className="text-[#1E6FD9]">IQ</span>
+          </span>
+          <span className="text-[10px] text-blue-200/40 font-medium uppercase tracking-widest leading-none">
+            Powered by StrongerBuilt
+          </span>
+        </Link>
+      </div>
+
+      <nav className="flex-1 px-3 space-y-1">
+        {NAV_ITEMS.map((item) => (
+          <Link 
+            key={item.href} 
+            href={item.href}
+            className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors
+              ${pathname === item.href 
+                ? 'bg-[#1E6FD9] text-white' 
+                : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+          >
+            <div className="flex items-center gap-3">
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </div>
+            {item.badge && (
+              <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-white text-blue-900' : ''}`}>
+                {item.badge}
+              </Badge>
+            )}
+          </Link>
+        ))}
+
+        <div className="py-4">
+          <Separator className="bg-white/10" />
+        </div>
+
+        {SECONDARY_NAV.map((item) => (
+          <Link 
+            key={item.href} 
+            href={item.href}
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+              ${item.highlight 
+                ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'bg-[#1E6FD9]/10 text-[#1E6FD9] hover:bg-[#1E6FD9]/20')
+                : (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
+          >
+            <item.icon className="h-4 w-4" />
+            {item.label}
+          </Link>
+        ))}
+        
+        <Link 
+          href="/portal/profile"
+          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+            ${pathname === '/portal/profile' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+        >
+          <User className="h-4 w-4" />
+          Profile
+        </Link>
+      </nav>
+
+      <div className="px-3 pt-6 border-t border-white/10">
+        <div className="flex items-center gap-3 px-3 py-2 mb-4">
+          <Avatar className="h-8 w-8 bg-blue-600 border border-white/20">
+            <AvatarFallback className="text-[10px] bg-blue-600 text-white">
+              {getInitials(userProfile?.business_name)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 overflow-hidden">
+            <p className="text-xs font-semibold text-white truncate">
+              {userProfile?.business_name || "Enterprise User"}
+            </p>
+            <Badge variant="outline" className="text-[9px] uppercase tracking-tighter h-4 px-1 border-white/20 text-blue-200/60">
+              {userProfile?.subscription_tier || "FREE"}
+            </Badge>
+          </div>
+        </div>
+        <Button 
+          variant="ghost" 
+          onClick={handleLogout}
+          className="w-full justify-start text-blue-100/40 hover:bg-red-500/10 hover:text-red-400 h-9 px-3"
+        >
+          <LogOut className="h-4 w-4 mr-3" />
+          Log Out
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex min-h-screen bg-slate-50 font-sans">
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex w-[260px] flex-col bg-[#0B1F3A] fixed inset-y-0 z-50">
+        <Navigation />
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 lg:pl-[260px]">
+        {/* Top bar */}
+        <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
+          <div className="flex h-16 items-center justify-between px-4 sm:px-8">
+            <div className="flex items-center gap-4">
+              {/* Mobile Menu */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="lg:hidden">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="p-0 border-none w-[260px]">
+                  <div className="h-full bg-[#0B1F3A]">
+                    <Navigation />
+                  </div>
+                </SheetContent>
+              </Sheet>
+              
+              <h2 className="text-sm font-semibold text-slate-900 hidden sm:block">
+                {pathname === '/portal/vendor' && 'Dashboard'}
+                {pathname === '/portal/matches' && 'My Matched Bids'}
+                {pathname === '/portal/bids' && 'Marketplace Browse'}
+                {pathname === '/portal/pipeline' && 'Bid Pipeline'}
+                {pathname === '/portal/analytics' && 'Intelligence Analytics'}
+                {pathname === '/portal/hire' && 'Hire Expert Management'}
+                {pathname === '/portal/engagements' && 'Active Projects'}
+                {pathname === '/portal/profile' && 'Company Profile'}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Badge variant="secondary" className="bg-slate-100 text-slate-500 hover:bg-slate-100 font-medium h-7 flex items-center gap-2 px-3 border-none">
+                <RefreshCw className="h-3 w-3" />
+                <span className="text-[10px]">Last sync: 3:04 PM Pacific</span>
+              </Badge>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-500">
+                    <Bell className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Notifications</TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        </header>
+
+        <main className="p-4 sm:p-8 min-h-[calc(100vh-64px)] overflow-x-hidden">
+          {children}
+        </main>
+      </div>
+
+      {/* Mobile Bottom Tab Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t flex h-16 items-center justify-around px-2">
+        <Link href="/portal/vendor" className={`flex flex-col items-center gap-1 ${pathname === '/portal/vendor' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+          <LayoutDashboard className="h-5 w-5" />
+          <span className="text-[10px] font-medium">Dashboard</span>
+        </Link>
+        <Link href="/portal/matches" className={`flex flex-col items-center gap-1 ${pathname === '/portal/matches' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+          <Star className="h-5 w-5" />
+          <span className="text-[10px] font-medium">Matches</span>
+        </Link>
+        <Link href="/portal/hire" className={`flex flex-col items-center gap-1 ${pathname === '/portal/hire' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+          <Handshake className="h-5 w-5" />
+          <span className="text-[10px] font-medium">Hire Us</span>
+        </Link>
+        <Link href="/portal/pipeline" className={`flex flex-col items-center gap-1 ${pathname === '/portal/pipeline' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+          <Kanban className="h-5 w-5" />
+          <span className="text-[10px] font-medium">Pipeline</span>
+        </Link>
+        <Link href="/portal/profile" className={`flex flex-col items-center gap-1 ${pathname === '/portal/profile' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+          <User className="h-5 w-5" />
+          <span className="text-[10px] font-medium">Profile</span>
+        </Link>
+      </div>
+    </div>
+  );
+}

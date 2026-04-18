@@ -3,9 +3,9 @@ import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
-import { AuthProvider } from "@/lib/auth-context";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${inter.variable} min-h-screen flex flex-col`}>
-        <AuthProvider>
+        <TooltipProvider>
           <Navbar />
           <main className="flex-1">
             {children}
@@ -33,7 +33,7 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <SpeedInsights />
-        </AuthProvider>
+        </TooltipProvider>
       </body>
     </html>
   );
