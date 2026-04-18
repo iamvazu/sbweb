@@ -24,6 +24,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       }
     ],
-    sitemap: 'https://strongerbuilt.us/sitemap.xml',
+    sitemap: 'https://www.strongerbuilt.us/sitemap.xml',
   };
 }

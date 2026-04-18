@@ -17,7 +17,7 @@ export function JsonLd({ type, data }: JsonLdProps) {
       "provider": {
         "@type": "LocalBusiness",
         "name": "Stronger Built Group LLC",
-        "image": "https://strongerbuilt.us/logo.png",
+        "image": "https://www.strongerbuilt.us/logo.png",
         "teleprompt": "(831) 760-0806",
         "address": {
           "@type": "PostalAddress",
@@ -70,9 +70,9 @@ export function JsonLd({ type, data }: JsonLdProps) {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Stronger Built Group LLC",
-      "image": "https://strongerbuilt.us/logo.png",
-      "@id": "https://strongerbuilt.us",
-      "url": "https://strongerbuilt.us",
+      "image": "https://www.strongerbuilt.us/logo.png",
+      "@id": "https://www.strongerbuilt.us",
+      "url": "https://www.strongerbuilt.us",
       "telephone": "(831) 760-0806",
       "address": {
         "@type": "PostalAddress",

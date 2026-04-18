@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { COUNTIES } from '@/lib/data/counties';
 
-const BASE_URL = 'https://strongerbuilt.us';
+const BASE_URL = 'https://www.strongerbuilt.us';
 
 // We'll hardcode the service and project slugs here to keep the sitemap generator 
 // performant and independent of complex component-level data structures.
