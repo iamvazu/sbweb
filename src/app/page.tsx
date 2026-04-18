@@ -184,8 +184,8 @@ export default function Home() {
             ].map((srv, i) => (
               <div key={i} className="group flex flex-col bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-brand-blue-600/10 transition-all duration-300 hover:-translate-y-2">
                 <div className="aspect-[16/10] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-slate-200 animate-pulse" /> {/* Placeholder while loading */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/60 via-transparent to-transparent opacity-60" />
+                  <img src={srv.image} alt={srv.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
                   <div className="absolute top-4 left-4">
                     <div className="w-10 h-10 rounded-xl bg-white/90 dark:bg-brand-navy-900/90 backdrop-blur-md flex items-center justify-center text-brand-blue-600 shadow-lg">
                       <srv.icon className="w-5 h-5" />

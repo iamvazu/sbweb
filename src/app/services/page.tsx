@@ -15,28 +15,28 @@ const FADE_UP: Variants = {
 };
 
 const services = [
-  { icon: HardHat, title: "Construction Consulting", desc: "Navigating complexities with licensed expertise. Feasibility, cost estimation, constructability.", href: "/services/construction-consulting" },
-  { icon: CheckCircle2, title: "Project Management", desc: "End-to-end schedule oversight and QA/QC programs to protect infrastructure investments.", href: "/services/project-management" },
-  { icon: Building2, title: "Subcontracting Services", desc: "DVBE/SB participation. Rigorous management of C-10, C-20, C-33, C-36 specialized trades.", href: "/services/subcontracting-services" },
-  { icon: Wrench, title: "Facility Maintenance", desc: "Rapid emergency response, multi-trade preventative care, and work order management.", href: "/services/facility-maintenance" },
-  { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered hard floor care, deep sanitization, and 5-day commercial cleaning schedules.", href: "/services/janitorial-services" },
-  { icon: Package, title: "Material Supply & Logistics", desc: "Secure supply chains meeting diversity spend goals. Bulk sourcing and JIT fulfillment.", href: "/services/construction-material-supply" },
-  { icon: Trees, title: "Landscape & Grounds Maintenance", desc: "Maintaining exterior aesthetics and safety. Caltrans integration and public works expertise.", href: "/services/landscape-grounds-maintenance" },
-  { icon: Droplets, title: "Graffiti Abatement & Washing", desc: "Rapid-response municipal graffiti removal and high-traffic pressure washing programs.", href: "/services/graffiti-abatement" },
-  { icon: Navigation, title: "Parking Lot Striping & Sealcoating", desc: "Ensuring ADA compliance and extending asphalt lifecycles for state and commercial complexes.", href: "/services/parking-lot-striping" },
-  { icon: AppWindow, title: "Window Cleaning", desc: "High-rise and continuous commercial window maintenance, easily bundled with janitorial scopes.", href: "/services/window-cleaning" },
-  { icon: Paintbrush, title: "Painting Services", desc: "C-33 licensed interior and exterior painting services designed for tenant improvements.", href: "/services/painting-services" },
-  { icon: Hammer, title: "Roofing Repair", desc: "High-margin preventative maintenance and leak repair backed by our network of C-39 contractors.", href: "/services/roofing-repair" },
-  { icon: Wind, title: "HVAC Maintenance", desc: "Long-term service contracts preserving mechanical systems via C-20 subcontracting.", href: "/services/hvac-maintenance" },
-  { icon: Zap, title: "Electrical Repair", desc: "Fast resolution of public utility and private commercial issues using vetted C-10 partners.", href: "/services/electrical-repair" },
-  { icon: Wrench, title: "Plumbing Repair", desc: "Comprehensive retrofits and emergency line repairs handled under our C-36 division.", href: "/services/plumbing-repair" },
-  { icon: Truck, title: "Moving & Relocation Services", desc: "Constant and dependable logistics for state office relocations and agency facility moves.", href: "/services/moving-relocation" },
+  { icon: HardHat, title: "Construction Consulting", desc: "Navigating complexities with licensed expertise. Feasibility, cost estimation, constructability.", href: "/services/construction-consulting", image: "/images/services/construction-consulting.png" },
+  { icon: CheckCircle2, title: "Project Management", desc: "End-to-end schedule oversight and QA/QC programs to protect infrastructure investments.", href: "/services/project-management", image: "/images/services/project-management-team.png" },
+  { icon: Building2, title: "Subcontracting Services", desc: "DVBE/SB participation. Rigorous management of C-10, C-20, C-33, C-36 specialized trades.", href: "/services/subcontracting-services", image: "/images/services/subcontracting-logistics.png" },
+  { icon: Wrench, title: "Facility Maintenance", desc: "Rapid emergency response, multi-trade preventative care, and work order management.", href: "/services/facility-maintenance", image: "/images/services/hvac-service.png" },
+  { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered hard floor care, deep sanitization, and 5-day commercial cleaning schedules.", href: "/services/janitorial-services", image: "/images/services/janitorial-service.png" },
+  { icon: Package, title: "Material Supply & Logistics", desc: "Secure supply chains meeting diversity spend goals. Bulk sourcing and JIT fulfillment.", href: "/services/construction-material-supply", image: "/images/services/material-supply.png" },
+  { icon: Trees, title: "Landscape & Grounds Maintenance", desc: "Maintaining exterior aesthetics and safety. Caltrans integration and public works expertise.", href: "/services/landscape-grounds-maintenance", image: "/images/services/construction-consulting.png" },
+  { icon: Droplets, title: "Graffiti Abatement & Washing", desc: "Rapid-response municipal graffiti removal and high-traffic pressure washing programs.", href: "/services/graffiti-abatement", image: "/images/services/project-management-team.png" },
+  { icon: Navigation, title: "Parking Lot Striping & Sealcoating", desc: "Ensuring ADA compliance and extending asphalt lifecycles for state and commercial complexes.", href: "/services/parking-lot-striping", image: "/images/services/subcontracting-logistics.png" },
+  { icon: AppWindow, title: "Window Cleaning", desc: "High-rise and continuous commercial window maintenance, easily bundled with janitorial scopes.", href: "/services/window-cleaning", image: "/images/services/janitorial-service.png" },
+  { icon: Paintbrush, title: "Painting Services", desc: "C-33 licensed interior and exterior painting services designed for tenant improvements.", href: "/services/painting-services", image: "/images/services/hvac-service.png" },
+  { icon: Hammer, title: "Roofing Repair", desc: "High-margin preventative maintenance and leak repair backed by our network of C-39 contractors.", href: "/services/roofing-repair", image: "/images/services/material-supply.png" },
+  { icon: Wind, title: "HVAC Maintenance", desc: "Long-term service contracts preserving mechanical systems via C-20 subcontracting.", href: "/services/hvac-maintenance", image: "/images/services/hvac-service.png" },
+  { icon: Zap, title: "Electrical Repair", desc: "Fast resolution of public utility and private commercial issues using vetted C-10 partners.", href: "/services/electrical-repair", image: "/images/services/construction-consulting.png" },
+  { icon: Wrench, title: "Plumbing Repair", desc: "Comprehensive retrofits and emergency line repairs handled under our C-36 division.", href: "/services/plumbing-repair", image: "/images/services/subcontracting-logistics.png" },
+  { icon: Truck, title: "Moving & Relocation Services", desc: "Constant and dependable logistics for state office relocations and agency facility moves.", href: "/services/moving-relocation", image: "/images/services/project-management-team.png" },
 ];
 
 const digitalServices = [
-  { icon: Globe, title: "Website Build & Redesign", desc: "WCAG 2.1 AA compliant, high-performance digital infrastructure for agencies.", href: "/services/website-build-redesign" },
-  { icon: BrainCircuit, title: "Strategic Bid & Procurement Management", desc: "Navigating deep procurement complexity with high-precision bidding and RFP support led by Roy Krautstrunk.", href: "/services/strategic-bid-advisory" },
-  { icon: SearchCode, title: "Modern Search (SEO/AEO/GEO)", desc: "Semantic authority for AI-driven search environments and answer engines.", href: "/services/search-visibility-seo-aeo" },
+  { icon: Globe, title: "Website Build & Redesign", desc: "WCAG 2.1 AA compliant, high-performance digital infrastructure for agencies.", href: "/services/website-build-redesign", image: "/images/bid-analysis-hero.png" },
+  { icon: BrainCircuit, title: "Strategic Bid & Procurement Management", desc: "Navigating deep procurement complexity with high-precision bidding and RFP support led by Roy Krautstrunk.", href: "/services/strategic-bid-advisory", image: "/images/bid-analysis-hero.png" },
+  { icon: SearchCode, title: "Modern Search (SEO/AEO/GEO)", desc: "Semantic authority for AI-driven search environments and answer engines.", href: "/services/search-visibility-seo-aeo", image: "/images/bid-analysis-hero.png" },
 ];
 
 export default function ServicesOverview() {
@@ -89,25 +89,31 @@ export default function ServicesOverview() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
         >
           {services.map((srv, i) => (
             <motion.div key={i} variants={FADE_UP} className="h-full">
-              <Link href={srv.href} className="group flex flex-col h-full bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 hover:shadow-2xl transition-all duration-300">
-                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center mb-8 text-brand-navy-900 dark:text-white group-hover:bg-brand-blue-600 group-hover:text-white group-hover:border-brand-blue-600 transition-all duration-300 shadow-sm">
-                  <srv.icon className="w-6 h-6" />
+              <Link href={srv.href} className="group flex flex-col h-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-[2.5rem] overflow-hidden hover:shadow-2xl transition-all duration-300">
+                <div className="aspect-[16/9] relative overflow-hidden">
+                   <img src={srv.image} alt={srv.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                   <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
+                   <div className="absolute top-6 left-6 w-12 h-12 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center text-brand-blue-600 shadow-xl rotate-3 group-hover:rotate-0 transition-transform">
+                      <srv.icon className="w-6 h-6" />
+                   </div>
                 </div>
                 
-                <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white mb-4 group-hover:text-brand-blue-600 transition-colors italic leading-tight">
-                  {srv.title}
-                </h3>
-                
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium">
-                  {srv.desc}
-                </p>
+                <div className="p-10 flex flex-col flex-grow">
+                  <h3 className="text-2xl font-bold text-brand-navy-900 dark:text-white mb-4 tracking-tight group-hover:text-brand-blue-600 transition-colors uppercase leading-none italic font-serif">
+                    {srv.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium text-sm">
+                    {srv.desc}
+                  </p>
 
-                <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-brand-blue-600 group-hover:text-blue-700 uppercase tracking-widest">
-                  View Detail <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-2 transition-transform" />
+                  <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-brand-blue-600 group-hover:text-blue-700 uppercase tracking-widest">
+                    View Detail <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-2 transition-transform" />
+                  </div>
                 </div>
               </Link>
             </motion.div>
