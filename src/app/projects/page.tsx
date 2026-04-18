@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, MapPin, Building, Calendar, Info } from "lucide-react";
+import { ArrowRight, MapPin, Building, Calendar, Info, ShieldCheck } from "lucide-react";
 
 export interface Project {
   slug: string;
@@ -14,7 +14,6 @@ export interface Project {
   summary: string;
   services: string[];
   imageStyle: string;
-  // Tech Specs
   scope: string;
   size: string;
   role: string;
@@ -67,7 +66,6 @@ export const projects: Project[] = [
     role: "DVBE Supplier",
     work: "Critical Material Fulfillment"
   },
-  // New Projects from Screenshots
   {
     slug: "homeless-shelters-ca",
     title: "Homeless Shelters State of California",
@@ -100,7 +98,7 @@ export const projects: Project[] = [
   },
   {
     slug: "modular-4-plex",
-    title: "Modular 4 Plex Under Construction",
+    title: "Modular 4 Plex",
     client: "Developer",
     location: "California",
     date: "Active",
@@ -162,81 +160,114 @@ export const projects: Project[] = [
 
 export default function ProjectsPortfolio() {
   return (
-    <div className="flex flex-col min-h-screen pt-32 pb-24 bg-white dark:bg-black/20">
-      <div className="max-w-7xl mx-auto px-4 w-full">
-        
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-6 uppercase">
-            Past <span className="text-brand-blue-600">Performance</span>
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
-            A comprehensive portfolio of executed modular deployments, municipal infrastructure support, and commercial renovations across California.
-          </p>
+    <div className="flex flex-col min-h-screen">
+      
+      {/* Premium Hero Section */}
+      <section className="relative px-6 pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((proj, i) => (
-            <motion.div 
-              key={proj.slug} 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="flex flex-col rounded-3xl overflow-hidden border border-gray-200 dark:border-white/10 bg-background-light dark:bg-brand-navy-900 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-            >
-              {/* Image Placeholder */}
-              <div className={`h-56 w-full ${proj.imageStyle} relative overflow-hidden flex items-center justify-center`}>
-                <Building className="w-12 h-12 text-white/20" />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                <div className="absolute top-4 right-4 bg-brand-navy-900/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                   Project Data Verified
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-8 backdrop-blur-md"
+          >
+            <ShieldCheck className="w-4 h-4 text-brand-blue-600 fill-brand-blue-600" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Trusted Delivery History</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
+          >
+            Past <br className="hidden md:block"/>
+            <span className="italic text-brand-blue-600">Performance.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed"
+          >
+            A comprehensive portfolio of executed modular deployments, municipal infrastructure support, and commercial renovations across California.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Projects Grid */}
+      <section className="py-24 bg-white dark:bg-black/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((proj, i) => (
+              <motion.div 
+                key={proj.slug} 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="flex flex-col rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-brand-navy-900/50 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className={`h-64 w-full ${proj.imageStyle} relative overflow-hidden flex items-center justify-center`}>
+                  <Building className="w-16 h-16 text-white/20" />
+                  <div className="absolute top-6 right-6 bg-brand-navy-900/60 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black text-white uppercase tracking-widest border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                     Data Verified
+                  </div>
                 </div>
-              </div>
-              
-              <div className="p-8 flex flex-col flex-1">
-                <h3 className="text-2xl font-black text-brand-navy-900 dark:text-white mb-6 uppercase tracking-tight leading-none h-[2em] flex items-center">
-                  {proj.title}
-                </h3>
                 
-                {/* Tech Specs Grid */}
-                <div className="grid grid-cols-1 gap-4 mb-8">
-                   {[
+                <div className="p-10 flex flex-col flex-1">
+                  <h3 className="text-2xl font-bold text-brand-navy-900 dark:text-white mb-8 uppercase tracking-tight leading-tight group-hover:text-brand-blue-600 transition-colors h-[2.2em] flex items-center">
+                    {proj.title}
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 gap-4 mb-10">
+                    {[
                       { label: "Scope", value: proj.scope },
                       { label: "Size", value: proj.size },
                       { label: "Role", value: proj.role },
                       { label: "Work", value: proj.work },
                       { label: "Client", value: proj.client }
-                   ].map((spec) => (
-                      <div key={spec.label} className="flex gap-2 text-xs uppercase tracking-wider">
-                         <span className="font-black text-brand-blue-600 w-16 shrink-0">{spec.label}:</span>
-                         <span className="font-bold text-slate-600 dark:text-slate-200 line-clamp-1">{spec.value}</span>
+                    ].map((spec) => (
+                      <div key={spec.label} className="flex gap-4 text-[10px] uppercase tracking-widest">
+                        <span className="font-black text-brand-blue-600 w-16 shrink-0">{spec.label}:</span>
+                        <span className="font-bold text-slate-600 dark:text-slate-300 line-clamp-1">{spec.value}</span>
                       </div>
-                   ))}
-                </div>
+                    ))}
+                  </div>
 
-                <div className="mt-auto grid grid-cols-2 gap-4">
-                  <Link href={`/projects/${proj.slug}`} className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-white/5 border border-transparent rounded-xl px-4 py-3 text-[10px] font-black text-brand-navy-900 dark:text-white hover:border-brand-blue-600 transition-all uppercase tracking-widest">
-                    Study <ArrowRight className="w-3 h-3" />
-                  </Link>
-                  <Link href="/contact" className="flex items-center justify-center gap-2 bg-brand-blue-600 text-white rounded-xl px-4 py-3 text-[10px] font-black hover:bg-blue-500 transition-all uppercase tracking-widest">
-                    Refer <Info className="w-3 h-3" />
-                  </Link>
+                  <div className="mt-auto grid grid-cols-2 gap-4">
+                    <Link href={`/projects/${proj.slug}`} className="flex items-center justify-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-[10px] font-black text-brand-navy-900 dark:text-white hover:border-brand-blue-600 transition-all uppercase tracking-widest">
+                      Study <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <Link href="/contact" className="flex items-center justify-center gap-2 bg-brand-blue-600 text-white rounded-2xl px-6 py-4 text-[10px] font-black hover:bg-blue-700 transition-all uppercase tracking-widest">
+                      Refer <Info className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {/* Future Pipeline Callout */}
-        <div className="mt-24 bg-brand-navy-900/5 dark:bg-white/5 rounded-[3rem] p-12 text-center border border-gray-100 dark:border-white/5">
-           <MapPin className="w-10 h-10 text-brand-blue-600 mx-auto mb-6" />
-           <p className="text-brand-navy-900 dark:text-white text-3xl font-black mb-4 uppercase italic">Statewide <span className="text-brand-blue-600">Performance</span></p>
-           <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-2xl mx-auto font-medium">Looking for specific reference checks or capability verification for your local municipality or agency project?</p>
-           <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-navy-900 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform">
-             Contact Procurement Desk
+      {/* Performance Footer */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 border-t border-gray-100 dark:border-white/5">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+           <MapPin className="w-12 h-12 text-brand-blue-600 mx-auto mb-8" />
+           <h4 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6 italic tracking-tight">Statewide Performance</h4>
+           <p className="text-lg text-slate-500 mb-10 font-medium leading-relaxed">Looking for specific reference checks or capability verification for your local municipality or agency project?</p>
+           <Link href="/contact" className="inline-flex items-center gap-3 bg-brand-navy-900 text-white px-12 py-6 rounded-full font-bold text-sm hover:bg-brand-blue-600 transition-all shadow-xl hover:-translate-y-1">
+             Contact Procurement Desk <ArrowRight className="w-5 h-5" />
            </Link>
         </div>
+      </section>
 
-      </div>
     </div>
   );
 }
