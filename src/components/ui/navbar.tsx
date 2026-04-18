@@ -1,17 +1,87 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, LayoutDashboard, LogIn, Phone, Mail } from "lucide-react";
+import { Menu, X, ChevronDown, LayoutDashboard, LogIn, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+// Custom Premium Dropdown Component
+function NavDropdown({ 
+  title, 
+  href, 
+  items, 
+  scrolled 
+}: { 
+  title: string; 
+  href: string; 
+  items: { name: string; href: string }[];
+  scrolled: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
+  };
+
+  return (
+    <div 
+      className="relative"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      <Link
+        href={href}
+        className={cn(
+          "flex items-center gap-1 text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all outline-none",
+          !scrolled ? "text-white/80 hover:text-white" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600",
+          isOpen && (scrolled ? "bg-slate-50 dark:bg-white/5 text-brand-blue-600" : "bg-white/10 text-white")
+        )}
+      >
+        {title} <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-300", isOpen && "rotate-180")} />
+      </Link>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute top-full left-0 mt-2 w-64 bg-white/95 dark:bg-brand-navy-900/95 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl p-2 z-[60]"
+          >
+            <div className="flex flex-col gap-1">
+              {items.map((item, i) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link
+                    href={item.href}
+                    className="flex px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-blue-600 dark:hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5 transition-all rounded-xl"
+                  >
+                    {item.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,7 +126,7 @@ export function Navbar() {
   ];
 
   const company = [
-    { name: "About", href: "/about" },
+    { name: "About Us", href: "/about" },
     { name: "Partners", href: "/partners" },
     { name: "Insights", href: "/insights" },
   ];
@@ -105,46 +175,8 @@ export function Navbar() {
               </Link>
             ))}
 
-            {/* Dropdowns - Fixed to use standard click for stability */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className={cn(
-                  "flex items-center gap-1 text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all outline-none",
-                  !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
-                )}>
-                  Services <ChevronDown className="w-3.5 h-3.5 opacity-50" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl min-w-[220px] z-[60]">
-                {services.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    <Link href={item.href} className="flex px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors cursor-pointer rounded-lg">
-                      {item.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className={cn(
-                  "flex items-center gap-1 text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all outline-none",
-                  !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
-                )}>
-                  Company <ChevronDown className="w-3.5 h-3.5 opacity-50" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl min-w-[180px] z-[60]">
-                {company.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    <Link href={item.href} className="flex px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors cursor-pointer rounded-lg">
-                      {item.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <NavDropdown title="Services" href="/services" items={services} scrolled={scrolled} />
+            <NavDropdown title="Company" href="/about" items={company} scrolled={scrolled} />
           </nav>
 
           {/* Right Action Buttons */}
@@ -212,6 +244,36 @@ export function Navbar() {
                     {link.name}
                   </Link>
                 ))}
+                
+                {/* Mobile Services */}
+                <div className="py-2">
+                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Services</p>
+                   {services.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-blue-600"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Mobile Company */}
+                <div className="py-2">
+                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Company</p>
+                   {company.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-blue-600"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
               
               <div className="pt-4 border-t border-gray-100 dark:border-white/10 space-y-3">
