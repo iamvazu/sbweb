@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/client";
 import { BidCard, PipelineSummaryBar } from "@/components/portal/bid-ui";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Info, Plus } from "lucide-react";
+import { ArrowRight, Info, Plus, Search } from "lucide-react";
 import Link from "next/link";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function VendorDashboard() {
   const [userProfile, setUserProfile] = useState<any>(null);

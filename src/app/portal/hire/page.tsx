@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HireServicePage() {
   const searchParams = useSearchParams();
@@ -34,6 +35,7 @@ export default function HireServicePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const supabase = createClient();
+  const { toast } = useToast();
 
   useEffect(() => {
     async function loadBid() {

@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
+import { isPast } from "date-fns";
 import { 
   FitScoreBadge, 
   ComplianceFlags 
@@ -43,7 +44,8 @@ import {
   FileSearch,
   CheckCircle,
   XCircle,
-  HelpCircle
+  HelpCircle,
+  DollarSign
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
