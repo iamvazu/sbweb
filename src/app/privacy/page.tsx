@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
             Privacy <span className="text-brand-blue-600">Policy</span>
           </h1>
           <p className="text-lg text-slate-300 max-w-2xl mx-auto relative z-10">
-            At Stronger Built Group LLC, we value your privacy and are committed to protecting your professional and personal data.
+            At Stronger Built LLC, we value your privacy and are committed to protecting your professional and personal data.
           </p>
           <div className="mt-10 inline-block bg-white/5 border border-white/10 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-widest relative z-10">
             Last Updated: {lastUpdated}
@@ -61,7 +61,7 @@ export default function PrivacyPolicy() {
               </h2>
               <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 space-y-6">
                 <p>
-                  Stronger Built Group LLC uses the collected data for various professional purposes, specifically focused on procurement and project execution:
+                  Stronger Built LLC uses the collected data for various professional purposes, specifically focused on procurement and project execution:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -121,7 +121,7 @@ export default function PrivacyPolicy() {
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-loose mb-6">
                 If you have questions about our handling of your data, please contact our privacy desk at:
               </p>
-              <p className="text-sm font-bold text-brand-navy-900 dark:text-white">privacy@strongerbuilt.us</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em]">Stronger Built LLC &copy; 2026</p>
             </div>
           </div>
 

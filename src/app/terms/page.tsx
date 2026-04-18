@@ -13,11 +13,11 @@ export default function TermsOfUse() {
     },
     {
       title: "2. Licensure and Credentials",
-      content: "Stronger Built Group LLC is a licensed California General Building Contractor (CSLB #1057434). Our performance and deliverables are governed by the regulations of the California Contractors State License Board and relevant municipal bid requirements. Use of this site for procurement does not constitute a guaranteed contract award."
+      content: "Stronger Built LLC is a licensed California General Building Contractor (CSLB #1057434). Our performance and deliverables are governed by the regulations of the California Contractors State License Board and relevant municipal bid requirements. Use of this site for procurement does not constitute a guaranteed contract award."
     },
     {
       title: "3. Intellectual Property",
-      content: "The content on this site, including but not limited to text, graphics, logos, and images (such as our Capabilities Statement), is the property of Stronger Built Group LLC and is protected by United States and international copyright laws."
+      content: "The content on this site, including but not limited to text, graphics, logos, and images (such as our Capabilities Statement), is the property of Stronger Built LLC and is protected by United States and international copyright laws."
     },
     {
       title: "4. Professional Disclaimer",
@@ -64,7 +64,7 @@ export default function TermsOfUse() {
                 Operating with Transparency and Accountability.
               </p>
               <p className="text-slate-400 leading-relaxed text-sm">
-                Stronger Built Group LLC provides this website as a resource for government procurement officers, prime contractors, and partner subcontractors. By interacting with our digital infrastructure, you agree to the regulatory standards outlined below.
+                Stronger Built LLC provides this website as a resource for government procurement officers, prime contractors, and partner subcontractors. By interacting with our digital infrastructure, you agree to the regulatory standards outlined below.
               </p>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function TermsOfUse() {
                  <span className="font-black text-xs uppercase tracking-widest">Notice to Agencies</span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-loose">
-                 Stronger Built Group LLC is a Foreign LLC qualified to do business in California (SOS #B20260157630). All bids submitted are subject to standard procurement laws and DIR prevailing wage requirements.
+                 Stronger Built LLC is a Foreign LLC qualified to do business in California (SOS #B20260157630). All bids submitted are subject to standard procurement laws and DIR prevailing wage requirements.
               </p>
            </div>
            
@@ -114,7 +114,7 @@ export default function TermsOfUse() {
         </div>
 
         <div className="mt-20 pt-12 border-t border-gray-100 dark:border-white/5 text-center">
-           <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em]">Stronger Built Group LLC &copy; 2026</p>
+           <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em]">Stronger Built LLC &copy; 2026</p>
         </div>
 
       </div>

@@ -32,7 +32,7 @@ export default function ServiceAreasDirectory() {
             Service <span className="text-brand-blue-600">Areas</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
-            Stronger Built Group LLC provides licensed DVBE/SB solutions across the entire state of California. Explore our localized presence in all 58 counties.
+            Stronger Built LLC provides licensed DVBE/SB solutions across the entire state of California. Explore our localized presence in all 58 counties.
           </p>
         </div>
 

@@ -15,11 +15,11 @@ export function Footer() {
                 STRONGER<span className="text-brand-blue-600">built</span>
               </span>
               <span className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase leading-none">
-                Group LLC
+                LLC
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mt-4">
-              Licensed General Contractor. Service-Disabled Veteran Owned (SDVOSB). Certified DVBE. Serving California's Agencies with Premium Construction and Maintenance.
+              Licensed General Contractor. Service-Disabled Veteran Owned (SDVOSB). Certified DVBE. Serving California Agencies with Premium Construction and Maintenance.
             </p>
           </div>
 
@@ -78,7 +78,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold tracking-wide text-slate-500">
-          <p>© {currentYear} Stronger Built Group LLC. All rights reserved.</p>
+          <p>© {currentYear} Stronger Built LLC. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>

@@ -58,7 +58,7 @@ export default function Home() {
             </motion.h1>
             
             <motion.p variants={FADE_UP} className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed font-medium">
-              Stronger Built Group LLC is your high-authority partner for California public works. Whether you need a licensed GC for heavy civil projects or expert bid management to win your next RFP, we deliver executive-level performance.
+              Stronger Built LLC is your high-authority partner for California public works. Whether you need a licensed GC for heavy civil projects or expert bid management to win your next RFP, we deliver executive-level performance.
             </motion.p>
             
             <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4">

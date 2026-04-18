@@ -10,8 +10,8 @@ import { Analytics } from "@vercel/analytics/next";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Stronger Built Group LLC | California DVBE Contractor",
-  description: "Licensed General Contractor. Certified DVBE. Serving California's Agencies with Premium Construction and Maintenance.",
+  title: "Stronger Built LLC | California Public Works & DVBE Contractor",
+  description: "Stronger Built LLC is your high-authority partner for California public works. Whether you need a licensed GC for heavy civil projects or expert bid management to win your next RFP, we deliver executive-level performance.",
 };
 
 export default function RootLayout({

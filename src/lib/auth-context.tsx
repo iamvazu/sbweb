@@ -53,10 +53,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // RBAC Simulation Logic based on email domain
     if (email === "roy@strongerbuilt.us" || email.includes("super")) {
       assignedRole = "super_admin";
-      org = "Stronger Built Group LLC (HQ)";
+      org = "Stronger Built LLC (HQ)";
     } else if (email.endsWith("@strongerbuilt.us")) {
       assignedRole = "admin";
-      org = "Stronger Built Group LLC";
+      org = "Stronger Built LLC";
     } else if (email.endsWith(".gov") || email.endsWith(".mil")) {
       assignedRole = "gov";
       org = "Government Agency";

@@ -3,12 +3,19 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,11 +27,21 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
     { name: "Bid Management", href: "/bid-management" },
     { name: "Bid Services", href: "/government" },
-    { name: "Contract Wins", href: "/projects" },
+    { name: "Portfolio", href: "/projects" },
+  ];
+
+  const services = [
+    { name: "Construction Consulting", href: "/services/construction-consulting" },
+    { name: "Project Management", href: "/services/project-management" },
+    { name: "DVBE Subcontracting", href: "/services/subcontracting-services" },
+    { name: "Facility Maintenance", href: "/services/facility-maintenance" },
+    { name: "Janitorial Services", href: "/services/janitorial-services" },
+  ];
+
+  const companyLinks = [
+    { name: "About", href: "/about" },
     { name: "Partners", href: "/partners" },
     { name: "Insights", href: "/insights" },
   ];
@@ -50,30 +67,84 @@ export function Navbar() {
                 STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
               </span>
               <span className="text-[9px] md:text-[10px] font-semibold tracking-widest text-brand-steel-800 dark:text-gray-400 uppercase leading-none">
-                Group LLC
+                LLC
               </span>
             </Link>
             
             {/* Desktop Nav */}
-            <nav className="hidden md:flex flex-1 justify-center space-x-1 lg:space-x-2">
+            <nav className="hidden md:flex flex-1 justify-center items-center space-x-1 lg:space-x-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-bold tracking-wide text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors duration-200 px-3 py-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
+                  className="text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors duration-200 px-3 py-2 rounded-full uppercase italic"
                 >
                   {link.name}
                 </Link>
               ))}
+
+              {/* Services Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setActiveDropdown("services")}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
+                  Services <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  isOpen={activeDropdown === "services"} 
+                  className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                >
+                  {services.map((item) => (
+                    <DropdownMenuItem key={item.name}>
+                      <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
+                        {item.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </div>
+
+              {/* Company Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setActiveDropdown("company")}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
+                  Company <ChevronDown className="w-3 h-3" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  isOpen={activeDropdown === "company"}
+                  className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                >
+                  {companyLinks.map((item) => (
+                    <DropdownMenuItem key={item.name}>
+                      <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
+                        {item.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </div>
             </nav>
 
-            <div className="hidden md:flex items-center ml-4">
-              <Link
-                href="/contact"
-                className="bg-brand-navy-900 dark:bg-white hover:bg-brand-blue-600 dark:hover:bg-brand-blue-600 text-white dark:text-brand-navy-900 dark:hover:text-white px-6 py-2.5 rounded-full font-bold text-sm tracking-wide shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+            <div className="hidden md:flex items-center gap-4 ml-4">
+              <a 
+                href="tel:+18317600806" 
+                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-brand-navy-900 dark:text-white hover:bg-brand-blue-600 hover:text-white transition-all shadow-sm"
+                title="Call Us"
               >
-                Request a Quote
-              </Link>
+                <Phone className="w-4 h-4" />
+              </a>
+              <a 
+                href="mailto:info@strongerbuilt.us" 
+                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-brand-navy-900 dark:text-white hover:bg-brand-blue-600 hover:text-white transition-all shadow-sm"
+                title="Email Us"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
             </div>
 
             {/* Mobile Menu Button */}

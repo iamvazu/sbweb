@@ -24,7 +24,7 @@ export default function AccessibilityPage() {
             Accessibility <span className="text-brand-blue-600">Statement</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Stronger Built Group LLC is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards.
+            Stronger Built LLC is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards.
           </p>
         </motion.div>
 
@@ -43,7 +43,7 @@ export default function AccessibilityPage() {
             <div className="bg-slate-50 dark:bg-black/20 border border-slate-100 dark:border-white/5 rounded-2xl p-6">
               <p className="text-brand-navy-900 dark:text-white font-bold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-success"></span>
-                Stronger Built Group LLC is partially conformant with WCAG 2.1 level AA.
+                Stronger Built LLC is partially conformant with WCAG 2.1 level AA.
               </p>
               <p className="text-sm text-slate-500 mt-2">
                 Partially conformant means that some parts of the content do not fully conform to the accessibility standard.
@@ -61,7 +61,7 @@ export default function AccessibilityPage() {
                 <h3 className="text-xl font-bold text-brand-navy-900 dark:text-white">Feedback</h3>
               </div>
               <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
-                We welcome your feedback on the accessibility of Stronger Built Group LLC. Please let us know if you encounter accessibility barriers:
+                We welcome your feedback on the accessibility of Stronger Built LLC. Please let us know if you encounter accessibility barriers:
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-brand-navy-900 dark:text-slate-200 font-bold text-sm">
@@ -95,7 +95,7 @@ export default function AccessibilityPage() {
             <h2 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-6">Technical Specifications</h2>
             <div className="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 leading-loose">
               <p>
-                Accessibility of Stronger Built Group LLC relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:
+                Accessibility of Stronger Built LLC relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:
               </p>
               <ul className="list-disc pl-5 mt-4 space-y-2">
                 <li>HTML / CSS</li>

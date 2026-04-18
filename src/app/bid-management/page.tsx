@@ -224,7 +224,7 @@ export default function BidManagementPage() {
              
              <div className="space-y-8">
                 {[
-                   { name: "John D.", role: "SBE General Contractor", quote: "Stronger Built found three disqualification landmines in our RFP that would have cost us the bid. We won a $75k contract on our first submission with Roy." },
+                   { name: "John D.", role: "SBE General Contractor", quote: "Stronger Built LLC found three disqualification landmines in our RFP that would have cost us the bid. We won a $75k contract on our first submission with Roy." },
                    { name: "Sarah M.", role: "DVBE Specialty Sub", quote: "The financial modeling Roy provided helped us understand our true margins on prevailing wage work. Worth every penny of the advisory fee." }
                 ].map((t, i) => (
                    <motion.div 

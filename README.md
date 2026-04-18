@@ -1,7 +1,7 @@
-# STRONGERBuilt Group LLC
-### Strategic Bid & Procurement Management Platform
+# STRONGERBuilt LLC
+### Licensed General Contractor | California DVBE
 
-Stronger Built Group LLC is a premium, licensed General Building firm (CSLB #1057434) specializing in California public works, municipal infrastructure, and high-capacity commercial project management. This platform serves as a high-authority digital hub for government procurement officers, prime contractors, and specialty subcontractors.
+Stronger Built LLC is a premium, licensed General Building firm (CSLB #1057434) specializing in California public works, municipal infrastructure, and high-capacity commercial project management. This platform serves as a high-authority digital hub for government procurement officers, prime contractors, and specialty subcontractors.
 
 ---
 

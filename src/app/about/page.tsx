@@ -14,7 +14,7 @@ export default function AboutPage() {
         >
           <h1 className="text-4xl md:text-6xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-6">Built on Integrity. <br/><span className="text-brand-blue-600">Driven by Service.</span></h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Stronger Built Group LLC is a newly registered California firm strategically built to serve state, county, and municipal agencies with specialized construction operations.
+            Your complete resource for Stronger Built LLC procurement details. Evaluate our credentials, download capabilities, and verify our compliance instantly.
           </p>
         </motion.div>
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
             <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-8">Entity Facts</h2>
             <ul className="space-y-6">
               {[
-                { label: "Legal Name", value: "Stronger Built Group LLC" },
+                { label: "Legal Name", value: "Stronger Built LLC" },
                 { label: "Entity Type", value: "Foreign LLC (CA Qualified)" },
                 { label: "License", value: "CSLB #1057434 (Class B, C-6, C-36)" },
                 { label: "Certifications", value: "SDVOSB (≥ 10% VA), DVBE" },
