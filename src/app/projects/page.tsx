@@ -162,8 +162,8 @@ export default function ProjectsPortfolio() {
   return (
     <div className="flex flex-col min-h-screen">
       
-      {/* Premium Hero Section */}
-      <section className="relative px-6 pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      {/* Premium Hero Section - HARMONIZED & COMPACT */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
@@ -175,9 +175,9 @@ export default function ProjectsPortfolio() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-8 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <ShieldCheck className="w-4 h-4 text-brand-blue-600 fill-brand-blue-600" />
+            <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
             <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Trusted Delivery History</span>
           </motion.div>
           
@@ -185,7 +185,7 @@ export default function ProjectsPortfolio() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
           >
             Past <br className="hidden md:block"/>
             <span className="italic text-brand-blue-600">Performance.</span>
@@ -195,7 +195,7 @@ export default function ProjectsPortfolio() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed"
+            className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
           >
             A comprehensive portfolio of executed modular deployments, municipal infrastructure support, and commercial renovations across California.
           </motion.p>
