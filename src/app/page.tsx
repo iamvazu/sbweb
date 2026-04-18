@@ -52,24 +52,23 @@ export default function Home() {
               <span className="text-xs font-bold tracking-widest text-slate-300 uppercase">Licensed · Certified · Ready to Bid</span>
             </motion.div>
             
-            <motion.h1 variants={FADE_UP} className="text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6">
-              Building California's <br className="hidden md:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue-600 to-blue-400">Public Infrastructure.</span>
+            <motion.h1 variants={FADE_UP} className="text-5xl md:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6 uppercase italic">
+              Building Infrastructure. <br className="hidden md:block"/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue-600 to-blue-400">Winning Contracts.</span>
             </motion.h1>
             
-            <motion.p variants={FADE_UP} className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
-              Stronger Built Group LLC is a certified Service-Disabled Veteran Owned (SDVOSB) and DVBE General Contractor (CSLB #1057434). Delivering commercial and government construction excellence across California.
+            <motion.p variants={FADE_UP} className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed font-medium">
+              Stronger Built Group LLC is your high-authority partner for California public works. Whether you need a licensed GC for heavy civil projects or expert bid management to win your next RFP, we deliver executive-level performance.
             </motion.p>
             
             <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4">
-              <Link href="/government/capabilities-statement" className="group relative inline-flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-xl shadow-brand-blue-600/20 hover:shadow-brand-blue-600/40">
-                <FileText className="w-5 h-5" />
-                <span>Capabilities Statement</span>
-                <ArrowDownIcon className="w-4 h-4 ml-1 opacity-70 group-hover:translate-y-1 transition-transform" />
+              <Link href="/bid-management" className="group relative inline-flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-xl shadow-brand-blue-600/30 hover:shadow-brand-blue-600/50 hover:-translate-y-1">
+                <CheckCircle2 className="w-5 h-5" />
+                <span>Win More Bids</span>
+                <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/services" className="group inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white border border-white/20 px-8 py-4 rounded-xl font-bold transition-all backdrop-blur-sm">
-                <span>View Our Services</span>
-                <ArrowRight className="w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
+              <Link href="/services" className="group inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white border border-white/20 px-8 py-5 rounded-2xl font-black uppercase tracking-widest text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
+                <span>View GC Services</span>
               </Link>
             </motion.div>
           </motion.div>
@@ -84,7 +83,7 @@ export default function Home() {
               { label: "CSLB #1057434", sub: "Class B, C-6, C-36" },
               { label: "SDVOSB", sub: "Service-Disabled Veteran" },
               { label: "DVBE", sub: "Certified Entity" },
-              { label: "DIR Registration", sub: "Pending Process" },
+              { label: "DIR Registration", sub: "In Process" },
               { label: "Fully Insured", sub: "Insureon Premium BOP" },
             ].map((cert, i) => (
               <div key={i} className="flex flex-col items-center justify-center text-center p-2">
@@ -93,6 +92,38 @@ export default function Home() {
                 <span className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">{cert.sub}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* BID MANAGEMENT CALLOUT */}
+      <section className="py-20 bg-brand-navy-900 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue-600/10 rounded-full blur-[100px]" />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-brand-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-6">Strategic Procurement</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight uppercase italic leading-[1.1]">
+              Winning Government Bids Is a Full-Time Job. <br className="hidden md:block"/>
+              <span className="text-brand-blue-600">We Do It For You.</span>
+            </h3>
+            <p className="text-xl text-slate-400 mb-12 font-medium">
+              Stop guessing on RFP requirements. We've helped California small businesses win government contracts from $50,000 to $2 million.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-left">
+              {[
+                { title: "Zero Error Bidding", desc: "We manage every checkmark, signature, and digital portal submission." },
+                { title: "Pricing Strategy", desc: "Expert financial modeling to ensure your bid is competitive yet profitable." },
+                { title: "Compliance First", desc: "Complete DIR and Prevailing Wage oversight managed by our licensed team." }
+              ].map((point, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-3xl">
+                  <h4 className="text-white font-black uppercase text-sm mb-3 tracking-widest">{point.title}</h4>
+                  <p className="text-slate-500 text-sm leading-relaxed">{point.desc}</p>
+                </div>
+              ))}
+            </div>
+            <Link href="/bid-management" className="inline-flex items-center gap-3 bg-white text-brand-navy-900 px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-brand-blue-600 hover:text-white transition-all shadow-xl hover:-translate-y-1">
+              Get Expert Bid Support <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -108,6 +139,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
+              { icon: FileText, title: "Strategic Bid Management", desc: "End-to-end RFP management, DIR compliance, and pricing strategy.", href: "/bid-management", image: "/images/services/construction-consulting.jpg", featured: true },
               { icon: HardHat, title: "Construction Consulting", desc: "Feasibility studies, cost estimation, and constructability reviews.", href: "/services/construction-consulting", image: "/images/services/construction-consulting.jpg" },
               { icon: CheckCircle2, title: "Project Management", desc: "CPM scheduling, QA/QC, and rigorous design-build oversight.", href: "/services/project-management", image: "/images/services/project-management-team.jpg" },
               { icon: Building2, title: "Subcontracting Services", desc: "Certified DVBE partnership managing premium specialized trades.", href: "/services/subcontracting-services", image: "/images/services/subcontracting-logistics.jpg" },

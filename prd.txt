@@ -1,0 +1,856 @@
+STRONGERbuilt 
+strongerbuilt.us 
+Website Redesign 
+Product Requirements Document (PRD) 
+Positioning Stronger Built Group LLC for 
+State, County, and Municipal Government Contracting 
+Version 1.0 · April 2026 
+Owner: Roy Krautstrunk, Managing Member 
+Host Platform: Vercel | Framework: Next.js 14+ 
+  
+Contents 
+1. Executive Summary 
+2. Problem Statement — What's Wrong With the Current Site 
+3. Goals & Success Metrics 
+4. Target Audiences 
+5. Brand Positioning & Messaging 
+6. Information Architecture & Sitemap 
+7. Page-by-Page Specifications 
+    7.1 Home 
+    7.2 About & Leadership 
+    7.3 Services (Overview + 6 Detail Pages) 
+    7.4 Government Contracting Hub 
+    7.5 Capabilities Statement (Downloadable PDF) 
+    7.6 Past Performance / Projects 
+    7.7 Subcontractor / Vendor Partner Portal 
+    7.8 Contact & Request a Quote 
+8. Design System 
+9. Technical Architecture (Vercel + Next.js) 
+10. SEO & Analytics Strategy 
+11. Forms, Integrations & Serverless Functions 
+12. Accessibility Requirements (WCAG 2.1 AA / Section 508) 
+13. Content Plan & Migration 
+14. Phase 1 MVP vs. Phase 2 Scope 
+15. Timeline & Milestones 
+16. Risks & Open Questions 
+Appendix A: Capabilities Statement Template Structure 
+Appendix B: Government Bid Sector Opportunity Map 
+Appendix C: Recommended Developer Brief 
+  
+1. Executive Summary 
+Stronger Built Group LLC is a newly registered California foreign LLC (Wyoming-formed, CA-qualified 
+April 1, 2026) positioning itself for state, county, and municipal government contracting. The founder, 
+Roy Krautstrunk, holds a California Contractors State License Board (CSLB) Class B General Building 
+Contractor license and is pursuing DVBE (Disabled Veteran Business Enterprise) and SB (Small Business) 
+certifications through the California Department of General Services. 
+The current website at strongerbuilt.us presents a generic modular-construction marketing page. It does 
+not serve the company's actual go-to-market strategy: winning government bids across six service lines 
+(construction consulting, project management, subcontracting, facility maintenance, janitorial, 
+construction material supply), which will eventually expand to 10–15 lines as certifications and contract 
+references accumulate. 
+This PRD defines a complete website redesign that will (a) serve as a credibility asset for government 
+procurement officers evaluating bids, (b) function as an always-available capabilities statement for 
+buyers and prime contractors seeking subs, (c) attract commercial clients in parallel, and (d) scale with 
+the business as new service lines are added. The site will be built on Next.js 14+ with the App Router and 
+deployed on Vercel, optimized for speed, accessibility (WCAG 2.1 AA / Section 508 compliance), and SEO 
+against government procurement keywords. 
+Target launch: a Phase 1 MVP within 4 weeks, a full Phase 2 within 10 weeks. 
+2. Problem Statement — What's Wrong With the Current Site 
+Based on review of the current live site (homepage + services page), the following gaps materially hurt 
+Stronger Built Group's ability to win government contracts and establish credibility: 
+2.1 Positioning Mismatch 
+• Homepage tagline "Built on Experience. Driven by Results." says nothing specific. The hero 
+image (crane lifting modular structure) signals only modular construction, but the company 
+offers six distinct services. 
+• No mention of government contracting focus, veteran ownership, DVBE/SB certifications, CSLB 
+license number, or California business registration status — the exact signals procurement 
+evaluators look for within the first 10 seconds of a site visit. 
+• The legal entity name ("Stronger Built Group LLC" in California) is nowhere on the site. 
+Procurement officers verifying bidder identity against California SOS records will not find a 
+match. 
+2.2 Missing Critical Pages 
+• No "Government Contracting" or "Capabilities" page. For a firm pursuing public-sector work, this 
+is the most-visited page after Home. 
+• No downloadable Capabilities Statement. This is the standard one-page PDF that government 
+buyers and prime contractors request before considering a vendor. Not having one is 
+disqualifying in many procurement workflows. 
+• No Past Performance / Projects section. Even for a new firm, a transparent "we are a newly 
+formed entity with these specific pending certifications and this licensed leadership" page beats 
+silence. 
+• No Subcontractor / Vendor Partner inquiry path. DVBE primes frequently seek DVBE subs, and 
+commercial primes need DVBE subs to meet participation goals — the site should make it trivial 
+for them to find and contact you. 
+2.3 Thin and Generic Service Descriptions 
+• Each service card is 1–2 sentences of generic copy. A procurement evaluator cannot determine 
+whether to invite Stronger Built Group to bid without detailed scope descriptions, equipment 
+capabilities, geographic coverage, and licensure. 
+• No distinction between services delivered in-house (e.g., work covered by the B license) vs. 
+services delivered via subcontractor networks (e.g., specialty trades). This matters for CUF 
+(commercially useful function) compliance under DVBE rules. 
+2.4 Zero Trust Signals 
+• No CSLB license number displayed (California law requires license # on marketing for licensed 
+contractors). 
+• No insurance or bonding information. 
+• No physical address, no real phone number visible in screenshots. 
+• No certifications badges (coming: DVBE, SB; possibly: SDVOSB federal, DBE, OSHA 10/30). 
+2.5 Technical & SEO Limitations 
+• No indication of mobile-first responsive design in captures. 
+• Unknown accessibility compliance — a risk for any government-facing site. 
+• No structured data (Schema.org LocalBusiness, Organization), making it invisible to local 
+government search intent. 
+• No blog or insights section to capture organic SEO traffic on "DVBE contractor", "California small 
+business construction", "government janitorial San Diego", etc. 
+  
+3. Goals & Success Metrics 
+3.1 Primary Goal 
+Establish strongerbuilt.us as a credibility-defining asset that materially improves Stronger Built Group 
+LLC's government bid win rate and reduces time-to-close on inbound prime/sub inquiries. 
+3.2 Secondary Goals 
+1. Serve as a permanent, always-available capabilities statement that any procurement officer can 
+find in under 10 seconds via search or URL. 
+2. Attract commercial leads (property managers, GCs, facilities directors) in parallel to government 
+work, via SEO and direct referral traffic. 
+3. Capture subcontractor/vendor interest — both DVBE subs seeking prime contractor partners 
+and specialty subs who can expand Stronger Built's capability matrix. 
+4. Scale cleanly: new service lines, certifications, and projects must be addable without developer 
+work. Content management must be non-technical-friendly. 
+3.3 Success Metrics (12-Month Horizon) 
+Metric Target (Month 12) How Measured 
+Capabilities Statement PDF downloads 100+ /month Vercel Analytics event 
+Contact form submissions (all types) 50+ /month Form submission log 
+Subcontractor partnership inquiries 10+ /month Form submission log 
+Organic search visitors 2,000+ /month Vercel Analytics / GSC 
+Lighthouse Performance score ≥ 95 on all pages Vercel Speed Insights 
+Lighthouse Accessibility score 100 on all pages Vercel Speed Insights 
+Referenced in won bids as credibility 
+source 
+≥ 3 wins where procurement 
+staff cited the site 
+Debrief / award docs 
+4. Target Audiences 
+The site serves four distinct user types. Every page and navigation decision should map back to one of 
+these personas. 
+4.1 Government Procurement Officer / Contract Analyst (Primary) 
+Example: Cameron MacGregor at CHP; Angel Cervantes Jr. at Caltrans. They visit the site to (a) verify 
+your firm is real and qualified, (b) confirm certifications, (c) download your capabilities statement, (d) 
+check past performance. They will spend 60–180 seconds total. They need trust signals above the fold 
+and a fast path to verifiable facts. 
+Design implication: Home hero must contain CSLB #, entity name, certification badges, and a clear 
+"Government Contracting" CTA. Capabilities Statement must be one click from anywhere on the site. 
+4.2 Prime Contractor Seeking a DVBE Sub (Primary) 
+Example: a mid-size GC who just won a state project and needs a DVBE subcontractor for 5-10% 
+participation to meet their contract obligations. They land on your site via CalProcure supplier directory, 
+or Google for "DVBE subcontractor San Diego general building." They need to know, fast: your trades, 
+your geography, your certifications, your CSLB class, and how to request a quote. 
+Design implication: A dedicated "Become a Partner" or "For Prime Contractors" page; service-by-service 
+CSLB coverage clearly labeled; self-serve contact form with project-details fields. 
+4.3 Commercial Client (Secondary) 
+Example: a property manager with a 50,000-sqft mixed-use building needing ongoing janitorial + facility 
+maintenance + occasional tenant improvements. They arrive via organic search or referral. They need to 
+understand your range, your service areas, your pricing approach (project-based vs. retainer), and how 
+to request a walk-through. 
+Design implication: Services pages should speak to commercial buyers as well as government evaluators 
+— avoid jargon-heavy gov-only language in service descriptions. 
+4.4 Potential Subcontractor / Vendor Partner (Secondary) 
+Example: a C-20 HVAC sub, a C-10 electrician, a C-33 painter, or a cleaning supplies distributor (DVBE) 
+wanting to be on Stronger Built's preferred-vendor list. They arrive via word of mouth or a capabilities-
+searching prime. They need a clear application flow. 
+Design implication: "Join Our Network" form with trade/certification questions. This also serves Stronger 
+Built's operational need: a growing vendor database for bid responses. 
+5. Brand Positioning & Messaging 
+5.1 Positioning Statement 
+"Stronger Built Group LLC is a California-licensed General Building Contractor (CSLB Class B, License 
+#[TBD]) and certified Disabled Veteran Business Enterprise serving state, county, and municipal agencies 
+across California with construction, facility services, and building trades — delivered in-house or through 
+a vetted DVBE/SB partner network." 
+5.2 Proof Points (Show, Don't Tell) 
+• California Secretary of State Registration #B20260157630 
+• CSLB License #[Roy to provide] — Class B General Building Contractor 
+• Federal EIN: 39-4458240 
+• DVBE Certification: [In Process / Certified — update when issued] 
+• Small Business Certification: [In Process / Certified — update when issued] 
+• DIR Registration #: [TBD — apply] 
+• Registered on Cal eProcure as supplier ID [TBD] 
+• Insurance: $1M/$2M GL, $1M Auto, Workers' Comp, $25K Fidelity Bond 
+5.3 Tagline Options (Replace "Built on Experience. Driven by Results.") 
+5. "California's Veteran-Owned Builder. Licensed. Certified. Ready to Bid." 
+6. "CSLB-Licensed. DVBE-Certified. Building California's Public Infrastructure." 
+7. "Licensed General Contractor. Certified DVBE. Serving California's Agencies." 
+8. "Your Certified Building Partner for California Government Contracts." 
+Recommendation: Option 3 — it names the three most search-relevant credentials in order of 
+importance, and it's scannable in under 2 seconds. 
+5.4 Voice & Tone 
+• Direct. Government buyers have no patience for marketing fluff. Say what you do, for whom, 
+under what license, in what geography. 
+• Specific. Every service page names the exact deliverables, not abstractions. 
+• Confident but honest. Do not claim experience or past performance the company does not 
+have. A transparent "we are a newly formed DVBE" positioning is more credible than inflated 
+claims a 10-minute bid-file check will debunk. 
+• Accessible. Short sentences. Active voice. 8th-grade reading level where possible. 
+  
+6. Information Architecture & Sitemap 
+Top-level navigation (6 items, plus CTA button): 
+Home  |  About  |  Services ▾  |  Government Contracting  |  Projects  |  Contact          
+[Request a Quote] 
+Full sitemap: 
+Primary Pages 
+• / — Home 
+• /about — About & Leadership 
+• /services — Services Overview 
+◦ /services/construction-consulting 
+◦ /services/project-management 
+◦ /services/subcontracting-services 
+◦ /services/facility-maintenance 
+◦ /services/janitorial-services 
+◦ /services/construction-material-supply 
+• /government — Government Contracting Hub 
+• /government/capabilities-statement — PDF download 
+• /government/certifications — DVBE, SB, CSLB license status 
+• /government/naics-unspsc-codes — classification codes for search 
+• /projects — Past Performance / Project Portfolio 
+• /partners — Subcontractor & Vendor Partner Portal 
+• /partners/join — Partner application form 
+• /contact — Contact & Request a Quote 
+Utility Pages 
+• /accessibility — Accessibility statement (WCAG 2.1 AA) 
+• /privacy — Privacy policy 
+• /terms — Terms of use 
+• /sitemap.xml — Auto-generated 
+• /robots.txt — Auto-generated 
+Future (Phase 2) 
+• /insights — Blog / articles (SEO magnet) 
+• /insights/[slug] — Individual articles 
+• /careers — Job postings 
+7. Page-by-Page Specifications 
+7.1 Home (/) 
+Purpose: In under 10 seconds, convince a government procurement officer that Stronger Built Group LLC 
+is (a) a real, licensed, California-registered firm; (b) certified or on a clear path to certification as 
+DVBE/SB; (c) covers the services they're sourcing; (d) worth clicking deeper. 
+Sections (top to bottom) 
+9. Sticky header with logo, 6-item nav, and "Request a Quote" CTA button. 
+10. Hero: tagline (Option 3 from §5.3), one-sentence subhead, two CTAs: "Download Capabilities 
+Statement" (primary) and "View Our Services" (secondary). Background: a subtle 
+construction/facility composite, not a generic stock crane shot. 
+11. Trust strip (directly below hero): horizontal row of 5 badges — CSLB Licensed (#), DVBE Certified 
+(or "In Process"), Small Business Certified (or "In Process"), Cal eProcure Registered, DIR 
+Registered. Each links to the verification source. 
+12. Services grid: 6 cards (one per service), each with icon, title, 2-sentence description, and "Learn 
+More →" link. Responsive: 3x2 desktop, 2x3 tablet, 1x6 mobile. 
+13. Who We Serve block: three columns — "State Agencies" (CHP, Caltrans, DGS, etc.), "Counties & 
+Cities" (San Diego, SF, LA, etc.), "Prime Contractors & Commercial Clients" (property managers, 
+GCs). 
+14. Certifications & Credentials section: expanded version of the trust strip with full credential 
+details, dates, and verification links. 
+15. Featured Project / Past Performance callout: one project card (even if internally-completed or 
+pro-bono) with photo, short description, and "See All Projects →" link. If no projects yet, replace 
+with "Active Bids & Coverage Areas" map. 
+16. Capabilities Statement download banner: full-width strip with CTA to download the PDF. 
+17. Contact / CTA block: "Ready to partner?" heading, brief copy, email address, phone, and 
+embedded short contact form (Name, Email, Type of Inquiry dropdown, Message). 
+18. Footer: address, phone, email, CSLB #, SOS #, EIN (for gov verification), certifications, social links 
+(LinkedIn), sitemap, legal links, "Last updated" timestamp. 
+7.2 About & Leadership (/about) 
+Purpose: Tell the Stronger Built Group story with the specificity government evaluators need. Humanize 
+the firm. Establish Roy's credentials. 
+Required content 
+• Company history: Wyoming LLC formation (Sept 19, 2025), California registration (April 1, 2026). 
+Do not hide the newness — frame it as a strategic launch backed by decades of Roy's 
+experience. 
+• Mission statement (3–4 sentences). 
+• Leadership section: Roy Krautstrunk — photo, title (Managing Member), service record (if 
+disclosed), CSLB license, professional background, VA disability status (if DVBE-certified), 
+community affiliations. 
+• Company facts table: Legal Name, Alternate Name, Entity Type, State of Formation, CA 
+Registration Date, EIN, CSLB #, DIR #, Principal Office, Service Area. 
+• Core values (4 short statements, not clichés). 
+• Why we focus on government: brief positioning explanation. 
+7.3 Services Overview (/services) + 6 Detail Pages 
+Services Overview page 
+A grid of 6 service cards (matches the current live page's visual pattern but with better copy). Below the 
+grid, a section explaining Stronger Built's delivery model: "What we self-perform under our CSLB B 
+license" vs. "What we deliver through our certified sub network." 
+Each Service Detail Page (6 total) 
+Common template, customized per service: 
+• H1 with service name. 
+• Lead paragraph (3–4 sentences) — what it is and who it's for. 
+• "What's Included" — bulleted scope list (specific deliverables). 
+• "Who This Is For" — target clients (agency types, commercial segments). 
+• "Our Approach" — how Stronger Built delivers (in-house, subcontracted, hybrid). 
+• "Licenses & Certifications" — which CSLB classes cover this work; any specialty licenses. 
+• "Coverage Area" — counties served. 
+• Related services cross-links. 
+• CTA block: Request a Quote for [Service]. 
+Service-specific content notes 
+• Construction Consulting: feasibility studies, cost estimation, constructability review, value 
+engineering, owner's representative work. 
+• Project Management: scheduling (CPM), budget management, QA/QC, stakeholder 
+coordination, design-build oversight. 
+• Subcontracting Services: explicitly list CSLB sub classes within Stronger Built's network (C-10 
+electrical, C-20 HVAC, C-33 painting, C-36 plumbing, etc.). This is your DVBE-sub value 
+proposition. 
+• Facility Maintenance: multi-trade ongoing contracts, preventative maintenance programs, 
+emergency repair response, work order management. 
+• Janitorial Services: 5-day commercial cleaning, periodic deep cleans, floor care, restroom supply 
+management, DIR registration #. 
+• Construction Material Supply: bulk sourcing, delivery logistics, DVBE/SB material suppliers in 
+network, just-in-time delivery. 
+7.4 Government Contracting Hub (/government) 
+Purpose: A one-stop-shop for procurement staff to find everything they need to evaluate Stronger Built 
+Group as a bidder. 
+Required content 
+• Hero: "Your California DVBE/SB General Contractor" + "Download Capabilities Statement" CTA. 
+• Certifications table with status, dates, and verification links (DVBE, SB, DIR, CSLB, DBE, SDVOSB if 
+federal). 
+• NAICS codes list (construction: 236220, 237310, 238990, 561210, 561720, 561730, etc.). 
+• UNSPSC codes list (for state procurement matching). 
+• Cal eProcure Supplier ID — visible and linked to public profile. 
+• Past performance summary (linked to /projects). 
+• Insurance & bonding table: GL, Auto, WC, Fidelity bond amounts + carrier names. 
+• "How to Work With Us": three paths — "As a Prime Hiring Us as DVBE Sub," "As an Agency 
+Soliciting Bids," "As a Cooperative / Piggyback Client." 
+• Contact block with direct line to Roy for bid-specific inquiries. 
+7.5 Capabilities Statement (/government/capabilities-statement) 
+The Capabilities Statement is a single-page PDF that government buyers download and pass around. It is 
+the single most-requested document by procurement staff. Template is in Appendix A. 
+Page behavior 
+• The URL displays a landing page with a thumbnail of the PDF and a large download button. 
+• Clicking download serves /capabilities-statement.pdf (a versioned file) and fires an analytics 
+event. 
+• Download is gated optionally: free download, but an embedded form offers "Email me updates 
+when our certifications change." 
+• PDF is regenerated (server-side or CI) whenever certifications update. 
+7.6 Past Performance / Projects (/projects) 
+Purpose: Show (do not just tell) what Stronger Built Group has built or is building. For a new firm, this 
+section starts thin but grows with every completed project. 
+Content approach for a new firm 
+• Include Roy's prior documented projects (subject to confidentiality) if they are genuinely his 
+work, clearly labeled "Prior project by Roy Krautstrunk, Managing Member — completed under 
+[previous entity or as employee of X]." 
+• Include any in-progress Stronger Built projects, even small ones. 
+• If truly zero projects at launch, replace this with "Active Bids & Pipeline" page, showing 
+geographic coverage map and current open solicitations Stronger Built is pursuing — a 
+transparency-as-credibility move. 
+Project card template 
+• Hero image (or placeholder). 
+• Project name, client (if public), location, contract value range, completion date, scope summary. 
+• Services delivered (linked to service pages). 
+• Reference contact (with permission) or "Reference available upon request." 
+7.7 Subcontractor / Vendor Partner Portal (/partners, /partners/join) 
+Purpose: Capture qualified subs and vendors to grow Stronger Built's bid-response capacity. Also a 
+channel for inbound primes seeking DVBE subs. 
+/partners content 
+• Hero: "Join Our Partner Network" + "Apply to Be a Partner" CTA. 
+• Two value props side-by-side: "Primes: Hire Us" and "Subs: Join Us." 
+• List of trade categories currently seeking partners. 
+• Expectations: insurance requirements, DIR registration, certifications preferred (DVBE, SB), lead 
+time for callouts. 
+/partners/join form 
+• Company Name, Contact Name, Email, Phone. 
+• Trade / Service Category (multi-select). 
+• CSLB License # and Class (or N/A). 
+• Certifications: DVBE, SB, DBE, SDVOSB, MBE, WBE (multi-select). 
+• Insurance on file: Yes/No (with carrier details). 
+• DIR #. 
+• Coverage area. 
+• Years in business. 
+• Three recent project references (optional). 
+• W-9 upload (optional at signup, required before first job). 
+7.8 Contact & Request a Quote (/contact) 
+Purpose: Single, focused destination for inbound inquiries. Routed to correct internal owner based on 
+inquiry type. 
+Form fields 
+• Name, Email, Phone (required). 
+• Organization. 
+• Inquiry Type dropdown: "Request a Quote," "Government Solicitation," "Subcontractor 
+Application" (redirects to /partners/join), "Media / Press," "General." 
+• Service(s) of Interest (multi-select, auto-populated from /services). 
+• Project Location (county dropdown + city). 
+• Budget Range (optional). 
+• Timeline / Deadline. 
+• Message. 
+• File upload (optional, for RFP docs) — up to 10MB, PDF/DOCX. 
+Direct contact details 
+• Phone: [primary business line] 
+• Email: contact@strongerbuilt.us (general), bids@strongerbuilt.us (government) 
+• Address: 4370 1/2 Oregon St, San Diego, CA 92104 (per CA SOS filing) 
+• Business hours 
+  
+8. Design System 
+8.1 Visual Identity 
+Retain the current brand mark — "STRONGERbuilt" wordmark with the blue "built" accent. It has 
+recognition equity. Refine everything around it. 
+8.2 Color Palette 
+Role Hex Tailwind Token Usage 
+Primary Navy #0B1F3A brand-navy-900 Header background, H1 text 
+Brand Blue #1E6FD9 brand-blue-600 Accents, CTAs, links, the "built" 
+wordmark 
+Steel Gray #2E3A48 brand-steel-800 Body text headings 
+Slate #64748B slate-500 Body text 
+Background Light #F8FAFC slate-50 Section backgrounds 
+Surface White #FFFFFF white Cards, form fields 
+Success Green #16A34A green-600 "Certified" badges, form success 
+Warning Amber #D97706 amber-600 "In Process" certification status 
+Alert Red #DC2626 red-600 Form errors 
+8.3 Typography 
+• Headings: Inter (900 weight) or Manrope (800 weight). Geometric, professional, free, Vercel-
+optimized via next/font. 
+• Body: Inter (400/500/600). Single font family keeps bundle small. 
+• Code / monospace (rare): JetBrains Mono. 
+• Scale: H1 48px/60px · H2 36px/44px · H3 28px/36px · H4 22px/30px · Body 16px/26px · Small 
+14px/22px. 
+8.4 Component Library 
+Build with shadcn/ui (Radix primitives + Tailwind) — battle-tested, accessible out of the box, easy to 
+customize. Components needed: 
+• Button (primary, secondary, ghost, destructive) 
+• Input, Textarea, Select, Checkbox, Radio, File Upload 
+• Card, CardHeader, CardContent 
+• Badge (for certifications) 
+• Accordion (for FAQs) 
+• Dialog (for quote modals) 
+• Tabs (for services page variations) 
+• Navigation Menu (desktop + mobile sheet) 
+• Toast (for form confirmations) 
+• Table (for certification and projects lists) 
+8.5 Imagery Rules 
+• Replace stock photography with real project photos as the firm completes work. For launch, use 
+high-quality licensed photography from Unsplash Pro or custom AI-generated imagery depicting 
+California-specific scenes (California state building facades, California infrastructure) — not 
+generic cranes. 
+• All images optimized through Next.js <Image> component with AVIF/WebP. 
+• No stock photos of people's faces unless those people are actual Stronger Built 
+employees/partners with release. 
+• Logo/badge imagery from official sources only (DVBE logo from DGS, CSLB logo from CSLB). 
+9. Technical Architecture (Vercel + Next.js) 
+9.1 Stack Summary 
+Layer Choice Rationale 
+Framework Next.js 14+ (App Router) Vercel-native, RSC-ready, great 
+SEO 
+Language TypeScript Type safety, better maintainability 
+Styling Tailwind CSS v3+ Fast iteration, small bundle 
+Component library shadcn/ui (Radix + Tailwind) Accessible, owned code (no 
+runtime lib) 
+Content (Phase 1) MDX files in /content Zero infra cost, Git-versioned, fast 
+Content (Phase 2) Sanity.io or Payload CMS Non-technical team can edit 
+content 
+Forms Vercel serverless + Resend Email delivery via API, log to DB 
+Database (inquiries log) Vercel Postgres or Supabase Persistent form history 
+File storage (partner docs) Vercel Blob or Uploadthing Handles W-9, insurance cert 
+uploads 
+Layer Choice Rationale 
+PDF generation (Capabilities) react-pdf or @vercel/og + 
+puppeteer 
+Dynamic PDF at build time 
+Analytics Vercel Analytics + Google Search 
+Console 
+Privacy-friendly, built-in 
+Monitoring Vercel Speed Insights + Sentry Performance + error tracking 
+Email (transactional) Resend Simple API, good deliverability 
+Email (marketing) MailerLite or Beehiiv Newsletter/update list 
+management 
+Domain & DNS Keep current registrar, point to 
+Vercel 
+No migration risk 
+9.2 Repository Structure 
+strongerbuilt-web/ 
+├── app/ 
+│   ├── (marketing)/ 
+│   │   ├── page.tsx              # Home 
+│   │   ├── about/page.tsx 
+│   │   ├── services/page.tsx 
+│   │   ├── services/[slug]/page.tsx 
+│   │   ├── government/page.tsx 
+│   │   ├── government/capabilities-statement/page.tsx 
+│   │   ├── projects/page.tsx 
+│   │   ├── partners/page.tsx 
+│   │   ├── partners/join/page.tsx 
+│   │   └── contact/page.tsx 
+│   ├── api/ 
+│   │   ├── contact/route.ts      # Contact form handler 
+│   │   ├── partner/route.ts      # Partner application 
+│   │   └── capabilities.pdf/route.ts 
+│   ├── layout.tsx 
+│   ├── sitemap.ts                # Auto-generated 
+│   └── robots.ts 
+├── components/ 
+│   ├── ui/                       # shadcn/ui components 
+│   ├── layout/                   # Header, Footer 
+│   ├── sections/                 # Hero, Services grid, etc. 
+│   └── forms/                    # Contact, Partner forms 
+├── content/ 
+│   ├── services/                 # 6 MDX service files 
+│   ├── projects/                 # Project MDX files 
+│   └── site-data.ts              # Company facts, certifications 
+├── lib/ 
+│   ├── schema.ts                 # Zod schemas for forms 
+│   ├── email.ts                  # Resend client 
+│   └── analytics.ts 
+├── public/ 
+│   ├── images/ 
+│   ├── capabilities-statement.pdf 
+│   └── favicon.ico 
+├── .env.local 
+├── next.config.mjs 
+├── tailwind.config.ts 
+└── package.json 
+9.3 Environment Variables 
+RESEND_API_KEY=                     # Transactional email 
+INQUIRY_TO_EMAIL=bids@strongerbuilt.us 
+DATABASE_URL=                       # Vercel Postgres or Supabase 
+BLOB_READ_WRITE_TOKEN=              # Vercel Blob for file uploads 
+NEXT_PUBLIC_GA_ID=                  # (optional) Google Analytics 
+RECAPTCHA_SECRET_KEY=               # Form spam protection 
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY= 
+9.4 Vercel Deployment Configuration 
+• Project: Connect GitHub repo to Vercel. 
+• Production branch: main. All pushes to main auto-deploy to strongerbuilt.us. 
+• Preview deployments: every PR gets a unique preview URL for review. 
+• Domain: strongerbuilt.us (apex) + www.strongerbuilt.us (redirect). 
+• SSL: automatic via Vercel. 
+• Regions: deploy to iad1 (default) — closest to CA buyers; edge functions run globally. 
+• Environment variables: set at Vercel project level for Production, Preview, Development. 
+• Analytics: enable Vercel Web Analytics + Speed Insights (both free on Pro, or Hobby tier 
+initially). 
+9.5 Performance Targets 
+• Largest Contentful Paint (LCP): < 2.0s 
+• First Input Delay (FID) / Interaction to Next Paint (INP): < 200ms 
+• Cumulative Layout Shift (CLS): < 0.1 
+• Total bundle size (gzip): < 150KB per page on first load 
+• Images: all served via next/image with AVIF/WebP fallbacks 
+• Static generation (SSG) for all marketing pages; ISR for project/blog updates 
+  
+10. SEO & Analytics Strategy 
+10.1 Target Keywords (Tier 1 — must rank) 
+• "DVBE general contractor California" 
+• "DVBE subcontractor San Diego" 
+• "California small business general contractor" 
+• "CSLB B licensed contractor San Diego" 
+• "facility maintenance contractor California government" 
+• "veteran owned contractor San Diego" 
+10.2 Target Keywords (Tier 2 — service-specific) 
+• "tenant improvement contractor San Diego" 
+• "ADA compliance contractor California" 
+• "commercial janitorial services San Diego" 
+• "government construction consulting California" 
+• "IFPQ contractor California" 
+10.3 On-Page SEO Requirements 
+• Every page: unique <title>, <meta description>, Open Graph tags, Twitter Card tags. 
+• Structured data (JSON-LD): LocalBusiness, Organization, Service schemas on relevant pages. 
+• Semantic HTML5: <header>, <nav>, <main>, <article>, <aside>, <footer> used correctly. 
+• Breadcrumbs (with JSON-LD) on all pages except Home. 
+• Sitemap.xml auto-generated, submitted to Google Search Console and Bing Webmaster. 
+• Robots.txt allowing all bots, disallowing /api routes. 
+• Canonical URLs set on every page. 
+10.4 Analytics Events (Custom) 
+• capabilities_statement_downloaded 
+• contact_form_submitted 
+• partner_application_submitted 
+• service_page_viewed (with service slug) 
+• certification_badge_clicked 
+• phone_number_clicked (mobile) 
+11. Forms, Integrations & Serverless Functions 
+11.1 Form Architecture 
+19. Client-side validation via Zod schema + React Hook Form. 
+20. reCAPTCHA v3 invisible verification on submission. 
+21. POST to /api/[form-name] serverless function. 
+22. Server-side: re-validate with same Zod schema, verify reCAPTCHA, insert into database, send 
+notification email via Resend, send auto-response to submitter. 
+23. Return success/error JSON to client; toast notification displayed. 
+11.2 Email Routing 
+• Contact form (type: Government Solicitation) → bids@strongerbuilt.us + text notification to 
+Roy. 
+• Contact form (type: Quote/General) → contact@strongerbuilt.us. 
+• Partner application → partners@strongerbuilt.us. 
+• All submitters receive auto-acknowledgment within 60 seconds. 
+11.3 Third-Party Integrations (Phase 1) 
+• Resend (transactional email) 
+• Google reCAPTCHA v3 (spam protection) 
+• Google Search Console + Bing Webmaster (SEO monitoring) 
+• Vercel Blob (file uploads for partner docs) 
+11.4 Third-Party Integrations (Phase 2) 
+• CRM (HubSpot free tier, or Attio) — sync all inquiries. 
+• Slack (internal notification for new inquiries). 
+• Calendly (scheduling calls with procurement contacts). 
+• DocuSign (partner agreement signing). 
+12. Accessibility Requirements (WCAG 2.1 AA / Section 508) 
+Government-facing sites should comply with Section 508 of the Rehabilitation Act and WCAG 2.1 AA. 
+Failing to do so can be a deal-breaker in some federal contracts, and it's a visible signal of sloppy 
+execution to any sophisticated evaluator. 
+12.1 Required Standards 
+• Color contrast ratio ≥ 4.5:1 for body text, ≥ 3:1 for large text. 
+• All interactive elements keyboard-accessible (Tab, Shift+Tab, Enter, Space, Esc, arrow keys 
+where appropriate). 
+• Visible focus rings on all interactive elements (never outline: none without replacement). 
+• All images have meaningful alt text, or alt="" if purely decorative. 
+• Form fields have associated <label> elements (visible or sr-only). 
+• Error messages are programmatically associated with fields (aria-describedby). 
+• Headings follow a logical hierarchy (no skipping levels). 
+• All videos (if added) have captions. 
+• No reliance on color alone to convey information (errors shown with icon + text, not just red). 
+• Motion can be reduced via prefers-reduced-motion CSS media query. 
+12.2 Testing 
+• Automated: axe DevTools in CI/CD, Lighthouse Accessibility score = 100 as build-time check. 
+• Manual: keyboard-only navigation test before every deploy. 
+• Screen reader: test with VoiceOver (macOS) and NVDA (Windows) before launch. 
+• User testing: one round with a screen-reader user in Phase 2. 
+12.3 Accessibility Statement Page 
+Publish a public /accessibility page declaring WCAG 2.1 AA conformance, contact for accessibility issues 
+(email), and date of last audit. This is itself a government-procurement trust signal. 
+13. Content Plan & Migration 
+13.1 Content Inventory 
+Content Source Owner Deadline (relative to 
+kickoff) 
+Company Facts (entity, EIN, 
+licenses) 
+Existing docs Roy Week 1 
+Roy's bio + headshot New Roy Week 1 
+6 Service pages (full copy) New Copywriter Week 2 
+Capabilities Statement content New Roy + copywriter Week 2 
+Project entries (prior + new) Roy's archives Roy Week 2 
+Photography (real job sites) Commission or 
+license 
+Designer Week 3 
+Certification logos / badges Official sources Designer Week 2 
+Legal pages (Privacy, Terms, 
+Accessibility) 
+Template + atty 
+review 
+Attorney Week 3 
+13.2 Migration 
+No meaningful content migration required — the existing site has 6 service cards with 1-sentence 
+descriptions and a homepage headline. All content is being rewritten. The existing domain remains; DNS 
+is repointed to Vercel on launch day. 
+  
+14. Phase 1 MVP vs. Phase 2 Scope 
+14.1 Phase 1 — MVP (launch in 4 weeks) 
+Goal: Replace the current site with a credible government-focused presence that the firm can point 
+procurement officers to immediately. 
+• Home 
+• About & Leadership 
+• Services overview + 6 detail pages 
+• Government Contracting hub 
+• Capabilities Statement (PDF + landing page) 
+• Contact / Request a Quote 
+• Legal pages (Privacy, Terms, Accessibility) 
+• Content via MDX files (Git-versioned, not CMS yet) 
+• Forms → Resend email + DB logging 
+• Full accessibility + performance compliance 
+• SEO fundamentals (metadata, sitemap, structured data) 
+14.2 Phase 2 — Growth (weeks 5–10) 
+Goal: Add the growth infrastructure that turns the site from a brochure into a pipeline engine. 
+• Projects / Past Performance page (populated as wins accumulate) 
+• Subcontractor / Vendor Partner portal + application 
+• Insights / Blog with 5–10 seed articles targeting SEO keywords 
+• CMS migration (Sanity or Payload) if content volume warrants 
+• CRM integration (HubSpot/Attio) 
+• Automated Capabilities Statement PDF regeneration pipeline 
+• Careers page (if hiring begins) 
+• Multilingual support (English + Spanish for CA public-sector staff) 
+14.3 Phase 3 — Scale (months 3-6, if warranted) 
+• Client portal (logged-in area for active clients to see project status) 
+• Partner portal (logged-in area for subs to submit invoices/docs) 
+• Automated bid-opportunity digest (scrape CalProcure for matching NAICS, email weekly) 
+• Case studies with video testimonials 
+15. Timeline & Milestones 
+Week Milestone Deliverable Owner 
+0 Kickoff PRD signed, vendor 
+selected 
+Roy + dev 
+1 Foundations Next.js scaffold, design 
+system, Vercel project, 
+Home page draft 
+Dev 
+2 Core pages About, Services overview, 
+Services detail template 
+Dev + copywriter 
+3 Gov + Forms Government Hub, 
+Capabilities page + PDF, 
+Contact form functional 
+Dev 
+4 MVP launch Accessibility audit passed, 
+launch to production 
+Dev + Roy 
+5-6 Partner portal /partners + /partners/join 
+form + DB schema 
+Dev 
+7-8 Projects + Blog Projects page + 5 seed 
+project entries, Insights 
+scaffold + 3 articles 
+Dev + copywriter 
+9-10 CMS + CRM Sanity/Payload 
+integration, 
+HubSpot/Attio sync, 
+Phase 2 launch 
+Dev 
+16. Risks & Open Questions 
+16.1 Open Questions (Roy Must Answer) 
+24. CSLB license number? (Blocking — this must appear on homepage, footer, and capabilities 
+statement.) 
+25. Is Roy a service-disabled veteran with a VA rating ≥10%? (Determines DVBE eligibility and 
+narrative.) 
+26. Does the company already hold DIR Registration? If yes, what is the number? If no, when will it 
+be applied for? 
+27. Insurance policies in place? Carrier names and COI availability? 
+28. Bank of prior projects Roy can cite — under what entity, with what permissions? 
+29. Any existing client or prime contractor references willing to be listed? 
+30. Does Roy have a professional headshot? If not, commission one. 
+31. Budget for the build: target between $8K–$25K depending on developer choice (freelancer vs. 
+small agency). 
+32. Who owns content updates post-launch? Self-serve via CMS, or retainer with developer? 
+16.2 Risks 
+• Content production risk: delays in service-page copy and project content can push launch. 
+Mitigate by hiring a copywriter in week 1 and briefing thoroughly. 
+• Certification timing risk: DVBE/SB certification may not land by MVP launch. Mitigate by building 
+the site with clear "In Process" status badges that can flip to "Certified" without code changes 
+(content-driven states). 
+• Photography risk: Stock photos of generic cranes/buildings look generic. Mitigate by 
+commissioning a half-day photographer for a real job site once available; use high-quality 
+licensed stock as stopgap. 
+• SEO ramp risk: rankings take 3–6 months. Mitigate by launching with strong technical SEO 
+foundations and Phase 2 content plan ready. 
+• Developer continuity risk: using a solo freelancer creates bus factor. Mitigate with clear 
+documentation, Git history, and a second-developer handover capability in scope. 
+  
+Appendix A: Capabilities Statement Template Structure 
+The Capabilities Statement is a one-page PDF (two pages maximum). It follows a near-universal format 
+expected by government procurement staff. Structure: 
+Top Banner 
+• Company logo (left). 
+• Company name (Stronger Built Group LLC). 
+• Tagline. 
+• Contact block: address, phone, email, website. 
+Left Column 
+Core Competencies — 5–8 bullet points, one line each. Examples: 
+• General Building Construction (CSLB Class B) 
+• Tenant Improvements & ADA Modifications 
+• Facility Maintenance & Repair 
+• Janitorial & Custodial Services 
+• Construction Consulting & Project Management 
+• Subcontractor Network Management 
+Middle Column 
+Past Performance — 3–5 short project blurbs. Client name (if public) or anonymized industry (if 
+confidential), project type, value range, date, scope in one line. 
+Right Column 
+Differentiators & Why Us — 3–5 bullets explaining competitive advantages (DVBE, CA-based, licensed, 
+veteran-owned, 24/7 emergency response, etc.). 
+Bottom Strip 
+• Certifications: DVBE, SB, SDVOSB (federal), DBE — all with certification numbers or "In Process". 
+• Codes: NAICS (3–6 codes), UNSPSC (5–10 codes). 
+• Company IDs: CSLB License #, CA SOS #, EIN, DUNS/UEI (federal), Cal eProcure Supplier ID, DIR #. 
+• Insurance summary: GL limits, Auto, Workers' Comp, Fidelity Bond. 
+File Properties 
+• File name: StrongerBuilt_Capabilities_Statement_[YYYYMMDD].pdf 
+• File size: < 500KB (fits email attachments). 
+• PDF version: 1.7, accessible tagged PDF (readable by screen readers). 
+• Metadata: Title, Author (Stronger Built Group LLC), Subject, Keywords all set. 
+Appendix B: Government Bid Sector Opportunity Map 
+Service lines to develop on the website — prioritized by fit with Roy's CSLB B license, DVBE-in-process 
+status, and observed bid frequency on CalProcure and county/city portals. 
+B.1 Priority 1 — Launch These Service Pages in Phase 1 
+Service Line License/Cert Needed CalProcure Volume Already On Site? 
+General Building Construction 
+/ Tenant Improvements 
+CSLB B ✓ Very High (IFPQ) Partially (Construction 
+Consulting) 
+Facility Maintenance (multi-
+trade) 
+CSLB B + trade subs High Yes 
+ADA Compliance 
+Modifications 
+CSLB B ✓ Medium-High 
+(specialized) 
+No — add 
+Janitorial Services DIR Registration Very High Yes 
+Project Management / 
+Owner's Rep 
+CSLB B ✓ Medium Yes 
+Construction Consulting None required Low-Medium Yes 
+B.2 Priority 2 — Add to Services in Phase 2 
+Service Line License/Cert Needed CalProcure Volume Notes 
+Landscape & Grounds 
+Maintenance 
+C-27 sub or B-covered 
+portion 
+Very High Caltrans posts 
+monthly; often 
+SB/DVBE only 
+Graffiti Abatement & Pressure 
+Washing 
+None < $500/job High (city/county) Frequent small dollar 
+SB set-asides 
+Parking Lot Striping & 
+Sealcoating 
+C-32 sub (or B-covered) Medium Recurring county 
+contracts 
+Window Cleaning None Medium Bundles with janitorial 
+Painting Services C-33 sub Medium Bundles with tenant 
+improvements 
+Roofing Repair C-39 sub Medium High margin specialty 
+HVAC Maintenance C-20 sub High Long-term service 
+contracts 
+Electrical Repair & Installation C-10 sub High Bundles with tenant 
+improvements 
+Service Line License/Cert Needed CalProcure Volume Notes 
+Plumbing Repair C-36 sub High Bundles with facility 
+maintenance 
+Moving & Relocation Services None Medium State office moves are 
+constant 
+B.3 Priority 3 — Add Only When Certifications Unlock New Verticals 
+• Pest Control Services (requires SPCB license) 
+• Hazardous Materials Abatement (HAZ certification) 
+• Security Services (Bureau of Security & Investigative Services license) 
+• Fire & Water Damage Restoration (IICRC certification) 
+B.4 Procurement Portals Beyond CalProcure 
+• Federal: SAM.gov, DIBBS, eBuy (GSA) 
+• San Diego County: Buy.NET San Diego 
+• City of San Diego: PlanetBids SD 
+• Los Angeles County: Los Angeles County Supplier Portal 
+• City of LA: Los Angeles Business Assistance Virtual Network (LABAVN) 
+• San Francisco: SF City Partner 
+• School districts: individual PlanetBids instances per district 
+• Transit: BART, LA Metro, SFMTA vendor portals 
+• Water districts: Metropolitan Water District, East Bay MUD 
+• Cooperative purchasing: OMNIA Partners, Sourcewell — pre-approved contracts other agencies 
+can use 
+  
+Appendix C: Recommended Developer Brief 
+When engaging a developer or agency, this summary can serve as the brief. Attach this full PRD as a 
+reference. 
+C.1 Project Summary 
+Full redesign of strongerbuilt.us for Stronger Built Group LLC, a California-registered DVBE-track general 
+contractor pursuing government contracts. Build in Next.js 14+ App Router, deploy on Vercel, target 
+WCAG 2.1 AA compliance, target Lighthouse 95+ across all categories. 
+C.2 Scope — Phase 1 
+• 10 primary pages (Home, About, Services overview, 6 service detail pages, Contact) 
+• Government Contracting hub + Capabilities Statement page with PDF 
+• 3 legal utility pages 
+• Contact form with email delivery (Resend) and DB logging 
+• Full responsive design (mobile, tablet, desktop) 
+• Accessibility audit and remediation 
+• SEO setup (metadata, sitemap, structured data) 
+• Vercel deployment + domain configuration 
+• Documentation for content updates 
+C.3 Deliverables 
+• Git repository (GitHub, owned by client) 
+• Deployed Vercel project (owned by client) 
+• Figma / design files 
+• Style guide and component documentation 
+• Content update runbook (how to add services, projects, team members) 
+• Accessibility conformance statement 
+• 30-day post-launch bug fix warranty 
+C.4 Estimated Budget Ranges 
+Vendor Type Phase 1 MVP Phase 2 Additions 
+Solo freelancer (mid-level) $6,000 – $10,000 $4,000 – $8,000 
+Solo freelancer (senior) $10,000 – $18,000 $6,000 – $12,000 
+Small agency (3-5 person) $18,000 – $35,000 $12,000 – $25,000 
+Mid-size agency $35,000 – $75,000 $25,000 – $60,000 
+Recommendation: engage a senior solo freelancer or a small agency with a track record on Next.js + 
+Vercel + government-focused sites. Request three portfolio examples with live URLs before selection. 
+C.5 Vendor Evaluation Criteria 
+33. Portfolio: 3+ Next.js App Router projects in production. 
+34. Vercel deployment experience (shown in portfolio). 
+35. Accessibility work (not just "we care about a11y" — evidence of WCAG audits). 
+36. Design capability (either in-house or strong designer partner). 
+37. Availability: can start within 2 weeks, can deliver MVP in 4 weeks. 
+38. Communication: weekly standups, shared project management tool (Linear, Notion, Asana). 
+39. Post-launch support terms (retainer available? hourly rate?). 
+— End of Document — 

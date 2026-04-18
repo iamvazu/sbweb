@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# STRONGERBuilt Group LLC
+### Strategic Bid & Procurement Management Platform
 
-## Getting Started
+Stronger Built Group LLC is a premium, licensed General Building firm (CSLB #1057434) specializing in California public works, municipal infrastructure, and high-capacity commercial project management. This platform serves as a high-authority digital hub for government procurement officers, prime contractors, and specialty subcontractors.
 
-First, run the development server:
+---
 
+## 🚀 Core Features
+
+### 🏛️ Government Contracting Hub
+A dedicated resource for agency procurement staff to verify credentials instantly.
+* **Verified Credentials**: Real-time status for CSLB, DIR, and VA certifications.
+* **Classification Codes**: Comprehensive listing of NAICS and UNSPSC codes for bid matching.
+* **Capabilities Statement**: A printable, executive-level digital flyer with core competencies and past performance.
+
+### 🤝 Partner Network Portal
+A dual-channel ecosystem for specialized trades and prime contractors.
+* **For Primes**: Access to a DVBE-certified partner managing multi-trade resolution.
+* **For Subs**: A streamlined onboarding path for DIR-registered trades to join the project pipeline.
+
+### 💎 Premium Bid Advisory
+High-stakes bid management led by CEO Roy Krautstrunk, featuring:
+* **Stripe-Integrated Deposits**: Secure tiered deposits ($750 / $1,250) for mandatory site-walks and executive consulting.
+* **Compliance Oversight**: Deep expertise in DIR and California Prevailing Wage regulations.
+
+### ⚖️ Compliance & Accessibility
+Built to exceed government standards for transparency and inclusivity.
+* **WCAG 2.1 AA Compliant**: Optimized for screen readers and keyboard navigation.
+* **Section 508 Signals**: Dedicated Accessibility, Privacy, and Terms of Use protocols.
+
+---
+
+## 🛠️ Technical Stack
+
+* **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
+* **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+* **Animations**: [Framer Motion](https://www.framer.com/motion/)
+* **Icons**: [Lucide React](https://lucide.dev/)
+* **Payments**: [Stripe JS](https://stripe.com/docs/js)
+* **Deployment**: [Vercel](https://vercel.com/)
+
+---
+
+## 📦 Getting Started
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development Server
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔐 Portal Simulation (RBAC)
+The platform uses an email-domain-based simulation for the Role-Based Access Control (RBAC):
 
-To learn more about Next.js, take a look at the following resources:
+* **Super Admin**: `roy@strongerbuilt.us`
+* **Internal Admin**: `@strongerbuilt.us` domain
+* **Government**: `.gov` or `.mil` domains
+* **Vendor/Partner**: All other domains
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License & Credentials
+**Stronger Built Group LLC**
+* **CSLB License**: #1057434 (Class B, C-6, C-36)
+* **CA SOS Entity**: B20260157630
+* **Registered Address**: 4370 1/2 Oregon St, San Diego, CA 92104

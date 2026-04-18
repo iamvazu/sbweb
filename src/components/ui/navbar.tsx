@@ -22,8 +22,9 @@ export function Navbar() {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Services", href: "/services" },
-    { name: "Government", href: "/government" },
-    { name: "Projects", href: "/projects" },
+    { name: "Bid Management", href: "/bid-management" },
+    { name: "Bid Services", href: "/government" },
+    { name: "Contract Wins", href: "/projects" },
     { name: "Partners", href: "/partners" },
     { name: "Insights", href: "/insights" },
   ];

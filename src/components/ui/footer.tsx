@@ -36,7 +36,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Award className="w-4 h-4 text-warning shrink-0" />
-                <span>DIR Registration: Pending</span>
+                <span>DIR Registration: In Process</span>
               </li>
             </ul>
           </div>
@@ -45,11 +45,15 @@ export function Footer() {
             <h4 className="text-white font-bold tracking-wide uppercase text-sm mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/services" className="hover:text-white transition-colors">All Services</Link></li>
-              <li><Link href="/government" className="hover:text-white transition-colors">Government Hub</Link></li>
-              <li><Link href="/projects" className="hover:text-white transition-colors">Past Projects</Link></li>
+              <li><Link href="/government" className="hover:text-white transition-colors">Bid Services Hub</Link></li>
+              <li><Link href="/projects" className="hover:text-white transition-colors">Contract Wins</Link></li>
               <li><Link href="/partners" className="hover:text-white transition-colors">Join Vendor Network</Link></li>
               <li><Link href="/service-areas" className="hover:text-white transition-colors">Service Areas</Link></li>
-              <li className="pt-2 mt-2 border-t border-white/10"><Link href="/login" className="flex items-center gap-2 text-brand-blue-600 font-bold hover:text-white transition-colors">Portal Login</Link></li>
+              <li className="pt-4 mt-2">
+                <Link href="/login" className="inline-flex items-center justify-center w-full bg-brand-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-brand-blue-600/20 transition-all">
+                  Portal Login
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -89,7 +93,7 @@ export function Footer() {
               <div>CA SOS: B20260157630</div>
               <div>EIN: 39-4458240</div>
               <div>DUNS: [PENDING]</div>
-              <div>DIR: PENDING</div>
+              <div>DIR: IN PROCESS</div>
            </div>
         </div>
       </div>
