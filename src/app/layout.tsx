@@ -7,7 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-
+import { ConditionalWrapper } from "@/components/layout/ConditionalWrapper";
 import { Toaster } from "@/components/ui/toaster";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -28,11 +28,9 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${inter.variable} min-h-screen flex flex-col`}>
         <TooltipProvider>
-          <Navbar />
-          <main className="flex-1">
+          <ConditionalWrapper>
             {children}
-          </main>
-          <Footer />
+          </ConditionalWrapper>
           <Analytics />
           <SpeedInsights />
           <Toaster />
