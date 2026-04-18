@@ -8,6 +8,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+import { Toaster } from "@/components/ui/toaster";
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -33,6 +35,7 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <SpeedInsights />
+          <Toaster />
         </TooltipProvider>
       </body>
     </html>
