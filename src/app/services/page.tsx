@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, HardHat, CheckCircle2, Building2, Wrench, ShieldCheck, Package, Trees, Droplets, ArrowRightLeft, AppWindow, Paintbrush, Hammer, Wind, Zap, Truck, Navigation, Globe, BrainCircuit, SearchCode } from "lucide-react";
+import { ArrowRight, HardHat, CheckCircle2, Building2, Wrench, ShieldCheck, Package, Trees, Droplets, Navigation, AppWindow, Paintbrush, Hammer, Wind, Zap, Truck, Globe, BrainCircuit, SearchCode, Briefcase } from "lucide-react";
 
 const STAGGER: Variants = {
   hidden: { opacity: 0 },
@@ -41,41 +41,73 @@ const digitalServices = [
 
 export default function ServicesOverview() {
   return (
-    <div className="flex flex-col min-h-screen pt-32 pb-24 bg-white dark:bg-black/20">
-      <div className="max-w-7xl mx-auto px-4 w-full">
-        
-        <div className="text-center mb-20 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-6">
-            Services & <span className="text-brand-blue-600">Capabilities</span>
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400">
-            Delivering exceptional value through a dual-delivery model: elite CSLB Class B self-performance coupled with a rigorously vetted, DVBE-certified subcontractor network.
-          </p>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-black/20">
+      
+      {/* Premium Dark Navy Hero - HARMONIZED */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+          >
+            <Briefcase className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Core Competencies</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
+          >
+            Services & <br className="hidden md:block"/>
+            <span className="italic text-brand-blue-600">Contracting Capabilities.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
+          >
+            Delivering exceptional value through a dual-delivery model: elite CSLB Class B self-performance coupled with a rigorously vetted, DVBE-certified subcontractor network.
+          </motion.p>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-6 py-24 w-full">
         <motion.div 
           variants={STAGGER}
           initial="hidden"
-          animate="show"
+          whileInView="show"
+          viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {services.map((srv, i) => (
             <motion.div key={i} variants={FADE_UP} className="h-full">
-              <Link href={srv.href} className="group flex flex-col h-full bg-background-light dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-3xl p-8 hover:shadow-2xl hover:shadow-brand-blue-600/10 transition-all duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center mb-8 text-brand-navy-900 dark:text-white group-hover:bg-brand-blue-600 group-hover:text-white group-hover:border-brand-blue-600 transition-all duration-300 shadow-sm">
-                  <srv.icon className="w-8 h-8" />
+              <Link href={srv.href} className="group flex flex-col h-full bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 hover:shadow-2xl transition-all duration-300">
+                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center mb-8 text-brand-navy-900 dark:text-white group-hover:bg-brand-blue-600 group-hover:text-white group-hover:border-brand-blue-600 transition-all duration-300 shadow-sm">
+                  <srv.icon className="w-6 h-6" />
                 </div>
                 
-                <h3 className="text-2xl font-bold text-brand-navy-900 dark:text-white mb-4 group-hover:text-brand-blue-600 transition-colors">
+                <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white mb-4 group-hover:text-brand-blue-600 transition-colors italic leading-tight">
                   {srv.title}
                 </h3>
                 
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow">
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium">
                   {srv.desc}
                 </p>
 
-                <div className="mt-auto flex items-center gap-2 text-sm font-bold text-brand-blue-600 group-hover:text-blue-700 uppercase tracking-widest">
-                  View Detail <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-brand-blue-600 group-hover:text-blue-700 uppercase tracking-widest">
+                  View Detail <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-2 transition-transform" />
                 </div>
               </Link>
             </motion.div>
@@ -83,18 +115,15 @@ export default function ServicesOverview() {
         </motion.div>
 
         {/* Digital Division Section */}
-        <div className="mt-24 mb-24">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+        <div className="mt-32 mb-24">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-sm font-black tracking-[0.2em] text-brand-blue-600 uppercase mb-4">New Division</h2>
-              <h3 className="text-3xl md:text-5xl font-black text-brand-navy-900 dark:text-white mb-6">
-                Digital Transformation & <br/>GovTech Solutions
+              <h2 className="text-[11px] font-black tracking-widest text-brand-blue-600 uppercase mb-4">New Division</h2>
+              <h3 className="text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white italic">
+                Digital Transformation & <br className="hidden md:block"/>GovTech Solutions
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-lg">
-                Modernizing civic infrastructure through high-performance, accessible technology tailored for state departments and fellow DVBE partners.
-              </p>
             </div>
-            <Link href="/contact" className="text-sm font-black text-brand-navy-900 dark:text-white border-b-2 border-brand-blue-600 pb-1 hover:text-brand-blue-600 transition-colors">
+            <Link href="/contact" className="text-[11px] font-black text-brand-navy-900 dark:text-white border-b-2 border-brand-blue-600 pb-2 hover:text-brand-blue-600 transition-colors uppercase tracking-widest">
               Request a Tech Consultation
             </Link>
           </div>
@@ -102,21 +131,21 @@ export default function ServicesOverview() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {digitalServices.map((srv, i) => (
               <motion.div 
-                key={i}
+                key={srv.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="h-full"
               >
-                <Link href={srv.href} className="group flex flex-col h-full bg-slate-50 dark:bg-black/40 border border-gray-100 dark:border-white/5 rounded-3xl p-8 hover:bg-white dark:hover:bg-brand-navy-900 transition-all duration-300">
-                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 flex items-center justify-center mb-6 text-brand-blue-600 group-hover:bg-brand-blue-600 group-hover:text-white transition-all shadow-sm">
-                    <srv.icon className="w-6 h-6" />
+                <Link href={srv.href} className="group flex flex-col h-full bg-slate-50 dark:bg-black/20 border border-gray-100 dark:border-white/5 rounded-[2.5rem] p-8 hover:bg-white dark:hover:bg-brand-navy-900 transition-all duration-300 hover:shadow-xl">
+                  <div className="w-12 h-12 rounded-xl bg-white dark:bg-white/5 flex items-center justify-center mb-6 text-brand-blue-600 group-hover:bg-brand-blue-600 group-hover:text-white transition-all shadow-sm">
+                    <srv.icon className="w-5 h-5" />
                   </div>
-                  <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-3 group-hover:text-brand-blue-600 transition-colors">{srv.title}</h4>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6 flex-grow">{srv.desc}</p>
-                  <div className="flex items-center gap-2 text-xs font-black text-brand-blue-600 uppercase tracking-widest">
-                    Solution Detail <ArrowRight className="w-4 h-4" />
+                  <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-4 group-hover:text-brand-blue-600 transition-colors">{srv.title}</h4>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium">{srv.desc}</p>
+                  <div className="flex items-center gap-2 text-[10px] font-black text-brand-blue-600 uppercase tracking-widest">
+                    Solution Detail <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </Link>
               </motion.div>
@@ -125,20 +154,25 @@ export default function ServicesOverview() {
         </div>
 
         {/* Delivery Model Callout */}
-        <div className="mt-24 bg-brand-navy-900 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-32 bg-brand-navy-900 rounded-[3rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl"
+        >
           <div className="absolute -top-40 -left-40 w-96 h-96 bg-brand-blue-600/20 rounded-full blur-[100px]" />
           <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-success/10 rounded-full blur-[100px]" />
           
           <div className="relative z-10 max-w-3xl mx-auto">
-            <h2 className="text-3xl font-black mb-6">Our Delivery Philosophy</h2>
-            <p className="text-slate-300 text-lg leading-relaxed mb-6">
+            <h2 className="text-3xl md:text-4xl font-serif mb-8 italic italic">Our Delivery Philosophy</h2>
+            <p className="text-slate-300 text-lg leading-relaxed mb-10 font-medium">
               Stronger Built Group strictly adheres to Commercially Useful Function (CUF) regulations—not just in construction, but in our digital solutions. We leverage our SDVOSB status and CSLB #1057434 Class B classification to manage projects with high-integrity oversight.
             </p>
-            <Link href="/government" className="inline-flex items-center gap-2 bg-white text-brand-navy-900 hover:bg-slate-100 px-8 py-4 rounded-xl font-bold transition-colors">
-              Explore Government Hub
+            <Link href="/government" className="inline-flex items-center gap-3 bg-white text-brand-navy-900 hover:bg-slate-100 px-10 py-5 rounded-2xl font-bold transition-all shadow-lg hover:-translate-y-1">
+              Explore Government Hub <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </div>

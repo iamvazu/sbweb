@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, ShieldCheck, MapPin, HelpCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, MapPin, HelpCircle, Briefcase, ChevronRight } from "lucide-react";
 import { use } from "react";
 import { cn } from "@/lib/utils";
 import { SERVICE_FAQS } from "@/lib/data/faqs";
@@ -159,114 +159,140 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
   if (!data) return notFound();
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-background-light dark:bg-black/20">
-      <div className="max-w-4xl mx-auto px-4 w-full">
-        
-        <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 mb-8 transition-colors font-bold tracking-wide uppercase text-xs">
+    <div className="min-h-screen bg-white dark:bg-black/20">
+      
+      {/* Premium Dark Navy Hero - HARMONIZED */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Licensed Service Division</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
+          >
+            {data.title.split(' ')[0]} <br className="hidden md:block"/>
+            <span className="italic text-brand-blue-600">{data.title.split(' ').slice(1).join(' ')}.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
+          >
+            Detailed specifications and procurement guidelines for our {data.title} division. Standardized for California public works compliance.
+          </motion.p>
+        </div>
+      </section>
+
+      <div className="max-w-4xl mx-auto px-6 py-16 w-full">
+        <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 mb-12 transition-colors font-black tracking-widest uppercase text-[10px]">
           <ArrowLeft className="w-4 h-4" /> Back to Services
         </Link>
         
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-xl shadow-brand-blue-600/5 mb-12 relative"
+          className="bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-brand-blue-600/5 mb-16 relative"
         >
           {data.image && (
-            <div className="w-full h-64 md:h-96 relative overflow-hidden">
+            <div className="w-full h-64 md:h-80 relative overflow-hidden">
                <img 
                  src={data.image} 
                  alt={data.title}
-                 className="w-full h-full object-cover"
+                 className="w-full h-full object-cover grayscale opacity-70"
                />
-               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/80 via-transparent to-transparent" />
-               <div className="absolute bottom-8 left-8 md:left-12 lg:left-16">
-                  <span className="bg-brand-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-3 inline-block">
-                    Licensed Service Division
-                  </span>
-                  <h1 className="text-3xl md:text-5xl font-black text-white leading-[1.1] tracking-tight">
-                    {data.title}
-                  </h1>
-               </div>
+               <div className="absolute inset-0 bg-gradient-to-t from-slate-50/100 dark:from-brand-navy-900/100 via-transparent to-transparent" />
             </div>
           )}
 
-          <div className="p-8 md:p-12 lg:p-16 relative">
+          <div className="p-8 md:p-14 lg:p-16 relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/5 rounded-full blur-[80px]" />
             
-            {!data.image && (
-              <h1 className="text-3xl md:text-5xl font-black text-brand-navy-900 dark:text-white mb-6 leading-[1.2] relative z-10">
-                {data.title}
-              </h1>
-            )}
-            
-            <p className={cn("text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-12 relative z-10", !data.image && "mt-4")}>
+            <p className="text-xl md:text-2xl font-serif text-brand-navy-900 dark:text-slate-200 leading-relaxed mb-12 relative z-10 italic">
               {data.lead}
             </p>
 
-          <JsonLd type="Service" data={{ title: data.title, description: data.lead }} />
-          <JsonLd type="FAQPage" data={SERVICE_FAQS[resolvedParams.slug] || []} />
+            <JsonLd type="Service" data={{ title: data.title, description: data.lead }} />
+            <JsonLd type="FAQPage" data={SERVICE_FAQS[resolvedParams.slug] || []} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 mb-20">
-            <div>
-              <h3 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-5 flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-brand-blue-600" /> What's Included
-              </h3>
-              <ul className="space-y-4">
-                {data.included.map((item: string, i: number) => (
-                  <li key={i} className="flex items-start gap-3 text-brand-navy-900 dark:text-white font-medium">
-                    <span className="w-2 h-2 rounded-full bg-brand-blue-600 mt-2 shrink-0"></span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="space-y-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 mb-12">
               <div>
-                <h3 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-brand-blue-600" /> Who This Is For
+                <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-6 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-brand-blue-600" /> What's Included
                 </h3>
-                <p className="text-brand-navy-900 dark:text-slate-300 leading-relaxed">
-                  {data.whoFor}
-                </p>
+                <ul className="space-y-4">
+                  {data.included.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-3 text-brand-navy-900 dark:text-white font-bold text-sm">
+                      <ChevronRight className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <div>
-                <h3 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4 flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-success" /> Our Approach
-                </h3>
-                <p className="text-brand-navy-900 dark:text-slate-300 leading-relaxed">
-                  {data.approach}
-                </p>
-              </div>
-            </div>
-          </div>
 
-          {/* Procurement FAQ Section for AEO */}
-          {SERVICE_FAQS[resolvedParams.slug] && (
-            <div className="mt-20 pt-20 border-t border-gray-100 dark:border-white/5 relative z-10">
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-10 h-10 rounded-xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600">
-                  <HelpCircle className="w-6 h-6" />
+              <div className="space-y-12">
+                <div>
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-4 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-brand-blue-600" /> Reach & Eligibility
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-bold text-sm">
+                    {data.whoFor}
+                  </p>
                 </div>
-                <h2 className="text-2xl font-black text-brand-navy-900 dark:text-white uppercase tracking-tight">Procurement FAQ</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {SERVICE_FAQS[resolvedParams.slug].map((faq, i) => (
-                  <div key={i} className="space-y-4 group">
-                    <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors leading-tight">
-                      {faq.question}
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
-                      {faq.answer}
-                    </p>
-                  </div>
-                ))}
+                
+                <div>
+                  <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-4 flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-success" /> Direct Oversight
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-bold text-sm">
+                    {data.approach}
+                  </p>
+                </div>
               </div>
             </div>
-          )}
-        </div>
-      </motion.div>
+
+            {/* Procurement FAQ Section */}
+            {SERVICE_FAQS[resolvedParams.slug] && (
+              <div className="mt-20 pt-16 border-t border-gray-100 dark:border-white/5 relative z-10">
+                <div className="flex items-center gap-3 mb-10">
+                  <div className="w-10 h-10 rounded-xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600">
+                    <HelpCircle className="w-5 h-5" />
+                  </div>
+                  <h2 className="text-xl font-bold text-brand-navy-900 dark:text-white uppercase tracking-tight">Compliance & Procurement FAQ</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                  {SERVICE_FAQS[resolvedParams.slug].map((faq, i) => (
+                    <div key={i} className="space-y-3 group">
+                      <h3 className="text-base font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors leading-tight">
+                        {faq.question}
+                      </h3>
+                      <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-[13px] font-medium">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.div>
 
         {data.isPremium ? (
           <div className="max-w-2xl mx-auto space-y-12">
@@ -300,8 +326,8 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
           </div>
         ) : (
           <div className="text-center">
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
-              Request a Proposal for this Service
+            <Link href="/contact" className="inline-flex items-center gap-3 bg-brand-blue-600 hover:bg-blue-500 text-white px-12 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
+              Request a Proposal <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         )}

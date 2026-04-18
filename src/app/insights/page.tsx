@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Clock } from "lucide-react";
+import { ArrowRight, BookOpen, Clock, Lightbulb } from "lucide-react";
 
 export const insights = [
   {
@@ -33,42 +33,74 @@ export const insights = [
 
 export default function InsightsBlog() {
   return (
-    <div className="flex flex-col min-h-screen pt-32 pb-24 bg-white dark:bg-black/20">
-      <div className="max-w-5xl mx-auto px-4 w-full">
-        
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-6">
-            Insights & <span className="text-brand-blue-600">Guidance</span>
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Actionable intelligence for procurement officers, facility directors, and prime contractors navigating the California public works sector.
-          </p>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-black/20">
+      
+      {/* Premium Dark Navy Hero - HARMONIZED */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
-        <div className="grid grid-cols-1 gap-8 mb-16">
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+          >
+            <Lightbulb className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Thought Leadership Desk</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight mb-8 leading-[1.1]"
+          >
+            Insights & <br className="hidden md:block"/>
+            <span className="italic text-brand-blue-600">Strategic Guidance.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
+          >
+            Actionable intelligence for procurement officers, facility directors, and prime contractors navigating the California public works sector.
+          </motion.p>
+        </div>
+      </section>
+
+      <div className="max-w-5xl mx-auto px-6 py-24 w-full">
+        <div className="grid grid-cols-1 gap-8 mb-24">
           {insights.map((post, i) => (
             <motion.div 
               key={post.slug}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <Link href={`/insights/${post.slug}`} className="group flex flex-col md:flex-row gap-8 bg-background-light dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-3xl p-6 md:p-8 hover:shadow-xl transition-all duration-300">
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-500">
-                    <span className="text-brand-blue-600 bg-brand-blue-600/10 px-3 py-1 rounded-full">{post.category}</span>
-                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
+              <Link href={`/insights/${post.slug}`} className="group flex flex-col md:flex-row gap-8 bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2rem] p-8 md:p-10 hover:shadow-2xl transition-all duration-300">
+                <div className="flex-1 space-y-6">
+                  <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+                    <span className="text-brand-blue-600 bg-brand-blue-600/10 px-4 py-1.5 rounded-full">{post.category}</span>
+                    <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime}</span>
                   </div>
                   
-                  <h2 className="text-2xl md:text-3xl font-black text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">
+                  <h2 className="text-2xl md:text-3xl font-serif text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors italic leading-tight">
                     {post.title}
                   </h2>
                   
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg font-medium">
                     {post.excerpt}
                   </p>
                   
-                  <div className="pt-2 flex items-center gap-2 text-sm font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors uppercase tracking-widest">
+                  <div className="pt-2 flex items-center gap-2 text-xs font-black text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors uppercase tracking-widest">
                     Read Article <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
@@ -78,21 +110,30 @@ export default function InsightsBlog() {
         </div>
 
         {/* Newsletter / RSS Callout */}
-        <div className="bg-brand-blue-600 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden">
-          <BookOpen className="absolute -right-10 -bottom-10 w-64 h-64 text-white/10" />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="bg-brand-navy-900 rounded-[3rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl"
+        >
+          <BookOpen className="absolute -right-12 -bottom-12 w-80 h-80 text-white/5" />
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-black mb-4">Stay Current with Compliance</h3>
-            <p className="text-white/80 mb-6">
+            <h3 className="text-3xl font-serif mb-6 italic">Stay Current with Compliance</h3>
+            <p className="text-slate-300 mb-10 text-lg leading-relaxed">
               Receive quarterly updates on state contracting requirements, prevailing wage modifications, and DVBE sub-participation opportunities.
             </p>
-            <div className="flex gap-2">
-              <input type="email" placeholder="Enter your .gov or business email" className="w-full bg-black/20 border border-white/20 rounded-xl px-4 py-3 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white" />
-              <button className="bg-white text-brand-blue-600 font-bold px-6 rounded-xl hover:bg-slate-100 transition-colors whitespace-nowrap">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input 
+                type="email" 
+                placeholder="Business email address" 
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-blue-600 transition-all font-medium" 
+              />
+              <button className="bg-brand-blue-600 text-white font-black text-xs uppercase tracking-widest px-10 py-4 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 whitespace-nowrap">
                 Subscribe
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </div>
