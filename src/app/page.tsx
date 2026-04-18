@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle } from "lucide-react";
+import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FADE_UP: Variants = {
@@ -16,6 +16,14 @@ const STAGGER: Variants = {
 };
 
 export default function Home() {
+  const steps = [
+    { num: "01", title: "Build Your Profile", desc: "Add NAICS codes, certifications, and service regions. Takes 2 minutes.", icon: ClipboardCheck },
+    { num: "02", title: "AI Scans Portals", desc: "Our engine monitors 30+ CA procurement systems 24/7 for you.", icon: Search },
+    { num: "03", title: "Score & Rank", desc: "Every bid gets a fit score and win-probability signal instantly.", icon: LineChart },
+    { num: "04", title: "Strategic Support", desc: "Expert analysis of RFPs to find hidden landmines and pricing traps.", icon: Zap },
+    { num: "05", title: "Compliance Secure", desc: "End-to-end filing for DIR, prevailing wage, and final submission.", icon: ShieldCheck }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
       
@@ -159,6 +167,34 @@ export default function Home() {
             <Link href="/bid-management" className="inline-flex items-center gap-3 bg-white text-brand-navy-900 px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-blue-600 hover:text-white transition-all shadow-xl hover:-translate-y-1">
               Start Your Successful Bid <ArrowRight className="w-5 h-5" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* THE WORKFLOW - ADDED PER REQUEST */}
+      <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
+            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Start Bidding in <span className="italic text-brand-blue-600">5 Simple Steps</span></h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {steps.map((step, i) => (
+              <div key={i} className="relative">
+                <div className="flex flex-col items-center text-center group">
+                  <div className="w-16 h-16 rounded-2xl bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 shadow-xl flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 group-hover:border-brand-blue-600 transition-all">
+                    <step.icon className="w-7 h-7" />
+                  </div>
+                  <div className="absolute top-8 left-1/2 w-full h-[2px] bg-slate-200 dark:bg-white/5 -z-0 hidden md:block last:hidden" />
+                  <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-widest mb-2">{step.num}</span>
+                  <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-none h-[2em]">{step.title}</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
