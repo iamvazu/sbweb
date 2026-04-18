@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
  * Gets the current Supabase session user (server-side).
  */
 export async function getUser() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
   if (error || !user) return null
   return user
@@ -18,7 +18,7 @@ export async function getUserProfile() {
   const user = await getUser()
   if (!user) return null
 
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: profile, error } = await supabase
     .from('users')
     .select('*')

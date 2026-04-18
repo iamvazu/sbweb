@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { isPast } from "date-fns";
@@ -40,6 +41,7 @@ import {
   ShieldCheck, 
   Trash2, 
   ChevronLeft,
+  ChevronRight,
   Loader2,
   FileSearch,
   CheckCircle,
@@ -305,18 +307,24 @@ export default function BidDetailPage() {
             <CardContent className="p-6 space-y-6">
               <div className="space-y-3">
                 {match.pipeline_stage === 'new_match' && (
-                  <Button fullWidth onClick={() => updateStage('reviewing')} className="bg-[#1E6FD9]">Move to Reviewing</Button>
+                  <Button onClick={() => updateStage('reviewing')} className="w-full bg-[#1E6FD9] hover:bg-blue-700 h-11 text-base font-bold">
+                    Move to Reviewing →
+                  </Button>
                 )}
                 {match.pipeline_stage === 'reviewing' && (
-                  <Button fullWidth onClick={() => updateStage('pursuing')} className="bg-[#7C3AED]">Move to Pursuing</Button>
+                  <Button onClick={() => updateStage('pursuing')} className="w-full bg-[#7C3AED] hover:bg-violet-700 h-11 text-base font-bold">
+                    Mark as Pursuing →
+                  </Button>
                 )}
                 {match.pipeline_stage === 'pursuing' && (
                   <div className="space-y-3">
-                    <Button fullWidth onClick={() => updateStage('submitted')} className="bg-[#0D9488]">Mark as Submitted</Button>
+                    <Button onClick={() => updateStage('submitted')} className="w-full bg-[#0D9488] hover:bg-teal-700 h-11 text-base font-bold">
+                      Mark as Submitted →
+                    </Button>
                     <div className="p-4 bg-gradient-to-br from-[#1E6FD9] to-[#0B1F3A] rounded-xl text-white space-y-3 mt-4">
                       <p className="text-sm font-bold">Ready to submit?</p>
                       <p className="text-[11px] text-blue-100/70 leading-relaxed italic">Let StrongerBuilt handle the analysis, compliance, site walks, and filing for you.</p>
-                      <Button asChild fullWidth variant="secondary" className="bg-white text-blue-900 border-none hover:bg-slate-100 font-bold">
+                      <Button asChild variant="secondary" className="w-full bg-white text-blue-900 border-none hover:bg-slate-100 font-bold">
                         <Link href={`/portal/hire?bid=${bid.id}`}>Hire StrongerBuilt →</Link>
                       </Button>
                     </div>
@@ -324,13 +332,13 @@ export default function BidDetailPage() {
                 )}
                 {match.pipeline_stage === 'submitted' && (
                   <div className="grid grid-cols-2 gap-2">
-                    <Button fullWidth onClick={() => updateStage('won')} className="bg-[#16A34A]">Won ✓</Button>
-                    <Button fullWidth onClick={() => updateStage('lost')} variant="outline" className="border-red-200 text-red-600">Lost ×</Button>
+                    <Button onClick={() => updateStage('won')} className="w-full bg-[#16A34A] hover:bg-green-700 h-11 text-base font-bold">Won ✓</Button>
+                    <Button onClick={() => updateStage('lost')} variant="outline" className="w-full border-red-200 text-red-600 h-11 text-base font-bold">Lost ×</Button>
                   </div>
                 )}
                 
                 {match.pipeline_stage !== 'passed' && (
-                  <Button fullWidth variant="ghost" onClick={() => updateStage('passed')} className="text-slate-400 hover:text-red-500 hover:bg-red-50">
+                  <Button variant="ghost" onClick={() => updateStage('passed')} className="w-full text-slate-400 hover:text-red-500 hover:bg-red-50">
                     <Trash2 className="h-4 w-4 mr-2" /> Pass on this bid
                   </Button>
                 )}
@@ -349,7 +357,7 @@ export default function BidDetailPage() {
                   <span className="text-slate-400 font-medium">Matched At</span>
                   <span className="text-slate-700">{new Date(match.matched_at).toLocaleDateString()}</span>
                 </div>
-                <Button asChild variant="outline" fullWidth className="h-10 border-slate-200 mt-4 rounded-xl">
+                <Button asChild variant="outline" className="w-full h-10 border-slate-200 mt-4 rounded-xl">
                   <a href={bid.portal_link} target="_blank" rel="noopener noreferrer">
                     Open on Portal <ExternalLink className="h-3.5 w-3.5 ml-2" />
                   </a>

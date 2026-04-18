@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { 
   Card, 
@@ -23,11 +24,9 @@ import {
   PhoneCall,
   ArrowRight
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
-export default function HireServicePage() {
+function HireContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const bidId = searchParams.get("bid");
@@ -223,5 +222,13 @@ export default function HireServicePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HireServicePage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-[400px]"><Loader2 className="h-8 w-8 animate-spin text-blue-600" /></div>}>
+      <HireContent />
+    </Suspense>
   );
 }

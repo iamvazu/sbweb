@@ -1,14 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
-import { createClient } from '@/lib/supabase/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Update session for all requests
-  const response = await updateSession(request)
+  const { response, user } = await updateSession(request)
   
-  const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
   const url = new URL(request.url)
   const isPortalRoute = url.pathname.startsWith('/portal')
   const isLoginRoute = url.pathname === '/login'

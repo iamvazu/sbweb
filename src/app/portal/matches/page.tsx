@@ -65,7 +65,7 @@ export default function MatchesPage() {
         
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-2">Sort by</span>
-          <Select value={sortBy} onValueChange={setSortBy}>
+          <Select value={sortBy} onValueChange={(v) => setSortBy(v || "fit_score")}>
             <SelectTrigger className="w-[180px] h-10 border-slate-200">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>

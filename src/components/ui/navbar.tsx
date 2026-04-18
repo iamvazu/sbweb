@@ -101,50 +101,58 @@ export function Navbar() {
               ))}
 
               {/* Services Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => setActiveDropdown("services")}
-                onMouseLeave={() => setActiveDropdown(null)}
+              <DropdownMenu 
+                open={activeDropdown === "services"} 
+                onOpenChange={(open) => !open && setActiveDropdown(null)}
               >
-                <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
-                  Services <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  isOpen={activeDropdown === "services"} 
-                  className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown("services")}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  {services.map((item) => (
-                    <DropdownMenuItem key={item.name}>
-                      <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
-                        {item.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </div>
+                  <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
+                    Services <ChevronDown className="w-3 h-3" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                  >
+                    {services.map((item) => (
+                      <DropdownMenuItem key={item.name}>
+                        <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
+                          {item.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </div>
+              </DropdownMenu>
 
               {/* Company Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => setActiveDropdown("company")}
-                onMouseLeave={() => setActiveDropdown(null)}
+              <DropdownMenu 
+                open={activeDropdown === "company"}
+                onOpenChange={(open) => !open && setActiveDropdown(null)}
               >
-                <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
-                  Company <ChevronDown className="w-3 h-3" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  isOpen={activeDropdown === "company"}
-                  className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown("company")}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  {companyLinks.map((item) => (
-                    <DropdownMenuItem key={item.name}>
-                      <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
-                        {item.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </div>
+                  <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
+                    Company <ChevronDown className="w-3 h-3" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
+                  >
+                    {companyLinks.map((item) => (
+                      <DropdownMenuItem key={item.name}>
+                        <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
+                          {item.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </div>
+              </DropdownMenu>
             </nav>
 
             <div className="hidden md:flex items-center gap-4 ml-4">

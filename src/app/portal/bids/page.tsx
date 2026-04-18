@@ -95,7 +95,7 @@ export default function BidsBrowsePage() {
             />
           </div>
           
-          <Select value={sourceFilter} onValueChange={setSourceFilter}>
+          <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v || "all")}>
             <SelectTrigger className="h-10 border-slate-200">
               <SelectValue placeholder="Source Portal" />
             </SelectTrigger>
@@ -107,7 +107,7 @@ export default function BidsBrowsePage() {
             </SelectContent>
           </Select>
 
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v || "all")}>
             <SelectTrigger className="h-10 border-slate-200">
               <SelectValue placeholder="Go/No-Go Status" />
             </SelectTrigger>

@@ -1,4 +1,5 @@
 import { ShieldCheck, Award, MapPin, Phone, Mail, LayoutDashboard, LogIn } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
