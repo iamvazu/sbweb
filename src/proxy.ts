@@ -2,8 +2,17 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function proxy(request: NextRequest) {
-  // Update session for all requests
-  const { response, user } = await updateSession(request)
+  let response = NextResponse.next();
+  let user = null;
+
+  try {
+    // Update session for all requests
+    const sessionData = await updateSession(request);
+    response = sessionData.response;
+    user = sessionData.user;
+  } catch (error) {
+    console.error('Proxy session update error:', error);
+  }
   
   const url = new URL(request.url)
   const isPortalRoute = url.pathname.startsWith('/portal')
