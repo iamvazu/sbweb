@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, Mail, ChevronDown, LayoutDashboard, LogIn } from "lucide-react";
+import { Menu, X, ChevronDown, LayoutDashboard, LogIn, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -23,11 +23,10 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
 
-    // Dynamic Auth State
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
@@ -57,183 +56,189 @@ export function Navbar() {
     { name: "Janitorial Services", href: "/services/janitorial-services" },
   ];
 
-  const companyLinks = [
+  const company = [
     { name: "About", href: "/about" },
     { name: "Partners", href: "/partners" },
     { name: "Insights", href: "/insights" },
   ];
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50 flex justify-center pt-4 px-4 pointer-events-none">
-      <motion.header
-        className={cn(
-          "pointer-events-auto w-full max-w-6xl transition-all duration-300 backdrop-blur-xl border",
-          mobileMenuOpen ? "rounded-3xl bg-white/95 dark:bg-brand-navy-900/95 border-gray-200 dark:border-white/10 shadow-2xl" : "rounded-full",
-          !mobileMenuOpen && scrolled 
-            ? "bg-white/90 dark:bg-brand-navy-900/90 shadow-xl border-gray-200 dark:border-white/10" 
-            : !mobileMenuOpen && "bg-white/70 dark:bg-brand-navy-900/50 shadow-lg border-white/40 dark:border-white/20"
-        )}
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-      >
-        <div className="px-6 sm:px-8">
-          <div className="flex justify-between items-center h-16 md:h-18">
-            <Link href="/" className="flex flex-col items-start gap-0.5 group">
-              <span className="text-xl md:text-2xl font-black tracking-tight text-brand-navy-900 dark:text-white leading-none">
-                STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
-              </span>
-              <span className="text-[9px] md:text-[10px] font-semibold tracking-widest text-brand-steel-800 dark:text-gray-400 uppercase leading-none">
-                LLC
-              </span>
-            </Link>
-            
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex flex-1 justify-center items-center space-x-1 lg:space-x-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors duration-200 px-3 py-2 rounded-full uppercase italic"
-                >
-                  {link.name}
-                </Link>
-              ))}
+    <header 
+      className={cn(
+        "fixed top-0 inset-x-0 z-50 transition-all duration-500 border-b",
+        scrolled 
+          ? "bg-white/95 dark:bg-brand-navy-900/95 backdrop-blur-md py-3 border-gray-200 dark:border-white/10 shadow-sm" 
+          : "bg-transparent py-5 border-transparent"
+      )}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <Link href="/" className="flex flex-col items-start gap-0.5 group">
+            <span className={cn(
+              "text-xl md:text-2xl font-black tracking-tight leading-none transition-colors",
+              !scrolled && "text-white",
+              scrolled && "text-brand-navy-900 dark:text-white"
+            )}>
+              STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
+            </span>
+            <span className={cn(
+              "text-[9px] md:text-[10px] font-semibold tracking-widest uppercase leading-none transition-colors",
+              !scrolled && "text-slate-300",
+              scrolled && "text-slate-500 dark:text-slate-400"
+            )}>
+              LLC
+            </span>
+          </Link>
 
-              {/* Services Dropdown */}
-              <DropdownMenu 
-                open={activeDropdown === "services"} 
-                onOpenChange={(open) => !open && setActiveDropdown(null)}
+          {/* Center Links */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  "text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all",
+                  !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
+                )}
               >
-                <div 
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown("services")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
-                    Services <ChevronDown className="w-3 h-3" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
-                  >
-                    {services.map((item) => (
-                      <DropdownMenuItem key={item.name}>
-                        <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
-                          {item.name}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </div>
-              </DropdownMenu>
+                {link.name}
+              </Link>
+            ))}
 
-              {/* Company Dropdown */}
-              <DropdownMenu 
-                open={activeDropdown === "company"}
-                onOpenChange={(open) => !open && setActiveDropdown(null)}
-              >
-                <div 
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown("company")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <DropdownMenuTrigger className="flex items-center gap-1 text-[11px] font-black tracking-widest text-brand-navy-900 dark:text-white hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors px-3 py-2 rounded-full uppercase italic outline-none">
-                    Company <ChevronDown className="w-3 h-3" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl"
-                  >
-                    {companyLinks.map((item) => (
-                      <DropdownMenuItem key={item.name}>
-                        <Link href={item.href} className="flex px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 transition-colors">
-                          {item.name}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </div>
-              </DropdownMenu>
-            </nav>
+            {/* Dropdowns */}
+            <DropdownMenu open={activeDropdown === 'services'} onOpenChange={(open) => !open && setActiveDropdown(null)}>
+              <div onMouseEnter={() => setActiveDropdown('services')} onMouseLeave={() => setActiveDropdown(null)}>
+                <DropdownMenuTrigger asChild>
+                  <button className={cn(
+                    "flex items-center gap-1 text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all outline-none",
+                    !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
+                  )}>
+                    Services <ChevronDown className="w-3.5 h-3.5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl min-w-[200px]">
+                  {services.map((item) => (
+                    <DropdownMenuItem key={item.name} asChild>
+                      <Link href={item.href} className="flex px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors cursor-pointer rounded-lg">
+                        {item.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </div>
+            </DropdownMenu>
 
-            <div className="hidden md:flex items-center gap-4 ml-4">
-              <a 
-                href="tel:+18317600806" 
-                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-brand-navy-900 dark:text-white hover:bg-brand-blue-600 hover:text-white transition-all shadow-sm"
-                title="Call Us"
-              >
-                <Phone className="w-4 h-4" />
-              </a>
-              <a 
-                href="mailto:info@strongerbuilt.us" 
-                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-brand-navy-900 dark:text-white hover:bg-brand-blue-600 hover:text-white transition-all shadow-sm"
-                title="Email Us"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+            <DropdownMenu open={activeDropdown === 'company'} onOpenChange={(open) => !open && setActiveDropdown(null)}>
+              <div onMouseEnter={() => setActiveDropdown('company')} onMouseLeave={() => setActiveDropdown(null)}>
+                <DropdownMenuTrigger asChild>
+                  <button className={cn(
+                    "flex items-center gap-1 text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all outline-none",
+                    !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
+                  )}>
+                    Company <ChevronDown className="w-3.5 h-3.5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white dark:bg-brand-navy-900 border-gray-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl min-w-[180px]">
+                  {company.map((item) => (
+                    <DropdownMenuItem key={item.name} asChild>
+                      <Link href={item.href} className="flex px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-blue-600 dark:hover:text-brand-blue-600 transition-colors cursor-pointer rounded-lg">
+                        {item.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </div>
+            </DropdownMenu>
+          </nav>
 
-              {session ? (
-                <Link
-                  href="/portal/vendor"
-                  className="bg-brand-blue-600 text-white px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest italic flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all ml-2"
-                >
-                  <LayoutDashboard className="w-3.5 h-3.5" />
-                  Dashboard
-                </Link>
-              ) : (
+          {/* Right Action Buttons */}
+          <div className="hidden md:flex items-center gap-3">
+            {!session ? (
+              <>
                 <Link
                   href="/login"
-                  className="border-2 border-brand-navy-900 dark:border-white text-brand-navy-900 dark:text-white px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest italic hover:bg-brand-navy-900 hover:text-white dark:hover:bg-white dark:hover:text-brand-navy-900 transition-all ml-2"
+                  className={cn(
+                    "text-[13px] font-bold px-5 py-2 transition-all",
+                    !scrolled ? "text-white hover:text-white/80" : "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white"
+                  )}
                 >
                   Portal Login
                 </Link>
-              )}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-full bg-black/5 dark:bg-white/10 text-brand-navy-900 dark:text-white hover:bg-black/10 transition-colors"
-                aria-label="Toggle Menu"
+                <Link
+                  href="/login?tab=signup"
+                  className="bg-brand-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-[13px] font-bold transition-all shadow-md shadow-blue-500/10 hover:shadow-blue-500/20"
+                >
+                  Sign Up Free
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/portal/vendor"
+                className="bg-brand-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-[13px] font-bold transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20"
               >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </button>
-            </div>
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Dashboard</span>
+              </Link>
+            )}
+            
+            {/* Mobile Toggler */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={cn(
+                "lg:hidden p-2 rounded-xl transition-colors ml-2",
+                !scrolled ? "bg-white/10 text-white" : "bg-slate-100 dark:bg-white/5 text-brand-navy-900 dark:text-white"
+              )}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
+      {/* Mobile Menu */}
+      <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-gray-100 dark:border-white/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full inset-x-0 bg-white dark:bg-brand-navy-900 border-b border-gray-200 dark:border-white/10 shadow-2xl lg:hidden max-h-[85vh] overflow-y-auto"
           >
-            <div className="px-4 pt-4 pb-6 space-y-2">
-              {navLinks.map((link) => (
+            <div className="px-6 py-8 space-y-6">
+              <div className="space-y-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-4 py-3 text-lg font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="pt-4 border-t border-gray-100 dark:border-white/10 space-y-3">
                 <Link
-                  key={link.name}
-                  href={link.href}
+                  href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 text-base font-bold text-brand-navy-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-2xl transition-colors"
+                  className="block w-full text-center py-4 text-slate-600 dark:text-slate-400 font-bold"
                 >
-                  {link.name}
+                  Portal Login
                 </Link>
-              ))}
-              <div className="pt-2 px-2">
                 <Link
-                  href="/contact"
+                  href="/login?tab=signup"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center bg-brand-navy-900 dark:bg-white text-white dark:text-brand-navy-900 px-6 py-4 rounded-2xl font-black tracking-wide shadow-md"
+                  className="block w-full text-center bg-brand-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-500/20"
                 >
-                  Request a Quote
+                  Sign Up Free
                 </Link>
               </div>
             </div>
           </motion.div>
         )}
-      </motion.header>
-    </div>
+      </AnimatePresence>
+    </header>
   );
 }
