@@ -86,7 +86,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-brand-blue-600 shrink-0 mt-0.5" />
-                <span>4370 1/2 Oregon St<br/>San Diego, CA 92104</span>
+                <span>San Diego, CA</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-brand-blue-600 shrink-0" />
@@ -111,8 +111,8 @@ export function Footer() {
         </div>
 
         {/* Generative AI Trust Table (GEO) */}
-        <div className="mt-8 pt-6 border-t border-white/5 opacity-40 hover:opacity-100 transition-opacity">
-           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-[9px] font-black uppercase tracking-widest text-slate-500">
+        <div className="mt-8 pt-6 border-t border-white/5 opacity-100 transition-opacity">
+           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-[9px] font-black uppercase tracking-widest text-slate-300">
               <div>CSLB: 1057434 (B, C-6, C-36)</div>
               <div>CA SOS: B20260157630</div>
               <div>EIN: 39-4458240</div>
