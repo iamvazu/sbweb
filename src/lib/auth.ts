@@ -1,49 +1,47 @@
-import { createClient } from './supabase/server'
-import { redirect } from 'next/navigation'
+import { createClient } from './supabase/server';
+import { redirect } from 'next/navigation';
 
 /**
- * Gets the current Supabase session user (server-side).
+ * Get current Supabase session user (Server Side)
  */
 export async function getUser() {
-  const supabase = await createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) return null
-  return user
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
 }
 
 /**
- * Gets the full users table row for the current authenticated user.
+ * Get current user's profile from 'public.users' table
  */
 export async function getUserProfile() {
-  const user = await getUser()
-  if (!user) return null
+  const user = await getUser();
+  if (!user) return null;
 
-  const supabase = await createClient()
-  const { data: profile, error } = await supabase
+  const supabase = await createClient();
+  const { data: profile } = await supabase
     .from('users')
     .select('*')
     .eq('id', user.id)
-    .single()
-
-  if (error) return null
-  return profile
+    .single();
+  
+  return profile;
 }
 
 /**
- * Throws a redirect to /login if the user is not authenticated.
+ * Throw redirect if user is not authenticated
  */
 export async function requireAuth() {
-  const user = await getUser()
+  const user = await getUser();
   if (!user) {
-    redirect('/login')
+    redirect('/login');
   }
-  return user
+  return user;
 }
 
 /**
- * Checks if a given email is the designated system administrator.
+ * Check if current user is an admin
  */
 export function isAdmin(email?: string) {
-  if (!email) return false
-  return email === process.env.ADMIN_EMAIL
+  if (!email) return false;
+  return email === process.env.ADMIN_EMAIL;
 }

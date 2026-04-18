@@ -8,14 +8,6 @@ export async function updateSession(request: NextRequest) {
     },
   })
 
-  // Safety: If keys are missing or placeholders, skip Supabase calls to avoid 500ing the whole site.
-  const isPlaceholder = !process.env.NEXT_PUBLIC_SUPABASE_URL || 
-                        process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder');
-
-  if (isPlaceholder) {
-    return { response, user: null };
-  }
-
   try {
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,

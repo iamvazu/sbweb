@@ -277,20 +277,33 @@ export function Navbar() {
               </div>
               
               <div className="pt-4 border-t border-gray-100 dark:border-white/10 space-y-3">
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center py-4 text-slate-600 dark:text-slate-400 font-bold"
-                >
-                  Portal Login
-                </Link>
-                <Link
-                  href="/login?tab=signup"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center bg-brand-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-500/20"
-                >
-                  Sign Up Free
-                </Link>
+                {!session ? (
+                  <>
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full text-center py-4 text-slate-600 dark:text-slate-400 font-bold"
+                    >
+                      Portal Login
+                    </Link>
+                    <Link
+                      href="/login?tab=signup"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block w-full text-center bg-brand-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-500/20"
+                    >
+                      Sign Up Free
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    href="/portal/vendor"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block w-full text-center bg-brand-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    Dashboard
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>

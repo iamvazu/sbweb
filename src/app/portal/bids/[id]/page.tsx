@@ -2,74 +2,51 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { cn } from "@/lib/utils";
-import { isPast } from "date-fns";
 import { 
-  FitScoreBadge, 
-  ComplianceFlags 
-} from "@/components/portal/bid-ui";
-import { 
-  Tabs, 
-  TabsContent, 
-  TabsList, 
-  TabsTrigger 
-} from "@/components/ui/tabs";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription 
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { 
-  Building, 
+  ArrowLeft, 
   Calendar, 
-  CheckCircle2, 
   Clock, 
-  Download, 
-  ExternalLink, 
-  FileText, 
-  Info, 
-  Lock, 
-  Mail, 
   MapPin, 
   ShieldCheck, 
-  Trash2, 
-  ChevronLeft,
+  FileText, 
+  ExternalLink, 
+  AlertCircle,
+  Lightbulb,
+  CheckCircle2,
   ChevronRight,
-  Loader2,
-  FileSearch,
-  CheckCircle,
-  XCircle,
-  HelpCircle,
-  DollarSign
+  TrendingUp,
+  Download,
+  Info
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { getStrategyForBid } from "@/lib/data/bid-strategies";
+import { createCheckoutSession } from "@/app/actions/stripe";
+import { updateMatchStage } from "@/app/actions/bids";
 
 export default function BidDetailPage() {
   const { id } = useParams();
   const router = useRouter();
-  const [bid, setBid] = useState<any>(null);
-  const [match, setMatch] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSavingNotes, setIsSavingNotes] = useState(false);
-  const [isUpdatingStage, setIsUpdatingStage] = useState(false);
-  const supabase = createClient();
   const { toast } = useToast();
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const supabase = createClient();
 
   useEffect(() => {
-    async function loadBid() {
-      setIsLoading(true);
+    async function fetchBid() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data: bidData, error } = await supabase
+      const { data: bid, error } = await supabase
         .from("bids")
         .select(`
           *,
@@ -79,337 +56,355 @@ export default function BidDetailPage() {
         .eq("user_bid_matches.user_id", user.id)
         .single();
 
-      if (error || !bidData) {
-        toast({ title: "Bid Not Found", variant: "destructive" });
+      if (error) {
+        toast({ title: "Error", description: "Could not load bid details.", variant: "destructive" });
         router.push("/portal/bids");
-        return;
+      } else {
+        setData(bid);
       }
-
-      setBid(bidData);
-      setMatch(bidData.user_bid_matches[0]);
-      setIsLoading(false);
+      setLoading(false);
     }
-    loadBid();
+    fetchBid();
   }, [id, supabase, router, toast]);
 
-  const updateStage = async (newStage: string) => {
-    setIsUpdatingStage(true);
-    const { error } = await supabase
-      .from("user_bid_matches")
-      .update({ pipeline_stage: newStage, last_updated: new Date().toISOString() })
-      .eq("id", match.id);
-
-    if (!error) {
-      setMatch({ ...match, pipeline_stage: newStage });
-      toast({ title: `Moved to ${newStage.replace('_', ' ')}` });
+  const handleStatusUpdate = async (stage: string) => {
+    setIsUpdating(true);
+    try {
+      await updateMatchStage(match.id, stage);
+      toast({ title: "Updated", description: `Bid moved to ${stage.replace('_', ' ')}.` });
+      // Minor hack to update local state without full refetch
+      setData({ ...data, user_bid_matches: [{ ...match, pipeline_stage: stage }] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     }
-    setIsUpdatingStage(false);
+    setIsUpdating(false);
   };
 
-  const saveNotes = async (v: string) => {
-    setIsSavingNotes(true);
-    await supabase.from("user_bid_matches").update({ notes: v }).eq("id", match.id);
-    setIsSavingNotes(false);
-  };
+  if (loading) return <BidDetailSkeleton />;
 
-  if (isLoading) {
-    return (
-      <div className="space-y-8 max-w-7xl mx-auto">
-        <Skeleton className="h-4 w-32" />
-        <div className="space-y-4">
-          <Skeleton className="h-10 w-2/3" />
-          <div className="flex gap-2">
-            <Skeleton className="h-6 w-24" />
-            <Skeleton className="h-6 w-24" />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-[400px] w-full" />
-          </div>
-          <Skeleton className="h-[300px] w-full" />
-        </div>
-      </div>
-    );
-  }
-
-  const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : "N/A";
+  const bid = data;
+  const match = data.user_bid_matches[0];
+  const strategy = getStrategyForBid(bid);
+  const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : null;
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-500">
-      {/* Breadcrumb */}
-      <Link href="/portal/bids" className="flex items-center text-sm font-medium text-slate-500 hover:text-[#1E6FD9] transition-colors">
-        <ChevronLeft className="h-4 w-4 mr-1" /> Back to Marketplace
-      </Link>
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Back & Breadcrumb */}
+      <button 
+        onClick={() => router.back()} 
+        className="flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 font-bold text-xs uppercase tracking-widest transition-colors mb-4"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to Results
+      </button>
 
-      {/* Header */}
-      <div className="space-y-4">
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-          <div className="space-y-2 flex-1">
-            <h1 className="text-3xl font-extrabold text-[#0B1F3A] leading-tight">{bid.event_name}</h1>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 font-medium">
-              <span className="flex items-center gap-1.5"><Building className="h-4 w-4" /> {bid.department_name}</span>
-              <span className="flex items-center gap-1.5"><FileSearch className="h-4 w-4" /> ID: {bid.event_id}</span>
-              <Badge className="bg-slate-100 text-slate-600 border-none uppercase text-[10px] tracking-widest">{bid.source}</Badge>
-            </div>
-            <ComplianceFlags bid={bid} />
+      {/* Hero Header */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="bg-white text-slate-500 uppercase font-black text-[9px] h-5 mb-1">
+              {bid.source}
+            </Badge>
+            <Badge className="bg-brand-blue-600/10 text-brand-blue-600 border-brand-blue-600/20 uppercase font-black text-[9px] h-5 mb-1">
+              {bid.status}
+            </Badge>
           </div>
-          
-          <div className="flex flex-shrink-0 gap-4">
-            <div className="text-center p-3 px-6 bg-white border rounded-2xl shadow-sm">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Fit Score</p>
-              <FitScoreBadge score={match.fit_score} />
+          <h1 className="text-3xl font-black text-brand-navy-900 leading-tight">
+            {bid.event_name}
+          </h1>
+          <div className="flex flex-wrap gap-6 text-sm font-medium text-slate-500">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-brand-blue-600" />
+              {bid.department_name}
+            </div>
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-brand-blue-600" />
+              ID: {bid.event_id}
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-brand-blue-600" />
+              Due: {bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'TBD'}
             </div>
           </div>
         </div>
 
-        {/* Highlight Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatBox label="Est. Value" value={bid.estimated_value_min ? `$${(bid.estimated_value_min/1000).toFixed(0)}K – $${(bid.estimated_value_max/1000).toFixed(0)}K` : "TBD"} icon={DollarSign} />
-          <StatBox label="Days Remaining" value={daysLeft.toString()} icon={Clock} color={Number(daysLeft) <= 7 ? "text-red-600" : "text-slate-900"} />
-          <StatBox label="Due Date" value={bid.end_date ? new Date(bid.end_date).toLocaleDateString() : "No Date"} icon={Calendar} />
-          <StatBox label="Buyer Email" value={bid.buyer_email || "Not Listed"} icon={Mail} sub={bid.buyer_name} />
-        </div>
+        <Card className="border-none shadow-xl shadow-brand-blue-600/5 bg-brand-navy-900 text-white overflow-hidden rounded-[2rem]">
+          <CardContent className="p-8 text-center space-y-4 relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-3xl" />
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200/60">AI Correlation Score</p>
+            <div className="relative inline-flex items-center justify-center">
+              <svg className="w-24 h-24 transform -rotate-90">
+                <circle
+                  cx="48" cy="48" r="40"
+                  stroke="currentColor" strokeWidth="8"
+                  fill="transparent"
+                  className="text-blue-200/5"
+                />
+                <circle
+                  cx="48" cy="48" r="40"
+                  stroke="currentColor" strokeWidth="8"
+                  fill="transparent"
+                  strokeDasharray={251.2}
+                  strokeDashoffset={251.2 - (251.2 * match.fit_score) / 100}
+                  className="text-brand-blue-600"
+                />
+              </svg>
+              <span className="absolute text-2xl font-black">{match.fit_score}%</span>
+            </div>
+            <p className="text-xs font-bold text-blue-100/60 max-w-[180px] mx-auto">
+              {match.fit_score > 80 ? "Strategic High-Fit Opportunity" : "Moderate Alignment Opportunity"}
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
+      {/* Main Content & Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column: Details & Intelligence */}
+        
+        {/* Left: Deep Analysis */}
         <div className="lg:col-span-2 space-y-8">
-          <Tabs defaultValue="plan" className="w-full">
-            <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-12 p-0 gap-8">
-              <TabsTrigger value="plan" className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#1E6FD9] data-[state=active]:bg-transparent data-[state=active]:text-[#1E6FD9] px-0 h-full font-bold">BID PLAN</TabsTrigger>
-              <TabsTrigger value="documents" className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#1E6FD9] data-[state=active]:bg-transparent data-[state=active]:text-[#1E6FD9] px-0 h-full font-bold">DOCUMENTS</TabsTrigger>
-              <TabsTrigger value="compliance" className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#1E6FD9] data-[state=active]:bg-transparent data-[state=active]:text-[#1E6FD9] px-0 h-full font-bold">COMPLIANCE</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#1E6FD9] data-[state=active]:bg-transparent data-[state=active]:text-[#1E6FD9] px-0 h-full font-bold">PRIVATE NOTES</TabsTrigger>
+          <Tabs defaultValue="intelligence" className="w-full">
+            <TabsList className="bg-slate-100 p-1 rounded-2xl h-12 w-full max-w-md">
+              <TabsTrigger value="intelligence" className="rounded-xl flex-1 text-xs font-bold uppercase tracking-widest">
+                <Lightbulb className="w-3.5 h-3.5 mr-2" />
+                Intelligence
+              </TabsTrigger>
+              <TabsTrigger value="requirements" className="rounded-xl flex-1 text-xs font-bold uppercase tracking-widest">
+                <ShieldCheck className="w-3.5 h-3.5 mr-2" />
+                Compliance
+              </TabsTrigger>
+              <TabsTrigger value="docs" className="rounded-xl flex-1 text-xs font-bold uppercase tracking-widest">
+                <Download className="w-3.5 h-3.5 mr-2" />
+                Docs
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="plan" className="pt-6">
-              {bid.bid_plan ? (
-                <div className="grid gap-8">
-                  <section className="space-y-3">
-                    <h3 className="text-lg font-bold flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-[#16A34A]" /> Scope of Work</h3>
-                    <p className="text-slate-600 leading-relaxed bg-white p-4 rounded-xl border">{bid.bid_plan.scope_summary}</p>
-                  </section>
-
-                  <section className="space-y-4">
-                    <h3 className="text-lg font-bold">SWOT Analysis</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <SwotBox type="Strengths" items={bid.bid_plan.swot.strengths} color="bg-green-50 text-green-700" ring="ring-green-100" />
-                      <SwotBox type="Weaknesses" items={bid.bid_plan.swot.weaknesses} color="bg-red-50 text-red-700" ring="ring-red-100" />
-                      <SwotBox type="Opportunities" items={bid.bid_plan.swot.opportunities} color="bg-blue-50 text-blue-700" ring="ring-blue-100" />
-                      <SwotBox type="Threats" items={bid.bid_plan.swot.threats} color="bg-amber-50 text-amber-700" ring="ring-amber-100" />
+            <TabsContent value="intelligence" className="mt-8 space-y-8">
+              <Card className="border-none shadow-xl shadow-brand-blue-600/5 overflow-hidden rounded-[2rem]">
+                <CardHeader className="bg-slate-50/50 p-8 border-b">
+                  <div className="flex items-center gap-3">
+                    <TrendingUp className="w-6 h-6 text-brand-blue-600" />
+                    <div>
+                      <CardTitle className="text-xl font-black text-brand-navy-900">{strategy.title}</CardTitle>
+                      <CardDescription className="font-medium">Curated strategic recommendations generated by BidIQ.</CardDescription>
                     </div>
-                  </section>
-
-                  <section className="space-y-4">
-                    <h3 className="text-lg font-bold">Technical Requirements & Strategy</h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <Card className="border-slate-100 shadow-sm">
-                        <CardHeader className="pb-2"><CardTitle className="text-sm font-bold uppercase tracking-wider text-slate-400">Technical requirements</CardTitle></CardHeader>
-                        <CardContent><ul className="space-y-2">{bid.bid_plan.technical_requirements.map((r: string, i: number) => <li key={i} className="text-sm text-slate-700 flex gap-2"><div className="h-1.5 w-1.5 rounded-full bg-slate-300 mt-1.5 shrink-0" /> {r}</li>)}</ul></CardContent>
-                      </Card>
-                      <Card className="border-slate-100 shadow-sm bg-blue-50/30">
-                        <CardHeader className="pb-2"><CardTitle className="text-sm font-bold uppercase tracking-wider text-blue-400">Recommended approach</CardTitle></CardHeader>
-                        <CardContent><p className="text-sm text-slate-700 italic">"{bid.bid_plan.recommended_approach}"</p></CardContent>
-                      </Card>
-                    </div>
-                  </section>
-                </div>
-              ) : (
-                <div className="text-center py-20 bg-slate-50 rounded-xl border-dashed border-2">
-                  <div className="max-w-xs mx-auto space-y-2">
-                    <Loader2 className="h-10 w-10 text-slate-300 animate-spin mx-auto" />
-                    <h3 className="text-lg font-bold text-slate-800 pt-4">AI Analysis Pending</h3>
-                    <p className="text-sm text-slate-500">Our strategic analysts are processing this solicitations documents. Check back after 3:00 PM today.</p>
                   </div>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="documents" className="pt-6">
-              <div className="space-y-4">
-                {bid.pdf_urls && bid.pdf_urls.length > 0 ? (
-                  bid.pdf_urls.map((url: string, i: number) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-white border rounded-xl hover:shadow-md transition-shadow">
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center"><FileText className="h-5 w-5" /></div>
-                        <div>
-                          <p className="font-bold text-slate-900 truncate max-w-[200px] md:max-w-md">Solicitation Document #{i+1}</p>
-                          <p className="text-xs text-slate-400 uppercase font-black tracking-widest">PDF Document</p>
+                </CardHeader>
+                <CardContent className="p-8">
+                  <div className="space-y-6">
+                    {strategy.strategic_plan.map((step: string, i: number) => (
+                      <div key={i} className="flex gap-4">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-blue-600/10 text-brand-blue-600 flex items-center justify-center font-black text-xs">
+                          {i + 1}
                         </div>
+                        <p className="text-slate-600 font-medium leading-relaxed">{step}</p>
                       </div>
-                      <Button asChild variant="ghost" size="sm" className="text-[#1E6FD9]">
-                        <a href={url} target="_blank" rel="noopener noreferrer"><Download className="h-4 w-4 mr-2" /> Download</a>
-                      </Button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-none shadow-sm bg-success/5 border-success/10 rounded-2xl">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-black flex items-center gap-2 text-success uppercase tracking-widest">
+                      <CheckCircle2 className="w-4 h-4" /> Strong Fit Indicators
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    {strategy.fit_score_modifiers.map((m: string) => (
+                      <div key={m} className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                        <ChevronRight className="w-3 h-3 text-success" /> {m}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+                <Card className="border-none shadow-sm bg-warning/5 border-warning/10 rounded-2xl">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-black flex items-center gap-2 text-warning uppercase tracking-widest">
+                      <AlertCircle className="w-4 h-4" /> Potential Risks
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                      <ChevronRight className="w-3 h-3 text-warning" /> Short Turnaround Time
                     </div>
-                  ))
-                ) : (
-                  <p className="text-center py-12 text-slate-400 font-medium italic">No downloadable documents found for this bid.</p>
-                )}
+                    <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                      <ChevronRight className="w-3 h-3 text-warning" /> High DBE Participation Goal
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </TabsContent>
 
-            <TabsContent value="compliance" className="pt-6">
-              <Card className="border overflow-hidden">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="bg-slate-50 border-b text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      <th className="px-6 py-4">Requirement</th>
-                      <th className="px-6 py-4">Status</th>
-                      <th className="px-6 py-4">Value / Links</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y">
-                    <ComplianceRow label="Mandatory Pre-Bid" 
-                      status={bid.prebid_type === 'M' ? (isPast(new Date(bid.prebid_date)) ? 'disqualified' : 'warning') : 'success'} 
-                      value={bid.prebid_type === 'M' ? new Date(bid.prebid_date).toLocaleString() : (bid.prebid_type === 'NM' ? "Non-mandatory" : "None")} 
-                    />
-                    <ComplianceRow label="Prevailing Wage" status={bid.prevailing_wage ? 'warning' : 'success'} value={bid.prevailing_wage ? "REQUIRED" : "NOT REQUIRED"} sub={bid.prevailing_wage ? "View wage rates →" : null} link={bid.prevailing_wage ? "https://www.dir.ca.gov/oprl/DPreWageDetermination.htm" : null} />
-                    <ComplianceRow label="DVBE Participation" status={bid.dvbe_goal ? 'info' : 'success'} value={bid.dvbe_goal || "N/A"} />
-                    <ComplianceRow label="SBE Participation" status={bid.sbe_only ? 'info' : 'success'} value={bid.sbe_only ? "SBE-ONLY" : "OPEN BID"} />
-                    <ComplianceRow label="Bonding Required" status={bid.bonding_required ? 'warning' : 'success'} value={bid.bonding_required ? "YES" : "NO"} />
-                  </tbody>
-                </table>
+            <TabsContent value="requirements" className="mt-8">
+              <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem]">
+                <CardContent className="p-8 space-y-6 font-medium text-slate-600">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Project Requirements</h3>
+                      <div className="flex items-center justify-between py-2 border-b border-dashed">
+                        <span>Prevailing Wage</span>
+                        <Badge variant={bid.prevailing_wage ? "default" : "outline"} className={bid.prevailing_wage ? "bg-amber-100 text-amber-700" : ""}>
+                          {bid.prevailing_wage ? "YES" : "NO"}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between py-2 border-b border-dashed">
+                        <span>Bonding Required</span>
+                        <Badge variant={bid.bonding_required ? "default" : "outline"}>
+                          {bid.bonding_required ? "YES" : "NO"}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Participation Goals</h3>
+                      <div className="flex items-center justify-between py-2 border-b border-dashed">
+                        <span>DVBE Goal</span>
+                        <span className="font-bold text-brand-navy-900">{bid.dvbe_goal || "0%"}</span>
+                      </div>
+                      <div className="flex items-center justify-between py-2 border-b border-dashed">
+                        <span>DBE Goal</span>
+                        <span className="font-bold text-brand-navy-900">{bid.dbe_goal || "0%"}</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="notes" className="pt-6">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Private Strategy Notes</h3>
-                  {isSavingNotes && <span className="text-[10px] text-blue-400 animate-pulse flex items-center gap-1"><Loader2 className="h-3 w-3 animate-spin" /> Saving...</span>}
-                </div>
-                <Textarea 
-                  className="min-h-[300px] border-slate-200 focus:border-[#1E6FD9] h-[400px]"
-                  placeholder="Only you can see these notes. Jot down thoughts on pricing, site walks, or partners..."
-                  defaultValue={match.notes}
-                  onBlur={(e) => saveNotes(e.target.value)}
-                />
-              </div>
+            <TabsContent value="docs" className="mt-8">
+              <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem]">
+                <CardContent className="p-12 text-center space-y-4">
+                  <div className="h-16 w-16 bg-brand-blue-600/10 rounded-full flex items-center justify-center mx-auto text-brand-blue-600">
+                    <Download className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold">Solicitation Documents</h3>
+                  <p className="text-slate-500 max-w-sm mx-auto">Access the full tender documentation and technical specifications for this bid.</p>
+                  <div className="flex justify-center gap-4 pt-4">
+                    <Button variant="outline" className="rounded-xl font-bold bg-white" asChild>
+                      <a href={bid.portal_link} target="_blank">
+                        View Portal <ExternalLink className="w-4 h-4 ml-2" />
+                      </a>
+                    </Button>
+                    <Button className="bg-brand-blue-600 rounded-xl font-bold">
+                      Download All PDFs
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
 
-        {/* Right Column: Actions & Meta */}
-        <aside className="space-y-6">
-          <Card className="border-slate-200 shadow-lg sticky top-24 overflow-hidden">
-            <div className={cn(
-              "p-4 border-b text-center",
-              match.pipeline_stage === 'new_match' && "bg-blue-50 border-blue-100",
-              match.pipeline_stage === 'pursuing' && "bg-purple-50 border-purple-100",
-              match.pipeline_stage === 'won' && "bg-green-50 border-green-100"
-            )}>
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Pipeline Stage</p>
-              <Badge className="rounded-sm uppercase text-xs px-3">{match.pipeline_stage.replace('_', ' ')}</Badge>
-            </div>
-
-            <CardContent className="p-6 space-y-6">
-              <div className="space-y-3">
-                {match.pipeline_stage === 'new_match' && (
-                  <Button onClick={() => updateStage('reviewing')} className="w-full bg-[#1E6FD9] hover:bg-blue-700 h-11 text-base font-bold">
-                    Move to Reviewing →
+        {/* Right: Hire Us / Action Bar */}
+        <div className="space-y-8">
+          
+          {/* Tracking Status Card */}
+          <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem] overflow-hidden">
+            <CardHeader className="bg-slate-50/50 p-6 border-b">
+              <CardTitle className="text-sm font-black uppercase tracking-[0.1em]">Pipeline Stage</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  { id: 'new_match', label: 'New Match', color: 'bg-blue-500' },
+                  { id: 'reviewing', label: 'Reviewing', color: 'bg-amber-500' },
+                  { id: 'pursuing', label: 'Pursuing', color: 'bg-purple-500' },
+                  { id: 'submitted', label: 'Submitted', color: 'bg-teal-500' },
+                ].map((s) => (
+                  <Button
+                    key={s.id}
+                    variant={match.pipeline_stage === s.id ? 'default' : 'outline'}
+                    onClick={() => handleStatusUpdate(s.id)}
+                    disabled={isUpdating}
+                    className={`justify-start h-11 rounded-xl font-bold ${match.pipeline_stage === s.id ? 'bg-brand-navy-900 border-transparent' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full mr-3 ${s.color}`} />
+                    {s.label}
+                    {match.pipeline_stage === s.id && <CheckCircle2 className="w-4 h-4 ml-auto text-white" />}
                   </Button>
-                )}
-                {match.pipeline_stage === 'reviewing' && (
-                  <Button onClick={() => updateStage('pursuing')} className="w-full bg-[#7C3AED] hover:bg-violet-700 h-11 text-base font-bold">
-                    Mark as Pursuing →
-                  </Button>
-                )}
-                {match.pipeline_stage === 'pursuing' && (
-                  <div className="space-y-3">
-                    <Button onClick={() => updateStage('submitted')} className="w-full bg-[#0D9488] hover:bg-teal-700 h-11 text-base font-bold">
-                      Mark as Submitted →
-                    </Button>
-                    <div className="p-4 bg-gradient-to-br from-[#1E6FD9] to-[#0B1F3A] rounded-xl text-white space-y-3 mt-4">
-                      <p className="text-sm font-bold">Ready to submit?</p>
-                      <p className="text-[11px] text-blue-100/70 leading-relaxed italic">Let StrongerBuilt handle the analysis, compliance, site walks, and filing for you.</p>
-                      <Button asChild variant="secondary" className="w-full bg-white text-blue-900 border-none hover:bg-slate-100 font-bold">
-                        <Link href={`/portal/hire?bid=${bid.id}`}>Hire StrongerBuilt →</Link>
-                      </Button>
-                    </div>
-                  </div>
-                )}
-                {match.pipeline_stage === 'submitted' && (
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button onClick={() => updateStage('won')} className="w-full bg-[#16A34A] hover:bg-green-700 h-11 text-base font-bold">Won ✓</Button>
-                    <Button onClick={() => updateStage('lost')} variant="outline" className="w-full border-red-200 text-red-600 h-11 text-base font-bold">Lost ×</Button>
-                  </div>
-                )}
-                
-                {match.pipeline_stage !== 'passed' && (
-                  <Button variant="ghost" onClick={() => updateStage('passed')} className="w-full text-slate-400 hover:text-red-500 hover:bg-red-50">
-                    <Trash2 className="h-4 w-4 mr-2" /> Pass on this bid
-                  </Button>
-                )}
-              </div>
-
-              <div className="space-y-4 pt-6 border-t text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-400 font-medium">Marketplace Portal</span>
-                  <Badge variant="outline" className="text-[10px] rounded-none">{bid.source}</Badge>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400 font-medium">Event ID</span>
-                  <span className="font-bold text-slate-700">{bid.event_id}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400 font-medium">Matched At</span>
-                  <span className="text-slate-700">{new Date(match.matched_at).toLocaleDateString()}</span>
-                </div>
-                <Button asChild variant="outline" className="w-full h-10 border-slate-200 mt-4 rounded-xl">
-                  <a href={bid.portal_link} target="_blank" rel="noopener noreferrer">
-                    Open on Portal <ExternalLink className="h-3.5 w-3.5 ml-2" />
-                  </a>
-                </Button>
+                ))}
               </div>
             </CardContent>
           </Card>
-        </aside>
+
+          <Card className="border-none shadow-2xl shadow-brand-blue-600/10 overflow-hidden rounded-[2rem] sticky top-24">
+            <div className="h-2 bg-brand-blue-600" />
+            <CardHeader className="bg-slate-50/50 p-8">
+              <CardTitle className="text-xl font-black">Hire StrongerBuilt</CardTitle>
+              <CardDescription className="font-semibold">Let our experts handle your entire government bid response.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-8 space-y-6">
+              
+              <div className="space-y-4">
+                {[
+                  { id: 'ifb_express', name: 'IFB Express', price: '$1,500', desc: 'Full submission for Invitations for Bid.' },
+                  { id: 'rfp_standard', name: 'RFP Pro', price: '$3,500', desc: 'Technical narrative & strategy for RFPs.' },
+                ].map((tier) => (
+                  <div 
+                    key={tier.id}
+                    onClick={() => setSelectedTier(tier.id)}
+                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedTier === tier.id ? 'border-brand-blue-600 bg-brand-blue-600/5 shadow-inner' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
+                  >
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-black text-sm uppercase tracking-tighter">{tier.name}</span>
+                      <span className="font-black text-brand-blue-600">{tier.price}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-500 font-bold">{tier.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <form action={createCheckoutSession} className="space-y-4">
+                <input type="hidden" name="bidId" value={bid.id} />
+                <input type="hidden" name="bidName" value={bid.event_name} />
+                <input type="hidden" name="tier" value={selectedTier || ''} />
+                
+                <Button 
+                  type="submit" 
+                  disabled={!selectedTier}
+                  className="w-full bg-brand-navy-900 hover:bg-black text-white h-14 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl disabled:opacity-50"
+                >
+                  Confirm & Secure Project
+                </Button>
+              </form>
+
+              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
+                <ShieldCheck className="w-5 h-5 text-success" />
+                <p className="text-[10px] uppercase font-black tracking-widest text-slate-500">
+                   Secured by Stripe <br/><span className="text-slate-400 font-bold tracking-normal italic">Verified SDVOSB Professional Service</span>
+                </p>
+              </div>
+            </CardContent>
+            <Separator />
+            <CardFooter className="p-6 bg-slate-50/50">
+              <p className="text-[10px] text-slate-400 font-bold text-center w-full">
+                Service includes technical writing, compliance review, and submission management.
+              </p>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   );
 }
 
-function StatBox({ label, value, icon: Icon, sub, color = "text-slate-900" }: any) {
+function BidDetailSkeleton() {
   return (
-    <div className="bg-white p-4 rounded-2xl border shadow-sm">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 flex items-center gap-1.5"><Icon className="h-3 w-3" /> {label}</p>
-      <p className={cn("text-lg font-bold truncate", color)}>{value}</p>
-      {sub && <p className="text-[10px] text-slate-400 truncate mt-1">{sub}</p>}
+    <div className="max-w-6xl mx-auto space-y-8 animate-pulse p-8">
+      <Skeleton className="h-6 w-32" />
+      <div className="grid grid-cols-3 gap-8">
+        <div className="col-span-2 space-y-4">
+          <Skeleton className="h-12 w-3/4" />
+          <Skeleton className="h-6 w-1/2" />
+        </div>
+        <Skeleton className="h-48 w-full rounded-[2rem]" />
+      </div>
+      <div className="grid grid-cols-3 gap-8 pt-8">
+        <div className="col-span-2 h-[600px] bg-slate-100 rounded-[2rem]" />
+        <div className="h-[500px] bg-slate-100 rounded-[2rem]" />
+      </div>
     </div>
-  );
-}
-
-function SwotBox({ type, items, color, ring }: any) {
-  return (
-    <div className={cn("p-4 rounded-2xl ring-4 ring-offset-0 space-y-2", color, ring)}>
-      <h4 className="text-xs font-black uppercase tracking-wider opacity-60">{type}</h4>
-      <ul className="space-y-1">
-        {items.map((it: string, i: number) => <li key={i} className="text-[11px] font-semibold leading-tight flex gap-1.5">
-          <ChevronRight className="h-3 w-3 shrink-0" /> {it}
-        </li>)}
-      </ul>
-    </div>
-  );
-}
-
-function ComplianceRow({ label, status, value, sub, link }: any) {
-  const getIcon = () => {
-    if (status === 'success') return <CheckCircle className="h-4 w-4 text-[#16A34A]" />;
-    if (status === 'warning') return <HelpCircle className="h-4 w-4 text-[#D97706]" />;
-    if (status === 'disqualified') return <XCircle className="h-4 w-4 text-red-600" />;
-    return <Info className="h-4 w-4 text-blue-500" />;
-  };
-
-  return (
-    <tr>
-      <td className="px-6 py-4 text-xs font-bold text-slate-700">{label}</td>
-      <td className="px-6 py-4 whitespace-nowrap">{getIcon()}</td>
-      <td className="px-6 py-4">
-        <p className="text-xs font-semibold text-slate-900">{value}</p>
-        {link && <a href={link} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#1E6FD9] hover:underline block mt-0.5">{sub}</a>}
-      </td>
-    </tr>
   );
 }

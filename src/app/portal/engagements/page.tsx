@@ -1,187 +1,70 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle,
-  CardDescription
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import React from "react";
+import { CheckCircle2, FileSearch, ArrowRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { 
-  FileCheck, 
-  Clock, 
-  CheckCircle2, 
-  MessageSquare, 
-  FileText, 
-  ChevronRight,
-  Loader2,
-  PhoneCall
-} from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function EngagementsPage() {
-  const [engagements, setEngagements] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClient();
-
-  useEffect(() => {
-    async function loadEngagements() {
-      setIsLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data } = await supabase
-        .from("service_engagements")
-        .select(`
-          *,
-          bids (*)
-        `)
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-
-      setEngagements(data || []);
-      setIsLoading(false);
-    }
-    loadEngagements();
-  }, [supabase]);
-
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-10 w-48" />
-        <Skeleton className="h-[400px] w-full rounded-xl" />
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[#0B1F3A]">Managed Engagements</h1>
-          <p className="text-sm text-slate-500">Track the status of bids our team is preparing for you.</p>
+    <div className="max-w-4xl mx-auto py-12 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Success Hero */}
+      <div className="text-center space-y-4">
+        <div className="h-20 w-20 bg-success/10 text-success rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="w-10 h-10" />
         </div>
-        <Button variant="outline" className="border-slate-300">
-          <PhoneCall className="h-4 w-4 mr-2 text-blue-600" /> Speak with Case Manager
-        </Button>
+        <h1 className="text-4xl font-black text-brand-navy-900 tracking-tight">Project Secured</h1>
+        <p className="text-slate-500 font-medium max-w-md mx-auto">
+          Your deposit has been processed. A StrongerBuilt strategic advisor will contact you within 4 business hours to begin the bid technical response.
+        </p>
       </div>
 
-      {engagements.length > 0 ? (
-        <Card className="border-slate-200 shadow-sm overflow-hidden">
-          <Table>
-            <TableHeader className="bg-slate-50">
-              <TableRow className="hover:bg-transparent border-b">
-                <TableHead className="text-[10px] font-black uppercase tracking-widest py-4">Project / Bid</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest py-4">Service Tier</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest py-4">Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest py-4">Due Date</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest py-4 text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {engagements.map((eng) => (
-                <TableRow key={eng.id} className="group hover:bg-slate-50/50 transition-colors">
-                  <TableCell className="py-4">
-                    <p className="font-bold text-slate-900 group-hover:text-[#1E6FD9] transition-colors">{eng.bids?.event_name}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{eng.bids?.event_id}</p>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="text-[10px] border-slate-200 uppercase bg-white">
-                      {eng.tier.replace('_', ' ')}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <StatusBadge status={eng.status} />
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                      <Clock className="h-3.5 w-3.5" />
-                      {eng.bids?.end_date ? new Date(eng.bids?.end_date).toLocaleDateString() : 'TBD'}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link href={`/portal/engagements/${eng.id}`}>
-                        View Progress <ChevronRight className="h-4 w-4 ml-1" />
-                      </Link>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+      <div className="grid md:grid-cols-2 gap-6">
+        <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem] bg-brand-navy-900 text-white p-8">
+          <CardContent className="p-0 space-y-4">
+            <h3 className="text-xl font-bold">What happens next?</h3>
+            <ul className="space-y-4 text-sm font-medium text-blue-100/60">
+              <li className="flex gap-3 italic">
+                <span className="text-brand-blue-600 font-black">01</span>
+                Project Kickoff call within 4 hours.
+              </li>
+              <li className="flex gap-3 italic">
+                <span className="text-brand-blue-600 font-black">02</span>
+                Requirements & Timeline validation.
+              </li>
+              <li className="flex gap-3 italic">
+                <span className="text-brand-blue-600 font-black">03</span>
+                Technical writing & Compliance audit.
+              </li>
+            </ul>
+          </CardContent>
         </Card>
-      ) : (
-        <Card className="p-20 text-center border-dashed border-2 bg-slate-50/30">
-          <div className="max-w-xs mx-auto space-y-4">
-            <div className="h-16 w-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400">
-              <FileCheck className="h-8 w-8" />
+
+        <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem] p-8">
+          <CardContent className="p-0 space-y-6">
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="w-6 h-6 text-brand-blue-600" />
+              <h3 className="text-lg font-bold text-brand-navy-900">Engagement Portal</h3>
             </div>
-            <h3 className="text-lg font-bold text-slate-800">No managed bids yet</h3>
-            <p className="text-sm text-slate-500">
-              When you hire StrongerBuilt to manage a bid, the progress tracking and document uploads will appear here.
+            <p className="text-sm text-slate-500 font-medium leading-relaxed">
+              Track the progress of your active bid responses, upload required documents, and chat with your assigned advisor.
             </p>
-            <Button asChild className="bg-[#1E6FD9] mt-4">
-              <Link href="/portal/matches">Browse My Matches</Link>
+            <Button asChild className="w-full bg-brand-blue-600 rounded-xl font-bold h-12">
+              <Link href="/portal/pipeline">
+                View Tracking Pipeline <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
             </Button>
-          </div>
+          </CardContent>
         </Card>
-      )}
-
-      {/* Trust Message */}
-      <div className="grid md:grid-cols-2 gap-6 pt-12">
-        <div className="flex gap-4 p-6 rounded-2xl border border-blue-100 bg-blue-50/50">
-          <div className="h-10 w-10 bg-white rounded-lg flex items-center justify-center shadow-sm text-blue-600 shrink-0">
-            <MessageSquare className="h-5 w-5" />
-          </div>
-          <div className="space-y-1">
-            <h4 className="text-sm font-bold text-slate-900">Direct Communication</h4>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Your dedicated bid strategist is available via phone and portal chat for all active engagements.
-            </p>
-          </div>
-        </div>
-        <div className="flex gap-4 p-6 rounded-2xl border border-slate-200 bg-white">
-          <div className="h-10 w-10 bg-slate-50 rounded-lg flex items-center justify-center shadow-sm text-slate-400 shrink-0">
-            <FileText className="h-5 w-5" />
-          </div>
-          <div className="space-y-1">
-            <h4 className="text-sm font-bold text-slate-900">Document Vault</h4>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              All submitted packages, receipts, and bid Bonds are archived here for 7 years for compliance audits.
-            </p>
-          </div>
-        </div>
       </div>
+
+      {/* Trust Quote */}
+      <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 text-center italic text-slate-400 font-medium text-sm">
+        "Our mission is to ensure qualified SBE/DVBE firms win more government business through elite technical strategy."
+      </div>
+
     </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: any = {
-    intake: "bg-blue-50 text-blue-700 border-blue-200",
-    in_progress: "bg-amber-50 text-amber-700 border-amber-200",
-    submitted: "bg-teal-50 text-teal-700 border-teal-200",
-    complete: "bg-green-50 text-green-700 border-green-200",
-    cancelled: "bg-slate-50 text-slate-400 border-slate-200"
-  };
-
-  return (
-    <Badge variant="outline" className={`${styles[status] || styles.intake} uppercase text-[9px] font-black border tracking-widest`}>
-      {status.replace('_', ' ')}
-    </Badge>
   );
 }
