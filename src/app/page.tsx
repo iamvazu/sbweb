@@ -219,6 +219,8 @@ export default function Home() {
               { icon: Wrench, title: "Facility Maintenance", desc: "Multi-trade ongoing maintenance. Rapid emergency responses.", href: "/services/facility-maintenance", image: "/images/services/hvac-service.png" },
               { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered commercial cleaning and deep sanitization.", href: "/services/janitorial-services", image: "/images/services/janitorial-service.png" },
               { icon: Package, title: "Material Supply", desc: "Bulk sourcing and logistics to hit diversity spend targets.", href: "/services/construction-material-supply", image: "/images/services/material-supply.png" },
+              { icon: Wrench, title: "Plumbing Services", desc: "Specialized C-36 commercial and industrial plumbing solutions.", href: "/services/plumbing", image: "/images/services/plumbing-service.png" },
+              { icon: Building2, title: "Modular Construction", desc: "Strategic fabrication and installation of high-efficiency modular units.", href: "/services/modular", image: "/images/services/modular-construction.png" },
             ].map((srv, i) => (
               <div key={i} className="group flex flex-col bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-brand-blue-600/10 transition-all duration-300 hover:-translate-y-2">
                 <div className="aspect-[16/10] relative overflow-hidden">
@@ -244,6 +246,16 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <Link 
+              href="/services" 
+              className="inline-flex items-center gap-3 bg-brand-navy-900 dark:bg-brand-blue-600 text-white px-10 py-5 rounded-full font-bold text-sm hover:bg-brand-blue-600 dark:hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 group"
+            >
+              <span>Explore All Commercial Services</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
