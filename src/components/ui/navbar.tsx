@@ -128,6 +128,7 @@ export function Navbar() {
   const company = [
     { name: "About Us", href: "/about" },
     { name: "Partners", href: "/partners" },
+    { name: "Contact Us", href: "/contact" },
     { name: "Insights", href: "/insights" },
   ];
 
