@@ -19,7 +19,7 @@ def calculate_fit_score(user, bid):
     score = 0
     
     # 1. NAICS Match (35 pts)
-    bid_desc = (bid.get('comments', '') + ' ' + bid.get('event_name', '')).lower()
+    bid_desc = ((bid.get('comments') or '') + ' ' + (bid.get('event_name') or '')).lower()
     for code in (user.get('naics_codes') or []):
         if code in bid_desc: # Simple keyword match for now
             score += 35
@@ -36,7 +36,7 @@ def calculate_fit_score(user, bid):
         
     # 3. Geographic Fit (20 pts)
     # Cal eProcure has County in event name or we parse it
-    bid_content = (bid.get('event_name', '') + ' ' + bid.get('department_name', '')).lower()
+    bid_content = ((bid.get('event_name') or '') + ' ' + (bid.get('department_name') or '')).lower()
     for county in (user.get('counties_served') or []):
         if county.lower() in bid_content:
             score += 20

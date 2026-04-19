@@ -51,7 +51,7 @@ def run():
     for user in users:
         # Find matches for this user created today
         # Note: requires created_at on user_bid_matches
-        matches = supabase.table("user_bid_matches").select("*").eq("user_id", user["id"]).gte("created_at", today).execute().data
+        matches = supabase.table("user_bid_matches").select("*").eq("user_id", user["id"]).gte("matched_at", today).execute().data
         
         if matches:
             send_digest_to_user(user, matches)

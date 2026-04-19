@@ -95,8 +95,17 @@ def run():
     if not supabase:
         return
 
+    # Ensure bucket exists
+    try:
+        buckets = supabase.storage.list_buckets()
+        exists = any(b.name == BUCKET_NAME for b in buckets)
+        if not exists:
+            logger.info(f"Creating storage bucket: {BUCKET_NAME}")
+            supabase.storage.create_bucket(BUCKET_NAME, options={'public': True})
+    except Exception as e:
+        logger.error(f"Error initializing bucket: {e}")
+
     # Find bids that have been deep-scraped but have no PDFs processed
-    # Logic: prebid_type is not null, but pdf_urls is empty
     res = supabase.table("bids").select("*").not_.is_("prebid_type", "null").is_("extracted_text", "null").limit(5).execute()
     bids = res.data
     
