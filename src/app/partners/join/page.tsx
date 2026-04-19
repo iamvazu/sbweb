@@ -11,6 +11,7 @@ import {
   Map, 
   HardHat, 
   Award, 
+  Layers,
   ArrowRight,
   Loader2
 } from "lucide-react";
