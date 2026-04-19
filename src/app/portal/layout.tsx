@@ -26,7 +26,14 @@ import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const NAV_ITEMS = [
+interface NavItem {
+  label: string;
+  href: string;
+  icon: any;
+  badge?: number;
+}
+
+const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/portal/vendor", icon: LayoutDashboard },
   { label: "My Matches", href: "/portal/matches", icon: Star },
   { label: "Browse All Bids", href: "/portal/bids", icon: Search },
