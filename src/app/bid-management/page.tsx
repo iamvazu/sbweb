@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import BidTicker from "@/components/market/bid-ticker";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -161,6 +162,13 @@ export default function BidManagementPage() {
                </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Live Bid Pulse */}
+      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <BidTicker />
         </div>
       </section>
 

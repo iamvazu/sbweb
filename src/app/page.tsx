@@ -5,6 +5,7 @@ import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BidTicker from "@/components/market/bid-ticker";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -164,7 +165,13 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
+      {/* Live Bid Pulse */}
+      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <BidTicker />
+        </div>
+      </section>
       {/* BID MANAGEMENT CALLOUT */}
       <section className="py-20 bg-brand-navy-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue-600/10 rounded-full blur-[100px]" />
