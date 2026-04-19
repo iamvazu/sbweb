@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { ChevronUp, ChevronDown, ArrowRight, Activity, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
