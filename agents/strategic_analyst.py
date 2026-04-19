@@ -8,12 +8,13 @@ import google.generativeai as genai
 
 # Load environment
 load_dotenv()
-logger = logging.getLogger("strategic_analyst")
+from db_utils import get_supabase_client
+from anthropic import Anthropic
+import google.generativeai as genai
 
-# Initialize agents
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("strategic_analyst")
+supabase: Client = get_supabase_client()
 
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY")
 anthropic = Anthropic(api_key=ANTHROPIC_KEY) if ANTHROPIC_KEY else None

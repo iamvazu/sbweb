@@ -8,12 +8,13 @@ from scraper_utils import get_browser, create_context, navigate_with_retry, huma
 
 # Load environment
 load_dotenv()
-logger = logging.getLogger("deep_scraper")
+from db_utils import get_supabase_client
+from playwright.sync_api import sync_playwright
+from scraper_utils import get_browser, create_context, navigate_with_retry, human_delay
 
-# Initialize Supabase
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("deep_scraper")
+supabase: Client = get_supabase_client()
 
 def deep_scrape_bid(page, bid):
     """Parses the detail page for a specific bid."""

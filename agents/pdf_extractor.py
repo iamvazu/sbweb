@@ -10,12 +10,13 @@ from scraper_utils import get_browser, create_context, navigate_with_retry
 
 # Load environment
 load_dotenv()
-logger = logging.getLogger("pdf_extractor")
+from db_utils import get_supabase_client
+from playwright.sync_api import sync_playwright
+from scraper_utils import get_browser, create_context, navigate_with_retry
 
-# Initialize Supabase
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("pdf_extractor")
+supabase: Client = get_supabase_client()
 
 BUCKET_NAME = "bid-documents"
 

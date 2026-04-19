@@ -5,12 +5,11 @@ from supabase import create_client, Client
 
 # Load environment
 load_dotenv()
-logger = logging.getLogger("match_engine")
+from db_utils import get_supabase_client
 
-# Initialize Supabase
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("match_engine")
+supabase: Client = get_supabase_client()
 
 def calculate_fit_score(user, bid):
     """

@@ -11,12 +11,13 @@ load_dotenv()
 logger = logging.getLogger("harvester")
 
 # Initialize Supabase
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-if not KEY:
-    logger.error("SUPABASE_SERVICE_ROLE_KEY not found in environment!")
+from db_utils import get_supabase_client
+from playwright.sync_api import sync_playwright
+from scraper_utils import get_browser, create_context, navigate_with_retry, human_delay
 
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("harvester")
+supabase: Client = get_supabase_client()
 
 SEARCH_URL = "https://caleprocure.ca.gov/pages/Events/event-search.aspx"
 

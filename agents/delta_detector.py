@@ -7,12 +7,12 @@ import resend
 
 # Load environment
 load_dotenv()
-logger = logging.getLogger("delta_detector")
+from db_utils import get_supabase_client
+import resend
 
-# Initialize clients
-URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(URL, KEY) if URL and KEY else None
+# Initialize
+logger = logging.getLogger("delta_detector")
+supabase: Client = get_supabase_client()
 
 RESEND_KEY = os.environ.get("RESEND_API_KEY")
 resend.api_key = RESEND_KEY
