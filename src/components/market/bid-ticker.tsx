@@ -317,7 +317,7 @@ export default function BidTicker() {
                         <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
                           <span className={cn(
                             "text-[10px] font-black px-3 py-1 rounded-full border uppercase tracking-widest whitespace-nowrap shadow-sm",
-                            badge.bg, badge.text, badge.color
+                            badge.bg, badge.text
                           )}>
                             {badge.label}
                           </span>
