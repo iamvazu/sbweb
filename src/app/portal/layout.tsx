@@ -124,9 +124,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         ))}
         
         <Link 
-          href="/portal/profile"
+          href="/portal/settings"
           className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-            ${pathname === '/portal/profile' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+            ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
         >
           <User className="h-4 w-4" />
           Profile
@@ -196,7 +196,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 {pathname === '/portal/analytics' && 'Intelligence Analytics'}
                 {pathname === '/portal/hire' && 'Hire Expert Management'}
                 {pathname === '/portal/engagements' && 'Active Projects'}
-                {pathname === '/portal/profile' && 'Company Profile'}
+                {pathname === '/portal/settings' && 'Company Profile'}
               </h2>
             </div>
 
@@ -241,7 +241,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           <Kanban className="h-5 w-5" />
           <span className="text-[10px] font-medium">Pipeline</span>
         </Link>
-        <Link href="/portal/profile" className={`flex flex-col items-center gap-1 ${pathname === '/portal/profile' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
+        <Link href="/portal/settings" className={`flex flex-col items-center gap-1 ${pathname === '/portal/settings' ? 'text-[#1E6FD9]' : 'text-slate-400'}`}>
           <User className="h-5 w-5" />
           <span className="text-[10px] font-medium">Profile</span>
         </Link>
