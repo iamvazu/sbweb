@@ -21,10 +21,10 @@ export default function GovernmentHub() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 mb-6 backdrop-blur-md"
           >
-            <Bookmark className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Official Procurement Resource</span>
+            <Bookmark className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Official Procurement Resource</span>
           </motion.div>
           
           <motion.h1 
@@ -64,7 +64,7 @@ export default function GovernmentHub() {
       <section className="py-24 bg-white dark:bg-black/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">Authority & Compliance</h2>
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Authority & Compliance</h2>
             <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Verified Certifications</h3>
           </div>
           
@@ -136,7 +136,7 @@ export default function GovernmentHub() {
             </div>
             <div className="space-y-12">
               <div>
-                <h4 className="text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase mb-6">Primary NAICS Codes</h4>
+                <h4 className="text-[10px] font-black tracking-[0.2em] text-amber-600 uppercase mb-6">Primary NAICS Codes</h4>
                 <div className="flex flex-wrap gap-2">
                   {["236220", "237310", "238990", "561210", "561720"].map(code => (
                     <span key={code} className="bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 text-brand-navy-900 dark:text-slate-300 px-4 py-2 rounded-xl text-sm font-bold font-mono">
@@ -151,7 +151,7 @@ export default function GovernmentHub() {
                 </div>
               </div>
               <div>
-                <h4 className="text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase mb-6">IT & Digital Compliance</h4>
+                <h4 className="text-[10px] font-black tracking-[0.2em] text-amber-600 uppercase mb-6">IT & Digital Compliance</h4>
                 <ul className="space-y-4">
                   {[
                     "eVAQ Status: In-Process (IT Procurement)",

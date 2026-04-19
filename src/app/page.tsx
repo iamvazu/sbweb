@@ -169,7 +169,7 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue-600/10 rounded-full blur-[100px]" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-brand-blue-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4">Strategic Procurement</h2>
+            <h2 className="text-amber-400 font-black uppercase tracking-[0.3em] text-[10px] mb-4">Strategic Procurement</h2>
             <h3 className="text-3xl md:text-5xl font-serif text-white mb-6 tracking-tight leading-[1.1]">
               Winning Government Bids Is a <br className="hidden md:block"/> Full-Time Job. <span className="text-brand-blue-600 italic">We Do It For You.</span>
             </h3>
@@ -187,7 +187,7 @@ export default function Home() {
       <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
             <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Start Bidding in <span className="italic text-brand-blue-600">5 Simple Steps</span></h3>
           </div>
 
@@ -199,7 +199,7 @@ export default function Home() {
                     <step.icon className="w-7 h-7" />
                   </div>
                   <div className="absolute top-8 left-1/2 w-full h-[2px] bg-slate-200 dark:bg-white/5 -z-0 hidden md:block last:hidden" />
-                  <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-widest mb-2">{step.num}</span>
+                  <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">{step.num}</span>
                   <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-none h-[2em]">{step.title}</h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
                     {step.desc}
@@ -215,7 +215,7 @@ export default function Home() {
       <section className="py-24 bg-background-light dark:bg-black/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-[11px] font-bold tracking-widest text-brand-blue-600 uppercase mb-3">Our Core Expertise</h2>
+            <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Our Core Expertise</h2>
             <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Comprehensive Building Solutions.</h3>
             <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">Self-performed and rigorously managed construction, consulting, and facility services for government and commercial sectors.</p>
           </div>
@@ -275,7 +275,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
-              <h2 className="text-[11px] font-bold tracking-widest text-brand-blue-600 uppercase mb-3">Past Performance</h2>
+              <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Past Performance</h2>
               <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Featured Projects.</h3>
             </div>
             <Link href="/projects" className="text-brand-blue-600 font-bold hover:text-blue-700 flex items-center gap-2 group text-sm">

@@ -124,8 +124,8 @@ export default function BidManagementPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             
             <motion.div initial="hidden" animate="show" variants={STAGGER} className="lg:col-span-7 space-y-6">
-              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 backdrop-blur-md">
-                <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Strategic Procurement Advisory</span>
+              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 backdrop-blur-md">
+                <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Strategic Procurement Advisory</span>
               </motion.div>
               
               <motion.h1 variants={FADE_UP} className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1]">
@@ -169,7 +169,7 @@ export default function BidManagementPage() {
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
              <div>
-                <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">About the Service</h2>
+                <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">About the Service</h2>
                 <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6 leading-tight">Giving Small Businesses a <span className="italic text-brand-blue-600">Fair Shot.</span></h3>
                 <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
                   We believe every qualified small business deserves a fair shot at government work. BidIQ monitors every portal, ranks each opportunity by fit, and provides the strategic oversight needed to win.
@@ -188,7 +188,7 @@ export default function BidManagementPage() {
                 ].map((stat, i) => (
                   <div key={i} className="flex flex-col border-l-2 border-brand-blue-600/20 pl-6">
                     <span className="text-3xl md:text-4xl font-serif font-black text-brand-navy-900 dark:text-white mb-1">{stat.value}</span>
-                    <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{stat.label}</span>
+                    <span className="text-[11px] font-black text-amber-600 uppercase tracking-widest leading-none mb-1">{stat.label}</span>
                     <span className="text-[9px] text-slate-500 font-bold uppercase">{stat.sub}</span>
                   </div>
                 ))}
@@ -201,7 +201,7 @@ export default function BidManagementPage() {
       <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
             <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Start Bidding in <span className="italic text-brand-blue-600">5 Simple Steps</span></h3>
           </div>
 
@@ -213,7 +213,7 @@ export default function BidManagementPage() {
                     <step.icon className="w-7 h-7" />
                   </div>
                   <div className="absolute top-8 left-1/2 w-full h-[2px] bg-slate-200 dark:bg-white/5 -z-0 hidden md:block last:hidden" />
-                  <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-widest mb-2">{step.num}</span>
+                  <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">{step.num}</span>
                   <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-none h-[2em]">{step.title}</h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
                     {step.desc}
@@ -262,7 +262,7 @@ export default function BidManagementPage() {
       <section className="py-24 bg-brand-navy-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-           <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">Procurement Intelligence</h2>
+           <h2 className="text-[11px] font-black text-amber-400 uppercase tracking-[0.3em] mb-4">Procurement Intelligence</h2>
            <h3 className="text-5xl md:text-7xl font-serif text-white mb-6 italic">30+ Portals. <span className="text-brand-blue-600">One Feed.</span></h3>
            <p className="text-lg text-slate-400 mb-16 max-w-2xl mx-auto font-medium">We monitor state, county, city, university, and many other procurement systems so you never have to.</p>
            
@@ -295,7 +295,7 @@ export default function BidManagementPage() {
                      "p-12 rounded-[3rem] border transition-all",
                      tier.featured ? "bg-brand-navy-900 border-brand-blue-600 scale-105" : "bg-slate-50 border-gray-200"
                   )}>
-                     <span className="text-[10px] font-black uppercase tracking-widest text-brand-blue-600 mb-6 block">{tier.range}</span>
+                     <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-6 block">{tier.range}</span>
                      <div className="flex items-baseline gap-2 mb-8">
                         <span className={cn("text-5xl font-bold", tier.featured ? "text-white" : "text-brand-navy-900")}>{tier.price}</span>
                         <span className="text-slate-500 font-bold">/ Bid</span>

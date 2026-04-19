@@ -177,8 +177,8 @@ export default function ProjectsPortfolio() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Trusted Delivery History</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Trusted Delivery History</span>
           </motion.div>
           
           <motion.h1 
@@ -235,7 +235,7 @@ export default function ProjectsPortfolio() {
                       { label: "Client", value: proj.client }
                     ].map((spec) => (
                       <div key={spec.label} className="flex gap-4 text-[10px] uppercase tracking-widest">
-                        <span className="font-black text-brand-blue-600 w-16 shrink-0">{spec.label}:</span>
+                        <span className="font-black text-amber-600 w-16 shrink-0">{spec.label}:</span>
                         <span className="font-bold text-slate-600 dark:text-slate-300 line-clamp-1">{spec.value}</span>
                       </div>
                     ))}

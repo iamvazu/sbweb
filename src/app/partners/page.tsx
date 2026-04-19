@@ -23,8 +23,8 @@ export default function PartnerPortal() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <Share2 className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Strategic Alliance Network</span>
+            <Share2 className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Strategic Alliance Network</span>
           </motion.div>
           
           <motion.h1 

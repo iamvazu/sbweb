@@ -25,8 +25,8 @@ export default function ContactHub() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <Headset className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Procurement Desk</span>
+            <Headset className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Procurement Desk</span>
           </motion.div>
           
           <motion.h1 
@@ -67,7 +67,7 @@ export default function ContactHub() {
                     <MapPin className="w-5 h-5 text-brand-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Official Headquarters</h4>
+                    <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">Official Headquarters</h4>
                     <p className="font-bold text-brand-navy-900 dark:text-gray-200 text-sm leading-relaxed">4370 1/2 Oregon St<br/>San Diego, CA 92104</p>
                   </div>
                 </li>
@@ -76,7 +76,7 @@ export default function ContactHub() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Direct Line</p>
+                    <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">Direct Line</p>
                     <p className="text-lg font-bold text-brand-navy-900 dark:text-white">(831) 760-0806</p>
                   </div>
                 </li>
@@ -85,7 +85,7 @@ export default function ContactHub() {
                     <Mail className="w-5 h-5 text-brand-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">General Inquiries</h4>
+                    <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">General Inquiries</h4>
                     <p className="font-bold text-brand-navy-900 dark:text-gray-200 text-sm">info@strongerbuilt.us</p>
                   </div>
                 </li>
@@ -119,17 +119,17 @@ export default function ContactHub() {
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
-                      <label className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Full Name <span className="text-brand-blue-600">*</span></label>
+                      <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Full Name <span className="text-brand-blue-600">*</span></label>
                       <input required type="text" className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all" placeholder="John Doe" />
                     </div>
                     <div className="space-y-3">
-                      <label className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Email Address <span className="text-brand-blue-600">*</span></label>
+                      <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Email Address <span className="text-brand-blue-600">*</span></label>
                       <input required type="email" className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all" placeholder="john@agency.gov" />
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Inquiry Type</label>
+                    <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Inquiry Type</label>
                     <div className="relative">
                       <select className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 appearance-none font-bold text-sm cursor-pointer">
                         <option>Request a Quote</option>
@@ -144,7 +144,7 @@ export default function ContactHub() {
                   </div>
 
                   <div className="space-y-3">
-                    <label className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Message Brief <span className="text-brand-blue-600">*</span></label>
+                    <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Message Brief <span className="text-brand-blue-600">*</span></label>
                     <textarea required rows={5} className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 resize-none font-medium transition-all" placeholder="Provide project specifications or solicitation reference..."></textarea>
                   </div>
 

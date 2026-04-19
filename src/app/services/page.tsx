@@ -58,8 +58,8 @@ export default function ServicesOverview() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <Briefcase className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Core Competencies</span>
+            <Briefcase className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Core Competencies</span>
           </motion.div>
           
           <motion.h1 
@@ -111,7 +111,7 @@ export default function ServicesOverview() {
                     {srv.desc}
                   </p>
 
-                  <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-brand-blue-600 group-hover:text-blue-700 uppercase tracking-widest">
+                  <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-amber-600 group-hover:text-amber-700 uppercase tracking-widest">
                     View Detail <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
@@ -124,7 +124,7 @@ export default function ServicesOverview() {
         <div className="mt-32 mb-24">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
             <div className="max-w-2xl">
-              <h2 className="text-[11px] font-black tracking-widest text-brand-blue-600 uppercase mb-4">New Division</h2>
+              <h2 className="text-[11px] font-black tracking-widest text-amber-600 uppercase mb-4">New Division</h2>
               <h3 className="text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white italic">
                 Digital Transformation & <br className="hidden md:block"/>GovTech Solutions
               </h3>
@@ -150,7 +150,7 @@ export default function ServicesOverview() {
                   </div>
                   <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-4 group-hover:text-brand-blue-600 transition-colors">{srv.title}</h4>
                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium">{srv.desc}</p>
-                  <div className="flex items-center gap-2 text-[10px] font-black text-brand-blue-600 uppercase tracking-widest">
+                  <div className="flex items-center gap-2 text-[10px] font-black text-amber-600 uppercase tracking-widest">
                     Solution Detail <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </Link>

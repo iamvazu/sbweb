@@ -50,8 +50,8 @@ export default function InsightsBlog() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
           >
-            <Lightbulb className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Thought Leadership Desk</span>
+            <Lightbulb className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Thought Leadership Desk</span>
           </motion.div>
           
           <motion.h1 
@@ -88,7 +88,7 @@ export default function InsightsBlog() {
               <Link href={`/insights/${post.slug}`} className="group flex flex-col md:flex-row gap-8 bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2rem] p-8 md:p-10 hover:shadow-2xl transition-all duration-300">
                 <div className="flex-1 space-y-6">
                   <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                    <span className="text-brand-blue-600 bg-brand-blue-600/10 px-4 py-1.5 rounded-full">{post.category}</span>
+                    <span className="text-amber-600 bg-amber-400/10 px-4 py-1.5 rounded-full">{post.category}</span>
                     <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {post.readTime}</span>
                   </div>
                   

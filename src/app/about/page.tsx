@@ -20,10 +20,10 @@ export default function AboutPage() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 mb-6 backdrop-blur-md"
           >
-            <Bookmark className="w-3.5 h-3.5 text-brand-blue-600 fill-brand-blue-600" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">Executive Mission</span>
+            <Bookmark className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Executive Mission</span>
           </motion.div>
           
           <motion.h1 
@@ -56,7 +56,7 @@ export default function AboutPage() {
             className="bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden group hover:shadow-2xl transition-all"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/5 rounded-full blur-3xl" />
-            <h2 className="text-sm font-bold tracking-widest text-brand-blue-600 uppercase mb-6">Our Mission</h2>
+            <h2 className="text-sm font-bold tracking-widest text-amber-600 uppercase mb-6">Our Mission</h2>
             <p className="text-xl md:text-2xl font-serif text-brand-navy-900 dark:text-white leading-relaxed mb-6 italic">
               To deliver premium general building, facility maintenance, and specialized contracting services that precisely align with California's public infrastructure goals.
             </p>
@@ -96,7 +96,7 @@ export default function AboutPage() {
           className="max-w-5xl mx-auto"
         >
           <div className="text-center mb-16">
-            <h2 className="text-[11px] font-black tracking-widest text-brand-blue-600 uppercase mb-4">Firm Leadership</h2>
+            <h2 className="text-[11px] font-black tracking-widest text-amber-600 uppercase mb-4">Firm Leadership</h2>
             <h3 className="text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Executive Oversight</h3>
           </div>
           
@@ -109,7 +109,7 @@ export default function AboutPage() {
 
             <div>
               <h3 className="text-3xl md:text-4xl font-serif text-brand-navy-900 dark:text-white mb-2 italic">Roy Krautstrunk</h3>
-              <p className="text-brand-blue-600 font-black mb-8 tracking-[0.15em] text-[11px] uppercase">Managing Member & Licensed Contractor</p>
+              <p className="text-amber-600 font-black mb-8 tracking-[0.15em] text-[11px] uppercase">Managing Member & Licensed Contractor</p>
               
               <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium text-lg">
                 As a Service-Disabled Veteran with a VA rating ≥ 10%, Roy leverages profound disciplinary excellence to lead Stronger Built Group. Holding CSLB Class B, C-6, and C-36 classifications, he oversees the comprehensive execution of heavy infrastructure and commercial projects. Roy specializes in navigating the complexities of the <strong>California Department of Industrial Relations (DIR)</strong> and <strong>Prevailing Wage</strong> compliance, ensuring Stronger Built remains a high-trust partner for state agencies and prime contractors.
