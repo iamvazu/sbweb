@@ -60,9 +60,8 @@ def screen_bid_compliance(bid):
     # --- PRIMARY: ANTHROPIC ---
     if anthropic:
         try:
-            logger.info("Attempting compliance screening with Anthropic...")
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20240620",
+                model="claude-3-5-sonnet-latest",
                 max_tokens=1000,
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}]
@@ -75,7 +74,7 @@ def screen_bid_compliance(bid):
     if GEMINI_KEY:
         try:
             logger.info("Falling back to Gemini for compliance screening...")
-            model = genai.GenerativeModel('gemini-1.5-pro')
+            model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content(system_prompt + "\n\n" + user_prompt)
             return parse_ai_json(response.text)
         except Exception as e:

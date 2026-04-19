@@ -59,7 +59,7 @@ def analyze_bid_strategy(bid):
         try:
             logger.info("Attempting strategy analysis with Anthropic...")
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20240620",
+                model="claude-3-5-sonnet-20241022",
                 max_tokens=1500,
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}]
@@ -72,7 +72,7 @@ def analyze_bid_strategy(bid):
     if GEMINI_KEY:
         try:
             logger.info("Falling back to Gemini for strategy analysis...")
-            model = genai.GenerativeModel('gemini-1.5-pro')
+            model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content(system_prompt + "\n\n" + user_prompt)
             return parse_ai_json(response.text)
         except Exception as e:
