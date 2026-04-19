@@ -59,7 +59,7 @@ def analyze_bid_strategy(bid):
         try:
             logger.info("Attempting strategy analysis with Anthropic...")
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-3-haiku-20240307",
                 max_tokens=1500,
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}]

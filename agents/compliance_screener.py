@@ -61,7 +61,7 @@ def screen_bid_compliance(bid):
     if anthropic:
         try:
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-latest",
+                model="claude-3-haiku-20240307",
                 max_tokens=1000,
                 system=system_prompt,
                 messages=[{"role": "user", "content": user_prompt}]

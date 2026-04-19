@@ -32,6 +32,13 @@ jobs:
       - name: Install Playwright System Dependencies
         run: npx playwright install-deps chromium
 
+      - name: Run Model Diagnostic
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python agents/model_check.py
+      
       - name: Run Intelligence Pipeline
         env:
           # Mapping GitHub Secrets to Environment Variables
