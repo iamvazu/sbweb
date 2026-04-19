@@ -8,7 +8,7 @@ on:
 
 jobs:
   run-pipeline:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 60 # Ensuring enough time for deep scraping and AI analysis
 
     steps:
@@ -27,8 +27,10 @@ jobs:
           pip install -r agents/requirements.txt
 
       - name: Install Playwright Chromium
-        run: |
-          python -m playwright install --with-deps chromium
+        run: python -m playwright install chromium
+
+      - name: Install Playwright System Dependencies
+        run: sudo python -m playwright install-deps chromium
 
       - name: Run Intelligence Pipeline
         env:
