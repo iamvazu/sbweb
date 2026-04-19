@@ -60,8 +60,8 @@ def screen_bid_compliance(bid):
     # --- PRIMARY: GEMINI 2.0 (Confirmed Available) ---
     if GEMINI_KEY:
         try:
-            logger.info("Using Gemini 2.0 Flash for compliance screening...")
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            logger.info("Using Gemini 2.5 Flash for strategy analysis...")
+            model = genai.GenerativeModel('gemini-2.5-flash')
             response = model.generate_content(system_prompt + "\n\n" + user_prompt)
             return parse_ai_json(response.text)
         except Exception as e:
