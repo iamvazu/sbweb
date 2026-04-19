@@ -1,77 +1,117 @@
 import os
-import requests
-import json
-from datetime import datetime, timedelta
+import logging
+from datetime import datetime
 from dotenv import load_dotenv
 from supabase import create_client, Client
+from playwright.sync_api import sync_playwright
+from scraper_utils import get_browser, create_context, navigate_with_retry, human_delay
 
+# Load environment
 load_dotenv()
+logger = logging.getLogger("harvester")
 
 # Initialize Supabase
-url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
-key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") # IMPORTANT: Must use Service Role key for backend scripts
-supabase: Client = create_client(url, key)
+URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
+KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+if not KEY:
+    logger.error("SUPABASE_SERVICE_ROLE_KEY not found in environment!")
 
-CAL_EPROC_API = "https://caleprocure.ca.gov/api/event-search" # Example API point
+supabase: Client = create_client(URL, KEY) if URL and KEY else None
 
-def harvest_late_breaking_bids():
+SEARCH_URL = "https://caleprocure.ca.gov/pages/Events/event-search.aspx"
+
+def harvest():
     """
-    Harvests bids from Cal eProcure published in the last 24 hours.
-    Note: Real implementation would handle pagination and retries.
+    Agent 1: Discovery
+    Scrapes the main search page for 'Posted' bids.
     """
-    print(f"[{datetime.now()}] Starting Harvester...")
+    logger.info("Starting Harvester (Discovery Agent)...")
     
-    # Mock data for demonstration purposes
-    # In a real scenario, this would be a BeautifulSoup or requests.post call
-    mock_bids = [
-      {
-        "event_id": "0000031415",
-        "department_name": "Caltrans",
-        "event_name": "Janitorial Services - District 7 HQ",
-        "end_date": (datetime.now() + timedelta(days=14)).isoformat(),
-        "portal_link": "https://caleprocure.ca.gov/event/2660/0000031415",
-        "source": "caleprocure",
-        "type": "IFB",
-        "status": "Posted",
-        "prebid_type": "M",
-        "prebid_date": (datetime.now() + timedelta(days=5)).isoformat(),
-        "estimated_value_min": 150000,
-        "estimated_value_max": 225000,
-        "prevailing_wage": True
-      },
-      {
-        "event_id": "9988776655",
-        "department_name": "Department of General Services",
-        "event_name": "HVAC Maintenance - State Capitol Building",
-        "end_date": (datetime.now() + timedelta(days=21)).isoformat(),
-        "portal_link": "https://caleprocure.ca.gov/event/2660/9988776655",
-        "source": "caleprocure",
-        "type": "RFP",
-        "status": "Posted",
-        "prebid_type": "NM",
-        "estimated_value_min": 500000,
-        "estimated_value_max": 850000,
-        "prevailing_wage": True
-      }
-    ]
+    with sync_playwright() as p:
+        browser = get_browser(p)
+        context = create_context(browser)
+        page = context.new_page()
+        
+        if not navigate_with_retry(page, SEARCH_URL):
+            logger.error("Could not load search page.")
+            return
 
-    new_count = 0
-    for bid_data in mock_bids:
-        try:
-            # Check if exists
-            exists = supabase.table("bids").select("id").eq("event_id", bid_data["event_id"]).execute()
-            
-            if not exists.data:
-                # Insert new bid
-                res = supabase.table("bids").insert(bid_data).execute()
-                print(f" -> Inserted: {bid_data['event_name']} ({bid_data['event_id']})")
-                new_count += 1
-            else:
-                print(f" -> Skipping (exists): {bid_data['event_id']}")
-        except Exception as e:
-            print(f"Error inserting bid {bid_data['event_id']}: {e}")
+        # Ensure we are looking at 'Posted' events
+        # Note: In a real scenario, we'd interact with filters here if they aren't default.
+        # For now, we scrape the results currently visible in the grid.
+        
+        human_delay(2, 4)
+        
+        # Select 'Posted' in the status dropdown if needed 
+        # (Cal eProcure defaults to 'Posted' usually, but let's be safe if we can find the selector)
+        
+        bids_found = 0
+        new_bids = 0
+        
+        # Scrape the grid
+        # Cal eProcure uses a table with id 'win0divGP_EVENT_SRCH_VW$0' or similar
+        # We look for rows in the event results grid
+        rows = page.query_selector_all("tr[id^='trEVENT_SRCH_VW$']")
+        
+        logger.info(f"Found {len(rows)} potential bid rows on page 1.")
+        
+        for row in rows:
+            try:
+                # Extract basic info
+                event_id_el = row.query_selector("span[id^='EVENT_ID$']")
+                event_name_el = row.query_selector("a[id^='EVENT_NAME$']")
+                dept_name_el = row.query_selector("span[id^='DEPT_NAME$']")
+                end_date_el = row.query_selector("span[id^='EVENT_END_DT$']")
+                
+                if not event_id_el or not event_name_el:
+                    continue
+                    
+                event_id = event_id_el.inner_text().strip()
+                event_name = event_name_el.inner_text().strip()
+                dept_name = dept_name_el.inner_text().strip() if dept_name_el else "Unknown"
+                end_date_str = end_date_el.inner_text().strip() if end_date_el else None
+                
+                portal_link = event_name_el.get_attribute("href")
+                # Normalize portal link if it's relative
+                if portal_link and portal_link.startswith("/"):
+                    portal_link = f"https://caleprocure.ca.gov{portal_link}"
+                
+                # Parse date (Format: MM/DD/YYYY HH:MMAM/PM)
+                end_date_iso = None
+                if end_date_str:
+                    try:
+                        # Simple parse for demo - real world needs flexible date parsing
+                        dt = datetime.strptime(end_date_str.split(" ")[0], "%m/%d/%Y")
+                        end_date_iso = dt.isoformat()
+                    except:
+                        pass
 
-    print(f"[{datetime.now()}] Harvester complete. {new_count} new bids added.")
+                bid_data = {
+                    "event_id": event_id,
+                    "event_name": event_name,
+                    "department_name": dept_name,
+                    "end_date": end_date_iso,
+                    "portal_link": portal_link,
+                    "status": "Posted",
+                    "source": "caleprocure"
+                }
+                
+                bids_found += 1
+                
+                if supabase:
+                    # Upsert logic
+                    res = supabase.table("bids").upsert(
+                        bid_data, on_conflict="event_id"
+                    ).execute()
+                    
+                    if res.data:
+                        new_bids += 1
+                        
+            except Exception as e:
+                logger.error(f"Error parsing row: {e}")
+
+        browser.close()
+        logger.info(f"Harvest complete. Found: {bids_found}, Updated/New: {new_bids}")
 
 if __name__ == "__main__":
-    harvest_late_breaking_bids()
+    harvest()
