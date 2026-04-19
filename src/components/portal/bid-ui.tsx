@@ -109,9 +109,17 @@ export function BidCard({ match, bid: overrideBid }: { match: any; bid?: any }) 
           <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-white">
             {bid.source}
           </Badge>
-          {score === 0 && (
+          {score > 0 ? (
+            <Badge variant="secondary" className="text-[9px] h-5 bg-green-50 text-green-700 border-green-200 font-bold">
+              Personalized Match
+            </Badge>
+          ) : bid.bid_plan ? (
+            <Badge variant="secondary" className="text-[9px] h-5 bg-blue-50 text-blue-600 border-blue-100 font-bold">
+              AI Scanned
+            </Badge>
+          ) : (
             <Badge variant="secondary" className="text-[9px] h-5 bg-slate-100 text-slate-500 border-none font-bold">
-              Analysis Pending
+              Discovery Mode
             </Badge>
           )}
           {daysLeft !== null && (

@@ -28,7 +28,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/portal/vendor", icon: LayoutDashboard },
-  { label: "My Matches", href: "/portal/matches", icon: Star, badge: 14 },
+  { label: "My Matches", href: "/portal/matches", icon: Star },
   { label: "Browse All Bids", href: "/portal/bids", icon: Search },
   { label: "My Pipeline", href: "/portal/pipeline", icon: Kanban },
   { label: "Analytics", href: "/portal/analytics", icon: BarChart2 },
@@ -44,6 +44,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   const router = useRouter();
   const supabase = createClient();
   const [userProfile, setUserProfile] = React.useState<any>(null);
+  const [matchCount, setMatchCount] = React.useState<number>(0);
 
   React.useEffect(() => {
     async function loadProfile() {
@@ -58,6 +59,19 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       }
     }
     loadProfile();
+
+    async function loadMatchCount() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { count } = await supabase
+          .from("user_bid_matches")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .eq("pipeline_stage", "new_match");
+        setMatchCount(count || 0);
+      }
+    }
+    loadMatchCount();
   }, [supabase]);
 
   const handleLogout = async () => {
@@ -97,9 +111,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               <item.icon className="h-4 w-4" />
               {item.label}
             </div>
-            {item.badge && (
+            {(item.badge || (item.label === "My Matches" && matchCount > 0)) && (
               <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-white text-blue-900' : ''}`}>
-                {item.badge}
+                {item.label === "My Matches" ? matchCount : item.badge}
               </Badge>
             )}
           </Link>
