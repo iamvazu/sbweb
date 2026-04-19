@@ -82,8 +82,13 @@ const Award = ({ className }: { className?: string }) => <Shield className={clas
 /**
  * BidCard component: horizontal bid card for list views.
  */
-export function BidCard({ match }: { match: any }) {
-  const bid = match.bids;
+export function BidCard({ match, bid: overrideBid }: { match: any; bid?: any }) {
+  const bid = overrideBid || match?.bids;
+  
+  // High resilience fallback
+  if (!bid) return null;
+
+  const score = match?.fit_score || 0;
   const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : null;
   const isUrgent = daysLeft !== null && daysLeft <= 7;
   const isMissed = bid.prebid_type === 'M' && bid.prebid_date && isPast(new Date(bid.prebid_date));
@@ -95,7 +100,7 @@ export function BidCard({ match }: { match: any }) {
     )}>
       {/* LEFT: Fit Score */}
       <div className="flex flex-shrink-0">
-        <FitScoreBadge score={match.fit_score} />
+        <FitScoreBadge score={score} />
       </div>
 
       {/* CENTER: Details */}
@@ -104,6 +109,11 @@ export function BidCard({ match }: { match: any }) {
           <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-white">
             {bid.source}
           </Badge>
+          {score === 0 && (
+            <Badge variant="secondary" className="text-[9px] h-5 bg-slate-100 text-slate-500 border-none font-bold">
+              Analysis Pending
+            </Badge>
+          )}
           {daysLeft !== null && (
             <span className={cn("text-xs font-medium flex items-center gap-1", isUrgent ? "text-red-600 animate-pulse" : "text-slate-500")}>
               <Clock className="h-3 w-3" />

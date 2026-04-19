@@ -53,3 +53,34 @@ export async function updateBidDecision(matchId: string, decision: 'pursue' | 'm
   revalidatePath("/portal/pipeline");
   return { success: true };
 }
+
+/**
+ * Create a new match record to track a global bid
+ */
+export async function trackBid(bidId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("Unauthorized");
+
+  const { data, error } = await supabase
+    .from("user_bid_matches")
+    .insert({
+      user_id: user.id,
+      bid_id: bidId,
+      fit_score: 0, // Initial score before AI analysis
+      pipeline_stage: 'new_match'
+    })
+    .select()
+    .single();
+
+  if (error && error.code !== '23505') { // Ignore unique constraint errors (already tracking)
+    throw error;
+  }
+
+  revalidatePath("/portal/bids");
+  revalidatePath("/portal/matches");
+  revalidatePath("/portal/vendor");
+  
+  return { success: true, matchId: data?.id };
+}

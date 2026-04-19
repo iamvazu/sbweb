@@ -35,8 +35,7 @@ export default function BidsBrowsePage() {
 
       let query = supabase
         .from("bids")
-        .select("*, user_bid_matches!inner(*)", { count: "exact" })
-        .eq("user_bid_matches.user_id", user.id);
+        .select("*, user_bid_matches(*)", { count: "exact" });
 
       if (search) {
         query = query.ilike("event_name", `%${search}%`);
@@ -145,7 +144,11 @@ export default function BidsBrowsePage() {
           <>
             <div className="grid gap-4">
               {bids.map((bid) => (
-                <BidCard key={bid.id} match={bid.user_bid_matches[0]} /> // Extracting the single match object
+                <BidCard 
+                  key={bid.id} 
+                  match={bid.user_bid_matches?.[0]} 
+                  bid={bid} 
+                />
               ))}
             </div>
 

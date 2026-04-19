@@ -29,7 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getStrategyForBid } from "@/lib/data/bid-strategies";
 import { createCheckoutSession } from "@/app/actions/stripe";
-import { updateMatchStage } from "@/app/actions/bids";
+import { updateMatchStage, trackBid } from "@/app/actions/bids";
 
 export default function BidDetailPage() {
   const { id } = useParams();
@@ -53,7 +53,6 @@ export default function BidDetailPage() {
           user_bid_matches (*)
         `)
         .eq("id", id)
-        .eq("user_bid_matches.user_id", user.id)
         .single();
 
       if (error) {
@@ -74,6 +73,26 @@ export default function BidDetailPage() {
       toast({ title: "Updated", description: `Bid moved to ${stage.replace('_', ' ')}.` });
       // Minor hack to update local state without full refetch
       setData({ ...data, user_bid_matches: [{ ...match, pipeline_stage: stage }] });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    }
+    setIsUpdating(false);
+  };
+
+  const handleTrackBid = async () => {
+    setIsUpdating(true);
+    try {
+      const result = await trackBid(bid.id);
+      if (result.success) {
+        toast({ title: "Success", description: "You are now tracking this bid." });
+        // Refresh local data
+        const { data: updatedBid } = await supabase
+          .from("bids")
+          .select("*, user_bid_matches(*)")
+          .eq("id", id)
+          .single();
+        setData(updatedBid);
+      }
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     }
@@ -132,7 +151,7 @@ export default function BidDetailPage() {
         <Card className="border-none shadow-xl shadow-brand-blue-600/5 bg-brand-navy-900 text-white overflow-hidden rounded-[2rem]">
           <CardContent className="p-8 text-center space-y-4 relative">
             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-3xl" />
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200/60">AI Correlation Score</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200/60">Correlation Score</p>
             <div className="relative inline-flex items-center justify-center">
               <svg className="w-24 h-24 transform -rotate-90">
                 <circle
@@ -146,14 +165,14 @@ export default function BidDetailPage() {
                   stroke="currentColor" strokeWidth="8"
                   fill="transparent"
                   strokeDasharray={251.2}
-                  strokeDashoffset={251.2 - (251.2 * match.fit_score) / 100}
+                  strokeDashoffset={251.2 - (251.2 * (match?.fit_score || 0)) / 100}
                   className="text-brand-blue-600"
                 />
               </svg>
-              <span className="absolute text-2xl font-black">{match.fit_score}%</span>
+              <span className="absolute text-2xl font-black">{match?.fit_score || 0}%</span>
             </div>
             <p className="text-xs font-bold text-blue-100/60 max-w-[180px] mx-auto">
-              {match.fit_score > 80 ? "Strategic High-Fit Opportunity" : "Moderate Alignment Opportunity"}
+              {!match ? "Analysis Pending" : (match.fit_score > 80 ? "Strategic High-Fit Opportunity" : "Moderate Alignment Opportunity")}
             </p>
           </CardContent>
         </Card>
@@ -306,26 +325,41 @@ export default function BidDetailPage() {
               <CardTitle className="text-sm font-black uppercase tracking-[0.1em]">Pipeline Stage</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 gap-2">
-                {[
-                  { id: 'new_match', label: 'New Match', color: 'bg-blue-500' },
-                  { id: 'reviewing', label: 'Reviewing', color: 'bg-amber-500' },
-                  { id: 'pursuing', label: 'Pursuing', color: 'bg-purple-500' },
-                  { id: 'submitted', label: 'Submitted', color: 'bg-teal-500' },
-                ].map((s) => (
-                  <Button
-                    key={s.id}
-                    variant={match.pipeline_stage === s.id ? 'default' : 'outline'}
-                    onClick={() => handleStatusUpdate(s.id)}
+              {!match ? (
+                <div className="space-y-4">
+                  <p className="text-xs font-bold text-slate-500 leading-relaxed italic">
+                    This bid is not currently in your pipeline. Track it to see analysis details.
+                  </p>
+                  <Button 
+                    onClick={handleTrackBid}
                     disabled={isUpdating}
-                    className={`justify-start h-11 rounded-xl font-bold ${match.pipeline_stage === s.id ? 'bg-brand-navy-900 border-transparent' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
+                    className="w-full bg-brand-blue-600 hover:bg-blue-700 text-white h-11 rounded-xl font-bold"
                   >
-                    <div className={`w-2 h-2 rounded-full mr-3 ${s.color}`} />
-                    {s.label}
-                    {match.pipeline_stage === s.id && <CheckCircle2 className="w-4 h-4 ml-auto text-white" />}
+                    {isUpdating ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : "Track this Opportunity"}
                   </Button>
-                ))}
-              </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-2">
+                  {[
+                    { id: 'new_match', label: 'New Match', color: 'bg-blue-500' },
+                    { id: 'reviewing', label: 'Reviewing', color: 'bg-amber-500' },
+                    { id: 'pursuing', label: 'Pursuing', color: 'bg-purple-500' },
+                    { id: 'submitted', label: 'Submitted', color: 'bg-teal-500' },
+                  ].map((s) => (
+                    <Button
+                      key={s.id}
+                      variant={match.pipeline_stage === s.id ? 'default' : 'outline'}
+                      onClick={() => handleStatusUpdate(s.id)}
+                      disabled={isUpdating}
+                      className={`justify-start h-11 rounded-xl font-bold ${match.pipeline_stage === s.id ? 'bg-brand-navy-900 border-transparent' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
+                    >
+                      <div className={`w-2 h-2 rounded-full mr-3 ${s.color}`} />
+                      {s.label}
+                      {match.pipeline_stage === s.id && <CheckCircle2 className="w-4 h-4 ml-auto text-white" />}
+                    </Button>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
 
