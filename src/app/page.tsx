@@ -134,14 +134,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-wrap justify-between items-center gap-8 opacity-60 hover:opacity-100 transition-all duration-500">
             {[
-              { label: "CSLB #1057434", sub: "Class B, C-6, C-36" },
-              { label: "SDVOSB", sub: "Service-Disabled Veteran" },
-              { label: "DVBE", sub: "Certified Entity" },
-              { label: "DIR Registration", sub: "In Process" },
-              { label: "Insured", sub: "Insureon Premium" },
+              { label: "CSLB #1057434", sub: "Class B, C-6, C-36", img: "/images/logos/cslb.png" },
+              { label: "SDVOSB", sub: "Service-Disabled Veteran", img: "/images/logos/sdvosb.png" },
+              { label: "DVBE", sub: "Certified Entity", img: "/images/logos/dvbe.png" },
+              { label: "DIR Registration", sub: "In Process", img: "/images/logos/dir.png" },
+              { label: "Insured", sub: "Insureon Premium", img: "/images/logos/insureon.png" },
             ].map((cert, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <ShieldCheck className="w-4 h-4 text-brand-blue-600" />
+              <div key={i} className="flex items-center gap-4 group/logo">
+                <div className="h-10 w-10 relative flex-shrink-0 flex items-center justify-center grayscale group-hover/logo:grayscale-0 transition-all duration-500">
+                  <img src={cert.img} alt={cert.label} className="max-h-full max-w-full object-contain" />
+                </div>
                 <div className="flex flex-col">
                   <span className="text-[11px] font-black text-brand-navy-900 dark:text-white uppercase tracking-wider">{cert.label}</span>
                   <span className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">{cert.sub}</span>
