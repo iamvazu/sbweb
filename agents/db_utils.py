@@ -27,6 +27,7 @@ def get_supabase_client() -> Client:
         return None
 
     try:
+        # Use simple initialization; version 2.4.6+ handles environment proxies correctly
         return create_client(url, key)
     except Exception as e:
         logger.error(f"❌ Failed to initialize Supabase client: {e}")
