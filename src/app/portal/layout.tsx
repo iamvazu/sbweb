@@ -115,7 +115,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             href={item.href}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
               ${item.highlight 
-                ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'bg-[#1E6FD9]/10 text-[#1E6FD9] hover:bg-[#1E6FD9]/20')
+                ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-[#1E6FD9] hover:bg-[#1E6FD9]/10')
                 : (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
           >
             <item.icon className="h-4 w-4" />
