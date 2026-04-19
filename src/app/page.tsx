@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { useState } from "react";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock } from "lucide-react";
+import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FADE_UP: Variants = {
@@ -349,6 +350,80 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section - NEW */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 border-t border-gray-100 dark:border-white/5">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Questions from first-time users</h2>
+            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Frequently Asked <span className="italic text-brand-blue-600">Questions.</span></h3>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: "How does BidIQ outperform manual portal searching?",
+                a: "Manual searching often results in missed opportunities and hours of wasted time. BidIQ consolidates over 30+ California procurement portals into a single, intelligent feed. We don't just list contracts; we rank them based on your specific NAICS codes, certifications, and past performance. Most users reclaim over 10 hours a week by focusing only on high-fit bids."
+              },
+              {
+                q: "What specific contract sources does BidIQ monitor?",
+                a: "Our engine scans a massive array of California-specific sources, including Cal eProcure, PlanetBids, and many municipal hubs like RAMP (LA) and BuyNet (San Diego). While the Starter tier covers core local portals, our Professional and Enterprise plans unlock expanded state-wide and specialized agency feeds."
+              },
+              {
+                q: "What is the typical setup time for a new team?",
+                a: "We've optimized onboarding for speed. Most contracting firms are ready to go in under 10 minutes. By simply identifying your service area, NAICS codes, and target agencies, you'll start receiving high-probability matches in your very next daily digest."
+              },
+              {
+                q: "Can I test the platform before committing?",
+                a: "Yes. We believe in the power of our intelligence platform, which is why we offer a 100% free account to get you started—no credit card required. You can experience the automated matching engine firsthand before selecting a growth plan that fits your business."
+              },
+              {
+                q: "Which industries and company sizes benefit most?",
+                a: "BidIQ is purpose-built for high-growth small businesses and mid-market firms. While we specialize in construction, facilities management, and professional consulting, our platform is equally powerful for IT, engineering, and manufacturing firms looking to dominate their local government market."
+              }
+            ].map((faq, i) => (
+              <FAQItem key={i} question={faq.q} answer={faq.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+function FAQItem({ question, answer }: { question: string, answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border border-gray-200 dark:border-white/10 rounded-[2rem] bg-white dark:bg-brand-navy-900/40 overflow-hidden transition-all hover:border-brand-blue-600/30">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-8 py-6 flex items-center justify-between text-left group"
+      >
+        <span className="text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">{question}</span>
+        <ChevronDown 
+          className={cn(
+            "w-5 h-5 text-slate-400 transition-transform duration-300",
+            isOpen && "rotate-180 text-brand-blue-600"
+          )} 
+        />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <div className="px-8 pb-8">
+              <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                {answer}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
