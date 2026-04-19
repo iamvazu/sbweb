@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap } from "lucide-react";
+import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const FADE_UP: Variants = {
@@ -47,8 +47,8 @@ export default function Home() {
               variants={STAGGER}
               className="lg:col-span-7 space-y-6"
             >
-              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 backdrop-blur-md">
-                <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 uppercase">
+              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 backdrop-blur-md">
+                <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">
                   Government Contracting Excellence
                 </span>
               </motion.div>
@@ -74,7 +74,7 @@ export default function Home() {
                 </Link>
               </motion.div>
               
-              <motion.div variants={FADE_UP} className="flex items-center gap-5 pt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
+              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-3 gap-x-5 pt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                   Licensed & Bonded
@@ -82,6 +82,16 @@ export default function Home() {
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                   DIR Registered
+                </div>
+                <div className="flex items-center gap-2 text-slate-400">
+                  <span className="text-slate-700 font-black px-1 opacity-20">•</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600" />
+                  No credit card required
+                </div>
+                <div className="flex items-center gap-2 text-slate-400">
+                  <span className="text-slate-700 font-black px-1 opacity-20">•</span>
+                  <Clock className="w-3.5 h-3.5 text-brand-blue-600" />
+                  Set up in 10 minutes
                 </div>
               </motion.div>
             </motion.div>
