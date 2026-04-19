@@ -12,8 +12,10 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, X, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Filter, X, Loader2, ChevronLeft, ChevronRight, LayoutGrid, ListFilter } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -24,6 +26,8 @@ export default function BidsBrowsePage() {
   const [search, setSearch] = useState("");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("closing_soon");
+  const [showClosed, setShowClosed] = useState(false);
   const [page, setPage] = useState(1);
   const supabase = createClient();
 
@@ -46,9 +50,21 @@ export default function BidsBrowsePage() {
       if (statusFilter !== "all") {
         query = query.eq("go_nogo", statusFilter);
       }
+      
+      if (!showClosed) {
+        query = query.gt("end_date", new Date().toISOString());
+      }
+
+      // Sorting logic
+      if (sortBy === "closing_soon") {
+        query = query.order("end_date", { ascending: true });
+      } else if (sortBy === "recently_added") {
+        query = query.order("created_at", { ascending: false });
+      } else if (sortBy === "highest_value") {
+        query = query.order("estimated_value_max", { ascending: false });
+      }
 
       const { data, count, error } = await query
-        .order("end_date", { ascending: true })
         .range((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE - 1);
 
       if (!error) {
@@ -63,12 +79,14 @@ export default function BidsBrowsePage() {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [supabase, search, sourceFilter, statusFilter, page]);
+  }, [supabase, search, sourceFilter, statusFilter, sortBy, showClosed, page]);
 
   const clearFilters = () => {
     setSearch("");
     setSourceFilter("all");
     setStatusFilter("all");
+    setSortBy("closing_soon");
+    setShowClosed(false);
     setPage(1);
   };
 
@@ -120,7 +138,34 @@ export default function BidsBrowsePage() {
           </Select>
         </div>
 
-        {(search || sourceFilter !== "all" || statusFilter !== "all") && (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t border-slate-100 mt-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox 
+              id="show-closed" 
+              checked={showClosed} 
+              onCheckedChange={(checked) => setShowClosed(checked as boolean)}
+            />
+            <Label htmlFor="show-closed" className="text-sm font-medium text-slate-600 cursor-pointer">
+              Show Closed Bids
+            </Label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sort By</span>
+            <Select value={sortBy} onValueChange={(v) => setSortBy(v || "closing_soon")}>
+              <SelectTrigger className="w-[180px] h-9 border-slate-200 bg-slate-50/50">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="closing_soon">Closing Soon</SelectItem>
+                <SelectItem value="recently_added">Recently Added</SelectItem>
+                <SelectItem value="highest_value">Highest Value</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {(search || sourceFilter !== "all" || statusFilter !== "all" || showClosed) && (
           <div className="flex items-center gap-2 pt-2">
             <Button 
               variant="ghost" 

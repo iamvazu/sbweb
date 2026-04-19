@@ -35,7 +35,8 @@ export default function MatchesPage() {
         `)
         .eq("user_id", user.id)
         .eq("pipeline_stage", "new_match")
-        .order(sortBy, { ascending: false });
+        .gt("bids.end_date", new Date().toISOString())
+        .order(sortBy === "fit_score" ? "fit_score" : "matched_at", { ascending: false });
 
       setMatches(data || []);
       setIsLoading(false);
