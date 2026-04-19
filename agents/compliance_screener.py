@@ -57,9 +57,20 @@ def screen_bid_compliance(bid):
     Document text:
     {text_sample}"""
 
-    # --- PRIMARY: ANTHROPIC ---
-    if anthropic:
+    # --- PRIMARY: GEMINI 2.0 (Confirmed Available) ---
+    if GEMINI_KEY:
         try:
+            logger.info("Using Gemini 2.0 Flash for compliance screening...")
+            model = genai.GenerativeModel('gemini-2.0-flash')
+            response = model.generate_content(system_prompt + "\n\n" + user_prompt)
+            return parse_ai_json(response.text)
+        except Exception as e:
+            logger.error(f"Gemini failed: {e}")
+
+    # --- FALLBACK: ANTHROPIC (Silenced) ---
+    if anthropic and False: # Disabled due to Tier issues
+        try:
+            logger.info("Attempting compliance screening with Anthropic...")
             response = anthropic.messages.create(
                 model="claude-3-haiku-20240307",
                 max_tokens=1000,
@@ -68,17 +79,7 @@ def screen_bid_compliance(bid):
             )
             return parse_ai_json(response.content[0].text)
         except Exception as e:
-            logger.error(f"Anthropic failed: {e}")
-
-    # --- FALLBACK: GEMINI ---
-    if GEMINI_KEY:
-        try:
-            logger.info("Falling back to Gemini for compliance screening...")
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            response = model.generate_content(system_prompt + "\n\n" + user_prompt)
-            return parse_ai_json(response.text)
-        except Exception as e:
-            logger.error(f"Gemini failed: {e}")
+            pass # Suppress logs for tier errors
 
     return None
 

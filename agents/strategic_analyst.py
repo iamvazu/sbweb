@@ -54,8 +54,18 @@ def analyze_bid_strategy(bid):
     Document text:
     {text_sample}"""
 
-    # --- PRIMARY: ANTHROPIC ---
-    if anthropic:
+    # --- PRIMARY: GEMINI 2.0 (Confirmed Available) ---
+    if GEMINI_KEY:
+        try:
+            logger.info("Using Gemini 2.0 Flash for strategy analysis...")
+            model = genai.GenerativeModel('gemini-2.0-flash')
+            response = model.generate_content(system_prompt + "\n\n" + user_prompt)
+            return parse_ai_json(response.text)
+        except Exception as e:
+            logger.error(f"Gemini strategy analysis failed: {e}")
+
+    # --- FALLBACK: ANTHROPIC (Silenced) ---
+    if anthropic and False: # Disabled
         try:
             logger.info("Attempting strategy analysis with Anthropic...")
             response = anthropic.messages.create(
@@ -66,17 +76,7 @@ def analyze_bid_strategy(bid):
             )
             return parse_ai_json(response.content[0].text)
         except Exception as e:
-            logger.error(f"Anthropic strategy analysis failed: {e}")
-
-    # --- FALLBACK: GEMINI ---
-    if GEMINI_KEY:
-        try:
-            logger.info("Falling back to Gemini for strategy analysis...")
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            response = model.generate_content(system_prompt + "\n\n" + user_prompt)
-            return parse_ai_json(response.text)
-        except Exception as e:
-            logger.error(f"Gemini strategy analysis failed: {e}")
+            pass
 
     return None
 
