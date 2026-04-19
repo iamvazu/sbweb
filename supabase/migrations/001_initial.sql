@@ -153,10 +153,10 @@ create policy "Users can update own profile"
   on public.users for update
   using (auth.uid() = id);
 
--- POLICIES: bids (all authenticated users can read)
-create policy "Authenticated users can view bids"
+-- POLICIES: bids (allow public read, restricted write)
+create policy "Public can view bids"
   on public.bids for select
-  using (auth.role() = 'authenticated');
+  using (true);
 
 -- POLICIES: user_bid_matches
 create policy "Users can view own matches"

@@ -233,7 +233,7 @@ export default function BidDetailPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    {strategy.fit_score_modifiers.map((m: string) => (
+                    {strategy.fit_score_modifiers?.map((m: string) => (
                       <div key={m} className="flex items-center gap-2 text-xs font-bold text-slate-600">
                         <ChevronRight className="w-3 h-3 text-success" /> {m}
                       </div>

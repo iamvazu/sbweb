@@ -31,6 +31,7 @@ export const BID_STRATEGIES: Record<string, any> = {
   },
   default: {
     title: "Standard Strategic Bidding Approach",
+    fit_score_modifiers: ["Responsive Timeline", "Compliance Accuracy"],
     strategic_plan: [
       "Carefully review the 'Selection Criteria' weighting (e.g., Price vs. Experience).",
       "Ensure all 'Mandatory' forms are signed—this is the #1 cause of disqualification.",
