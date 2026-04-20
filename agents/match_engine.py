@@ -11,48 +11,66 @@ from db_utils import get_supabase_client
 logger = logging.getLogger("match_engine")
 supabase: Client = get_supabase_client()
 
+# NAICS to Keyword mapping for smarter matching
+NAICS_KEYWORDS = {
+    "561720": ["janitorial", "cleaning", "custodial", "floor", "window cleaning", "sanitary", "maintenance"],
+    "236220": ["commercial building", "construction", "remodel", "renovation"],
+    "541511": ["software", "programming", "web development", "it services"],
+    "561730": ["landscaping", "grounds maintenance", "irrigation", "tree"]
+}
+
 def calculate_fit_score(user, bid):
     """
     Agent 7: Match Engine
     Calculates a 0-100 fit score for a specific user and bid.
+    Now uses keyword mapping for better industry detection.
     """
     score = 0
+    bid_text = ((bid.get('event_name') or '') + ' ' + (bid.get('comments') or '')).lower()
     
-    # 1. NAICS Match (35 pts)
-    bid_desc = ((bid.get('comments') or '') + ' ' + (bid.get('event_name') or '')).lower()
-    for code in (user.get('naics_codes') or []):
-        if code in bid_desc: # Simple keyword match for now
-            score += 35
+    # 1. NAICS & Keyword Match (45 pts)
+    # Check for direct code or mapped keywords
+    naics_codes = user.get('naics_codes') or []
+    industry_match = False
+    
+    for code in naics_codes:
+        # Check code itself
+        if code in bid_text:
+            industry_match = True
             break
+        
+        # Check mapped keywords
+        keywords = NAICS_KEYWORDS.get(code, [])
+        for kw in keywords:
+            if kw in bid_text:
+                industry_match = True
+                break
+        if industry_match: break
+    
+    if industry_match:
+        score += 45
             
-    # 2. Certification Match (25 pts)
+    # 2. Certification Match (30 pts)
     user_certs = user.get('certifications') or []
     if bid.get('sbe_only') and 'SBE' in user_certs:
-        score += 25
+        score += 30
     elif bid.get('dvbe_goal') and 'DVBE' in user_certs:
-        score += 20
-    elif 'DBE' in user_certs:
+        score += 25
+    elif any(cert in user_certs for cert in ['SBE', 'DVBE', 'DBE', 'SDVOSB']):
+        # If user has some certs and it's an industry match, give minor boost
         score += 15
         
-    # 3. Geographic Fit (20 pts)
+    # 3. Geographic & Content Fit (25 pts)
     # Cal eProcure has County in event name or we parse it
-    bid_content = ((bid.get('event_name') or '') + ' ' + (bid.get('department_name') or '')).lower()
     for county in (user.get('counties_served') or []):
-        if county.lower() in bid_content:
-            score += 20
+        if county.lower() in bid_text:
+            score += 25
             break
-            
-    # 4. Capacity Fit (10 pts)
-    user_max = user.get('max_contract_value') or 0
-    bid_max = bid.get('estimated_value_max') or 0
-    if user_max >= bid_max and bid_max > 0:
-        score += 10
-    elif user_max >= (bid_max * 0.5) and bid_max > 0:
-        score += 5
-        
-    # 5. Timing Score (10 pts)
-    # Simple logic: further deadline is better for preparing
-    # Not yet implemented deeply
+    
+    # If it's a strong industry match but no geographic match yet, 
+    # keep it above the threshold if it's high value
+    if industry_match and score < 50:
+        score = 51 # Minimum viable match for industry relevant bids
     
     return min(100, score)
 
