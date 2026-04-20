@@ -301,7 +301,7 @@ export default function ProspectRegistryPage() {
                       </section>
 
                    </div>
-                </ScrollArea>
+                </div>
 
                 {/* Sticky Action View */}
                 <div className="p-8 bg-slate-50/80 border-t border-slate-100 backdrop-blur-md shrink-0">
