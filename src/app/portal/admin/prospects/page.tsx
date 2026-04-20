@@ -7,7 +7,7 @@ import {
   Users, 
   Search, 
   MapPin, 
-  Certificate, 
+  Award, 
   Globe, 
   Mail, 
   Phone, 
