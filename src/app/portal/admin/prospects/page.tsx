@@ -18,7 +18,8 @@ import {
   Building2,
   Table as TableIcon,
   LayoutGrid,
-  Info
+  Info,
+  ExternalLink
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
