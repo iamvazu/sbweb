@@ -44,7 +44,9 @@ export default function LoginPage() {
     }
 
     // Check admin status first
-    const isAdmin = email.endsWith('@strongerbuilt.us') || email === 'roy@strongerbuilt.us' || email === 'crazyme2207@gmail.com';
+    const isAdmin = email.endsWith('@strongerbuilt.us') || 
+                    email === 'roy@strongerbuilt.us' || 
+                    email === 'crazyme2207@gmail.com';
     
     if (isAdmin) {
       router.push("/portal/admin");

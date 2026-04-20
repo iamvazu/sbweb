@@ -12,9 +12,14 @@ export async function middleware(request: NextRequest) {
     return Response.redirect(new URL('/login', request.url))
   }
 
-  // If user IS authenticated and tries to access login -> redirect to vendor dashboard
+  // If user IS authenticated and tries to access login -> redirect to correct dashboard
   if (isLoginRoute && user) {
-    return Response.redirect(new URL('/portal/vendor', request.url))
+    const isAdmin = user.email?.endsWith('@strongerbuilt.us') || 
+                    user.email === 'roy@strongerbuilt.us' || 
+                    user.email === 'crazyme2207@gmail.com';
+    
+    const landingPath = isAdmin ? '/portal/admin' : '/portal/vendor';
+    return Response.redirect(new URL(landingPath, request.url))
   }
 
   // Admin protection

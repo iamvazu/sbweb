@@ -31,7 +31,7 @@ interface NavItem {
   badge?: number;
 }
 
-const NAV_ITEMS: NavItem[] = [
+const VENDOR_NAV: NavItem[] = [
   { label: "Dashboard", href: "/portal/vendor", icon: LayoutDashboard },
   { label: "My Matches", href: "/portal/matches", icon: Star },
   { label: "Browse All Bids", href: "/portal/bids", icon: Search },
@@ -39,9 +39,17 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Analytics", href: "/portal/analytics", icon: BarChart2 },
 ];
 
+const ADMIN_NAV: NavItem[] = [
+  { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
+  { label: "Global Marketplace", href: "/portal/bids", icon: Search },
+  { label: "System Partners", href: "/portal/admin", icon: LayoutDashboard },
+  { label: "Global Pipeline", href: "/portal/pipeline", icon: Kanban },
+  { label: "Cloud Logs", href: "/portal/admin", icon: BarChart2 },
+];
+
 const SECONDARY_NAV = [
-  { label: "Hire Us", href: "/portal/hire", icon: Handshake, highlight: true },
-  { label: "My Engagements", href: "/portal/engagements", icon: FileCheck },
+  { label: "Hire Us", href: "/portal/hire", icon: LayoutDashboard, highlight: true },
+  { label: "My Engagements", href: "/portal/engagements", icon: Star },
 ];
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
@@ -89,107 +97,104 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     return name.split(" ").map(n => n[0]).join("").toUpperCase().substring(0, 2);
   };
 
-  const Navigation = () => (
-    <div className="flex flex-col h-full py-6 space-y-8">
-      <div className="px-6">
-        <Link href="/" className="flex flex-col">
-          <span className="text-xl font-bold text-white tracking-tight">
-            Bid<span className="text-[#1E6FD9]">IQ</span>
-          </span>
-          <span className="text-[10px] text-blue-200/40 font-medium uppercase tracking-widest leading-none">
-            Powered by StrongerBuilt
-          </span>
-        </Link>
-      </div>
+  const Navigation = () => {
+    const isAdmin = userProfile?.email?.endsWith('@strongerbuilt.us') || 
+                    userProfile?.email === 'roy@strongerbuilt.us' || 
+                    userProfile?.email === 'crazyme2207@gmail.com';
+    
+    const currentNav = isAdmin ? ADMIN_NAV : VENDOR_NAV;
 
-      <nav className="flex-1 px-3 space-y-1">
-        {NAV_ITEMS.map((item) => (
-          <Link 
-            key={item.href} 
-            href={item.href}
-            className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors
-              ${pathname === item.href 
-                ? 'bg-[#1E6FD9] text-white' 
-                : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
-          >
-            <div className="flex items-center gap-3">
+    return (
+      <div className="flex flex-col h-full py-6 space-y-8">
+        <div className="px-6">
+          <Link href="/" className="flex flex-col">
+            <span className="text-xl font-bold text-white tracking-tight">
+              Bid<span className="text-[#1E6FD9]">IQ</span>
+            </span>
+            <span className="text-[10px] text-blue-200/40 font-medium uppercase tracking-widest leading-none">
+              {isAdmin ? "Admin Mission Control" : "Powered by StrongerBuilt"}
+            </span>
+          </Link>
+        </div>
+
+        <nav className="flex-1 px-3 space-y-1">
+          {currentNav.map((item) => (
+            <Link 
+              key={item.href} 
+              href={item.href}
+              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                ${pathname === item.href 
+                  ? (isAdmin ? 'bg-amber-500 text-white' : 'bg-[#1E6FD9] text-white')
+                  : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </div>
+              {!isAdmin && (item.badge || (item.label === "My Matches" && matchCount > 0)) && (
+                <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-white text-blue-900' : ''}`}>
+                  {item.label === "My Matches" ? matchCount : item.badge}
+                </Badge>
+              )}
+            </Link>
+          ))}
+
+          <div className="py-4">
+            <Separator className="bg-white/10" />
+          </div>
+
+          {!isAdmin && SECONDARY_NAV.map((item) => (
+            <Link 
+              key={item.href} 
+              href={item.href}
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
+                ${item.highlight 
+                  ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-[#1E6FD9] hover:bg-[#1E6FD9]/10')
+                  : (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
+            >
               <item.icon className="h-4 w-4" />
               {item.label}
-            </div>
-            {(item.badge || (item.label === "My Matches" && matchCount > 0)) && (
-              <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-white text-blue-900' : ''}`}>
-                {item.label === "My Matches" ? matchCount : item.badge}
-              </Badge>
-            )}
-          </Link>
-        ))}
-
-        <div className="py-4">
-          <Separator className="bg-white/10" />
-        </div>
-
-        {SECONDARY_NAV.map((item) => (
+            </Link>
+          ))}
+          
           <Link 
-            key={item.href} 
-            href={item.href}
+            href="/portal/settings"
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-              ${item.highlight 
-                ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-[#1E6FD9] hover:bg-[#1E6FD9]/10')
-                : (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
-          >
-            <item.icon className="h-4 w-4" />
-            {item.label}
-          </Link>
-        ))}
-
-        {userProfile && (userProfile.email?.endsWith('@strongerbuilt.us') || userProfile.email === 'crazyme2207@gmail.com') && (
-          <Link 
-            href="/portal/admin"
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-black uppercase tracking-tighter transition-colors mt-4
-              ${pathname === '/portal/admin' ? 'bg-amber-500 text-white' : 'text-amber-500 hover:bg-amber-500/10'}`}
+              ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
           >
             <ShieldAlert className="h-4 w-4" />
-            Admin Console
+            {isAdmin ? "Admin Security" : "Profile Settings"}
           </Link>
-        )}
-        
-        <Link 
-          href="/portal/settings"
-          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-            ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
-        >
-          <User className="h-4 w-4" />
-          Profile
-        </Link>
-      </nav>
+        </nav>
 
-      <div className="px-3 pt-6 border-t border-white/10">
-        <div className="flex items-center gap-3 px-3 py-2 mb-4">
-          <Avatar className="h-8 w-8 bg-blue-600 border border-white/20">
-            <AvatarFallback className="text-[10px] bg-blue-600 text-white">
-              {getInitials(userProfile?.business_name)}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-xs font-semibold text-white truncate">
-              {userProfile?.business_name || "Enterprise User"}
-            </p>
-            <Badge variant="outline" className="text-[9px] uppercase tracking-tighter h-4 px-1 border-white/20 text-blue-200/60">
-              {userProfile?.subscription_tier || "FREE"}
-            </Badge>
+        <div className="px-3 pt-6 border-t border-white/10">
+          <div className="flex items-center gap-3 px-3 py-2 mb-4">
+            <Avatar className="h-8 w-8 bg-blue-600 border border-white/20">
+              <AvatarFallback className="text-[10px] bg-blue-600 text-white">
+                {getInitials(userProfile?.business_name)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 overflow-hidden">
+              <p className="text-xs font-semibold text-white truncate">
+                {userProfile?.business_name || (isAdmin ? "Super Admin" : "Enterprise User")}
+              </p>
+              <Badge variant="outline" className={`text-[9px] uppercase tracking-tighter h-4 px-1 border-white/20 ${isAdmin ? 'bg-amber-500/20 text-amber-500 border-amber-500/30' : 'text-blue-200/60'}`}>
+                {isAdmin ? "SUPER ADMIN" : (userProfile?.subscription_tier || "FREE")}
+              </Badge>
+            </div>
           </div>
+          <Button 
+            variant="ghost" 
+            onClick={handleLogout}
+            className="w-full justify-start text-blue-100/40 hover:bg-red-500/10 hover:text-red-400 h-9 px-3"
+          >
+            <LogOut className="h-4 w-4 mr-3" />
+            Log Out
+          </Button>
         </div>
-        <Button 
-          variant="ghost" 
-          onClick={handleLogout}
-          className="w-full justify-start text-blue-100/40 hover:bg-red-500/10 hover:text-red-400 h-9 px-3"
-        >
-          <LogOut className="h-4 w-4 mr-3" />
-          Log Out
-        </Button>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
