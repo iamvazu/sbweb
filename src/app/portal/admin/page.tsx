@@ -35,7 +35,7 @@ export default function AdminDashboardPage() {
     async function checkAdminAndLoadData() {
       const { data: { user } } = await supabase.auth.getUser();
       
-      if (!user || (!user.email?.endsWith('@strongerbuilt.us') && user.email !== 'roy@strongerbuilt.us')) {
+      if (!user || (!user.email?.endsWith('@strongerbuilt.us') && user.email !== 'roy@strongerbuilt.us' && user.email !== 'crazyme2207@gmail.com')) {
         window.location.href = "/portal/vendor";
         return;
       }
