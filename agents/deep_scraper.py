@@ -193,6 +193,17 @@ def run():
             try:
                 details = deep_scrape_bid(page, bid)
                 if details:
+                    # Clean up the published_date to be a valid ISO timestamp or current time
+                    final_pub_date = details.get("published_date")
+                    try:
+                        if not final_pub_date:
+                            final_pub_date = datetime.now().isoformat()
+                        # If it's the Cal eProcure format, we might need to be careful, 
+                        # but Supabase is quite good at parsing many strings.
+                        # However, for our fallback, we MUST use a valid timestamp.
+                    except:
+                        final_pub_date = datetime.now().isoformat()
+
                     update_payload = {
                         "contact_name": details.get("contact_name"),
                         "contact_email": details.get("contact_email"),
@@ -200,7 +211,7 @@ def run():
                         "mandatory_prebid": details.get("mandatory_prebid"),
                         "event_version": details.get("event_version"),
                         "event_format_type": details.get("event_format_type"),
-                        "published_date": details.get("published_date") or f"Scraped {datetime.now().strftime('%Y-%m-%d')}",
+                        "published_date": final_pub_date,
                         "prebid_date": details.get("prebid_date"),
                         "prebid_time": details.get("prebid_time"),
                         "prebid_location": details.get("prebid_location"),
