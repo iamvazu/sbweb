@@ -153,8 +153,17 @@ export default function BidDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-brand-blue-600" />
+              Published: {bid.published_date ? new Date(bid.published_date).toLocaleDateString() : 'TBD'}
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-brand-blue-600" />
               Due: {bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'TBD'}
             </div>
+            {bid.event_version && (
+              <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-bold px-2 py-0 h-5">
+                v{bid.event_version}
+              </Badge>
+            )}
           </div>
         </div>
 
@@ -239,6 +248,50 @@ export default function BidDetailPage() {
                                 <p className="text-[10px] uppercase font-black text-slate-400">Contact Email</p>
                                 <p className="text-sm font-bold text-slate-800 underline decoration-blue-200 underline-offset-4">{bid.contact_email || "N/A"}</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        {/* UNSPSC CODES */}
+                        <div className="space-y-4">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">UNSPSC Classifications</h3>
+                            <div className="space-y-2">
+                                {bid.unspsc_codes && bid.unspsc_codes.length > 0 ? (
+                                    bid.unspsc_codes.map((item: any, i: number) => (
+                                        <div key={i} className="flex flex-col p-3 bg-slate-50 border border-slate-100 rounded-xl">
+                                            <span className="text-[10px] font-black text-brand-blue-600">{item.code}</span>
+                                            <span className="text-xs font-bold text-slate-700">{item.description}</span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-xs font-bold text-slate-400 italic">No specific codes identified.</p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* SERVICE AREAS */}
+                        <div className="space-y-4">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Geographic Service Areas</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {bid.service_areas && bid.service_areas.length > 0 ? (
+                                    bid.service_areas.map((area: any, i: number) => (
+                                        <Badge key={i} variant="secondary" className="bg-white border-slate-200 text-slate-600 font-bold">
+                                            {area.county || area.id}
+                                        </Badge>
+                                    ))
+                                ) : (
+                                    <p className="text-xs font-bold text-slate-400 italic">Location details pendng.</p>
+                                )}
+                            </div>
+                            
+                            {bid.event_format_type && (
+                                <div className="pt-4">
+                                    <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Event Format / Type</h3>
+                                    <Badge className="bg-brand-navy-900/5 text-brand-navy-900 border-none font-bold uppercase text-[10px]">
+                                        {bid.event_format_type}
+                                    </Badge>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </CardContent>
@@ -335,8 +388,37 @@ export default function BidDetailPage() {
                         <span>DBE Goal</span>
                         <span className="font-bold text-brand-navy-900">{bid.dbe_goal || "0%"}</span>
                       </div>
+                      {bid.contractor_license_type && (
+                        <div className="flex items-center justify-between py-2 border-b border-dashed">
+                            <span>License Required</span>
+                            <span className="font-bold text-brand-blue-600 text-[10px] uppercase">{bid.contractor_license_type}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
+
+                  {/* PRE-BID DETAILS */}
+                  {bid.prebid_date && (
+                    <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+                        <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Pre-Bid Conference Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <p className="text-[10px] font-black text-slate-400 uppercase">Date & Time</p>
+                                <p className="text-sm font-bold text-slate-700">{bid.prebid_date} @ {bid.prebid_time || "TBD"}</p>
+                            </div>
+                            <div className="md:col-span-2">
+                                <p className="text-[10px] font-black text-slate-400 uppercase">Location</p>
+                                <p className="text-sm font-bold text-slate-700">{bid.prebid_location || "Check Official Portal"}</p>
+                            </div>
+                        </div>
+                        {bid.prebid_comments && (
+                            <div className="pt-2 border-t border-slate-200/50">
+                                <p className="text-[10px] font-black text-slate-400 uppercase">Instruction / Comments</p>
+                                <p className="text-xs font-medium text-slate-600 italic">"{bid.prebid_comments}"</p>
+                            </div>
+                        )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
