@@ -153,7 +153,7 @@ export default function BidDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-brand-blue-600" />
-              Published: {bid.published_date ? new Date(bid.published_date).toLocaleDateString() : 'TBD'}
+              Published: {bid.published_date ? bid.published_date : 'TBD'}
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-brand-blue-600" />

@@ -147,11 +147,12 @@ def run():
         logger.error("Supabase not initialized.")
         return
 
-    # Targeting bids that lack description or contact info
+    # Targeting bids that lack description OR were scraped before we added the new fields
+    # We use or_ to capture both cases
     res = supabase.table("bids")\
         .select("*")\
         .eq("status", "Posted")\
-        .is_("comments", "null")\
+        .or_("comments.is.null,unspsc_codes.is.null,event_version.is.null")\
         .order("first_seen", desc=True)\
         .limit(10)\
         .execute()
