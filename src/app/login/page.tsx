@@ -43,7 +43,15 @@ export default function LoginPage() {
       return;
     }
 
-    // Check onboarding status
+    // Check admin status first
+    const isAdmin = email.endsWith('@strongerbuilt.us') || email === 'roy@strongerbuilt.us' || email === 'crazyme2207@gmail.com';
+    
+    if (isAdmin) {
+      router.push("/portal/admin");
+      return;
+    }
+
+    // Check onboarding status for regular users
     const { data: profile } = await supabase
       .from("users")
       .select("onboarding_complete")

@@ -10,14 +10,12 @@ import {
   Search, 
   Kanban, 
   BarChart2, 
-  Handshake, 
-  FileCheck, 
-  User, 
   LogOut,
   Bell,
   RefreshCw,
   Menu,
-  ChevronRight
+  ChevronRight,
+  ShieldAlert
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -62,7 +60,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           .select("*")
           .eq("id", user.id)
           .single();
-        setUserProfile(data);
+        setUserProfile({ ...data, email: user.email });
       }
     }
     loadProfile();
@@ -143,6 +141,17 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             {item.label}
           </Link>
         ))}
+
+        {userProfile && (userProfile.email?.endsWith('@strongerbuilt.us') || userProfile.email === 'crazyme2207@gmail.com') && (
+          <Link 
+            href="/portal/admin"
+            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-black uppercase tracking-tighter transition-colors mt-4
+              ${pathname === '/portal/admin' ? 'bg-amber-500 text-white' : 'text-amber-500 hover:bg-amber-500/10'}`}
+          >
+            <ShieldAlert className="h-4 w-4" />
+            Admin Console
+          </Link>
+        )}
         
         <Link 
           href="/portal/settings"

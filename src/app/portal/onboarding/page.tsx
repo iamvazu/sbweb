@@ -84,18 +84,26 @@ export default function OnboardingPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Safety bypass for admins
+      const isAdmin = user.email?.endsWith('@strongerbuilt.us') || user.email === 'roy@strongerbuilt.us' || user.email === 'crazyme2207@gmail.com';
+      if (isAdmin) {
+        router.push("/portal/admin");
+        return;
+      }
+
       const { data } = await supabase
         .from("users")
         .select("*")
         .eq("id", user.id)
         .single();
 
-      if (data) {
-        setFormData((prev: any) => ({
-          ...prev,
-          ...data,
-          business_name: data.business_name || "",
-        }));
+        if (data) {
+          setFormData((prev: any) => ({
+            ...prev,
+            ...data,
+            business_name: data.business_name || "",
+          }));
+        }
       }
     }
     loadData();
