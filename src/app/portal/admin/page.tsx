@@ -46,12 +46,14 @@ export default function AdminDashboardPage() {
       const [
         { count: userCount },
         { count: bidCount },
+        { count: prospectCount },
         { count: hiredCount },
         { data: recentPartners },
         { data: recentEngagements }
       ] = await Promise.all([
         supabase.from('users').select('*', { count: 'exact', head: true }),
         supabase.from('bids').select('*', { count: 'exact', head: true }),
+        supabase.from('prospects').select('*', { count: 'exact', head: true }),
         supabase.from('service_engagements').select('*', { count: 'exact', head: true }),
         supabase.from('partner_applications').select('*').order('created_at', { ascending: false }).limit(5),
         supabase.from('service_engagements').select('*, users(business_name), bids(event_name)').order('created_at', { ascending: false }).limit(5),
@@ -60,6 +62,7 @@ export default function AdminDashboardPage() {
       setStats({
         users: userCount,
         bids: bidCount,
+        prospects: prospectCount,
         hired: hiredCount,
       });
       setPartners(recentPartners || []);
@@ -92,10 +95,11 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           { label: "Total Platform Users", value: stats.users, icon: Users, color: "text-blue-600" },
           { label: "Global Bids Indexed", value: stats.bids, icon: Search, color: "text-brand-blue-600" },
+          { label: "Prospect Database", value: stats.prospects, icon: Target, color: "text-amber-500" },
           { label: "Hired Engagements", value: stats.hired, icon: CreditCard, color: "text-success" },
         ].map((s) => (
           <Card key={s.label} className="border-none shadow-xl shadow-brand-blue-600/5 rounded-3xl">
