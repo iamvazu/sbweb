@@ -9,7 +9,7 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-22.04
-    timeout-minutes: 60 # Ensuring enough time for deep scraping and AI analysis
+    timeout-minutes: 360 # Increased to allow for full 600-bid deep scraping backlog
 
     steps:
       - name: Checkout Repository
