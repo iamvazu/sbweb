@@ -47,9 +47,9 @@ const VENDOR_NAV: NavItem[] = [
 const ADMIN_NAV: NavItem[] = [
   { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
   { label: "Global Marketplace", href: "/portal/bids", icon: Search },
-  { label: "System Partners", href: "/portal/admin", icon: Handshake },
+  { label: "Partner Review", href: "/portal/admin/partners", icon: Handshake },
   { label: "Global Pipeline", href: "/portal/pipeline", icon: Kanban },
-  { label: "Cloud Logs", href: "/portal/admin", icon: Terminal },
+  { label: "System Logs", href: "/portal/admin/logs", icon: Terminal },
 ];
 
 const SECONDARY_NAV = [
@@ -112,12 +112,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     return (
       <div className="flex flex-col h-full py-6 space-y-8">
         <div className="px-6">
-          <Link href="/" className="flex flex-col">
-            <span className="text-xl font-bold text-white tracking-tight">
-              Bid<span className="text-[#1E6FD9]">IQ</span>
+          <Link href="/" className="flex flex-col group">
+            <span className="text-2xl font-black text-white tracking-tighter flex items-center gap-1">
+              Bid<span className="text-amber-500">IQ</span>
+              {isAdmin && <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] font-black tracking-widest px-1 h-3.5 uppercase ml-1">Admin</Badge>}
             </span>
-            <span className="text-[10px] text-blue-200/40 font-medium uppercase tracking-widest leading-none">
-              {isAdmin ? "Admin Mission Control" : "Powered by StrongerBuilt"}
+            <span className="text-[9px] text-blue-200/40 font-black uppercase tracking-[0.2em] leading-none mt-1">
+              {isAdmin ? "Global Mission Control" : "Strategic Procurement"}
             </span>
           </Link>
         </div>
@@ -127,10 +128,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             <Link 
               key={item.href} 
               href={item.href}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-tight transition-all duration-200
                 ${pathname === item.href 
-                  ? (isAdmin ? 'bg-amber-500 text-white' : 'bg-[#1E6FD9] text-white')
-                  : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+                  ? (isAdmin ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20 translate-x-1' : 'bg-[#1E6FD9] text-white shadow-lg shadow-blue-500/20 translate-x-1')
+                  : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
             >
               <div className="flex items-center gap-3">
                 <item.icon className="h-4 w-4" />
