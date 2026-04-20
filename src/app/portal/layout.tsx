@@ -47,8 +47,8 @@ const VENDOR_NAV: NavItem[] = [
 const ADMIN_NAV: NavItem[] = [
   { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
   { label: "Global Marketplace", href: "/portal/bids", icon: Search },
+  { label: "Prospective Matches", href: "/portal/admin/matches", icon: Star },
   { label: "Partner Review", href: "/portal/admin/partners", icon: Handshake },
-  { label: "Global Pipeline", href: "/portal/pipeline", icon: Kanban },
   { label: "System Logs", href: "/portal/admin/logs", icon: Terminal },
 ];
 
