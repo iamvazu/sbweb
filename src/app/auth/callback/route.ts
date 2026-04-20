@@ -19,17 +19,19 @@ export async function GET(request: NextRequest) {
             return request.cookies.get(name)?.value
           },
           set(name: string, value: string, options: CookieOptions) {
-            request.cookies.set({ name, value, ...options })
+            cookieStore.set({ name, value, ...options })
           },
           remove(name: string, options: CookieOptions) {
-            request.cookies.set({ name, value: '', ...options })
+            cookieStore.set({ name, value: '', ...options })
           },
         },
       }
     )
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}/portal/vendor`)
+      // If the user is being redirected for a password recovery, send them to reset-password
+      const next = requestUrl.searchParams.get('next') || '/portal/vendor'
+      return NextResponse.redirect(`${origin}${next}`)
     }
   }
 
