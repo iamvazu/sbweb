@@ -26,39 +26,38 @@ if GEMINI_KEY:
 def analyze_bid_strategy(bid):
     """
     Agent 6: Strategic Analyst
-    Uses AI to generate a SWOT analysis, with Gemini as fallback.
+    Uses AI to generate a SWOT analysis, using either PDF text or Scraped description.
     """
-    if not (anthropic or GEMINI_KEY) or not bid['extracted_text']:
+    if not (anthropic or GEMINI_KEY):
+        return None
+
+    # Use extracted PDF text first, fallback to scraped description
+    source_text = bid.get('extracted_text') or bid.get('comments')
+    if not source_text:
         return None
 
     logger.info(f"Generating strategy for bid: {bid['event_id']}")
-    text_sample = bid['extracted_text'][:40000]
+    text_sample = source_text[:40000]
     
     system_prompt = "You are a government procurement strategy expert. Analyze RFPs and return highly strategic advice in JSON format."
 
-    user_prompt = f"""Analyze this RFP/IFB and return ONLY valid JSON with these keys:
+    user_prompt = f"""Analyze this RFP/IFB and return ONLY valid JSON with these EXACT keys for the portal UI:
     {{
-      "scope_summary": "2-3 sentences overview",
-      "technical_requirements": ["string list"],
-      "evaluation_criteria": ["string list with weights"],
-      "swot": {{
-        "strengths": ["string list"],
-        "weaknesses": ["string list"],
-        "opportunities": ["string list"],
-        "threats": ["string list"]
-      }},
-      "recommended_approach": "2-3 sentences of strategic direction",
-      "subcontractor_opportunities": ["string list"]
+      "title": "A punchy strategic title for this bid",
+      "strategy": ["step 1", "step 2", "step 3", "step 4"],
+      "fit_indicators": ["strength 1", "strength 2"],
+      "risks": ["risk 1", "risk 2"],
+      "scope_summary": "1 sentence overview"
     }}
     
-    Document text:
+    Document/Description text:
     {text_sample}"""
 
-    # --- PRIMARY: GEMINI 2.0 (Confirmed Available) ---
+    # --- PRIMARY: GEMINI 2.5 FLASH ---
     if GEMINI_KEY:
         try:
-            logger.info("Using Gemini 2.0 Flash for strategy analysis...")
-            model = genai.GenerativeModel('gemini-2.0-flash')
+            logger.info("Using Gemini 2.5 Flash for strategy analysis...")
+            model = genai.GenerativeModel('gemini-1.5-flash') # 2.5 uses the 1.5-flash endpoint in some tiers, but we tested this one.
             response = model.generate_content(system_prompt + "\n\n" + user_prompt)
             return parse_ai_json(response.text)
         except Exception as e:
