@@ -37,8 +37,8 @@ export default function AdminMatchesPage() {
         .from('prospect_bid_matches')
         .select(`
           *,
-          prospects:prospect_id(legal_name, email, cert_types, city),
-          bids:bid_id(event_name, department_name, end_date)
+          prospect:prospects(legal_name, email, cert_types, city),
+          bid:bids(event_name, department_name, end_date)
         `)
         .order('score', { ascending: false })
         .limit(50);
@@ -138,17 +138,20 @@ export default function AdminMatchesPage() {
                   {/* Prospect Detail */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                       <Badge variant="outline" className="text-[9px] font-black uppercase tracking-tighter text-blue-600 bg-blue-50 border-none">Prospect</Badge>
+                       <Badge variant="outline" className="text-[10px] font-black uppercase tracking-tighter text-amber-600 bg-amber-50 border-amber-200/50">MATCHED ENTITY</Badge>
                        <p className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
-                          <MapPin className="w-3 h-3" /> {match.prospects?.city}
+                          <MapPin className="w-3 h-3 text-amber-500" /> {(match.prospect as any)?.city || "California"}
                        </p>
                     </div>
-                    <h3 className="text-xl font-black text-brand-navy-900 tracking-tight leading-tight group-hover:text-amber-600 transition-colors">
-                       {match.prospects?.legal_name}
-                    </h3>
+                    <div>
+                      <h3 className="text-2xl font-black text-brand-navy-900 tracking-tighter leading-none group-hover:text-amber-600 transition-colors mb-1">
+                         {(match.prospect as any)?.legal_name || "Unknown Business"}
+                      </h3>
+                      <p className="text-xs text-slate-400 font-medium">{(match.prospect as any)?.email}</p>
+                    </div>
                     <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-                       {match.prospects?.cert_types?.map((c: string) => (
-                         <Badge key={c} variant="secondary" className="text-[8px] font-black bg-slate-100/50 text-slate-500 border-none whitespace-nowrap">
+                       {(match.prospect as any)?.cert_types?.map((c: string) => (
+                         <Badge key={c} variant="secondary" className="text-[8px] font-black bg-brand-navy-900 text-white border-none whitespace-nowrap">
                             {c}
                          </Badge>
                        ))}
@@ -177,22 +180,22 @@ export default function AdminMatchesPage() {
                    <div className="space-y-4">
                       <div className="flex justify-between items-start">
                          <Badge className="bg-white/10 text-white border-none text-[9px] font-bold uppercase hover:bg-white/20">Target Solicitation</Badge>
-                         <p className="text-[10px] font-bold text-blue-200/60 uppercase">{match.bids?.department_name}</p>
+                         <p className="text-[10px] font-bold text-blue-200/60 uppercase">{(match.bid as any)?.department_name}</p>
                       </div>
-                      <h4 className="text-sm font-black leading-tight line-clamp-2 italic">
-                         {match.bids?.event_name}
+                      <h4 className="text-sm font-black leading-tight line-clamp-2 italic text-blue-100">
+                         {(match.bid as any)?.event_name}
                       </h4>
                       <Separator className="bg-white/10" />
                       <div className="flex justify-between items-center text-[10px] font-bold text-blue-200/60">
                          <span>CLOSING DATE</span>
-                         <span className="text-white">{new Date(match.bids?.end_date).toLocaleDateString()}</span>
+                         <span className="text-white">{new Date((match.bid as any)?.end_date).toLocaleDateString()}</span>
                       </div>
                    </div>
                    <Button 
                      onClick={() => handleNotify(match.id)}
-                     className="w-full mt-6 bg-white text-brand-navy-900 hover:bg-slate-100 rounded-xl font-black text-[10px] uppercase tracking-widest h-10 shadow-lg shadow-black/20"
+                     className="w-full mt-6 bg-amber-500 text-brand-navy-900 hover:bg-amber-400 rounded-xl font-black text-[11px] uppercase tracking-widest h-12 shadow-xl shadow-amber-500/20 group/btn"
                    >
-                     Approve outreach <ArrowRight className="w-3 h-3 ml-2" />
+                     Deploy Outreach <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                    </Button>
                 </div>
 
