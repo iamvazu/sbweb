@@ -13,20 +13,30 @@ supabase: Client = get_supabase_client()
 
 # NAICS to Keyword mapping for smarter matching
 NAICS_KEYWORDS = {
-    "561720": ["janitorial", "cleaning", "custodial", "floor", "window cleaning", "sanitary", "maintenance"],
-    "236220": ["commercial building", "construction", "remodel", "renovation"],
+    "561720": ["janitorial", "custodial", "office cleaning", "chamber cleaning", "floor waxing", "window cleaning", "pressure washing", "sanitation services"],
+    "236220": ["commercial building", "remodel", "renovation", "tenant improvement"],
     "541511": ["software", "programming", "web development", "it services"],
-    "561730": ["landscaping", "grounds maintenance", "irrigation", "tree"]
+    "561730": ["landscaping", "grounds maintenance", "irrigation", "tree trimming"]
 }
+
+# Negative keywords to prevent false positives (applied globally)
+NEGATIVE_KEYWORDS = [
+    "fire suppression", "hood cleaning", "hvac", "elevator", "mechanical maintenance", 
+    "fire extinguisher", "lab coat", "mop rental", "mats rental", "plumbing"
+]
 
 def calculate_fit_score(user, bid):
     """
     Agent 7: Match Engine
     Calculates a 0-100 fit score for a specific user and bid.
-    Now uses keyword mapping for better industry detection.
     """
     score = 0
     bid_text = ((bid.get('event_name') or '') + ' ' + (bid.get('comments') or '')).lower()
+    
+    # Check for Negative Keywords (Global blocker)
+    for n_kw in NEGATIVE_KEYWORDS:
+        if n_kw in bid_text:
+            return 0 # Automatic disqualified for janitorial if it's fire/hvac etc.
     
     # 1. NAICS & Keyword Match (45 pts)
     # Check for direct code or mapped keywords
@@ -57,20 +67,16 @@ def calculate_fit_score(user, bid):
     elif bid.get('dvbe_goal') and 'DVBE' in user_certs:
         score += 25
     elif any(cert in user_certs for cert in ['SBE', 'DVBE', 'DBE', 'SDVOSB']):
-        # If user has some certs and it's an industry match, give minor boost
         score += 15
         
     # 3. Geographic & Content Fit (25 pts)
-    # Cal eProcure has County in event name or we parse it
     for county in (user.get('counties_served') or []):
         if county.lower() in bid_text:
             score += 25
             break
     
-    # If it's a strong industry match but no geographic match yet, 
-    # keep it above the threshold if it's high value
-    if industry_match and score < 50:
-        score = 51 # Minimum viable match for industry relevant bids
+    if industry_match and score < 51:
+        score = 51 # Minimum viable match for relevant bids
     
     return min(100, score)
 
@@ -81,12 +87,16 @@ def run():
     users_res = supabase.table("users").select("*").execute()
     users = users_res.data
     
-    # Get recent bids that haven't been matched for all users yet
-    # For now, we look at bids from the last 7 days
-    bids_res = supabase.table("bids").select("*").limit(50).execute()
+    # BROAD SEARCH: Pull all 'Posted' bids from the last 30 days
+    # No more limit(50)
+    bids_res = supabase.table("bids")\
+        .select("*")\
+        .eq("status", "Posted")\
+        .execute()
+    
     bids = bids_res.data
     
-    logger.info(f"Running Match Engine for {len(users)} users and {len(bids)} recent bids.")
+    logger.info(f"Running Match Engine for {len(users)} users and {len(bids)} available bids.")
 
     for user in users:
         for bid in bids:
