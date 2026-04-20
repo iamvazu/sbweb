@@ -20,7 +20,8 @@ import {
   FileCheck,
   TrendingUp,
   Terminal,
-  Users
+  Users,
+  User
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
