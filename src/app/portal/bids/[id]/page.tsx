@@ -244,9 +244,12 @@ export default function BidDetailPage() {
                             <div className="h-10 w-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
                                 <FileText className="h-5 w-5" />
                             </div>
-                            <div>
-                                <p className="text-[10px] uppercase font-black text-slate-400">Contact Email</p>
-                                <p className="text-sm font-bold text-slate-800 underline decoration-blue-200 underline-offset-4">{bid.contact_email || "N/A"}</p>
+                            <div className="overflow-hidden">
+                                <p className="text-[10px] uppercase font-black text-slate-400">Contact Details</p>
+                                <p className="text-sm font-bold text-slate-800 truncate">{bid.contact_email || "N/A"}</p>
+                                {bid.contact_phone && (
+                                    <p className="text-[10px] font-bold text-brand-blue-600">{bid.contact_phone}</p>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -406,9 +409,15 @@ export default function BidDetailPage() {
                                 <p className="text-[10px] font-black text-slate-400 uppercase">Date & Time</p>
                                 <p className="text-sm font-bold text-slate-700">{bid.prebid_date} @ {bid.prebid_time || "TBD"}</p>
                             </div>
-                            <div className="md:col-span-2">
+                            <div>
                                 <p className="text-[10px] font-black text-slate-400 uppercase">Location</p>
-                                <p className="text-sm font-bold text-slate-700">{bid.prebid_location || "Check Official Portal"}</p>
+                                <p className="text-sm font-bold text-slate-700 leading-tight">{bid.prebid_location || "Check Official Portal"}</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-black text-slate-400 uppercase">Requirement</p>
+                                <Badge variant={bid.mandatory_prebid ? "default" : "outline"} className={bid.mandatory_prebid ? "bg-red-50 text-red-600 border-red-100" : ""}>
+                                    {bid.mandatory_prebid ? "MANDATORY" : "NON-MANDATORY"}
+                                </Badge>
                             </div>
                         </div>
                         {bid.prebid_comments && (

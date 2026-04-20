@@ -27,7 +27,6 @@ def deep_scrape_bid(page, bid):
     data = {}
     
     try:
-        # --- TEMPLATE DETECTION & BASIC INFO ---
         # 1. Description (AUC fallback to WV)
         # We use very flexible selectors to handle both templates
         desc_selectors = [
@@ -43,7 +42,8 @@ def deep_scrape_bid(page, bid):
                 el = page.query_selector(sel)
                 if el:
                     val = el.inner_text().strip()
-                    if val and len(val) > 10:
+                    # Only accept description if it's substantial and doesn't look like boilerplate
+                    if val and len(val) > 10 and "The documents and files attached" not in val[:100]:
                         data['comments'] = val
                         logger.info(f"  [OK] Description found via {sel}")
                         break
@@ -92,27 +92,33 @@ def deep_scrape_bid(page, bid):
             except: continue
 
         # --- CONTACT INFO ---
-        contact_name_el = page.query_selector("#RESP_INQ_DL0_WK_CONTACT_NAME, [id*='WV_EVENT_HDR_VW_CONTACT_NAME']")
+        contact_name_el = page.query_selector("[id*='AUC_HDR_NAME1'], #RESP_INQ_DL0_WK_CONTACT_NAME, [id*='WV_EVENT_HDR_VW_CONTACT_NAME']")
         if contact_name_el:
             data['contact_name'] = contact_name_el.inner_text().strip()
             
-        contact_email_el = page.query_selector("#RESP_INQ_DL0_WK_EMAILID, [id*='WV_EVENT_HDR_VW_EMAILID']")
+        contact_phone_el = page.query_selector("[id*='AUC_HDR_PHONE'], [id*='WV_EVENT_HDR_VW_PHONE']")
+        if contact_phone_el:
+            data['contact_phone'] = contact_phone_el.inner_text().strip()
+            
+        contact_email_el = page.query_selector("[id*='AUC_HDR_EMAIL'], #RESP_INQ_DL0_WK_EMAILID, [id*='WV_EVENT_HDR_VW_EMAILID']")
         if contact_email_el:
             data['contact_email'] = contact_email_el.inner_text().strip()
 
         # --- PRE-BID CONFERENCE ---
-        prebid_section = page.query_selector("div:has-text('Pre Bid Conference')")
+        prebid_section = page.query_selector("div:has-text('Pre Bid Conference'), [id*='conferenceBidSection']")
         if prebid_section:
             text = prebid_section.inner_text()
-            if "Mandatory: Mandatory" in text:
-                data['mandatory_prebid'] = True
-            elif "Mandatory: Non Mandatory" in text:
-                data['mandatory_prebid'] = False
             
-            pb_date = page.query_selector("[id*='ZZ_AUC_PREBID_VW_AUC_PREBID_DT'], [id*='WV_PREBID_VW_AUC_PREBID_DT']")
-            pb_time = page.query_selector("[id*='ZZ_AUC_PREBID_VW_AUC_PRE_BID_TIME'], [id*='WV_PREBID_VW_AUC_PRE_BID_TIME']")
-            pb_loc = page.query_selector("[id*='ZZ_AUC_PREBID_VW_DESCRLONG'], [id*='WV_PREBID_VW_DESCRLONG']")
-            pb_comm = page.query_selector("[id*='ZZ_AUC_PREBID_VW_DESCR254'], [id*='WV_PREBID_VW_DESCR254']")
+            # Extract Mandatory Status
+            mandatory_el = page.query_selector("[id*='ZZ_BID_CNF_VW_VALUE_XLATlbl$'], [id*='ZZ_BID_CNF_VW_COMMENT1$']")
+            if mandatory_el:
+                m_text = mandatory_el.inner_text().strip().lower()
+                data['mandatory_prebid'] = "non mandatory" not in m_text and "mandatory" in m_text
+            
+            pb_date = page.query_selector("[id^='ZZ_BID_CNF_VW_DATE1$'], [id*='ZZ_AUC_PREBID_VW_AUC_PREBID_DT'], [id*='WV_PREBID_VW_AUC_PREBID_DT']")
+            pb_time = page.query_selector("[id^='ZZ_BID_CNF_VW_DUE_DT_TIME$'], [id*='ZZ_AUC_PREBID_VW_AUC_PRE_BID_TIME'], [id*='WV_PREBID_VW_AUC_PRE_BID_TIME']")
+            pb_loc = page.query_selector("[id^='ZZ_BID_CNF_VW_DESCR254_1$'], [id*='ZZ_AUC_PREBID_VW_DESCRLONG'], [id*='WV_PREBID_VW_DESCRLONG']")
+            pb_comm = page.query_selector("[id^='ZZ_BID_CNF_VW_DESCR254_MIXED$'], [id*='ZZ_AUC_PREBID_VW_DESCR254'], [id*='WV_PREBID_VW_DESCR254']")
             
             if pb_date: data['prebid_date'] = pb_date.inner_text().strip()
             if pb_time: data['prebid_time'] = pb_time.inner_text().strip()
@@ -208,6 +214,7 @@ def run():
                     update_payload = {
                         "contact_name": details.get("contact_name"),
                         "contact_email": details.get("contact_email"),
+                        "contact_phone": details.get("contact_phone"),
                         "comments": details.get("comments"),
                         "mandatory_prebid": details.get("mandatory_prebid"),
                         "event_version": details.get("event_version"),
