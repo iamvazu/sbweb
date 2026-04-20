@@ -28,37 +28,53 @@ def deep_scrape_bid(page, bid):
     data = {}
     
     try:
-        # --- BASIC INFO ---
-        # 1. Description (DERIVED_EVENT_LONG_DESCR)
-        desc_el = page.query_selector("span[id^='DERIVED_EVENT_LONG_DESCR$']")
-        if desc_el:
-            data['comments'] = desc_el.inner_text().strip()
+        # --- TEMPLATE DETECTION & BASIC INFO ---
+        # 1. Description (AUC fallback to WV)
+        desc_selectors = ["span[id^='DERIVED_EVENT_LONG_DESCR$']", "span[id^='WV_EVENT_HDR_VW_DESCRLONG$']"]
+        for sel in desc_selectors:
+            el = page.query_selector(sel)
+            if el:
+                data['comments'] = el.inner_text().strip()
+                break
             
-        # 2. Event Details (Version, Format/Type, Dates)
-        version_el = page.query_selector("span[id^='AUC_HDR_VW_AUC_ROUND$']")
-        if version_el:
-            data['event_version'] = version_el.inner_text().strip()
+        # 2. Event Version
+        ver_selectors = ["span[id^='AUC_HDR_VW_AUC_ROUND$']", "span[id^='WV_EVENT_HDR_VW_AUC_ROUND$']", "span[id^='WV_EVENT_HDR_VW_REVISION_NO$']"]
+        for sel in ver_selectors:
+            el = page.query_selector(sel)
+            if el:
+                data['event_version'] = el.inner_text().strip()
+                break
             
-        format_type_el = page.query_selector("span[id^='AUC_HDR_VW_EVENT_FORMAT_TYPE$']")
-        if format_type_el:
-            data['event_format_type'] = format_type_el.inner_text().strip()
+        # 3. Format/Type
+        fmt_selectors = ["span[id^='AUC_HDR_VW_EVENT_FORMAT_TYPE$']", "span[id^='WV_EVENT_HDR_VW_EVENT_FORMAT_TYPE$']"]
+        for sel in fmt_selectors:
+            el = page.query_selector(sel)
+            if el:
+                data['event_format_type'] = el.inner_text().strip()
+                break
             
-        pub_date_el = page.query_selector("span[id^='AUC_HDR_VW_AUC_PUBLISH_DT$']")
-        if pub_date_el:
-            # We skip parsing to ISO here to keep the script simple, 
-            # but we could use dateutil or similar if needed.
-            data['published_date'] = pub_date_el.inner_text().strip()
+        # 4. Published Date
+        pub_selectors = ["span[id^='AUC_HDR_VW_AUC_PUBLISH_DT$']", "span[id^='WV_EVENT_HISTORY_VW_PUBLISHED_DATE$']", "span[id^='WV_EVENT_HISTORY_VW_PUB_DATE$']"]
+        for sel in pub_selectors:
+            el = page.query_selector(sel)
+            if el:
+                data['published_date'] = el.inner_text().strip()
+                break
             
-        license_el = page.query_selector("span[id^='ZZ_AUC_HDR_VWG_ZZ_LICENSE_TYPE$']")
-        if license_el:
-            data['contractor_license_type'] = license_el.inner_text().strip()
+        # 5. Contractor License Type
+        lic_selectors = ["span[id^='ZZ_AUC_HDR_VWG_ZZ_LICENSE_TYPE$']", "span[id^='WV_EVENT_HDR_VW_ZZ_LICENSE_TYPE$']"]
+        for sel in lic_selectors:
+            el = page.query_selector(sel)
+            if el:
+                data['contractor_license_type'] = el.inner_text().strip()
+                break
 
         # --- CONTACT INFO ---
-        contact_name_el = page.query_selector("#RESP_INQ_DL0_WK_CONTACT_NAME")
+        contact_name_el = page.query_selector("#RESP_INQ_DL0_WK_CONTACT_NAME, span[id^='WV_EVENT_HDR_VW_CONTACT_NAME']")
         if contact_name_el:
             data['contact_name'] = contact_name_el.inner_text().strip()
             
-        contact_email_el = page.query_selector("#RESP_INQ_DL0_WK_EMAILID")
+        contact_email_el = page.query_selector("#RESP_INQ_DL0_WK_EMAILID, span[id^='WV_EVENT_HDR_VW_EMAILID']")
         if contact_email_el:
             data['contact_email'] = contact_email_el.inner_text().strip()
 
@@ -71,12 +87,11 @@ def deep_scrape_bid(page, bid):
             elif "Mandatory: Non Mandatory" in text:
                 data['mandatory_prebid'] = False
             
-            # Extract specifics using grid selectors if possible
-            # These are usually single-row grids for pre-bid
-            pb_date = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_AUC_PREBID_DT$']")
-            pb_time = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_AUC_PRE_BID_TIME$']")
-            pb_loc = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_DESCRLONG$']")
-            pb_comm = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_DESCR254$']")
+            # AUC Selectors
+            pb_date = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_AUC_PREBID_DT$'], span[id^='WV_PREBID_VW_AUC_PREBID_DT$']")
+            pb_time = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_AUC_PRE_BID_TIME$'], span[id^='WV_PREBID_VW_AUC_PRE_BID_TIME$']")
+            pb_loc = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_DESCRLONG$'], span[id^='WV_PREBID_VW_DESCRLONG$']")
+            pb_comm = page.query_selector("span[id^='ZZ_AUC_PREBID_VW_DESCR254$'], span[id^='WV_PREBID_VW_DESCR254$']")
             
             if pb_date: data['prebid_date'] = pb_date.inner_text().strip()
             if pb_time: data['prebid_time'] = pb_time.inner_text().strip()
@@ -84,30 +99,58 @@ def deep_scrape_bid(page, bid):
             if pb_comm: data['prebid_comments'] = pb_comm.inner_text().strip()
 
         # --- TABLES (UNSPSC & SERVICE AREA) ---
-        # UNSPSC
-        unspsc_rows = page.query_selector_all("tr[id^='trZZ_AUC_UNSPSC_VW$']")
+        # Strategy: Use specific PeopleSoft IDs first, then resort to generic table headers
+        
+        # 1. UNSPSC
         unspsc_list = []
-        for i, row in enumerate(unspsc_rows):
-            code_el = row.query_selector(f"span[id^='ZZ_AUC_UNSPSC_VW_ZZ_UNSPSC$']")
-            desc_el = row.query_selector(f"span[id^='ZZ_AUC_UNSPSC_VW_ZZ_UNSPSC_DESCR$']")
+        rows = page.query_selector_all("tr[id^='trZZ_AUC_UNSPSC_VW$'], tr[id^='trWV_UNSPSC_LIST$']")
+        for row in rows:
+            code_el = row.query_selector("span[id*='UNSPSC$']")
+            desc_el = row.query_selector("span[id*='UNSPSC_DESCR$']")
             if code_el and desc_el:
                 unspsc_list.append({
                     "code": code_el.inner_text().strip(),
                     "description": desc_el.inner_text().strip()
                 })
+        
+        # Fallback for generic tables
+        if not unspsc_list:
+            # Look for a table containing 'UNSPSC Classification' text
+            table = page.query_selector("table:has-text('UNSPSC Classification')")
+            if table:
+                trs = table.query_selector_all("tr")
+                for tr in trs[1:]: # Skip header
+                    tds = tr.query_selector_all("td")
+                    if len(tds) >= 2:
+                        unspsc_list.append({
+                            "code": tds[0].inner_text().strip(),
+                            "description": tds[1].inner_text().strip()
+                        })
         data['unspsc_codes'] = unspsc_list
 
-        # Service Area
-        area_rows = page.query_selector_all("tr[id^='trZZ_AUC_SVC_AREA_VW$']")
+        # 2. Service Area
         area_list = []
-        for i, row in enumerate(area_rows):
-            id_el = row.query_selector(f"span[id^='ZZ_AUC_SVC_AREA_VW_ZZ_AREA_ID$']")
-            county_el = row.query_selector(f"span[id^='ZZ_AUC_SVC_AREA_VW_ZZ_COUNTY$']")
+        rows = page.query_selector_all("tr[id^='trZZ_AUC_SVC_AREA_VW$'], tr[id^='trWV_SERVICE_AREA$']")
+        for row in rows:
+            id_el = row.query_selector("span[id*='AREA_ID$']")
+            county_el = row.query_selector("span[id*='COUNTY$']")
             if id_el and county_el:
                 area_list.append({
                     "id": id_el.inner_text().strip(),
                     "county": county_el.inner_text().strip()
                 })
+        
+        if not area_list:
+            table = page.query_selector("table:has-text('Service Area')")
+            if table:
+                trs = table.query_selector_all("tr")
+                for tr in trs[1:]:
+                    tds = tr.query_selector_all("td")
+                    if len(tds) >= 2:
+                        area_list.append({
+                            "id": tds[0].inner_text().strip(),
+                            "county": tds[1].inner_text().strip()
+                        })
         data['service_areas'] = area_list
                 
         # --- EVENT PACKAGE / ATTACHMENTS ---
