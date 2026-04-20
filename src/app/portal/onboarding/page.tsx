@@ -105,9 +105,8 @@ export default function OnboardingPage() {
           }));
         }
       }
-    }
-    loadData();
-  }, [supabase]);
+      loadData();
+    }, [supabase, router]);
 
   const updateFormData = (field: string, value: any) => {
     setFormData((prev: any) => ({ ...prev, [field]: value }));
