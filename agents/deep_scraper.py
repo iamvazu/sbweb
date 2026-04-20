@@ -122,9 +122,21 @@ def run():
             try:
                 details = deep_scrape_bid(page, bid)
                 if details:
-                    # Merge with existing data
-                    supabase.table("bids").update(details).eq("id", bid["id"]).execute()
-                    logger.info(f"Successfully deep scraped {bid['event_id']}")
+                    # Explicit mapping to database columns
+                    update_payload = {
+                        "contact_name": details.get("contact_name"),
+                        "contact_email": details.get("contact_email"),
+                        "comments": details.get("comments"),
+                        "mandatory_prebid": details.get("mandatory_prebid"),
+                        "doc_links": details.get("doc_links", [])
+                    }
+                    
+                    # Remove None values to avoid overwriting existing data with nulls
+                    update_payload = {k: v for k, v in update_payload.items() if v is not None}
+                    
+                    if update_payload:
+                        supabase.table("bids").update(update_payload).eq("id", bid["id"]).execute()
+                        logger.info(f"Successfully deep scraped {bid['event_id']}")
             except Exception as e:
                 logger.error(f"Failed to deep scrape {bid['event_id']}: {e}")
             time.sleep(3)

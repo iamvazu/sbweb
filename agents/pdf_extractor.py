@@ -85,11 +85,18 @@ def process_bid_pdfs(page, bid):
             logger.error(f"Failed to process PDF {filename}: {e}")
 
     if pdf_urls:
+        # Create doc_links structured metadata for the frontend
+        doc_links = [
+            {"name": url.split("/")[-1], "url": url, "type": "solicitation_doc", "status": "processed"}
+            for url in pdf_urls
+        ]
+        
         supabase.table("bids").update({
             "pdf_urls": pdf_urls,
+            "doc_links": doc_links,
             "extracted_text": full_text[:100000] # Cap to stay within DB limits
         }).eq("id", bid["id"]).execute()
-        logger.info(f"Updated {bid['event_id']} with {len(pdf_urls)} PDFs.")
+        logger.info(f"Updated {bid['event_id']} with {len(pdf_urls)} PDFs and doc_links.")
 
 def run():
     if not supabase:
