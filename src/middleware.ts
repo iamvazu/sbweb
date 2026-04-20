@@ -19,7 +19,11 @@ export async function middleware(request: NextRequest) {
 
   // Admin protection
   if (request.nextUrl.pathname.startsWith('/portal/admin')) {
-    if (user?.email !== process.env.ADMIN_EMAIL) {
+    const isAdmin = user?.email?.endsWith('@strongerbuilt.us') || 
+                    user?.email === 'roy@strongerbuilt.us' || 
+                    user?.email === 'crazyme2207@gmail.com';
+                    
+    if (!isAdmin) {
       return Response.redirect(new URL('/portal/vendor', request.url))
     }
   }
