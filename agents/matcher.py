@@ -54,7 +54,7 @@ def supabase_upsert(path, data):
         with urllib.request.urlopen(req) as r:
             return True
     except Exception as e:
-        print(f"❌ Supabase Upsert Error: {e}")
+        print(f"[ERROR] Supabase Upsert Error: {e}")
         return False
 
 # ─── MATCHING ENGINE ──────────────────────────────────────────────
