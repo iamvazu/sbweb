@@ -168,13 +168,14 @@ def run():
         logger.error("Supabase not initialized.")
         return
 
-    # Backfill logic: published_date is the reliable flag
+    # Backfill logic: published_date or comments are the reliable flags
+    # We remove the limit to process ALL 600+ bids in one go.
+    # We use desc=False (ASC) to clear the backlog from oldest to newest.
     res = supabase.table("bids")\
         .select("*")\
         .eq("status", "Posted")\
         .or_("published_date.is.null,comments.is.null")\
-        .order("first_seen", desc=True)\
-        .limit(50)\
+        .order("first_seen", desc=False)\
         .execute()
     
     bids = res.data
