@@ -207,11 +207,11 @@ export default function ProspectRegistryPage() {
                 </div>
 
                 {/* Scrolled Content */}
-                <ScrollArea className="flex-1 p-10 min-h-0">
+                <div className="flex-1 p-10 overflow-y-auto bg-white">
                    <div className="space-y-12 pb-10">
                       
                       {/* Section: Executive Data */}
-                      <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                      <section className="space-y-8">
                          <div className="flex items-center gap-4">
                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                                <Info className="w-3 h-3 text-brand-blue-600" /> Executive Overview
@@ -246,7 +246,7 @@ export default function ProspectRegistryPage() {
                       </section>
 
                       {/* Section: NAICS & Industry */}
-                      <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                      <section className="space-y-8">
                          <div className="flex items-center gap-4">
                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                                <Briefcase className="w-3 h-3 text-brand-blue-600" /> Trade Classifications
@@ -280,7 +280,7 @@ export default function ProspectRegistryPage() {
                       </section>
 
                       {/* Section: Geography Coverage */}
-                      <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                      <section className="space-y-8">
                           <div className="flex items-center gap-4">
                              <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
                                 <Navigation className="w-3 h-3 text-brand-blue-600" /> Service Blueprint
