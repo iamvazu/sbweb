@@ -42,7 +42,7 @@ export async function updateApplicationStatus(id: string, status: string) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Basic admin check
-  if (user?.email !== 'info@strongerbuilt.us') {
+  if (!user?.email?.endsWith('@strongerbuilt.us') && user?.email !== 'roy@strongerbuilt.us') {
     throw new Error("Unauthorized");
   }
 
