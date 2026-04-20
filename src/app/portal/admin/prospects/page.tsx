@@ -4,26 +4,24 @@
 import React, { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { 
-  Users, 
   Search, 
   MapPin, 
   Globe, 
   Mail, 
   Phone, 
   Briefcase,
-  ChevronRight,
+  ChevronDown,
   Filter,
   ArrowUpDown,
   Building2,
-  Table as TableIcon,
   Info,
   ExternalLink,
   Target,
   Hash,
   ChevronLeft,
-  MoreHorizontal,
-  Plus,
-  ShieldCheck
+  ChevronRight,
+  ShieldCheck,
+  Building
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,15 +30,9 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription 
-} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PAGE_SIZE = 50;
 
@@ -50,8 +42,7 @@ export default function ProspectRegistryPage() {
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
-  const [selectedProspect, setSelectedProspect] = useState<any>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
   
   const supabase = createClient();
   const { toast } = useToast();
@@ -83,20 +74,19 @@ export default function ProspectRegistryPage() {
     setLoading(false);
   }
 
-  const handleRowClick = (prospect: any) => {
-    setSelectedProspect(prospect);
-    setIsDialogOpen(true);
+  const toggleRow = (id: string) => {
+    setExpandedRowId(expandedRowId === id ? null : id);
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-500">
+    <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-500 pb-20">
       
-      {/* Refined Header */}
+      {/* Refined Minimalist Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Contractor Registry</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Managing <span className="font-medium text-slate-900">{totalCount.toLocaleString()}</span> certified businesses in the StrongerBuilt database.
+            Managing <span className="font-medium text-slate-900">{totalCount.toLocaleString()}</span> businesses. Click any row to expand details.
           </p>
         </div>
         
@@ -104,30 +94,30 @@ export default function ProspectRegistryPage() {
           <div className="relative flex-1 md:w-80 group">
              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
              <Input 
-               placeholder="Search contractors..." 
+               placeholder="Search by company name..." 
                value={search}
                onChange={(e) => { setSearch(e.target.value); setPage(0); }}
                className="pl-10 h-10 bg-white border-slate-200 rounded-lg shadow-sm focus:ring-brand-blue-600/20 text-sm"
              />
           </div>
-          <Button variant="outline" className="h-10 rounded-lg px-4 border-slate-200 gap-2 text-sm font-medium">
+          <Button variant="outline" className="h-10 rounded-lg px-4 border-slate-200 gap-2 text-sm font-medium text-slate-600">
              <Filter className="w-4 h-4" /> Filters
           </Button>
         </div>
       </div>
 
-      {/* Clean Data Grid */}
+      {/* Accordion Data Grid */}
       <Card className="border border-slate-200 shadow-sm rounded-xl overflow-hidden bg-white">
          <CardContent className="p-0">
             <div className="overflow-x-auto">
                <table className="w-full text-left border-collapse">
                   <thead>
-                     <tr className="bg-slate-50/50 border-b border-slate-200">
-                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Company Name</th>
+                     <tr className="bg-slate-50 border-b border-slate-200">
+                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider w-[40%]">Company Identity</th>
                         <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Certifications</th>
-                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Location</th>
-                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Main Industry</th>
-                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Geography</th>
+                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Main Trade</th>
+                        <th className="px-6 py-4 text-[11px] font-semibold text-slate-500 uppercase tracking-wider text-right">Action</th>
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -135,54 +125,183 @@ export default function ProspectRegistryPage() {
                         Array(10).fill(0).map((_, i) => <SkeletonRow key={i} />)
                      ) : prospects.length > 0 ? (
                         prospects.map((p) => (
-                           <tr 
-                             key={p.id} 
-                             onClick={() => handleRowClick(p)}
-                             className="hover:bg-slate-50/50 transition-colors cursor-pointer group"
-                           >
-                              <td className="px-6 py-4">
-                                 <div className="flex flex-col">
-                                    <span className="text-sm font-semibold text-slate-900 group-hover:text-brand-blue-600 transition-colors">{p.legal_name}</span>
-                                    <span className="text-[11px] text-slate-400 mt-0.5">{p.dba || "No DBA on file"}</span>
-                                 </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                 <div className="flex flex-wrap gap-1.5">
-                                    {p.cert_types?.slice(0, 2).map((c: string) => (
-                                       <Badge key={c} variant="secondary" className="bg-slate-100 text-slate-600 border-none text-[10px] font-medium px-2 py-0">
-                                          {c}
-                                       </Badge>
-                                    ))}
-                                    {p.cert_types?.length > 2 && (
-                                       <span className="text-[10px] text-slate-400 font-medium">+{p.cert_types.length - 2} more</span>
-                                    )}
-                                 </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                 <div className="flex items-center gap-1.5 text-slate-600 text-sm italic">
-                                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                                    <span>{p.city || "Various"}</span>
-                                 </div>
-                              </td>
-                              <td className="px-6 py-4 hidden lg:table-cell">
-                                 <span className="text-xs text-slate-500 truncate max-w-[200px] inline-block font-serif italic">
-                                    {p.industry_type?.[0] || "General Contracting"}
-                                 </span>
-                              </td>
-                              <td className="px-6 py-4 text-right">
-                                 <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-md text-slate-400">
-                                    <ChevronRight className="w-4 h-4" />
-                                 </Button>
-                              </td>
-                           </tr>
+                           <React.Fragment key={p.id}>
+                             <tr 
+                               onClick={() => toggleRow(p.id)}
+                               className={cn(
+                                 "transition-colors cursor-pointer group hover:bg-slate-50/50",
+                                 expandedRowId === p.id && "bg-slate-50/80 border-l-4 border-l-brand-blue-600"
+                               )}
+                             >
+                                <td className="px-6 py-5">
+                                   <div className="flex flex-col">
+                                      <span className={cn(
+                                        "text-sm font-semibold text-slate-900 group-hover:text-brand-blue-600 transition-colors",
+                                        expandedRowId === p.id && "text-brand-blue-600"
+                                      )}>{p.legal_name}</span>
+                                      <span className="text-[11px] text-slate-400 mt-0.5">{p.dba || "No DBA Listed"}</span>
+                                   </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                   <div className="flex flex-wrap gap-1.5">
+                                      {p.cert_types?.slice(0, 2).map((c: string) => (
+                                         <Badge key={c} variant="secondary" className="bg-white text-slate-500 border border-slate-200 text-[10px] font-medium px-2 py-0">
+                                            {c}
+                                         </Badge>
+                                      ))}
+                                      {p.cert_types?.length > 2 && (
+                                         <span className="text-[10px] text-slate-400 font-medium">+{p.cert_types.length - 2}</span>
+                                      )}
+                                   </div>
+                                </td>
+                                <td className="px-6 py-5">
+                                   <div className="flex items-center gap-1.5 text-slate-500 text-sm">
+                                      <MapPin className="w-3.5 h-3.5 text-slate-300" />
+                                      <span>{p.city || "CA Territory"}</span>
+                                   </div>
+                                </td>
+                                <td className="px-6 py-5 hidden lg:table-cell">
+                                   <span className="text-xs text-slate-500 italic font-medium">
+                                      {p.industry_type?.[0] || "General Works"}
+                                   </span>
+                                </td>
+                                <td className="px-6 py-5 text-right">
+                                   <div className={cn(
+                                     "h-8 w-8 rounded-full flex items-center justify-center transition-all ml-auto",
+                                     expandedRowId === p.id ? "bg-brand-blue-600 text-white rotate-180" : "text-slate-300 group-hover:bg-slate-100 group-hover:text-slate-600"
+                                   )}>
+                                      <ChevronDown className="w-4 h-4" />
+                                   </div>
+                                </td>
+                             </tr>
+
+                             {/* Inline Expansion Area */}
+                             <AnimatePresence>
+                               {expandedRowId === p.id && (
+                                 <tr>
+                                   <td colSpan={5} className="p-0 border-b border-slate-200 bg-white">
+                                     <motion.div 
+                                       initial={{ height: 0, opacity: 0 }}
+                                       animate={{ height: "auto", opacity: 1 }}
+                                       exit={{ height: 0, opacity: 0 }}
+                                       transition={{ duration: 0.3, ease: "easeInOut" }}
+                                       className="overflow-hidden"
+                                     >
+                                       <div className="p-10 bg-slate-50/30 border-y border-slate-100 shadow-inner">
+                                          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                                             
+                                             {/* Column 1: Contact Detail */}
+                                             <div className="space-y-6">
+                                                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                   <Building className="w-3 h-3 text-brand-blue-600" /> Reach Out
+                                                </h4>
+                                                <div className="space-y-4">
+                                                   <div className="flex items-center gap-3">
+                                                      <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center border border-slate-200 shadow-sm">
+                                                         <Mail className="w-4 h-4 text-slate-400" />
+                                                      </div>
+                                                      <div className="flex flex-col">
+                                                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Primary Contact</span>
+                                                         <span className="text-sm font-semibold text-slate-700">{p.email}</span>
+                                                      </div>
+                                                   </div>
+                                                   <div className="flex items-center gap-3">
+                                                      <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center border border-slate-200 shadow-sm">
+                                                         <Phone className="w-4 h-4 text-slate-400" />
+                                                      </div>
+                                                      <div className="flex flex-col">
+                                                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Direct Phone</span>
+                                                         <span className="text-sm font-semibold text-slate-700">{p.phone || "Not Listed"}</span>
+                                                      </div>
+                                                   </div>
+                                                   <div className="flex items-center gap-3">
+                                                      <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center border border-slate-200 shadow-sm">
+                                                         <Globe className="w-4 h-4 text-slate-400" />
+                                                      </div>
+                                                      <div className="flex flex-col">
+                                                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Web Address</span>
+                                                         <a href={p.website} target="_blank" className="text-sm font-semibold text-brand-blue-600 hover:underline truncate max-w-[200px]">
+                                                            {p.website || "No URL Registered"}
+                                                         </a>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+
+                                             {/* Column 2: Scope & NAICS */}
+                                             <div className="space-y-6">
+                                                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                   <Briefcase className="w-3 h-3 text-brand-blue-600" /> Scope of Work
+                                                </h4>
+                                                <div className="space-y-6">
+                                                   <div>
+                                                      <p className="text-[9px] font-bold text-slate-400 uppercase mb-2">Industry Categories</p>
+                                                      <div className="flex flex-wrap gap-2">
+                                                         {p.industry_type?.map((i: string) => (
+                                                            <Badge key={i} variant="outline" className="text-[10px] font-medium text-slate-500 border-slate-200 bg-white">
+                                                               {i}
+                                                            </Badge>
+                                                         ))}
+                                                      </div>
+                                                   </div>
+                                                   <div>
+                                                      <p className="text-[9px] font-bold text-slate-400 uppercase mb-2">NAICS Codes Reference</p>
+                                                      <div className="grid grid-cols-2 gap-2">
+                                                         {p.naics_codes?.length > 0 ? p.naics_codes.map((n: string) => (
+                                                            <div key={n} className="flex items-center gap-2 px-3 py-1.5 bg-brand-blue-50/50 rounded-lg border border-brand-blue-100/50">
+                                                               <Hash className="w-2.5 h-2.5 text-brand-blue-500" />
+                                                               <span className="text-[11px] font-bold text-brand-blue-900">#{n}</span>
+                                                            </div>
+                                                         )) : <p className="text-xs italic text-slate-400">None registered</p>}
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+
+                                             {/* Column 3: Stats & External Link */}
+                                             <div className="space-y-6">
+                                                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                   <MapPin className="w-3 h-3 text-brand-blue-600" /> Coverage Area
+                                                </h4>
+                                                <ScrollArea className="h-40 rounded-xl border border-slate-200 bg-white p-4">
+                                                   <div className="grid grid-cols-2 gap-y-2 gap-x-4">
+                                                      {p.service_areas?.map((s: string) => (
+                                                         <div key={s} className="flex items-center gap-2 text-[10px] font-medium text-slate-500">
+                                                            <div className="w-1 h-1 rounded-full bg-slate-300" /> {s}
+                                                         </div>
+                                                      ))}
+                                                   </div>
+                                                </ScrollArea>
+                                                <div className="flex gap-2">
+                                                   <Button 
+                                                      variant="outline" 
+                                                      className="flex-1 h-10 rounded-xl text-[10px] font-bold uppercase tracking-wider text-slate-600 border-slate-200"
+                                                      onClick={() => window.open(`https://caleprocure.ca.gov/core/public/search/supplier/profile/${p.certification_id}`, '_blank')}
+                                                   >
+                                                      Registry Profile <ExternalLink className="w-3 h-3 ml-2" />
+                                                   </Button>
+                                                   <Button 
+                                                      className="flex-1 h-10 rounded-xl bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg shadow-brand-blue-600/20"
+                                                   >
+                                                      Match <ShieldCheck className="w-3 h-3 ml-2" />
+                                                   </Button>
+                                                </div>
+                                             </div>
+
+                                          </div>
+                                       </div>
+                                     </motion.div>
+                                   </td>
+                                 </tr>
+                               )}
+                             </AnimatePresence>
+                           </React.Fragment>
                         ))
                      ) : (
                         <tr>
                            <td colSpan={5} className="py-20 text-center">
-                              <div className="flex flex-col items-center gap-3">
-                                 <Search className="w-10 h-10 text-slate-100" />
-                                 <p className="text-sm text-slate-400 font-medium">No contractors found matching your search.</p>
-                              </div>
+                              <Search className="w-10 h-10 text-slate-100 mx-auto mb-4" />
+                              <p className="text-sm text-slate-400 font-medium italic">No businesses match that search criteria.</p>
                            </td>
                         </tr>
                      )}
@@ -190,179 +309,30 @@ export default function ProspectRegistryPage() {
                </table>
             </div>
 
-            {/* Simple Pagination */}
-            <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/30 flex items-center justify-between">
-               <p className="text-xs text-slate-500">
-                  Showing <span className="font-medium text-slate-900">{page * PAGE_SIZE + 1}</span> to <span className="font-medium text-slate-900">{Math.min((page + 1) * PAGE_SIZE, totalCount)}</span> of <span className="font-medium text-slate-900">{totalCount.toLocaleString()}</span> entries
+            {/* Pagination Controls */}
+            <div className="px-6 py-5 border-t border-slate-100 bg-slate-50/30 flex items-center justify-between">
+               <p className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+                  Page <span className="text-slate-900">{page + 1}</span> of {Math.ceil(totalCount / PAGE_SIZE)} • {totalCount.toLocaleString()} Total Records
                </p>
                <div className="flex gap-2">
                   <Button 
                     disabled={page === 0} 
                     onClick={() => setPage(p => p - 1)}
-                    variant="outline" size="sm" className="h-8 rounded-md px-3 text-xs gap-1"
+                    variant="outline" size="sm" className="h-9 rounded-lg px-4 text-xs font-semibold border-slate-200"
                   >
-                    <ChevronLeft className="w-3 h-3" /> Previous
+                    <ChevronLeft className="w-4 h-4 mr-1" /> Prev
                   </Button>
                   <Button 
                     disabled={(page + 1) * PAGE_SIZE >= totalCount}
                     onClick={() => setPage(p => p + 1)}
-                    variant="outline" size="sm" className="h-8 rounded-md px-3 text-xs gap-1"
+                    variant="outline" size="sm" className="h-9 rounded-lg px-4 text-xs font-semibold border-slate-200"
                   >
-                    Next <ChevronRight className="w-3 h-3" />
+                    Next <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
                </div>
             </div>
          </CardContent>
       </Card>
-
-      {/* Elegant Centered Detail Vault */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-         <DialogContent className="max-w-3xl p-0 overflow-hidden border-none shadow-2xl rounded-2xl">
-            {selectedProspect && (
-               <div className="flex flex-col max-h-[90vh]">
-                  {/* Modal Header Overlay */}
-                  <div className="p-8 bg-slate-900 text-white relative">
-                     <div className="flex justify-between items-start mb-4">
-                        <Badge className="bg-brand-blue-600 text-white hover:bg-brand-blue-600 border-none text-[10px] font-semibold px-2">Verified Prospect</Badge>
-                        <span className="text-[10px] font-mono text-slate-400">SYS_ID: {selectedProspect.id.slice(0,8)}</span>
-                     </div>
-                     <h2 className="text-2xl font-bold tracking-tight">{selectedProspect.legal_name}</h2>
-                     <p className="text-sm text-slate-400 mt-1 uppercase tracking-wider font-medium">{selectedProspect.dba || "Legal Entity"}</p>
-                     
-                     <div className="mt-6 flex flex-wrap gap-2">
-                        {selectedProspect.cert_types?.map((c: string) => (
-                           <Badge key={c} className="bg-white/10 text-white hover:bg-white/20 border-white/10 text-[10px] font-medium backdrop-blur-sm">
-                              {c}
-                           </Badge>
-                        ))}
-                     </div>
-                  </div>
-
-                  <ScrollArea className="flex-1 overflow-y-auto bg-white p-8">
-                     <div className="space-y-10">
-                        
-                        {/* Section: Contact & Identity */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                           <div className="space-y-4">
-                              <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                 <Mail className="w-3 h-3 text-brand-blue-500" /> Communication
-                              </h4>
-                              <div className="space-y-3">
-                                 <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-lg bg-slate-50 flex items-center justify-center border border-slate-100">
-                                       <Mail className="w-4 h-4 text-slate-400" />
-                                    </div>
-                                    <span className="text-sm font-medium text-slate-700">{selectedProspect.email}</span>
-                                 </div>
-                                 <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-lg bg-slate-50 flex items-center justify-center border border-slate-100">
-                                       <Phone className="w-4 h-4 text-slate-400" />
-                                    </div>
-                                    <span className="text-sm font-medium text-slate-700">{selectedProspect.phone || "No phone listed"}</span>
-                                 </div>
-                                 <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-lg bg-slate-50 flex items-center justify-center border border-slate-100">
-                                       <Globe className="w-4 h-4 text-slate-400" />
-                                    </div>
-                                    <a href={selectedProspect.website} target="_blank" className="text-sm font-medium text-brand-blue-600 hover:underline truncate">
-                                       {selectedProspect.website || "No website available"}
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div className="space-y-4">
-                              <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                 <Target className="w-3 h-3 text-brand-blue-500" /> Business Metadata
-                              </h4>
-                              <div className="space-y-3">
-                                 <div className="px-4 py-3 bg-slate-50 rounded-xl border border-slate-100">
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight mb-1">State Certification ID</p>
-                                    <p className="text-sm font-semibold text-slate-900">{selectedProspect.certification_id || "N/A"}</p>
-                                 </div>
-                                 <div className="px-4 py-3 bg-slate-50 rounded-xl border border-slate-100">
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight mb-1">Origin Source</p>
-                                    <p className="text-sm font-semibold text-slate-900 capitalize">{selectedProspect.source?.replace(/_/g, ' ') || "CaleProcure Registry"}</p>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <Separator className="bg-slate-100" />
-
-                        {/* Section: Industry & Expertise */}
-                        <div className="space-y-4">
-                           <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                              <Briefcase className="w-3 h-3 text-brand-blue-500" /> Industry Scope
-                           </h4>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                              <div>
-                                 <p className="text-[10px] text-slate-400 font-bold uppercase mb-2">Trade Classifications</p>
-                                 <div className="flex flex-wrap gap-2">
-                                    {selectedProspect.industry_type?.map((i: string) => (
-                                       <Badge key={i} variant="outline" className="text-[10px] font-medium text-slate-600 border-slate-200">
-                                          {i}
-                                       </Badge>
-                                    ))}
-                                 </div>
-                              </div>
-                              <div>
-                                 <p className="text-[10px] text-slate-400 font-bold uppercase mb-2">NAICS Registry</p>
-                                 <div className="flex flex-wrap gap-2">
-                                    {selectedProspect.naics_codes?.length > 0 ? selectedProspect.naics_codes.map((n: string) => (
-                                       <Badge key={n} className="bg-blue-50 text-brand-blue-700 hover:bg-blue-100 border-none text-[10px] font-bold">
-                                          #{n}
-                                       </Badge>
-                                    )) : <p className="text-xs italic text-slate-400 font-serif">None provided</p>}
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <Separator className="bg-slate-100" />
-
-                        {/* Section: Service Footprint */}
-                        <div className="space-y-4">
-                           <div className="flex justify-between items-end">
-                              <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                 <MapPin className="w-3 h-3 text-brand-blue-500" /> Service Footprint
-                              </h4>
-                              <span className="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 px-2 py-0.5 rounded border border-slate-100">{selectedProspect.service_areas?.length || 0} CA Counties</span>
-                           </div>
-                           <div className="p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
-                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                                 {selectedProspect.service_areas?.map((s: string) => (
-                                    <div key={s} className="flex items-center gap-2 group">
-                                       <div className="h-1 w-1 rounded-full bg-brand-blue-400" />
-                                       <span className="text-[11px] font-medium text-slate-600 truncate">{s}</span>
-                                    </div>
-                                 ))}
-                              </div>
-                           </div>
-                        </div>
-
-                     </div>
-                  </ScrollArea>
-
-                  {/* Actions Footer */}
-                  <div className="p-6 border-t border-slate-100 bg-slate-50 flex gap-3 justify-end">
-                     <Button 
-                       variant="outline" 
-                       className="rounded-lg h-11 px-6 text-xs font-semibold uppercase tracking-wider text-slate-600"
-                       onClick={() => window.open(`https://caleprocure.ca.gov/core/public/search/supplier/profile/${selectedProspect.certification_id}`, '_blank')}
-                     >
-                        View External Profile <ExternalLink className="w-3.5 h-3.5 ml-2" />
-                     </Button>
-                     <Button 
-                       className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white rounded-lg h-11 px-8 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-brand-blue-600/20"
-                     >
-                        Engage Prospect <ShieldCheck className="w-3.5 h-3.5 ml-2" />
-                     </Button>
-                  </div>
-               </div>
-            )}
-         </DialogContent>
-      </Dialog>
 
     </div>
   );
@@ -371,26 +341,26 @@ export default function ProspectRegistryPage() {
 function SkeletonRow() {
   return (
     <tr className="border-b border-slate-50">
-       <td className="px-6 py-4">
+       <td className="px-6 py-5">
           <div className="space-y-2">
-             <Skeleton className="h-4 w-40" />
-             <Skeleton className="h-3 w-20" />
+             <Skeleton className="h-4 w-48" />
+             <Skeleton className="h-3 w-32" />
           </div>
        </td>
-       <td className="px-6 py-4">
+       <td className="px-6 py-5">
           <div className="flex gap-2">
              <Skeleton className="h-4 w-12 rounded" />
              <Skeleton className="h-4 w-12 rounded" />
           </div>
        </td>
-       <td className="px-6 py-4">
+       <td className="px-6 py-5">
           <Skeleton className="h-4 w-24 rounded" />
        </td>
-       <td className="px-6 py-4 lg:table-cell">
-          <Skeleton className="h-4 w-32 rounded" />
+       <td className="px-6 py-5 hidden lg:table-cell">
+          <Skeleton className="h-4 w-40 rounded" />
        </td>
-       <td className="px-6 py-4 text-right">
-          <Skeleton className="h-8 w-8 ml-auto rounded" />
+       <td className="px-6 py-5 text-right">
+          <Skeleton className="h-8 w-8 ml-auto rounded-full" />
        </td>
     </tr>
   );
