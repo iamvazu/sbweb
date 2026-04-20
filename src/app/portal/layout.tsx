@@ -16,11 +16,11 @@ import {
   Menu,
   ChevronRight,
   ShieldAlert,
-  User,
   Handshake,
   FileCheck,
   TrendingUp,
-  Terminal
+  Terminal,
+  Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
