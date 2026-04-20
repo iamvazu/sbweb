@@ -15,7 +15,12 @@ import {
   RefreshCw,
   Menu,
   ChevronRight,
-  ShieldAlert
+  ShieldAlert,
+  User,
+  Handshake,
+  FileCheck,
+  TrendingUp,
+  Terminal
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -42,14 +47,14 @@ const VENDOR_NAV: NavItem[] = [
 const ADMIN_NAV: NavItem[] = [
   { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
   { label: "Global Marketplace", href: "/portal/bids", icon: Search },
-  { label: "System Partners", href: "/portal/admin", icon: LayoutDashboard },
+  { label: "System Partners", href: "/portal/admin", icon: Handshake },
   { label: "Global Pipeline", href: "/portal/pipeline", icon: Kanban },
-  { label: "Cloud Logs", href: "/portal/admin", icon: BarChart2 },
+  { label: "Cloud Logs", href: "/portal/admin", icon: Terminal },
 ];
 
 const SECONDARY_NAV = [
-  { label: "Hire Us", href: "/portal/hire", icon: LayoutDashboard, highlight: true },
-  { label: "My Engagements", href: "/portal/engagements", icon: Star },
+  { label: "Hire Us", href: "/portal/hire", icon: Handshake, highlight: true },
+  { label: "My Engagements", href: "/portal/engagements", icon: FileCheck },
 ];
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
@@ -162,7 +167,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
               ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
           >
-            <ShieldAlert className="h-4 w-4" />
+            <User className="h-4 w-4" />
             {isAdmin ? "Admin Security" : "Profile Settings"}
           </Link>
         </nav>
