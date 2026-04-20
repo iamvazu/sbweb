@@ -1,77 +1,70 @@
-# STRONGERBuilt LLC
-### Licensed General Contractor | California DVBE
+# BidIQ | Powered by StrongerBuilt
+### AI-Driven Procurement Intelligence for California Government Contracts
 
-Stronger Built LLC is a premium, licensed General Building firm (CSLB #1057434) specializing in California public works, municipal infrastructure, and high-capacity commercial project management. This platform serves as a high-authority digital hub for government procurement officers, prime contractors, and specialty subcontractors.
-
----
-
-## 🚀 Core Features
-
-### 🏛️ Government Contracting Hub
-A dedicated resource for agency procurement staff to verify credentials instantly.
-* **Verified Credentials**: Real-time status for CSLB, DIR, and VA certifications.
-* **Classification Codes**: Comprehensive listing of NAICS and UNSPSC codes for bid matching.
-* **Capabilities Statement**: A printable, executive-level digital flyer with core competencies and past performance.
-
-### 🤝 Partner Network Portal
-A dual-channel ecosystem for specialized trades and prime contractors.
-* **For Primes**: Access to a DVBE-certified partner managing multi-trade resolution.
-* **For Subs**: A streamlined onboarding path for DIR-registered trades to join the project pipeline.
-
-### 💎 Premium Bid Advisory
-High-stakes bid management led by CEO Roy Krautstrunk, featuring:
-* **Stripe-Integrated Deposits**: Secure tiered deposits ($750 / $1,250) for mandatory site-walks and executive consulting.
-* **Compliance Oversight**: Deep expertise in DIR and California Prevailing Wage regulations.
-
-### ⚖️ Compliance & Accessibility
-Built to exceed government standards for transparency and inclusivity.
-* **WCAG 2.1 AA Compliant**: Optimized for screen readers and keyboard navigation.
-* **Section 508 Signals**: Dedicated Accessibility, Privacy, and Terms of Use protocols.
+**BidIQ** is a high-performance, agentic intelligence platform engineered for StrongerBuilt LLC. It automates the discovery, extraction, and strategic analysis of California government procurement opportunities, with a specialized focus on Janitorial, Maintenance, and Public Works contracts.
 
 ---
 
-## 🛠️ Technical Stack
+## 🚀 The Intelligence Engine (Agentic Pipeline)
 
-* **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
-* **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-* **Animations**: [Framer Motion](https://www.framer.com/motion/)
-* **Icons**: [Lucide React](https://lucide.dev/)
-* **Payments**: [Stripe JS](https://stripe.com/docs/js)
-* **Deployment**: [Vercel](https://vercel.com/)
+The platform is powered by a modular **7-Agent Pipeline** that runs autonomously on GitHub Actions to provide real-time monitoring and high-fidelity bid analysis.
 
----
-
-## 📦 Getting Started
-
-### Installation
-```bash
-npm install
-```
-
-### Development Server
-```bash
-npm run dev
-```
-
-### Production Build
-```bash
-npm run build
-```
+| Agent | Function | Capability |
+| :--- | :--- | :--- |
+| **1. Harvester** | Discovery | Monitors Cal eProcure and PlanetBids for new solicitations. |
+| **2. Delta Detector** | Delta Management | Tracks changes in bid statuses and generates daily intelligence digests. |
+| **3. Deep Scraper** | Detail Extraction | Performs multi-template (AUC/WV) scraping of event descriptions, contacts, and meta-data. |
+| **4. PDF Extractor** | Document Intelligence | Stages solicitation packages and extracts text from technical PDFs. |
+| **5. Compliance Screener** | AI Audit | Automatically reviews bids for Prevailing Wage, Bonding, and DVBE requirements. |
+| **6. Strategic Analyst** | Decision Support | Generates a Go/No-Go analysis and correlation score based on past performance. |
+| **7. Match Engine** | Strategic Fit | Scores every bid against StrongerBuilt’s core competencies and capacity. |
 
 ---
 
-## 🔐 Portal Simulation (RBAC)
-The platform uses an email-domain-based simulation for the Role-Based Access Control (RBAC):
+## 💎 Core Feature Sets
 
-* **Super Admin**: `roy@strongerbuilt.us`
-* **Internal Admin**: `@strongerbuilt.us` domain
-* **Government**: `.gov` or `.mil` domains
-* **Vendor/Partner**: All other domains
+### 🏛️ Advanced Cal eProcure Intelligence
+*   **Dual-Template Support**: Robust handling of both "Formal" (AUC) and "Simplified" (WV) solicitation structures.
+*   **Smart Table Parsing**: Automated extraction of **UNSPSC Classifications** and **Geographic Service Areas** (Counties).
+*   **Pre-Bid Conference Tracking**: Automatic detection of Mandatory vs. Non-Mandatory site walks, including dates, times, and locations.
+*   **Contractor License Validation**: Instant identification of CSLB license requirements (Class B, C-27, etc.).
+
+### 🤖 AI-Powered Analysis Panels
+*   **Strategic Go/No-Go**: AI-generated assessment of project risk and profitability.
+*   **Correlation Scoring**: Visual 0-100% score representing the strategic fit for the StrongerBuilt portfolio.
+*   **Compliance Dashboard**: Instant visibility into project mandates like bonding, SBE/DVBE goals, and prevailing wage status.
+
+### 💼 Portfolio Management Portal
+*   **Status Tracking**: Manage the bid lifecycle from *New Match* to *Reviewing*, *Pursuing*, and *Submitted*.
+*   **Centralized Docs**: One-click access to all official solicitation packages and AI-extracted summaries.
+*   **Stripe Integration**: Tiered payment gateways for Prime Contractors to secure mandatory site-walk deposits ($750 - $3,500).
 
 ---
 
-## 📄 License & Credentials
+## 🛠️ Technical Architecture
+
+*   **Frontend**: [Next.js 15+](https://nextjs.org/) (App Router, Server Components)
+*   **Backend & DB**: [Supabase](https://supabase.com/) (PostgreSQL, Realtime, Auth)
+*   **Agents / Scraping**: [Playwright](https://playwright.dev/) + Python 3.10
+*   **Intelligence**: OpenAI GPT-4o / Claude 3.5 Sonnet Integration
+*   **Automation**: GitHub Actions (Scheduled 3-hour intelligence cycles)
+*   **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) + [Framer Motion](https://www.framer.com/motion/)
+
+---
+
+## 🔐 Role-Based Access Control (RBAC)
+
+The platform employs a domain-driven simulation for secure access:
+*   **Super Admin (`roy@strongerbuilt.us`)**: Full pipeline control and strategic oversight.
+*   **Internal Ops (`@strongerbuilt.us`)**: Bid management and compliance review.
+*   **Agency Users (`.gov` / `.mil`)**: Direct credential verification and capability statement access.
+*   **Vendors/Partners**: Managed access to shared bid assets and on-boarding.
+
+---
+
+## 📄 Credentials & Compliance
 **Stronger Built Group LLC**
-* **CSLB License**: #1057434 (Class B, C-6, C-36)
-* **CA SOS Entity**: B20260157630
-* **Registered Address**: 4370 1/2 Oregon St, San Diego, CA 92104
+*   **CSLB License**: #1057434 (Class B, C-6, C-36)
+*   **CA SOS Entity**: B20260157630
+*   **SBE/DVBE Certified**: California Department of General Services.
+*   **Location**: 4370 1/2 Oregon St, San Diego, CA 92104
