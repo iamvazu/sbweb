@@ -187,7 +187,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 {userProfile?.business_name || (isAdmin ? "Super Admin" : "Enterprise User")}
               </p>
               <Badge variant="outline" className={`text-[9px] uppercase tracking-tighter h-4 px-1 border-white/20 ${isAdmin ? 'bg-amber-500/20 text-amber-500 border-amber-500/30' : 'text-blue-200/60'}`}>
-                {isAdmin ? "SUPER ADMIN" : (userProfile?.subscription_tier || "FREE")}
+                {isAdmin ? "SUPER ADMIN" : (userProfile?.subscription_tier?.toUpperCase() || "FREE")}
               </Badge>
             </div>
           </div>

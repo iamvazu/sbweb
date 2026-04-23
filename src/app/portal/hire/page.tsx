@@ -25,6 +25,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { createCheckoutSession } from "@/app/actions/stripe";
 
 function HireContent() {
   const searchParams = useSearchParams();
@@ -55,66 +56,84 @@ function HireContent() {
     loadBid();
   }, [bidId, supabase]);
 
-  const handleCheckout = async (tier: string, price: number) => {
+  const handleCheckout = async (tier: string, bidId: string, bidName: string) => {
     setIsProcessing(true);
-    // In a real app, this would redirect to a Stripe Checkout Session via API
-    toast({
-      title: "Redirecting to Stripe...",
-      description: `Preparing your ${tier} submission package.`,
-    });
+    const formData = new FormData();
+    formData.append("tier", tier);
+    formData.append("bidId", bidId);
+    formData.append("bidName", bidName);
     
-    // Simulation: Wait 2 seconds and redirect to a success page
-    setTimeout(() => {
-      router.push("/portal/engagements");
-    }, 2000);
+    // Call the server action directly or via a form. 
+    // Since we need to redirect, we can use the action.
+    try {
+      await createCheckoutSession(formData);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to start checkout.",
+        variant: "destructive"
+      });
+      setIsProcessing(false);
+    }
   };
 
   const TIERS = [
     {
-      id: "ifb_express",
-      name: "IFB Express",
-      price: 1500,
-      description: "For simple Invitations for Bid (IFBs) under $250K value.",
+      id: "free",
+      name: "Free",
+      price: 0,
+      description: "Set up your business profile and see matched bids.",
       features: [
-        "Completeness & Compliance Check",
-        "Document Packaging & Submission",
-        "DIR / CSLB Verification",
-        "Mandatory Forms Filing",
-        "StrongerBuilt Signature Support",
+        "Business profile setup",
+        "See matched bids",
+        "Limited portal access",
       ],
-      cta: "Hire for Express Bid",
+      cta: "Current Plan",
       popular: false
     },
     {
-      id: "rfp_standard",
-      name: "RFP / IFB Standard",
-      price: 2500,
-      description: "For complex RFPs or IFBs between $250K and $750K.",
+      id: "scout",
+      name: "Scout",
+      price: 49,
+      description: "Essential alerts for state-level opportunities.",
       features: [
-        "Everything in Express",
-        "Technical Proposal Assistance",
-        "SWOT & Strategy Analysis",
-        "Site Walk Consultation",
-        "Pre-bid Meeting Attendance",
-        "Post-Bid Negotiation Support",
+        "Everything in Free",
+        "100 bid alerts / month",
+        "Cal eProcure State Portal",
+        "AI fit score matching profile",
+        "Daily email digest",
       ],
-      cta: "Hire for Standard RFP",
+      cta: "Upgrade to Scout",
+      popular: false
+    },
+    {
+      id: "pro",
+      name: "Pro",
+      price: 99,
+      description: "Full-scale procurement intelligence across CA.",
+      features: [
+        "Everything in Scout",
+        "Unlimited bid alerts",
+        "All 25+ California portals",
+        "AI Analysis (10 unlocked bids)",
+        "DIR/Wage compliance screening",
+      ],
+      cta: "Upgrade to Pro",
       popular: true
     },
     {
-      id: "full_cycle",
-      name: "High-Value RFP",
-      price: 3500,
-      description: "Strategic management for projects greater than $750K.",
+      id: "managed_bid",
+      name: "Managed Bid",
+      price: 249,
+      description: "We write and file the proposal for you.",
       features: [
-        "Everything in Standard",
-        "Full Custom Technical Writing",
-        "Subcontractor Search & Outreach",
-        "DVBE Participation Coordination",
-        "Executive Review & Presentation",
-        "Interview Prep & Attendance",
+        "Full RFP / IFB analysis",
+        "Proposal writing & filing",
+        "Labor compliance review",
+        "Pre-bid representation",
+        "0.75% success fee on win",
       ],
-      cta: "Hire for Enterprise RFP",
+      cta: "Hire for this Bid",
       popular: false
     }
   ];
@@ -158,7 +177,7 @@ function HireContent() {
       </section>
 
       {/* Pricing Tiers */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {TIERS.map((tier) => (
           <Card key={tier.id} className={`relative flex flex-col h-full overflow-hidden transition-all hover:shadow-2xl hover:-translate-y-1 ${tier.popular ? 'border-[#1E6FD9] ring-2 ring-[#1E6FD9] scale-105 z-10' : 'border-slate-200'}`}>
             {tier.popular && (
@@ -189,8 +208,8 @@ function HireContent() {
 
             <CardFooter className="pt-6 border-t bg-slate-50/50">
               <Button 
-                onClick={() => handleCheckout(tier.name, tier.price)}
-                disabled={!bidId || isProcessing}
+                onClick={() => handleCheckout(tier.id, bidId!, selectedBid?.event_name || 'Project')}
+                disabled={(tier.id === 'managed_bid' && !bidId) || (tier.id === 'free') || isProcessing}
                 className={`w-full h-12 font-bold uppercase tracking-widest text-[11px] ${tier.popular ? 'bg-[#1E6FD9] hover:bg-blue-700' : 'bg-slate-900 hover:bg-black'}`}
               >
                 {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : tier.cta}

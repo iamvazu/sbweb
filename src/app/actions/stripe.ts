@@ -17,17 +17,17 @@ export async function createCheckoutSession(formData: FormData) {
     throw new Error("You must be logged in to create a checkout session");
   }
 
-  // Pre-defined prices for our service tiers
+  // Pre-defined prices for our service tiers (in cents)
   const prices: Record<string, number> = {
-    'ifb_express': 150000,   // $1,500.00
-    'rfp_standard': 350000,  // $3,500.00
-    'full_cycle': 750000,    // $7,500.00
+    'scout': 4900,           // $49.00/mo
+    'pro': 9900,             // $99.00/mo
+    'managed_bid': 24900,    // $249.00 per bid
   };
 
   const tierNames: Record<string, string> = {
-    'ifb_express': "IFB Express Submission Package",
-    'rfp_standard': "RFP Strategic Response Package",
-    'full_cycle': "Full-Cycle Management & Compliance",
+    'scout': "Scout Subscription (Monthly)",
+    'pro': "Pro Subscription (Monthly)",
+    'managed_bid': "Expert Managed Bid Submission",
   };
 
   const amount = prices[tier] || 150000;

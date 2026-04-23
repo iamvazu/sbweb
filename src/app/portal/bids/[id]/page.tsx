@@ -38,7 +38,7 @@ export default function BidDetailPage() {
   const { toast } = useToast();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [selectedTier, setSelectedTier] = useState<string | null>("managed_bid");
   const [isUpdating, setIsUpdating] = useState(false);
   const supabase = createClient();
 
@@ -534,8 +534,7 @@ export default function BidDetailPage() {
               
               <div className="space-y-4">
                 {[
-                  { id: 'ifb_express', name: 'IFB Express', price: '$1,500', desc: 'Full submission for Invitations for Bid.' },
-                  { id: 'rfp_standard', name: 'RFP Pro', price: '$3,500', desc: 'Technical narrative & strategy for RFPs.' },
+                  { id: 'managed_bid', name: 'Managed Submission', price: '$249', desc: 'Expert proposal writing & portal filing.' },
                 ].map((tier) => (
                   <div 
                     key={tier.id}
