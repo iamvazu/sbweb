@@ -264,7 +264,6 @@ export default function ProfilePage() {
           </Card>
         </div>
       </div>
-      </div>
 
       {/* Plan Selection Section */}
       <div className="pt-8">
@@ -361,6 +360,8 @@ export default function ProfilePage() {
         </Card>
       </div>
     </div>
+  );
+}
 
 function Lock(props: any) {
   return (
