@@ -347,11 +347,11 @@ export default function BidManagementPage() {
                <div className="order-3 lg:order-2 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue-600 mb-2">MONTHLY SUBSCRIPTION</span>
                   <div className="flex items-baseline gap-1 mb-6">
-                     <span className="text-5xl font-bold text-brand-navy-900">$29</span>
+                     <span className="text-5xl font-bold text-brand-navy-900">$49</span>
                      <span className="text-slate-500 font-bold text-sm">/ month</span>
                   </div>
                   <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
-                     Unlimited bid alerts across all 127 California procurement portals. AI fit scoring on every matched contract.
+                     100 bid alerts for your services per month. State portal (Cal eProcure) access. AI fit score matching your business profile.
                   </p>
                   <div className="space-y-4 mb-10 flex-grow">
                      <div className="flex items-center gap-3">
@@ -360,15 +360,15 @@ export default function BidManagementPage() {
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Unlimited bid alerts</span>
+                        <span className="text-xs font-bold text-brand-navy-900">100 bid alerts / month</span>
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">All 127 CA portals</span>
+                        <span className="text-xs font-bold text-brand-navy-900">Cal eProcure State Portal</span>
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">AI fit score (0-100)</span>
+                        <span className="text-xs font-bold text-brand-navy-900">AI fit score matching profile</span>
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
@@ -378,13 +378,9 @@ export default function BidManagementPage() {
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
                         <span className="text-xs font-bold text-brand-navy-900">Pipeline tracker</span>
                      </div>
-                     <div className="flex items-center gap-3 text-slate-300">
-                        <X className="w-5 h-5 shrink-0" />
-                        <span className="text-xs font-bold">Full AI bid plans & SWOT</span>
-                     </div>
                   </div>
                   <Link href="/portal/signup?plan=scout" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 text-brand-navy-900 font-bold text-sm hover:bg-brand-navy-900 hover:text-white transition-all">
-                     Start Scout — $29/mo
+                     Start Scout — $49/mo
                   </Link>
                </div>
 
@@ -395,11 +391,11 @@ export default function BidManagementPage() {
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 mb-2">MONTHLY SUBSCRIPTION</span>
                   <div className="flex items-baseline gap-1 mb-6 text-white">
-                     <span className="text-5xl font-bold">$49</span>
+                     <span className="text-5xl font-bold">$99</span>
                      <span className="text-slate-400 font-bold text-sm">/ month</span>
                   </div>
                   <p className="text-sm text-slate-400 mb-8 font-medium leading-relaxed">
-                     Full AI intelligence on every bid. Know exactly what to submit, what to charge, and who else is competing.
+                     All 25+ California state, city, county and educational portals. Unlimited bid alerts and deep AI analysis.
                   </p>
                   <div className="space-y-4 mb-10 flex-grow">
                      <div className="flex items-center gap-3">
@@ -408,7 +404,15 @@ export default function BidManagementPage() {
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Full AI bid plans & SWOT</span>
+                        <span className="text-xs font-bold text-white">Unlimited bid alerts</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">All 25+ California portals</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">AI Analysis (10 unlocked bids)</span>
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
@@ -416,19 +420,11 @@ export default function BidManagementPage() {
                      </div>
                      <div className="flex items-center gap-3">
                         <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Prospective bidder intel</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Bid document downloads</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
                         <span className="text-xs font-bold text-white">Priority email support</span>
                      </div>
                   </div>
                   <Link href="/portal/signup?plan=pro" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-white text-brand-navy-900 font-bold text-sm hover:bg-slate-100 transition-all shadow-xl">
-                     Start Pro — $49/mo
+                     Start Pro — $99/mo
                   </Link>
                </div>
 
@@ -436,7 +432,7 @@ export default function BidManagementPage() {
                <div className="order-4 lg:order-4 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">PER SUBMISSION</span>
                   <div className="flex items-baseline gap-1 mb-6">
-                     <span className="text-5xl font-bold text-brand-navy-900">$149</span>
+                     <span className="text-5xl font-bold text-brand-navy-900">$249</span>
                      <span className="text-slate-500 font-bold text-sm">per bid</span>
                   </div>
                   <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
@@ -470,7 +466,7 @@ export default function BidManagementPage() {
                   </div>
 
                   <Link href="/portal/hire" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-navy-900 text-white font-bold text-sm hover:bg-brand-blue-600 transition-all shadow-lg">
-                     Get Bid Help
+                     Get RFP Help — $249/bid
                   </Link>
                </div>
 
@@ -498,7 +494,7 @@ export default function BidManagementPage() {
                         Do I need a subscription to use the managed bid service?
                      </AccordionTrigger>
                      <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        No. The $149 managed submission is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
+                        No. The $249 managed submission is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
                      </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-slate-100 dark:border-white/10">
@@ -506,7 +502,7 @@ export default function BidManagementPage() {
                         What is the success fee and when do I pay it?
                      </AccordionTrigger>
                      <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        The success fee is 0.75% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $1,500. If you do not win, the only cost is the $149 submission fee. The success fee is invoiced after the award notice is issued.
+                        The success fee is 0.75% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $1,500. If you do not win, the only cost is the $249 submission fee. The success fee is invoiced after the award notice is issued.
                      </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-slate-100 dark:border-white/10">
@@ -536,7 +532,7 @@ export default function BidManagementPage() {
                      Create Free Account
                   </Link>
                   <Link href="/portal/hire" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-bold text-sm hover:bg-white hover:text-brand-navy-900 transition-all">
-                     Get Bid Help — $149
+                     Get RFP Help — $249
                   </Link>
                </div>
                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex flex-wrap justify-center gap-x-4 gap-y-2 opacity-60">
