@@ -278,7 +278,7 @@ export default function ProfilePage() {
                 Current: {profile?.subscription_tier?.toUpperCase() || "FREE"}
               </Badge>
             </div>
-          </Header>
+          </CardHeader>
           <CardContent className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Scout Card */}
