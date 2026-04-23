@@ -47,6 +47,7 @@ const VENDOR_NAV: NavItem[] = [
 
 const ADMIN_NAV: NavItem[] = [
   { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
+  { label: "Operations", href: "/portal/admin/operations", icon: LayoutDashboard },
   { label: "Prospect Registry", href: "/portal/admin/prospects", icon: Users },
   { label: "Global Marketplace", href: "/portal/bids", icon: Search },
   { label: "Prospective Matches", href: "/portal/admin/matches", icon: Star },
@@ -70,12 +71,45 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     async function loadProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { data } = await supabase
+        // Admin redirect check
+        const isAdmin = user.email?.endsWith('@strongerbuilt.us') || 
+                        user.email === 'roy@strongerbuilt.us' || 
+                        user.email === 'crazyme2207@gmail.com';
+        
+        if (isAdmin && pathname === '/portal/vendor') {
+          router.push('/portal/admin');
+          return;
+        }
+
+        // First try to get the profile
+        const { data, error } = await supabase
           .from("users")
           .select("*")
           .eq("id", user.id)
           .single();
-        setUserProfile({ ...data, email: user.email });
+        
+        if (error && error.code === 'PGRST116') {
+          // Row missing! Create it.
+          const { data: newData, error: upsertError } = await supabase
+            .from('users')
+            .upsert({
+              id: user.id,
+              email: user.email,
+              business_name: user.user_metadata?.business_name || 'New User',
+              onboarding_complete: false,
+              subscription_tier: 'free'
+            }, { onConflict: 'id' })
+            .select()
+            .single();
+          
+          if (!upsertError) {
+            setUserProfile({ ...newData, email: user.email });
+          }
+        } else if (data) {
+          setUserProfile({ ...data, email: user.email });
+        } else {
+          setUserProfile({ email: user.email });
+        }
       }
     }
     loadProfile();
@@ -166,12 +200,12 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           ))}
           
           <Link 
-            href={isAdmin ? "/portal/admin/operations" : "/portal/settings"}
+            href="/portal/settings"
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-              ${(pathname === '/portal/admin/operations' || pathname === '/portal/settings') ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+              ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
           >
-            {isAdmin ? <LayoutDashboard className="h-4 w-4" /> : <User className="h-4 w-4" />}
-            {isAdmin ? "Internal Operations" : "Profile Settings"}
+            <User className="h-4 w-4" />
+            {isAdmin ? "Admin Profile" : "Company Profile"}
           </Link>
         </nav>
 
