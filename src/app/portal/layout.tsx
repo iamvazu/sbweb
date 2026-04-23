@@ -166,12 +166,12 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           ))}
           
           <Link 
-            href="/portal/settings"
+            href={isAdmin ? "/portal/admin/operations" : "/portal/settings"}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-              ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+              ${(pathname === '/portal/admin/operations' || pathname === '/portal/settings') ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
           >
-            <User className="h-4 w-4" />
-            {isAdmin ? "Admin Security" : "Profile Settings"}
+            {isAdmin ? <LayoutDashboard className="h-4 w-4" /> : <User className="h-4 w-4" />}
+            {isAdmin ? "Internal Operations" : "Profile Settings"}
           </Link>
         </nav>
 
@@ -244,6 +244,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 {pathname === '/portal/analytics' && 'Intelligence Analytics'}
                 {pathname === '/portal/hire' && 'Hire Expert Management'}
                 {pathname === '/portal/engagements' && 'Active Projects'}
+                {pathname === '/portal/admin/operations' && 'Internal Operations Dashboard'}
                 {pathname === '/portal/settings' && (userProfile?.email?.endsWith('@strongerbuilt.us') ? 'Admin Security' : 'Company Profile')}
               </h2>
             </div>

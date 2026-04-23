@@ -56,3 +56,29 @@ export async function updateApplicationStatus(id: string, status: string) {
   revalidatePath("/portal/admin");
   return { success: true };
 }
+
+/**
+ * Update service engagement status
+ */
+export async function updateEngagementStatus(id: string, status: string, additionalData: any = {}) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user?.email?.endsWith('@strongerbuilt.us') && user?.email !== 'roy@strongerbuilt.us' && user?.email !== 'crazyme2207@gmail.com') {
+    throw new Error("Unauthorized");
+  }
+
+  const { error } = await supabase
+    .from("service_engagements")
+    .update({ 
+      status,
+      ...additionalData,
+      updated_at: new Date().toISOString()
+    })
+    .eq("id", id);
+
+  if (error) throw error;
+
+  revalidatePath("/portal/admin/operations");
+  return { success: true };
+}
