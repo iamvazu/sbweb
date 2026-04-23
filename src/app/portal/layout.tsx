@@ -212,7 +212,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 lg:pl-[260px]">
+      <div className="flex-1 lg:ml-[260px] w-full min-w-0">
         {/* Top bar */}
         <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
           <div className="flex h-16 items-center justify-between px-4 sm:px-8">

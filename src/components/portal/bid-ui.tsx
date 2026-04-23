@@ -104,37 +104,37 @@ export function BidCard({ match, bid: overrideBid }: { match: any; bid?: any }) 
       </div>
 
       {/* CENTER: Details */}
-      <div className="flex-1 min-w-0 space-y-1">
-        <div className="flex items-center gap-2 mb-1">
-          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-white">
+      <div className="flex-1 min-w-0 space-y-1 w-full">
+        <div className="flex flex-wrap items-center gap-2 mb-1">
+          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-white shrink-0">
             {bid.source}
           </Badge>
           {score > 0 ? (
-            <Badge variant="secondary" className="text-[9px] h-5 bg-green-50 text-green-700 border-green-200 font-bold">
+            <Badge variant="secondary" className="text-[9px] h-5 bg-green-50 text-green-700 border-green-200 font-bold shrink-0">
               Personalized Match
             </Badge>
           ) : bid.bid_plan ? (
-            <Badge variant="secondary" className="text-[9px] h-5 bg-blue-50 text-blue-600 border-blue-100 font-bold">
+            <Badge variant="secondary" className="text-[9px] h-5 bg-blue-50 text-blue-600 border-blue-100 font-bold shrink-0">
               AI Scanned
             </Badge>
           ) : (
-            <Badge variant="secondary" className="text-[9px] h-5 bg-slate-100 text-slate-500 border-none font-bold">
+            <Badge variant="secondary" className="text-[9px] h-5 bg-slate-100 text-slate-500 border-none font-bold shrink-0">
               Discovery Mode
             </Badge>
           )}
           {daysLeft !== null && (
-            <span className={cn("text-xs font-medium flex items-center gap-1", isUrgent ? "text-red-600 animate-pulse" : "text-slate-500")}>
+            <span className={cn("text-xs font-medium flex items-center gap-1 shrink-0", isUrgent ? "text-red-600 animate-pulse" : "text-slate-500")}>
               <Clock className="h-3 w-3" />
               {daysLeft < 0 ? "Closed" : `${daysLeft} days left`}
             </span>
           )}
         </div>
         
-        <h3 className="text-lg font-bold text-slate-900 truncate pr-4 leading-tight group-hover:text-[#1E6FD9] transition-colors">
+        <h3 className="text-lg font-bold text-slate-900 truncate pr-4 leading-tight group-hover:text-[#1E6FD9] transition-colors w-full">
           {bid.event_name}
         </h3>
         
-        <p className="text-sm text-slate-500 font-medium">
+        <p className="text-sm text-slate-500 font-medium truncate">
           {bid.department_name} <span className="mx-1 text-slate-300">|</span> {bid.event_id}
         </p>
 
