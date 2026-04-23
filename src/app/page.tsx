@@ -202,14 +202,14 @@ export default function Home() {
       </section>
 
       {/* Live Bid Pulse */}
-      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20">
+      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <BidTicker />
         </div>
       </section>
 
       {/* Market Intelligence Dashboard - NEW */}
-      <section className="py-12 md:py-20 bg-slate-50 dark:bg-black/20">
+      <section className="py-12 md:py-20 bg-slate-50 dark:bg-black/20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-12">
             <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Market Intelligence</h2>
@@ -241,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* THE WORKFLOW - ADDED PER REQUEST */}
-      <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10">
+      <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
@@ -269,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* NEW PRICING SECTION - MODEL C (MIRRORED FROM BID MANAGEMENT) */}
-      <section id="pricing" className="py-32 bg-white dark:bg-black/20 border-t border-slate-100 dark:border-white/5">
+      <section id="pricing" className="py-32 bg-white dark:bg-black/20 border-t border-slate-100 dark:border-white/5 overflow-hidden">
          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
                <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-4 italic">Simple, transparent pricing</h3>
