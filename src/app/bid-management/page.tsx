@@ -85,7 +85,7 @@ export default function BidManagementPage() {
 
   const steps = [
     { num: "01", title: "Build Your Profile", desc: "Add NAICS codes, certifications, and service regions. Takes 2 minutes.", icon: ClipboardCheck },
-    { num: "02", title: "AI Scans Portals", desc: "Our engine monitors 30+ CA procurement systems 24/7 for you.", icon: Search },
+    { num: "02", title: "AI Scans Portals", desc: "Our engine monitors 25+ CA procurement systems 24/7 for you.", icon: Search },
     { num: "03", title: "Score & Rank", desc: "Every bid gets a fit score and win-probability signal instantly.", icon: LineChart },
     { num: "04", title: "Strategic Support", desc: "Expert analysis of RFPs to find hidden landmines and pricing traps.", icon: Zap },
     { num: "05", title: "Compliance Secure", desc: "End-to-end filing for DIR, prevailing wage, and final submission.", icon: ShieldCheck }
@@ -273,7 +273,7 @@ export default function BidManagementPage() {
         <div className="absolute inset-0 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
            <h2 className="text-[11px] font-black text-amber-400 uppercase tracking-[0.3em] mb-4">Procurement Intelligence</h2>
-           <h3 className="text-5xl md:text-7xl font-serif text-white mb-6 italic">30+ Portals. <span className="text-brand-blue-600">One Feed.</span></h3>
+           <h3 className="text-5xl md:text-7xl font-serif text-white mb-6 italic">25+ Portals. <span className="text-brand-blue-600">One Feed.</span></h3>
            <p className="text-lg text-slate-400 mb-16 max-w-2xl mx-auto font-medium">We monitor state, county, city, university, and many other procurement systems so you never have to.</p>
            
            <div className="flex flex-wrap justify-center gap-3">
