@@ -1,3 +1,41 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { 
+  Users, 
+  Briefcase, 
+  Handshake, 
+  CheckCircle2, 
+  Clock, 
+  TrendingUp,
+  Search,
+  Target,
+  Shield,
+  Download,
+  MoreVertical,
+  ArrowUpRight
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { updateEngagementStatus, updateApplicationStatus } from "@/app/actions/admin";
@@ -532,5 +570,4 @@ function AdminSkeleton() {
       </div>
     </div>
   );
-}
 }
