@@ -62,7 +62,7 @@ export default function BidManagementPage() {
       title: "Full-Cycle Bid Management", 
       desc: "We manage every checkmark, signature, and digital portal submission across Cal eProcure, PlanetBids, and more.",
       icon: ClipboardCheck,
-      image: "/images/services/construction-consulting.png"
+      image: "/images/services/bid-management.png"
     },
     { 
       title: "DIR & Prevailing Wage Compliance", 
@@ -80,7 +80,7 @@ export default function BidManagementPage() {
       title: "RFP Analysis", 
       desc: "Our team dissects complex solicitation documents to find the hidden 'must-haves' and disqualification traps.",
       icon: Search,
-      image: "/images/services/hvac-service.png"
+      image: "/images/services/bid-management.png"
     },
     { 
       title: "Compliance Tracking", 
