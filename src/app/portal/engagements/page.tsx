@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
+export const dynamic = "force-dynamic";
+
+// Version: 1.1.0 - Functional Engagements List
 import { CheckCircle2, FileSearch, ArrowRight, ShieldCheck, Clock, FileText, Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

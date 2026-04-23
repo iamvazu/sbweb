@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,13 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Building2, Mail, Phone, MapPin, Award, ShieldCheck, CreditCard, User, Save, Loader2 } from "lucide-react";
+import { Building2, Mail, Phone, MapPin, Award, ShieldCheck, CreditCard, User, Save, Loader2, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
 
@@ -229,7 +231,11 @@ export default function ProfilePage() {
                   You are viewing up to 50 bid matches per day. Upgrade to PRO for deeper analysis and export tools.
                 </p>
               </div>
-              <Button variant="outline" className="w-full border-brand-blue-600 text-brand-blue-600 hover:bg-brand-blue-600/5 rounded-xl font-bold h-11">
+              <Button 
+                onClick={() => router.push("/portal/hire")}
+                variant="outline" 
+                className="w-full border-brand-blue-600 text-brand-blue-600 hover:bg-brand-blue-600/5 rounded-xl font-bold h-11"
+              >
                 Upgrade Account
               </Button>
             </CardContent>
@@ -258,9 +264,103 @@ export default function ProfilePage() {
           </Card>
         </div>
       </div>
+      </div>
+
+      {/* Plan Selection Section */}
+      <div className="pt-8">
+        <Card className="border-none shadow-xl shadow-brand-blue-600/5 overflow-hidden">
+          <CardHeader className="bg-slate-900 text-white p-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-2xl font-black uppercase italic tracking-tight">Bid IQ Plans</CardTitle>
+                <CardDescription className="text-blue-200/40 font-medium">Select a tier to scale your government procurement strategy.</CardDescription>
+              </div>
+              <Badge variant="outline" className="border-blue-200/20 text-blue-200 uppercase tracking-widest text-[10px]">
+                Current: {profile?.subscription_tier?.toUpperCase() || "FREE"}
+              </Badge>
+            </div>
+          </Header>
+          <CardContent className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Scout Card */}
+              <div className="p-6 rounded-[2rem] border-2 border-slate-100 flex flex-col hover:border-brand-blue-600/20 transition-all group">
+                  <div className="space-y-4 flex-1">
+                    <div className="flex justify-between items-start">
+                      <Badge className="bg-slate-100 text-slate-500 uppercase text-[9px] font-black">Scout</Badge>
+                      <span className="text-2xl font-black text-brand-navy-900">$49<span className="text-xs text-slate-400 font-medium">/mo</span></span>
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      100 bid alerts for your services per month. Cal eProcure State Portal access.
+                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> 100 Bid Alerts</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> State Portal Access</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> AI Fit Scoring</li>
+                    </ul>
+                  </div>
+                  <Button 
+                  onClick={() => router.push("/portal/hire")}
+                  disabled={profile?.subscription_tier === 'scout'}
+                  className="w-full mt-6 rounded-xl font-bold bg-brand-navy-900"
+                  >
+                    {profile?.subscription_tier === 'scout' ? 'Current Plan' : 'Select Scout'}
+                  </Button>
+              </div>
+
+              {/* Pro Card */}
+              <div className="p-6 rounded-[2rem] border-2 border-brand-blue-600 bg-brand-blue-600/5 flex flex-col relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-brand-blue-600 text-white text-[8px] font-black uppercase px-3 py-1 rounded-bl-xl">Best Value</div>
+                  <div className="space-y-4 flex-1">
+                    <div className="flex justify-between items-start">
+                      <Badge className="bg-brand-blue-600 text-white uppercase text-[9px] font-black">Pro</Badge>
+                      <span className="text-2xl font-black text-brand-navy-900">$99<span className="text-xs text-slate-400 font-medium">/mo</span></span>
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      All 25+ California state, city, county and educational portals. Unlimited alerts.
+                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Unlimited Alerts</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> 25+ CA Portals</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> AI Deep Analysis</li>
+                    </ul>
+                  </div>
+                  <Button 
+                  onClick={() => router.push("/portal/hire")}
+                  disabled={profile?.subscription_tier === 'pro'}
+                  className="w-full mt-6 rounded-xl font-bold bg-brand-blue-600"
+                  >
+                    {profile?.subscription_tier === 'pro' ? 'Current Plan' : 'Select Pro'}
+                  </Button>
+              </div>
+
+              {/* Managed Card */}
+              <div className="p-6 rounded-[2rem] border-2 border-slate-100 flex flex-col">
+                  <div className="space-y-4 flex-1">
+                    <div className="flex justify-between items-start">
+                      <Badge className="bg-success/10 text-success uppercase text-[9px] font-black">Managed</Badge>
+                      <span className="text-2xl font-black text-brand-navy-900">$249<span className="text-xs text-slate-400 font-medium">/bid</span></span>
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      Full-service bid submission. We write and file the proposal for you.
+                    </p>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> RFP Technical Writing</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> DIR Compliance Audit</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Full Submission Filing</li>
+                    </ul>
+                  </div>
+                  <Button 
+                  onClick={() => router.push("/portal/hire")}
+                  className="w-full mt-6 rounded-xl font-bold bg-slate-100 text-slate-900 hover:bg-slate-200"
+                  >
+                    Hire Experts
+                  </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-  );
-}
 
 function Lock(props: any) {
   return (

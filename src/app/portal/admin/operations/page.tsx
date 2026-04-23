@@ -76,7 +76,7 @@ export default function AdminOperationsPage() {
         .from('users')
         .select(`
           *,
-          user_bid_matches (count),
+          user_bid_matches (fit_score),
           service_engagements (count)
         `)
         .order('created_at', { ascending: false });
@@ -96,6 +96,11 @@ export default function AdminOperationsPage() {
       const activeEngagements = engagements?.filter(e => ['intake', 'in_progress'].includes(e.status)).length || 0;
       const revenue = engagements?.filter(e => e.payment_status === 'paid').reduce((sum, e) => sum + e.price_agreed, 0) || 0;
 
+      // Calculate real average fit score
+      const allMatches = users?.flatMap(u => u.user_bid_matches || []) || [];
+      const fitScores = allMatches.map(m => m.fit_score).filter(s => s !== null && s !== undefined);
+      const avgFit = fitScores.length > 0 ? Math.round(fitScores.reduce((a, b) => a + b, 0) / fitScores.length) : 0;
+
       setData({
         engagements: engagements || [],
         users: users || [],
@@ -107,7 +112,7 @@ export default function AdminOperationsPage() {
           freeUsers,
           activeEngagements,
           revenue,
-          avgFit: 78 // Mock for now
+          avgFit
         }
       });
       setLoading(false);
