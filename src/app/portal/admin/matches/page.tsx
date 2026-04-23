@@ -110,6 +110,28 @@ export default function AdminMatchesPage() {
     });
   };
 
+   const handleSync = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/admin/sync", { method: "POST" });
+      const result = await res.json();
+      
+      if (result.success) {
+        toast({ 
+          title: "Sync Complete", 
+          description: `Generated ${result.userMatches} user matches and ${result.prospectMatches} prospect matches.`,
+        });
+        // Refresh page data
+        window.location.reload();
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (err: any) {
+      toast({ title: "Sync Failed", description: err.message, variant: "destructive" });
+      setLoading(false);
+    }
+  };
+
   if (loading) return <MatchesSkeleton />;
 
   return (
@@ -129,8 +151,12 @@ export default function AdminMatchesPage() {
            <Button variant="outline" className="rounded-xl border-slate-200 h-10 font-bold text-[10px] uppercase tracking-widest px-6 bg-white hover:bg-slate-50">
              <Filter className="w-3 h-3 mr-2" /> Filter RFPs
            </Button>
-           <Button className="rounded-xl bg-brand-navy-900 text-white font-black text-[10px] uppercase tracking-widest h-10 px-6 shadow-xl">
-             Sync Pipeline
+           <Button 
+             onClick={handleSync}
+             disabled={loading}
+             className="rounded-xl bg-brand-navy-900 text-white font-black text-[10px] uppercase tracking-widest h-10 px-6 shadow-xl"
+           >
+             {loading ? "Syncing..." : "Sync Pipeline"}
            </Button>
         </div>
       </div>

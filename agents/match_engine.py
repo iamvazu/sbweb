@@ -11,12 +11,14 @@ from db_utils import get_supabase_client
 logger = logging.getLogger("match_engine")
 supabase: Client = get_supabase_client()
 
-# NAICS to Keyword mapping for smarter matching
-NAICS_KEYWORDS = {
-    "561720": ["janitorial", "custodial", "office cleaning", "chamber cleaning", "floor waxing", "window cleaning", "pressure washing", "sanitation services"],
-    "236220": ["commercial building", "remodel", "renovation", "tenant improvement"],
-    "541511": ["software", "programming", "web development", "it services"],
-    "561730": ["landscaping", "grounds maintenance", "irrigation", "tree trimming"]
+# Expanded Industry Keyword Map
+INDUSTRY_MAP = {
+    "janitorial": ["janitorial", "cleaning", "custodial", "sanitation", "floor", "window", "pressure wash", "chamber cleaning", "trash", "waste", "sanitary", "maintenance"],
+    "construction": ["construction", "renovation", "remodel", "painting", "paving", "roofing", "plumbing", "electrical", "hvac", "tenant improvement", "installation", "door", "window", "gutter", "drywall", "concrete", "fencing"],
+    "it": ["software", "it services", "programming", "networking", "cloud", "security", "hardware", "computer", "information technology", "saas", "cyber"],
+    "landscaping": ["landscaping", "landscape", "grounds", "irrigation", "tree", "mowing", "weed", "arborist", "pest", "vegetation"],
+    "staffing": ["staffing", "personnel", "recruitment", "labor", "temporary services", "hr", "workforce"],
+    "professional": ["consulting", "engineering", "architecture", "management", "legal", "accounting", "environmental", "audit", "training"]
 }
 
 # Negative keywords to prevent false positives (applied globally)
@@ -27,8 +29,8 @@ NEGATIVE_KEYWORDS = [
 
 def calculate_fit_score(user, bid):
     """
-    Agent 7: Match Engine
-    Calculates a 0-100 fit score for a specific user and bid.
+    Enhanced Match Engine (v2.0)
+    Calculates a comprehensive fit score based on multiple vectors.
     """
     score = 0
     bid_text = ((bid.get('event_name') or '') + ' ' + (bid.get('comments') or '')).lower()
@@ -36,48 +38,47 @@ def calculate_fit_score(user, bid):
     # Check for Negative Keywords (Global blocker)
     for n_kw in NEGATIVE_KEYWORDS:
         if n_kw in bid_text:
-            return 0 # Automatic disqualified for janitorial if it's fire/hvac etc.
+            return 0 # Automatic disqualified
     
-    # 1. NAICS & Keyword Match (45 pts)
-    # Check for direct code or mapped keywords
+    # 1. Industry / Keyword Match (Max 50 pts)
     naics_codes = user.get('naics_codes') or []
-    industry_match = False
+    business_name = (user.get('business_name') or '').lower()
     
-    for code in naics_codes:
-        # Check code itself
-        if code in bid_text:
-            industry_match = True
-            break
-        
-        # Check mapped keywords
-        keywords = NAICS_KEYWORDS.get(code, [])
-        for kw in keywords:
-            if kw in bid_text:
+    industry_match = False
+    for cat, keywords in INDUSTRY_MAP.items():
+        if any(kw in bid_text for kw in keywords):
+            if any(kw in business_name for kw in keywords) or \
+               any(code in naics_codes for code in keywords) or \
+               cat in (user.get('industry_type') or []):
                 industry_match = True
                 break
-        if industry_match: break
-    
+
     if industry_match:
-        score += 45
-            
-    # 2. Certification Match (30 pts)
+        score += 50
+    
+    # 2. Certification Match (Max 30 pts)
     user_certs = user.get('certifications') or []
-    if bid.get('sbe_only') and 'SBE' in user_certs:
-        score += 30
-    elif bid.get('dvbe_goal') and 'DVBE' in user_certs:
-        score += 25
+    if (bid.get('dvbe_goal') and float(bid['dvbe_goal']) > 0) or 'dvbe' in bid_text:
+        if 'DVBE' in user_certs:
+            score += 30
+    elif bid.get('sbe_only') or 'sbe' in bid_text or 'small business' in bid_text:
+        if any(c in user_certs for c in ['SB', 'SBE', 'SB(Micro)']):
+            score += 30
     elif any(cert in user_certs for cert in ['SBE', 'DVBE', 'DBE', 'SDVOSB']):
         score += 15
         
-    # 3. Geographic & Content Fit (25 pts)
-    for county in (user.get('counties_served') or []):
+    # 3. Geographic & Content Fit (Max 20 pts)
+    user_areas = user.get('counties_served') or []
+    for county in user_areas:
         if county.lower() in bid_text:
-            score += 25
+            score += 20
             break
     
-    if industry_match and score < 51:
-        score = 51 # Minimum viable match for relevant bids
-    
+    # 4. Title Keyword Boost
+    title = (bid.get('event_name') or '').lower()
+    if industry_match and any(kw in title for cat, kws in INDUSTRY_MAP.items() for kw in kws):
+        score += 10
+
     return min(100, score)
 
 def run():
@@ -113,7 +114,7 @@ def run():
         for bid in bids:
             score = calculate_fit_score(user, bid)
             
-            if score > 50: # Only store meaningful matches
+            if score >= 40: # Only store meaningful matches
                 match_count += 1
                 try:
                     supabase.table("user_bid_matches").upsert({

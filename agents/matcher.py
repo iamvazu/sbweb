@@ -60,11 +60,12 @@ def supabase_upsert(path, data):
 # ─── MATCHING ENGINE ──────────────────────────────────────────────
 
 KEYWORD_MAP = {
-    "construction": ["construction", "building", "renovation", "plumbing", "electrical", "hvac", "roofing", "paving"],
-    "janitorial": ["janitorial", "cleaning", "custodial", "maintenance", "sanitary"],
-    "it": ["it", "software", "computer", "networking", "cloud", "security", "data"],
-    "professional_services": ["consulting", "engineering", "architectural", "legal", "accounting", "staffing"],
-    "supplies": ["supplies", "equipment", "hardware", "office", "safety"]
+    "janitorial": ["janitorial", "cleaning", "custodial", "sanitation", "floor", "window", "pressure wash", "chamber cleaning", "trash", "waste", "sanitary", "maintenance"],
+    "construction": ["construction", "renovation", "remodel", "painting", "paving", "roofing", "plumbing", "electrical", "hvac", "tenant improvement", "installation", "door", "window", "gutter", "drywall", "concrete", "fencing"],
+    "it": ["software", "it services", "programming", "networking", "cloud", "security", "hardware", "computer", "information technology", "saas", "cyber"],
+    "landscaping": ["landscaping", "landscape", "grounds", "irrigation", "tree", "mowing", "weed", "arborist", "pest", "vegetation"],
+    "staffing": ["staffing", "personnel", "recruitment", "labor", "temporary services", "hr", "workforce"],
+    "professional": ["consulting", "engineering", "architecture", "management", "legal", "accounting", "environmental", "audit", "training"]
 }
 
 def calculate_match(bid, prospect):
@@ -72,8 +73,7 @@ def calculate_match(bid, prospect):
     reasons = []
 
     # 1. Eligibility (Certification) - 40 points
-    bid_text = (bid.get("event_name") or "") + " " + (bid.get("comments") or "")
-    bid_text = bid_text.upper()
+    bid_text = ((bid.get("event_name") or "") + " " + (bid.get("comments") or "")).upper()
     prospect_certs = prospect.get("cert_types") or []
 
     is_dvbe_bid = "DVBE" in bid_text or (bid.get("dvbe_goal") and float(bid["dvbe_goal"]) > 0)
@@ -84,82 +84,50 @@ def calculate_match(bid, prospect):
             score += 40
             reasons.append("Eligible: DVBE Certified")
     elif is_sb_bid:
-        if any(c in prospect_certs for c in ["SB", "SB(Micro)", "SB-PW"]):
+        if any(c in prospect_certs for c in ["SB", "SB(Micro)", "SB-PW", "SBE"]):
             score += 40
             reasons.append("Eligible: Small Business Certified")
     else:
-        # Open bid, neutral start
         score += 20
         reasons.append("Eligible: Open/No Set-Aside")
 
     # 2. Geography - 30 points
-    bid_counties = []
-    if bid.get("service_areas"):
-        for sa in bid["service_areas"]:
-            if isinstance(sa, dict) and sa.get("county"):
-                bid_counties.append(sa["county"])
-            elif isinstance(sa, str):
-                bid_counties.append(sa)
-    
-    # Fallback to description check
-    if not bid_counties:
-        for county in ["SAN DIEGO", "LOS ANGELES", "RIVERSIDE", "ORANGE", "SACRAMENTO", "SAN FRANCISCO", "ALAMEDA"]:
-            if county in bid_text:
-                bid_counties.append(county.title())
-
     prospect_areas = prospect.get("service_areas") or []
-    
-    geo_match = False
-    for bc in bid_counties:
-        if bc in prospect_areas:
-            geo_match = True
-            break
+    geo_match = any(area.upper() in bid_text for area in prospect_areas)
     
     if geo_match:
         score += 30
-        reasons.append(f"Geo: Serves {bid_counties[0] if bid_counties else 'CA'}")
-    elif not bid_counties:
-        score += 15 # Neutral fallback
-        reasons.append("Geo: Statewide/Unknown")
+        reasons.append("Geo: Local Area Match")
 
     # 3. Industry/Keywords - 30 points
-    bid_keywords = set()
-    for category, words in KEYWORD_MAP.items():
-        for word in words:
-            if word.upper() in bid_text:
-                bid_keywords.add(category)
-                break
-    
-    prospect_text = (prospect.get("legal_name") or "") + " " + " ".join(prospect.get("industry_type") or [])
-    prospect_text = prospect_text.upper()
-    
     industry_match = False
-    for cat in bid_keywords:
-        for word in KEYWORD_MAP[cat]:
-            if word.upper() in prospect_text:
+    for cat, words in KEYWORD_MAP.items():
+        if any(word.upper() in bid_text for word in words):
+            # Check prospect
+            p_text = ((prospect.get("legal_name") or "") + " " + " ".join(prospect.get("industry_type") or [])).upper()
+            if any(word.upper() in p_text for word in words):
                 industry_match = True
-                reasons.append(f"Industry: {cat.replace('_', ' ').title()}")
+                score += 30
+                reasons.append(f"Industry: {cat.title()}")
                 break
-        if industry_match: break
     
-    if industry_match:
-        score += 30
-    else:
-        # Check unspsc fallback
+    if not industry_match:
+        # Fallback to UNSPSC
         unspsc = bid.get("unspsc_codes") or []
         for u in unspsc:
             desc = u.get("description", "").upper()
-            if any(w.upper() in desc for cat in bid_keywords for w in KEYWORD_MAP[cat]):
+            if any(word.upper() in desc for words in KEYWORD_MAP.values() for word in words):
                 score += 20
-                reasons.append("Industry: Categorical match")
+                reasons.append("Industry: Categorical Match")
                 break
 
     return score, reasons
 
 def run_matcher():
     print(f"\n{'='*60}")
-    print(f"  BidIQ Matchmaking Engine")
+    print(f"  BidIQ Matchmaking Engine v2.0")
     print(f"{'='*60}\n")
+    # ... rest of the file ...
 
     # 1. Fetch Bids
     print("Fetching active bids...")
