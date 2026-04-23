@@ -3,7 +3,33 @@
 import { useState } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock, ChevronDown } from "lucide-react";
+import { 
+  ArrowRight, 
+  ShieldCheck, 
+  FileText, 
+  CheckCircle2, 
+  Building2, 
+  HardHat, 
+  Wrench, 
+  Package, 
+  ArrowUpRight, 
+  Info, 
+  PlayCircle, 
+  ClipboardCheck, 
+  Search, 
+  LineChart, 
+  Zap, 
+  Clock, 
+  ChevronDown,
+  X,
+  Shield
+} from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import BidTicker from "@/components/market/bid-ticker";
 import MarketInsights from "@/components/market/market-insights";
@@ -232,6 +258,236 @@ export default function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* NEW PRICING SECTION - MODEL C (MIRRORED FROM BID MANAGEMENT) */}
+      <section id="pricing" className="py-32 bg-white dark:bg-black/20 border-t border-slate-100 dark:border-white/5">
+         <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+               <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-4 italic">Simple, transparent pricing</h3>
+               <p className="text-lg text-slate-500 font-medium">Start free. Pay as you grow. We only take a success fee when you win.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mb-20">
+               
+               {/* CARD 1 — FREE */}
+               <div className="order-2 lg:order-1 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 mb-2">ALWAYS FREE</span>
+                  <div className="flex items-baseline gap-1 mb-6">
+                     <span className="text-5xl font-bold text-brand-navy-900">$0</span>
+                     <span className="text-slate-500 font-bold text-sm">forever</span>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
+                     Set up your business profile and see which California government contracts match your certifications and service area. No credit card required.
+                  </p>
+                  <div className="space-y-4 mb-10 flex-grow">
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Business profile</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">See matched bids</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">5 bid alerts / mo</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Basic compliance flags</span>
+                     </div>
+                     <div className="flex items-center gap-3 text-slate-300">
+                        <X className="w-5 h-5 shrink-0" />
+                        <span className="text-xs font-bold">AI bid plans & SWOT</span>
+                     </div>
+                     <div className="flex items-center gap-3 text-slate-300">
+                        <X className="w-5 h-5 shrink-0" />
+                        <span className="text-xs font-bold">Prospective bidder data</span>
+                     </div>
+                  </div>
+                  <Link href="/portal/signup" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 text-brand-navy-900 font-bold text-sm hover:bg-brand-navy-900 hover:text-white transition-all">
+                     Create Free Account
+                  </Link>
+               </div>
+
+               {/* CARD 2 — SCOUT */}
+               <div className="order-3 lg:order-2 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue-600 mb-2">MONTHLY SUBSCRIPTION</span>
+                  <div className="flex items-baseline gap-1 mb-6">
+                     <span className="text-5xl font-bold text-brand-navy-900">$29</span>
+                     <span className="text-slate-500 font-bold text-sm">/ month</span>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
+                     Unlimited bid alerts across all 127 California procurement portals. AI fit scoring on every matched contract.
+                  </p>
+                  <div className="space-y-4 mb-10 flex-grow">
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Everything in Free</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Unlimited bid alerts</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">All 127 CA portals</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">AI fit score (0-100)</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Daily email digest</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Pipeline tracker</span>
+                     </div>
+                     <div className="flex items-center gap-3 text-slate-300">
+                        <X className="w-5 h-5 shrink-0" />
+                        <span className="text-xs font-bold">Full AI bid plans & SWOT</span>
+                     </div>
+                  </div>
+                  <Link href="/portal/signup?plan=scout" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 text-brand-navy-900 font-bold text-sm hover:bg-brand-navy-900 hover:text-white transition-all">
+                     Start Scout — $29/mo
+                  </Link>
+               </div>
+
+               {/* CARD 3 — PRO */}
+               <div className="relative order-1 lg:order-3 flex flex-col p-10 rounded-[3rem] bg-brand-navy-900 border-2 border-brand-blue-600 scale-105 shadow-2xl z-10">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
+                     Most Popular
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 mb-2">MONTHLY SUBSCRIPTION</span>
+                  <div className="flex items-baseline gap-1 mb-6 text-white">
+                     <span className="text-5xl font-bold">$49</span>
+                     <span className="text-slate-400 font-bold text-sm">/ month</span>
+                  </div>
+                  <p className="text-sm text-slate-400 mb-8 font-medium leading-relaxed">
+                     Full AI intelligence on every bid. Know exactly what to submit, what to charge, and who else is competing.
+                  </p>
+                  <div className="space-y-4 mb-10 flex-grow">
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">Everything in Scout</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">Full AI bid plans & SWOT</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">DIR/Wage compliance screening</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">Prospective bidder intel</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">Bid document downloads</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-white">Priority email support</span>
+                     </div>
+                  </div>
+                  <Link href="/portal/signup?plan=pro" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-white text-brand-navy-900 font-bold text-sm hover:bg-slate-100 transition-all shadow-xl">
+                     Start Pro — $49/mo
+                  </Link>
+               </div>
+
+               {/* CARD 4 — MANAGED */}
+               <div className="order-4 lg:order-4 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">PER SUBMISSION</span>
+                  <div className="flex items-baseline gap-1 mb-6">
+                     <span className="text-5xl font-bold text-brand-navy-900">$149</span>
+                     <span className="text-slate-500 font-bold text-sm">per bid</span>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
+                     We write the complete proposal under your business name and file it on the portal. You focus on the work — we handle the paperwork.
+                  </p>
+                  <div className="space-y-4 mb-6 flex-grow">
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Full RFP / IFB analysis</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Proposal writing & filing</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Labor compliance review</span>
+                     </div>
+                     <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                        <span className="text-xs font-bold text-brand-navy-900">Pre-bid representation</span>
+                     </div>
+                  </div>
+                  
+                  <div className="border-t border-slate-100 pt-6 mb-8">
+                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">If you win</span>
+                     <span className="text-lg font-black text-brand-navy-900 block leading-none">0.75% of contract value</span>
+                     <span className="text-[9px] text-slate-400 font-bold leading-tight block mt-1 italic">
+                        On a $300,000 contract that is $2,250 — only charged if you are awarded the contract.
+                     </span>
+                  </div>
+
+                  <Link href="/portal/hire" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-navy-900 text-white font-bold text-sm hover:bg-brand-blue-600 transition-all shadow-lg">
+                     Get Bid Help
+                  </Link>
+               </div>
+
+            </div>
+
+            {/* Trust Callout Box */}
+            <div className="max-w-4xl mx-auto bg-brand-blue-50 border-l-4 border-brand-blue-600 rounded-xl p-6 md:p-8 mb-20 shadow-sm text-left">
+               <div className="flex items-start gap-4">
+                  <Shield className="w-6 h-6 text-brand-blue-600 shrink-0" />
+                  <div>
+                     <h4 className="text-sm font-bold text-brand-blue-600 uppercase tracking-widest mb-2">Why businesses trust us with their bids</h4>
+                     <p className="text-sm text-brand-navy-900 font-medium leading-relaxed">
+                        StrongerBuilt LLC is a licensed California general contractor (CSLB #1057434), SDVOSB and DVBE certified. We have personally submitted government bids on CaleProcure, PlanetBids, and Caltrans. We know what gets proposals disqualified — and we make sure yours never is.
+                     </p>
+                  </div>
+               </div>
+            </div>
+
+            {/* FAQ Accordion */}
+            <div className="max-w-3xl mx-auto mb-20 text-left">
+               <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white mb-8 text-center italic">Frequently Asked Questions</h3>
+               <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1" className="border-slate-100 dark:border-white/10">
+                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
+                        Do I need a subscription to use the managed bid service?
+                     </AccordionTrigger>
+                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        No. The $149 managed submission is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
+                     </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2" className="border-slate-100 dark:border-white/10">
+                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
+                        What is the success fee and when do I pay it?
+                     </AccordionTrigger>
+                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        The success fee is 0.75% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $1,500. If you do not win, the only cost is the $149 submission fee. The success fee is invoiced after the award notice is issued.
+                     </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-3" className="border-slate-100 dark:border-white/10">
+                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
+                        What counts as a mandatory pre-bid meeting and can you attend on my behalf?
+                     </AccordionTrigger>
+                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        Some California government contracts require all bidders to attend an in-person or virtual meeting before the submission deadline. If your name is not on the sign-in sheet, your bid is automatically disqualified — by law, with no exceptions. BidIQ flags these automatically. For Full-Cycle managed submissions, site walk attendance is included.
+                     </AccordionContent>
+                  </AccordionItem>
+               </Accordion>
+            </div>
+         </div>
       </section>
 
       {/* Services Grid - RESTORED FULL */}
