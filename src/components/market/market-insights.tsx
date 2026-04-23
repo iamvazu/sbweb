@@ -120,7 +120,7 @@ export default function MarketInsights({ variant = "full" }: { variant?: "full" 
       const now = new Date();
       const { data: bids, error } = await supabase
         .from("bids")
-        .select("event_name, department_name, sbe_only, dvbe_goal, end_date")
+        .select("event_name, department_name, sbe_only, dvbe_goal, end_date, comments, extracted_text")
         .eq("status", "Posted")
         .gte("end_date", now.toISOString())
         .limit(2000);
@@ -157,11 +157,16 @@ export default function MarketInsights({ variant = "full" }: { variant?: "full" 
       const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
       bids.forEach(bid => {
-        const text = ((bid.event_name || "") + " " + (bid.department_name || "")).toLowerCase();
+        const nameText = (bid.event_name || "").toLowerCase();
+        const deptText = (bid.department_name || "").toLowerCase();
+        const commentsText = (bid.comments || "").toLowerCase();
+        const extractedText = (bid.extracted_text || "").toLowerCase();
+        const fullText = `${nameText} ${deptText} ${commentsText} ${extractedText}`;
+
         let matchedKey = "other";
         
         for (const [key, config] of Object.entries(CATEGORIES)) {
-          if (config.keywords.some(kw => text.includes(kw))) {
+          if (config.keywords.some(kw => fullText.includes(kw))) {
             matchedKey = key;
             break;
           }
@@ -170,16 +175,30 @@ export default function MarketInsights({ variant = "full" }: { variant?: "full" 
         const group = groups[matchedKey];
         group.total++;
         
-        // ROBUST SB/DVBE CHECK
-        const isSbe = bid.sbe_only === true || bid.sbe_only === "true";
-        const dvbeGoal = bid.dvbe_goal ? String(bid.dvbe_goal).trim() : null;
-        const hasDvbe = dvbeGoal && 
-                        dvbeGoal !== "0%" && 
-                        dvbeGoal !== "0" && 
-                        dvbeGoal.toLowerCase() !== "none" && 
-                        dvbeGoal.toLowerCase() !== "n/a";
+        // --- IMPROVED SB/DVBE DETECTION ---
+        // 1. Structured SBE check
+        const isSbeStructured = bid.sbe_only === true || bid.sbe_only === "true";
+        // 2. Keyword SBE check
+        const isSbeKeyword = fullText.includes("sbe only") || 
+                            fullText.includes("small business set-aside") || 
+                            fullText.includes("microbusiness set-aside") ||
+                            (fullText.includes("small business") && (fullText.includes("exclusive") || fullText.includes("participation")));
         
-        if (isSbe || hasDvbe) {
+        // 3. Structured DVBE check
+        const dvbeGoalVal = bid.dvbe_goal ? String(bid.dvbe_goal).trim() : null;
+        const hasDvbeStructured = dvbeGoalVal && 
+                                  dvbeGoalVal !== "0%" && 
+                                  dvbeGoalVal !== "0" && 
+                                  dvbeGoalVal.toLowerCase() !== "none" && 
+                                  dvbeGoalVal.toLowerCase() !== "n/a";
+        
+        // 4. Keyword DVBE check
+        const hasDvbeKeyword = fullText.includes("dvbe") && 
+                               (fullText.includes("participation") || fullText.includes("goal") || fullText.includes("requirement")) && 
+                               !fullText.includes("0% dvbe") && 
+                               !fullText.includes("no dvbe");
+        
+        if (isSbeStructured || isSbeKeyword || hasDvbeStructured || hasDvbeKeyword) {
           group.setAsides++;
         }
 
