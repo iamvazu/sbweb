@@ -2,7 +2,8 @@ import { type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  const { response, user } = await updateSession(request)
+  const { response, user, supabase } = await updateSession(request)
+  if (!supabase) return response;
 
   const isPortalRoute = request.nextUrl.pathname.startsWith('/portal')
   const isLoginRoute = request.nextUrl.pathname === '/login'
@@ -30,6 +31,25 @@ export async function middleware(request: NextRequest) {
                     
     if (!isAdmin) {
       return Response.redirect(new URL('/portal/vendor', request.url))
+    }
+  }
+
+  // Onboarding protection for vendors
+  if (request.nextUrl.pathname === '/portal/vendor' || request.nextUrl.pathname === '/portal/matches' || request.nextUrl.pathname === '/portal/pipeline') {
+    const isAdmin = user?.email?.endsWith('@strongerbuilt.us') || 
+                    user?.email === 'roy@strongerbuilt.us' || 
+                    user?.email === 'crazyme2207@gmail.com';
+    
+    if (!isAdmin) {
+      const { data: profile } = await supabase
+        .from('users')
+        .select('onboarding_complete')
+        .eq('id', user?.id)
+        .single();
+        
+      if (profile && !profile.onboarding_complete) {
+        return Response.redirect(new URL('/portal/onboarding', request.url))
+      }
     }
   }
 

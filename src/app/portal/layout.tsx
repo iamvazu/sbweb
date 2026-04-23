@@ -125,7 +125,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           </Link>
         </div>
 
-        <nav className="flex-1 px-3 space-y-1">
+        <nav className="flex-1 px-3 space-y-1 overflow-y-auto scrollbar-hide">
           {currentNav.map((item) => (
             <Link 
               key={item.href} 
@@ -194,7 +194,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           <Button 
             variant="ghost" 
             onClick={handleLogout}
-            className="w-full justify-start text-blue-100/40 hover:bg-red-500/10 hover:text-red-400 h-9 px-3"
+            className="w-full justify-start text-slate-400 hover:bg-red-500/10 hover:text-red-500 h-10 px-3 font-bold transition-all"
           >
             <LogOut className="h-4 w-4 mr-3" />
             Log Out

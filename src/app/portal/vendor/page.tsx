@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { BidCard, PipelineSummaryBar } from "@/components/portal/bid-ui";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Info, Plus, Search } from "lucide-react";
+import { ArrowRight, Info, Plus, Search, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +48,8 @@ export default function VendorDashboard() {
       // 3. Fetch Pipeline Counts
       const { data: allMatches } = await supabase
         .from("user_bid_matches")
-        .select("pipeline_stage");
+        .select("pipeline_stage")
+        .eq("user_id", user.id);
       
       const stageCounts: Record<string, number> = {};
       allMatches?.forEach(m => {
@@ -108,6 +109,24 @@ export default function VendorDashboard() {
         </div>
         <PipelineSummaryBar counts={counts} />
       </section>
+
+      {/* Profile Completeness Check */}
+      {(!userProfile?.naics_codes || userProfile.naics_codes.length === 0) && (
+        <Card className="p-6 border-amber-200 bg-amber-50/30 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 shrink-0">
+              <ShieldAlert className="h-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-amber-900 uppercase tracking-tight">AI Engine Standby: Profile Incomplete</h3>
+              <p className="text-xs text-amber-700 font-medium">Add your NAICS codes and certifications to unlock automated government bid matching.</p>
+            </div>
+          </div>
+          <Button asChild variant="outline" className="border-amber-200 text-amber-700 hover:bg-amber-100 shrink-0">
+            <Link href="/portal/settings">Setup Your Profile</Link>
+          </Button>
+        </Card>
+      )}
 
       {/* Main Section: Matches */}
       <section className="space-y-6 pt-4">

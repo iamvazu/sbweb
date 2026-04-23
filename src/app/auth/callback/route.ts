@@ -29,8 +29,14 @@ export async function GET(request: NextRequest) {
     )
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      // If the user is being redirected for a password recovery, send them to reset-password
-      const next = requestUrl.searchParams.get('next') || '/portal/vendor'
+      const { data: profile } = await supabase
+        .from('users')
+        .select('onboarding_complete')
+        .single();
+
+      const next = requestUrl.searchParams.get('next') || 
+                   (profile?.onboarding_complete ? '/portal/vendor' : '/portal/onboarding');
+      
       return NextResponse.redirect(`${origin}${next}`)
     }
   }

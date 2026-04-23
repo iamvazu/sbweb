@@ -40,11 +40,11 @@ export async function updateSession(request: NextRequest) {
     )
 
     const { data: { user } } = await supabase.auth.getUser()
-    return { response, user }
+    return { response, user, supabase }
   } catch (error) {
     // If Supabase fails (network, auth, etc.), allow the request to proceed without a session
     // to prevent taking down the marketing site.
     console.error('Middleware Supabase error:', error);
-    return { response, user: null }
+    return { response, user: null, supabase: null }
   }
 }

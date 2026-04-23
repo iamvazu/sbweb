@@ -179,7 +179,7 @@ export function PipelineSummaryBar({ counts }: { counts: Record<string, number> 
   return (
     <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
       {stages.map((s) => (
-        <Card key={s.label} className={cn("flex-shrink-0 w-36 md:w-full border-l-4 p-4 transition-all hover:shadow-sm", s.color, s.bg)}>
+        <Card key={s.label} className={cn("flex-shrink-0 w-36 md:flex-1 border-l-4 p-4 transition-all hover:shadow-sm", s.color, s.bg)}>
           <p className="text-[10px] font-bold uppercase tracking-widest">{s.label}</p>
           <p className="text-2xl font-bold mt-1">
             {s.stage === 'won_lost' ? `${counts['won'] || 0} / ${counts['lost'] || 0}` : (counts[s.stage] || 0)}
