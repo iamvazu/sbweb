@@ -34,67 +34,67 @@ const CATEGORIES: Record<string, { label: string; color: string; keywords: strin
   construction: { 
     label: "General Construction", 
     color: "#185FA5", 
-    keywords: ["construction", "remodel", "renovation", "tenant improvement", "paving", "concrete", "asphalt"],
+    keywords: ["construction", "remodel", "renovation", "tenant improvement", "building", "structure", "civil", "engineering", "infrastructure", "tenant improvements"],
     rec: "HIGH — Review each; bid SB/DVBE first"
   },
   janitorial: { 
     label: "Janitorial / Custodial", 
     color: "#0F6E56", 
-    keywords: ["janitorial", "cleaning", "custodial", "housekeeping", "sanitation"],
+    keywords: ["janitorial", "cleaning", "custodial", "housekeeping", "sanitation", "mop", "sweep", "scrub", "window cleaning", "pressure wash"],
     rec: "CORE — Bid all SB set-asides immediately"
   },
   maintenance: { 
     label: "Maintenance Services", 
     color: "#5F5E5A", 
-    keywords: ["maintenance", "repair", "facility", "building maintenance"],
+    keywords: ["maintenance", "repair", "facility", "building maintenance", "preventative", "on-call", "service contract", "landscape maintenance", "grounds"],
     rec: "HIGH — Recurring revenue potential"
   },
   concrete: { 
     label: "Concrete / Paving", 
     color: "#64748b", 
-    keywords: ["concrete", "pavement", "paving", "asphalt", "curb"],
+    keywords: ["concrete", "pavement", "paving", "asphalt", "curb", "sidewalk", "parking lot", "striping"],
     rec: "MEDIUM — Bid if you have sub-contractors"
   },
   waste: { 
     label: "Waste / Hauling", 
     color: "#639922", 
-    keywords: ["waste", "trash", "hauling", "disposal", "recycling"],
+    keywords: ["waste", "trash", "hauling", "disposal", "recycling", "debris", "shredding", "hazardous waste"],
     rec: "MEDIUM — Partner with hauler"
   },
   roofing: { 
     label: "Roofing", 
     color: "#854F0B", 
-    keywords: ["roof", "roofing"],
+    keywords: ["roof", "roofing", "gutter", "shingle", "membrance"],
     rec: "CORE — Strong match with CSLB license"
   },
   hvac: { 
     label: "HVAC / Mechanical", 
     color: "#534AB7", 
-    keywords: ["hvac", "heating", "ventilation", "air condition", "boiler", "mechanical"],
+    keywords: ["hvac", "heating", "ventilation", "air condition", "boiler", "mechanical", "chiller", "refrigeration"],
     rec: "MEDIUM — Subcontract HVAC work"
   },
   windows: { 
     label: "Windows / Doors", 
     color: "#0C447C", 
-    keywords: ["window", "door", "glazing", "entrance"],
+    keywords: ["window", "door", "glazing", "entrance", "glass", "storefront", "gate"],
     rec: "HIGH — SB set-asides available"
   },
   demolition: { 
     label: "Demolition / Abatement", 
     color: "#993C1D", 
-    keywords: ["demolition", "abatement", "asbestos", "lead", "hazardous"],
+    keywords: ["demolition", "abatement", "asbestos", "lead", "hazardous", "remediation", "deconstruction"],
     rec: "HIGH — Lead/asbestos certs needed"
   },
   electrical: { 
     label: "Electrical", 
     color: "#1A56DB", 
-    keywords: ["electrical", "electric", "power", "lighting"],
+    keywords: ["electrical", "electric", "power", "lighting", "low voltage", "cabling", "generator"],
     rec: "LOW — Need licensed electrician"
   },
   painting: { 
     label: "Painting", 
     color: "#D85A30", 
-    keywords: ["paint", "painting", "coating"],
+    keywords: ["paint", "painting", "coating", "wall covering", "exterior paint"],
     rec: "HIGH — SB/DVBE option available"
   },
 };
@@ -122,7 +122,8 @@ export default function MarketInsights({ variant = "full" }: { variant?: "full" 
         .from("bids")
         .select("event_name, department_name, sbe_only, dvbe_goal, end_date")
         .eq("status", "Posted")
-        .gte("end_date", now.toISOString());
+        .gte("end_date", now.toISOString())
+        .limit(2000);
 
       if (error || !bids) {
         console.error("Error fetching bids for insights:", error);
@@ -168,8 +169,23 @@ export default function MarketInsights({ variant = "full" }: { variant?: "full" 
 
         const group = groups[matchedKey];
         group.total++;
-        if (bid.sbe_only || bid.dvbe_goal) group.setAsides++;
-        if (bid.end_date && new Date(bid.end_date) <= sevenDaysFromNow) group.closingSoon++;
+        
+        // ROBUST SB/DVBE CHECK
+        const isSbe = bid.sbe_only === true || bid.sbe_only === "true";
+        const dvbeGoal = bid.dvbe_goal ? String(bid.dvbe_goal).trim() : null;
+        const hasDvbe = dvbeGoal && 
+                        dvbeGoal !== "0%" && 
+                        dvbeGoal !== "0" && 
+                        dvbeGoal.toLowerCase() !== "none" && 
+                        dvbeGoal.toLowerCase() !== "n/a";
+        
+        if (isSbe || hasDvbe) {
+          group.setAsides++;
+        }
+
+        if (bid.end_date && new Date(bid.end_date) <= sevenDaysFromNow) {
+          group.closingSoon++;
+        }
       });
 
       // Filter out empty categories and sort by total

@@ -155,9 +155,12 @@ export default function BidManagementPage() {
               initial={{ opacity: 0, scale: 0.95, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
-              className="lg:col-span-5 relative hidden lg:block"
+              className="lg:col-span-5 relative hidden md:block"
             >
-               <MarketInsights variant="compact" />
+               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden border-8 border-white/5 shadow-2xl">
+                  <img src="/images/bid-analysis-hero.png" alt="Bid IQ Dashboard" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/40 via-transparent to-transparent" />
+               </div>
             </motion.div>
           </div>
         </div>
@@ -167,6 +170,20 @@ export default function BidManagementPage() {
       <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20">
         <div className="max-w-7xl mx-auto px-6">
           <BidTicker />
+        </div>
+      </section>
+
+      {/* Market Intelligence Dashboard - NEW */}
+      <section className="py-12 md:py-20 bg-slate-50 dark:bg-black/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12">
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Market Intelligence</h2>
+            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Real-Time Opportunity <span className="italic text-brand-blue-600">Analytics.</span></h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl leading-relaxed">
+              We track thousands of solicitations across California. Our AI categorizes and scores each one so you can focus on the most profitable opportunities.
+            </p>
+          </div>
+          <MarketInsights />
         </div>
       </section>
 
