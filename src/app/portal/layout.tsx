@@ -47,7 +47,6 @@ const VENDOR_NAV: NavItem[] = [
 
 const ADMIN_NAV: NavItem[] = [
   { label: "Mission Control", href: "/portal/admin", icon: ShieldAlert },
-  { label: "Operations", href: "/portal/admin/operations", icon: LayoutDashboard },
   { label: "Prospect Registry", href: "/portal/admin/prospects", icon: Users },
   { label: "Global Marketplace", href: "/portal/bids", icon: Search },
   { label: "Prospective Matches", href: "/portal/admin/matches", icon: Star },
@@ -267,7 +266,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               
               <h2 className="text-sm font-semibold text-slate-900 hidden sm:block">
                 {pathname === '/portal/vendor' && 'Dashboard'}
-                {pathname === '/portal/admin' && 'Mission Control Dashboard'}
+                {pathname === '/portal/admin' && 'Mission Control Hub'}
                 {pathname === '/portal/admin/prospects' && 'Prospect Registry'}
                 {pathname === '/portal/admin/matches' && 'Prospective Match Hub'}
                 {pathname === '/portal/admin/partners' && 'Partner Review Center'}
@@ -278,8 +277,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 {pathname === '/portal/analytics' && 'Intelligence Analytics'}
                 {pathname === '/portal/hire' && 'Hire Expert Management'}
                 {pathname === '/portal/engagements' && 'Active Projects'}
-                {pathname === '/portal/admin/operations' && 'Internal Operations Dashboard'}
-                {pathname === '/portal/settings' && (userProfile?.email?.endsWith('@strongerbuilt.us') ? 'Admin Security' : 'Company Profile')}
+                {pathname === '/portal/settings' && (userProfile?.email?.endsWith('@strongerbuilt.us') || userProfile?.email === 'roy@strongerbuilt.us' ? 'Admin Profile' : 'Company Profile')}
               </h2>
             </div>
 
