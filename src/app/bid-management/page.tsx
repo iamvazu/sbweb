@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import BidTicker from "@/components/market/bid-ticker";
+import MarketInsights from "@/components/market/market-insights";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -154,12 +155,9 @@ export default function BidManagementPage() {
               initial={{ opacity: 0, scale: 0.95, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
-              className="lg:col-span-5 relative hidden md:block"
+              className="lg:col-span-5 relative hidden lg:block"
             >
-               <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden border-8 border-white/5 shadow-2xl">
-                  <img src="/images/bid-analysis-hero.png" alt="Bid IQ Dashboard" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/40 via-transparent to-transparent" />
-               </div>
+               <MarketInsights variant="compact" />
             </motion.div>
           </div>
         </div>

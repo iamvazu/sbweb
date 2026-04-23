@@ -9,6 +9,7 @@ import { ArrowRight, Info, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import MarketInsights from "@/components/market/market-insights";
 
 export default function VendorDashboard() {
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -155,14 +156,15 @@ export default function VendorDashboard() {
           </Button>
         </Card>
 
-        <Card className="p-6 border-slate-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-slate-900">Win Rate Insights</h3>
-            <Badge variant="secondary" className="bg-slate-100 text-slate-500 border-none">Coming Soon</Badge>
+        <Card className="p-8 border-slate-200 col-span-full">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h3 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Market Opportunity Intelligence</h3>
+              <p className="text-sm text-slate-500 font-medium italic">"Data-driven insights to guide your next strategic bid."</p>
+            </div>
+            <Badge variant="secondary" className="bg-brand-blue-600/10 text-brand-blue-600 border-none font-bold">LIVE MARKET DATA</Badge>
           </div>
-          <div className="h-32 flex items-center justify-center bg-slate-50 rounded-lg border border-slate-100 border-dashed">
-            <p className="text-xs text-slate-400 font-medium italic">Analytics dashboard will populate after your first submission.</p>
-          </div>
+          <MarketInsights />
         </Card>
       </div>
     </div>

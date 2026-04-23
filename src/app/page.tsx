@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck, FileText, CheckCircle2, Building2, HardHat, Wrench, Package, ArrowUpRight, Info, PlayCircle, ClipboardCheck, Search, LineChart, Zap, Clock, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import BidTicker from "@/components/market/bid-ticker";
+import MarketInsights from "@/components/market/market-insights";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -167,9 +168,23 @@ export default function Home() {
       </section>
 
       {/* Live Bid Pulse */}
-      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10">
+      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20">
         <div className="max-w-7xl mx-auto px-6">
           <BidTicker />
+        </div>
+      </section>
+
+      {/* Market Intelligence Dashboard - NEW */}
+      <section className="py-12 md:py-20 bg-slate-50 dark:bg-black/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12">
+            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Market Intelligence</h2>
+            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Real-Time Opportunity <span className="italic text-brand-blue-600">Analytics.</span></h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl leading-relaxed">
+              We track thousands of solicitations across California. Our AI categorizes and scores each one so you can focus on the most profitable opportunities.
+            </p>
+          </div>
+          <MarketInsights />
         </div>
       </section>
       {/* BID MANAGEMENT CALLOUT */}
