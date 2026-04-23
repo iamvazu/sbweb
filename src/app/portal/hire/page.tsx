@@ -25,7 +25,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { createCheckoutSession } from "@/app/actions/stripe";
+import { createCheckoutSession, createSubscriptionSession } from "@/app/actions/stripe";
 
 function HireContent() {
   const searchParams = useSearchParams();
@@ -63,10 +63,12 @@ function HireContent() {
     formData.append("bidId", bidId);
     formData.append("bidName", bidName);
     
-    // Call the server action directly or via a form. 
-    // Since we need to redirect, we can use the action.
     try {
-      await createCheckoutSession(formData);
+      if (tier === 'scout' || tier === 'pro') {
+        await createSubscriptionSession(formData);
+      } else {
+        await createCheckoutSession(formData);
+      }
     } catch (error: any) {
       toast({
         title: "Error",

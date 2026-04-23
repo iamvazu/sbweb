@@ -65,3 +65,62 @@ export async function createCheckoutSession(formData: FormData) {
 
   redirect(session.url!);
 }
+
+export async function createSubscriptionSession(formData: FormData) {
+  const tier = formData.get("tier") as string; // 'scout' or 'pro'
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("You must be logged in to subscribe");
+  }
+
+  // Pre-defined monthly prices for our subscriptions (in cents)
+  const prices: Record<string, number> = {
+    'scout': 4900,
+    'pro': 9900,
+  };
+
+  const tierNames: Record<string, string> = {
+    'scout': "Scout Subscription (Monthly)",
+    'pro': "Pro Subscription (Monthly)",
+  };
+
+  const amount = prices[tier] || 4900;
+  const name = tierNames[tier] || "Subscription Plan";
+
+  const host = (await headers()).get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: name,
+            description: `Access to premium procurement tools and alerts for ${name}.`,
+          },
+          unit_amount: amount,
+          recurring: {
+            interval: "month",
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    mode: "subscription",
+    success_url: `${baseUrl}/portal/settings?status=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${baseUrl}/portal/settings?status=cancelled`,
+    customer_email: user.email,
+    metadata: {
+      userId: user.id,
+      tier: tier,
+    },
+  });
+
+  redirect(session.url!);
+}

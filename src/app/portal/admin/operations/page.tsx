@@ -91,7 +91,8 @@ export default function AdminOperationsPage() {
       // 4. Calculate Metrics
       const totalUsers = users?.length || 0;
       const proUsers = users?.filter(u => u.subscription_tier === 'pro').length || 0;
-      const freeUsers = users?.filter(u => u.subscription_tier === 'free').length || 0;
+      const scoutUsers = users?.filter(u => u.subscription_tier === 'scout').length || 0;
+      const freeUsers = users?.filter(u => u.subscription_tier === 'free' || !u.subscription_tier).length || 0;
       const activeEngagements = engagements?.filter(e => ['intake', 'in_progress'].includes(e.status)).length || 0;
       const revenue = engagements?.filter(e => e.payment_status === 'paid').reduce((sum, e) => sum + e.price_agreed, 0) || 0;
 
@@ -102,6 +103,7 @@ export default function AdminOperationsPage() {
         metrics: {
           totalUsers,
           proUsers,
+          scoutUsers,
           freeUsers,
           activeEngagements,
           revenue,
@@ -397,16 +399,20 @@ export default function AdminOperationsPage() {
                    <CardDescription className="text-slate-400 font-medium italic">Trial to PRO transition metrics.</CardDescription>
                 </CardHeader>
                 <div className="space-y-8">
-                   <div className="grid grid-cols-2 gap-8">
-                      <div className="space-y-1">
-                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pro Subscribers</p>
-                         <p className="text-4xl font-black text-brand-navy-900">{data.metrics.proUsers}</p>
-                      </div>
-                      <div className="space-y-1">
-                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Conversion Rate</p>
-                         <p className="text-4xl font-black text-brand-blue-600">8.4%</p>
-                      </div>
-                   </div>
+                    <div className="grid grid-cols-3 gap-4">
+                       <div className="space-y-1">
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Scout</p>
+                          <p className="text-2xl font-black text-brand-navy-900">{data.metrics.scoutUsers}</p>
+                       </div>
+                       <div className="space-y-1">
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pro</p>
+                          <p className="text-2xl font-black text-brand-navy-900">{data.metrics.proUsers}</p>
+                       </div>
+                       <div className="space-y-1">
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">CVR</p>
+                          <p className="text-2xl font-black text-brand-blue-600">8.4%</p>
+                       </div>
+                    </div>
                    <div className="space-y-4">
                       <div className="flex justify-between items-center">
                          <span className="text-xs font-bold text-slate-600 uppercase">Pro Expansion</span>
