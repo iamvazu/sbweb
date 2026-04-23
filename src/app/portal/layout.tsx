@@ -233,13 +233,18 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               
               <h2 className="text-sm font-semibold text-slate-900 hidden sm:block">
                 {pathname === '/portal/vendor' && 'Dashboard'}
+                {pathname === '/portal/admin' && 'Mission Control Dashboard'}
+                {pathname === '/portal/admin/prospects' && 'Prospect Registry'}
+                {pathname === '/portal/admin/matches' && 'Prospective Match Hub'}
+                {pathname === '/portal/admin/partners' && 'Partner Review Center'}
+                {pathname === '/portal/admin/logs' && 'System Mission Logs'}
                 {pathname === '/portal/matches' && 'My Matched Bids'}
                 {pathname === '/portal/bids' && 'Marketplace Browse'}
                 {pathname === '/portal/pipeline' && 'Bid Pipeline'}
                 {pathname === '/portal/analytics' && 'Intelligence Analytics'}
                 {pathname === '/portal/hire' && 'Hire Expert Management'}
                 {pathname === '/portal/engagements' && 'Active Projects'}
-                {pathname === '/portal/settings' && 'Company Profile'}
+                {pathname === '/portal/settings' && (userProfile?.email?.endsWith('@strongerbuilt.us') ? 'Admin Security' : 'Company Profile')}
               </h2>
             </div>
 

@@ -97,12 +97,24 @@ def run():
     bids = bids_res.data
     
     logger.info(f"Running Match Engine for {len(users)} users and {len(bids)} available bids.")
+    
+    # Log to DB
+    try:
+        supabase.table("system_logs").insert({
+            "level": "info",
+            "module": "MatchEngine",
+            "message": f"Starting cycle: {len(users)} users, {len(bids)} bids.",
+            "details": {"user_count": len(users), "bid_count": len(bids)}
+        }).execute()
+    except: pass
 
+    match_count = 0
     for user in users:
         for bid in bids:
             score = calculate_fit_score(user, bid)
             
             if score > 50: # Only store meaningful matches
+                match_count += 1
                 try:
                     supabase.table("user_bid_matches").upsert({
                         "user_id": user["id"],
@@ -114,6 +126,14 @@ def run():
                     pass # Usually unique constraint conflict if already exists
 
     logger.info("Match engine cycle complete.")
+    try:
+        supabase.table("system_logs").insert({
+            "level": "success",
+            "module": "MatchEngine",
+            "message": f"Cycle complete. {match_count} meaningful matches identified.",
+            "details": {"match_count": match_count}
+        }).execute()
+    except: pass
 
 if __name__ == "__main__":
     run()
