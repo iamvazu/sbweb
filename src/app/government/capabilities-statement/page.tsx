@@ -22,22 +22,66 @@ import { Separator } from "@/components/ui/separator";
 
 export default function CapabilitiesStatementPage() {
   return (
-    <div className="min-h-screen bg-slate-50 py-24 px-6">
-      <div className="max-w-5xl mx-auto">
-        
-        {/* Actions Bar */}
-        <div className="flex justify-between items-center mb-12">
-          <div>
-            <h1 className="text-3xl font-black text-brand-navy-900 tracking-tight">Capabilities Statement</h1>
-            <p className="text-slate-500 font-medium">Official procurement document for Stronger Built LLC.</p>
-          </div>
-          <Button asChild className="bg-brand-blue-600 hover:bg-blue-700 h-12 rounded-xl font-bold shadow-xl shadow-blue-500/20 group">
-            <a href="/capabilities-statement.pdf" target="_blank" download>
-              <Download className="w-4 h-4 mr-2 group-hover:animate-bounce" />
-              Download PDF Version
-            </a>
-          </Button>
+    <div className="flex flex-col min-h-screen bg-slate-50">
+      
+      {/* Premium Hero Section - HARMONIZED WITH SITE */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <div className="max-w-2xl">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 mb-6 backdrop-blur-md"
+              >
+                <FileText className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Official Procurement Document</span>
+              </motion.div>
+              
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-4xl md:text-5xl font-serif text-white tracking-tight mb-4 leading-tight"
+              >
+                Capabilities <br className="hidden md:block"/>
+                <span className="italic text-brand-blue-600">Statement.</span>
+              </motion.h1>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-slate-400 font-medium leading-relaxed max-w-lg"
+              >
+                Official credentials, classifications, and past performance indices for Stronger Built LLC. Verified for federal, state, and municipal procurement.
+              </motion.p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Button asChild className="bg-brand-blue-600 hover:bg-blue-700 h-14 px-8 rounded-full font-black text-[11px] uppercase tracking-widest shadow-2xl shadow-blue-500/20 group">
+                <a href="/capabilities-statement.pdf" target="_blank" download>
+                  <Download className="w-5 h-5 mr-3 group-hover:animate-bounce" />
+                  Download PDF Version
+                </a>
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-5xl mx-auto py-16 px-6">
 
         {/* The "Paper" View */}
         <motion.div 
