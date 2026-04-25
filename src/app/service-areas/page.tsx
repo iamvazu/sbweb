@@ -23,18 +23,49 @@ export default function ServiceAreasDirectory() {
   );
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-white dark:bg-black/20">
-      <div className="max-w-7xl mx-auto px-4 w-full">
-        
-        {/* Header Section */}
-        <div className="text-center mb-20 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-6 uppercase">
-            Service <span className="text-brand-blue-600">Areas</span>
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
-            Stronger Built LLC provides licensed DVBE/SB solutions across the entire state of California. Explore our localized presence in all 58 counties.
-          </p>
+    <div className="flex flex-col min-h-screen">
+      {/* Premium Hero Section - CONSISTENT WITH BRAND */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
+
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-600/10 border border-brand-blue-600/20 mb-6 backdrop-blur-md"
+          >
+            <Globe className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Statewide Operations</span>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-black text-white tracking-tight mb-8 leading-[1.1] uppercase"
+          >
+            Service <span className="text-brand-blue-600">Areas.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-4 font-medium leading-relaxed"
+          >
+            Stronger Built LLC provides licensed DVBE/SB solutions across the entire state of California. Explore our localized presence in all 58 counties.
+          </motion.p>
+        </div>
+      </section>
+
+      <div className="pb-24 bg-white dark:bg-black/20">
+        <div className="max-w-7xl mx-auto px-4 w-full">
+
 
         {/* Search / Filter */}
         <div className="max-w-md mx-auto mb-16 relative">
@@ -106,8 +137,9 @@ export default function ServiceAreasDirectory() {
               </div>
            </div>
         </div>
-
+        </div>
       </div>
     </div>
   );
 }
+
