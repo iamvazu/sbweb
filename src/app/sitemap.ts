@@ -53,6 +53,19 @@ const STATIC_ROUTES = [
   "/insights"
 ];
 
+const CITY_SLUGS = [
+  "los-angeles",
+  "san-diego",
+  "san-jose",
+  "san-francisco",
+  "fresno",
+  "sacramento",
+  "long-beach",
+  "oakland",
+  "bakersfield",
+  "anaheim"
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
@@ -80,7 +93,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // 4. Programmatic SEO (PSEO) County Routes
+  // 4. City Routes (New)
+  const cityEntries = CITY_SLUGS.map(slug => ({
+    url: `${BASE_URL}/city/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  // 5. Programmatic SEO (PSEO) County Routes
   // We prioritize the top 5 services for county-level indexing to keep the sitemap size reasonable
   const pseoServices = [
     "janitorial-services",
@@ -103,6 +124,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticEntries,
     ...serviceEntries,
     ...projectEntries,
+    ...cityEntries,
     ...pseoEntries,
   ];
 }
+

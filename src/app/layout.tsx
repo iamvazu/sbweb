@@ -9,6 +9,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { ConditionalWrapper } from "@/components/layout/ConditionalWrapper";
 import { Toaster } from "@/components/ui/toaster";
+import { Schema } from "@/components/seo/Schema";
+
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const lora = Lora({ subsets: ['latin'], variable: '--font-serif' });
@@ -27,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable, lora.variable)}>
       <body className={`${inter.variable} min-h-screen flex flex-col`}>
+        <Schema />
         <TooltipProvider>
+
           <ConditionalWrapper>
             {children}
           </ConditionalWrapper>

@@ -13,7 +13,7 @@ export interface Project {
   value: string;
   summary: string;
   services: string[];
-  imageStyle: string;
+  image: string;
   scope: string;
   size: string;
   role: string;
@@ -30,7 +30,7 @@ export const projects: Project[] = [
     value: "$150,000 - $250,000",
     summary: "Comprehensive interior tenant improvement for a district administrative hub. Included ADA compliance upgrades to breakrooms and secure access routing.",
     services: ["General Building Construction", "ADA Compliance", "Project Management"],
-    imageStyle: "bg-gradient-to-br from-brand-navy-900 to-slate-800",
+    image: "/images/projects/caltrans-district-11-ti.png",
     scope: "District Administrative TI",
     size: "15,000 sqft",
     role: "General Contractor",
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     value: "$500,000+ (Annual)",
     summary: "Multi-trade preventative and emergency maintenance encompassing routine HVAC servicing, high-traffic janitorial depth cleaning, and plumbing fault resolution.",
     services: ["Facility Maintenance", "Janitorial Services", "HVAC"],
-    imageStyle: "bg-gradient-to-br from-brand-blue-600 to-blue-900",
+    image: "/images/projects/courthouse-maintenance.png",
     scope: "Master Service Agreement",
     size: "1.2M sqft Portfolio",
     role: "Prime Contractor",
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     value: "$75,000 - $100,000",
     summary: "Provided specialized DVBE procurement and just-in-time logistics for critical concrete and heavy steel reinforcement materials along an active aqueduct repair site.",
     services: ["Material Supply & Logistics"],
-    imageStyle: "bg-gradient-to-br from-slate-700 to-slate-900",
+    image: "/images/projects/dwr-aqueduct.png",
     scope: "Aqueduct Infrastructure Support",
     size: "Site-Wide Logistics",
     role: "DVBE Supplier",
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     value: "Contract Conf.",
     summary: "Large-scale modular homeless shelter deployment for state-wide housing initiatives.",
     services: ["Modular Manufacturing", "Installation", "Logistics"],
-    imageStyle: "bg-gradient-to-br from-slate-800 to-brand-navy-900",
+    image: "/images/projects/homeless-shelters.png",
     scope: "49 Units",
     size: "42,140 sqft",
     role: "Modular Manufacturer / Installation",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     value: "Varies",
     summary: "Extensive bathroom tenant improves for a large apartment complex project.",
     services: ["General Contracting", "Modular Sitework", "Interior Finishes"],
-    imageStyle: "bg-gradient-to-br from-brand-blue-600/20 to-brand-navy-900",
+    image: "/images/projects/bathroom-ti.png",
     scope: "Apartment Complex",
     size: "250,000 sqft",
     role: "General Contractor",
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     value: "Active",
     summary: "Construction of a modular residential 4-plex property including sitework.",
     services: ["Modular Fabrication", "Site Development", "General Contracting"],
-    imageStyle: "bg-gradient-to-br from-slate-600 to-slate-800",
+    image: "/images/projects/modular-4-plex.png",
     scope: "4 Plex",
     size: "10,500 sqft",
     role: "Modular Manufacturer / General Contractor",
@@ -120,7 +120,7 @@ export const projects: Project[] = [
     value: "Varies",
     summary: "Precision interior finishing for a residential accessory dwelling project.",
     services: ["Interior Finishes", "Modular Design", "Installation"],
-    imageStyle: "bg-gradient-to-br from-slate-700 to-brand-blue-600/10",
+    image: "/images/projects/interior-ti.png",
     scope: "ADU Project Interior Finishes",
     size: "480 sqft",
     role: "Modular Manufacturer",
@@ -135,7 +135,7 @@ export const projects: Project[] = [
     value: "Completed",
     summary: "End-to-end modular construction and site installation of a standard ADU.",
     services: ["Modular Construction", "Site Contracting", "Utility Connectivity"],
-    imageStyle: "bg-gradient-to-br from-brand-navy-900 to-blue-900/30",
+    image: "/images/projects/adu-480.png",
     scope: "Complete Construction",
     size: "480 sqft",
     role: "Modular Manufacturer / Site Contractor",
@@ -150,13 +150,14 @@ export const projects: Project[] = [
     value: "Municipal Bids",
     summary: "Substantial 32-unit affordable housing development using modular solutions.",
     services: ["Modular Manufacturing", "Site Management", "Compliance"],
-    imageStyle: "bg-gradient-to-br from-brand-blue-600 to-slate-900",
+    image: "/images/projects/affordable-housing.png",
     scope: "32 Unit Housing Project",
     size: "150,000 sqft",
     role: "Modular Manufacturer / Site Contractor",
     work: "Fabrication / Installation"
   }
 ];
+
 
 export default function ProjectsPortfolio() {
   return (
@@ -214,8 +215,9 @@ export default function ProjectsPortfolio() {
                 transition={{ delay: i * 0.05 }}
                 className="flex flex-col rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-brand-navy-900/50 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
               >
-                <div className={`h-64 w-full ${proj.imageStyle} relative overflow-hidden flex items-center justify-center`}>
-                  <Building className="w-16 h-16 text-white/20" />
+                <div className="h-64 w-full relative overflow-hidden flex items-center justify-center bg-slate-200">
+                  <img src={proj.image} alt={proj.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
                   <div className="absolute top-6 right-6 bg-brand-navy-900/60 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black text-white uppercase tracking-widest border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
                      Data Verified
                   </div>

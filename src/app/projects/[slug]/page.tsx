@@ -21,7 +21,8 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
           <ArrowLeft className="w-4 h-4" /> Back to Projects
         </Link>
         
-        <div className={`w-full h-64 md:h-96 ${data.imageStyle} rounded-[2.5rem] mb-12 shadow-2xl overflow-hidden relative`}>
+        <div className="w-full h-64 md:h-96 rounded-[2.5rem] mb-12 shadow-2xl overflow-hidden relative bg-slate-200">
+          <img src={data.image} alt={data.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/20" />
           <div className="absolute bottom-8 left-8 right-8">
             <h1 className="text-3xl md:text-5xl font-black text-white leading-tight drop-shadow-lg">
@@ -29,6 +30,7 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
             </h1>
           </div>
         </div>
+
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Main Content */}

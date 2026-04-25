@@ -91,25 +91,26 @@ export default function Home() {
               </motion.div>
               
               <motion.h1 variants={FADE_UP} className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1]">
-                Find the Right <br className="hidden md:block"/>
-                <span className="italic text-brand-blue-600">Contracting Opportunities</span> <br className="hidden md:block"/>
-                for Your Business.
+                California's Dual-Force <br className="hidden md:block"/>
+                <span className="italic text-brand-blue-600">Contracting & Intelligence</span> <br className="hidden md:block"/>
+                Authority.
               </motion.h1>
               
               <motion.p variants={FADE_UP} className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed font-medium">
-                Stronger Built LLC empowers California contractors with elite bid management and GC services. We navigate the complexity so you can focus on building.
+                Stronger Built LLC delivers high-stakes public works construction as a licensed GC, while empowering vendors with BidIQ—the state's most advanced procurement intelligence platform.
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Link href="/bid-management" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
-                  <span>Get Started Free</span>
+                  <span>Explore BidIQ Platform</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link href="/services" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
-                  <PlayCircle className="w-5 h-5 text-brand-blue-600" />
-                  <span>Our Processes</span>
+                  <HardHat className="w-5 h-5 text-brand-blue-600" />
+                  <span>Our Contracting Services</span>
                 </Link>
               </motion.div>
+
               
               <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-3 gap-x-5 pt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
                 <div className="flex items-center gap-2">
@@ -498,10 +499,11 @@ export default function Home() {
       <section className="py-24 bg-background-light dark:bg-black/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Our Core Expertise</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Comprehensive Building Solutions.</h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">Self-performed and rigorously managed construction, consulting, and facility services for government and commercial sectors.</p>
+            <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Prime Contracting Excellence</h2>
+            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Self-Performed & Expertly <span className="italic text-brand-blue-600">Managed.</span></h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">As a licensed California General Contractor, we provide rigorous oversight and high-quality execution for government and commercial infrastructure.</p>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -582,9 +584,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
-              <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Past Performance</h2>
-              <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Featured Projects.</h3>
+              <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Construction Authority</h2>
+              <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Past <span className="italic text-brand-blue-600">Performance.</span></h3>
             </div>
+
             <Link href="/projects" className="text-brand-blue-600 font-bold hover:text-blue-700 flex items-center gap-2 group text-sm">
               View All Pipeline
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -594,20 +597,20 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                slug: "strategic-bid-advisory",
-                title: "Strategic Bid Management",
-                client: "Procurement Advisory",
-                imageStyle: "bg-gradient-to-br from-brand-blue-600 to-brand-navy-900",
-                scope: "High-Precision Bidding",
-                size: "Data-Driven RFP Response",
-                role: "Executive Oversight",
-                work: "Full-Cycle Bid Management"
+                slug: "caltrans-district-11-t-i",
+                title: "Caltrans District 11 TI",
+                client: "Caltrans",
+                image: "/images/projects/caltrans-district-11-ti.png",
+                scope: "District Administrative TI",
+                size: "15,000 sqft",
+                role: "General Contractor",
+                work: "ADA Upgrades"
               },
               {
                 slug: "affordable-housing-project",
-                title: "Affordable Housing Project",
+                title: "Affordable Housing",
                 client: "City of LA",
-                imageStyle: "bg-gradient-to-br from-brand-blue-600 to-slate-900",
+                image: "/images/projects/affordable-housing.png",
                 scope: "32 Unit Housing Project",
                 size: "150,000 sqft",
                 role: "Modular Manufacturer",
@@ -615,8 +618,9 @@ export default function Home() {
               }
             ].map((proj) => (
               <div key={proj.slug} className="flex flex-col rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-brand-navy-900/50 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                <div className={`h-64 w-full ${proj.imageStyle} relative overflow-hidden flex items-center justify-center`}>
-                  <Building2 className="w-16 h-16 text-white/20" />
+                <div className="h-64 w-full relative overflow-hidden flex items-center justify-center bg-slate-200">
+                  <img src={proj.image} alt={proj.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
                   <div className="absolute top-6 right-6 bg-brand-navy-900/60 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black text-white uppercase tracking-widest border border-white/5">
                     Data Verified
                   </div>
@@ -653,6 +657,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -667,31 +672,40 @@ export default function Home() {
           <div className="space-y-4">
             {[
               {
+                q: "What is a DVBE / SDVOSB contractor and why does it matter?",
+                a: "A Disabled Veteran Business Enterprise (DVBE) and Service-Disabled Veteran-Owned Small Business (SDVOSB) are certified entities that help government agencies meet mandatory diversity spend goals. In California, many public works contracts have a 3% mandatory DVBE participation goal. Partnering with Stronger Built LLC ensures you meet these requirements with a high-performance prime or subcontractor."
+              },
+              {
+                q: "How do I ensure my business is DIR and Prevailing Wage compliant?",
+                a: "California Labor Code requires all contractors bidding on public works projects to be registered with the Department of Industrial Relations (DIR). You must also pay 'Prevailing Wages' as determined by the Office of Policy, Research and Legislation (OPRL). BidIQ automatically flags these requirements and our Managed Submission service handles the complex eCPR and DAS filing for you."
+              },
+              {
                 q: "How does BidIQ outperform manual portal searching?",
                 a: "Manual searching often results in missed opportunities and hours of wasted time. BidIQ consolidates over 30+ California procurement portals into a single, intelligent feed. We don't just list contracts; we rank them based on your specific NAICS codes, certifications, and past performance. Most users reclaim over 10 hours a week by focusing only on high-fit bids."
               },
               {
+                q: "Can Stronger Built LLC attend mandatory pre-bid meetings for me?",
+                a: "Yes. For our Managed Submission clients, site walk attendance is included. California law strictly requires attendance at mandatory pre-bid meetings; if you aren't on the sign-in sheet, your bid is disqualified with no exceptions. We represent your interests on-site, capturing critical job-site data for more accurate pricing."
+              },
+              {
                 q: "What specific contract sources does BidIQ monitor?",
                 a: "Our engine scans a massive array of California-specific sources, including Cal eProcure, PlanetBids, and many municipal hubs like RAMP (LA) and BuyNet (San Diego). While the Starter tier covers core local portals, our Professional and Enterprise plans unlock expanded state-wide and specialized agency feeds."
-              },
-              {
-                q: "What is the typical setup time for a new team?",
-                a: "We've optimized onboarding for speed. Most contracting firms are ready to go in under 10 minutes. By simply identifying your service area, NAICS codes, and target agencies, you'll start receiving high-probability matches in your very next daily digest."
-              },
-              {
-                q: "Can I test the platform before committing?",
-                a: "Yes. We believe in the power of our intelligence platform, which is why we offer a 100% free account to get you started—no credit card required. You can experience the automated matching engine firsthand before selecting a growth plan that fits your business."
-              },
-              {
-                q: "Which industries and company sizes benefit most?",
-                a: "BidIQ is purpose-built for high-growth small businesses and mid-market firms. While we specialize in construction, facilities management, and professional consulting, our platform is equally powerful for IT, engineering, and manufacturing firms looking to dominate their local government market."
               }
             ].map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} />
             ))}
           </div>
+
+          <div className="mt-16 bg-brand-blue-600/5 rounded-3xl p-8 border border-brand-blue-600/10 text-center">
+             <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-3">Looking for more compliance resources?</h4>
+             <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-xl mx-auto font-medium">Visit our Knowledge Hub for deep-dives into California public works laws, DIR registration guides, and strategic bidding tips.</p>
+             <Link href="/insights" className="inline-flex items-center gap-2 text-brand-blue-600 font-black uppercase tracking-widest text-xs group">
+                Go to Knowledge Hub <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+             </Link>
+          </div>
         </div>
       </section>
+
 
     </div>
   );

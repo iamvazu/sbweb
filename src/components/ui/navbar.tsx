@@ -112,25 +112,41 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Bid Management", href: "/bid-management" },
-    { name: "Bid Services", href: "/government" },
     { name: "Portfolio", href: "/projects" },
+    { name: "Insights", href: "/insights" },
   ];
 
-  const services = [
+  const contracting = [
     { name: "Construction Consulting", href: "/services/construction-consulting" },
     { name: "Project Management", href: "/services/project-management" },
     { name: "DVBE Subcontracting", href: "/services/subcontracting-services" },
     { name: "Facility Maintenance", href: "/services/facility-maintenance" },
     { name: "Janitorial Services", href: "/services/janitorial-services" },
+    { name: "Plumbing Services", href: "/services/plumbing" },
+    { name: "Modular Construction", href: "/services/modular" },
+    { name: "Material Supply", href: "/services/construction-material-supply" },
+  ];
+
+  const bidIq = [
+    { name: "BidIQ Platform", href: "/bid-management" },
+    { name: "Strategic Advisory", href: "/bid-management#advisory" },
+    { name: "Pricing Plans", href: "/bid-management#pricing" },
+    { name: "Compliance Screening", href: "/bid-management#compliance" },
+  ];
+
+  const government = [
+    { name: "Capabilities Statement", href: "/government/capabilities-statement" },
+    { name: "Certifications", href: "/government#certifications" },
+    { name: "Agency Support", href: "/government#agencies" },
+    { name: "Service Areas", href: "/service-areas" },
   ];
 
   const company = [
-    { name: "About Us", href: "/about" },
+    { name: "About Stronger Built", href: "/about" },
     { name: "Partners", href: "/partners" },
-    { name: "Contact Us", href: "/contact" },
-    { name: "Insights", href: "/insights" },
+    { name: "Contact Desk", href: "/contact" },
   ];
+
 
   return (
     <header 
@@ -176,7 +192,9 @@ export function Navbar() {
               </Link>
             ))}
 
-            <NavDropdown title="Services" href="/services" items={services} scrolled={scrolled} />
+            <NavDropdown title="Contracting" href="/services" items={contracting} scrolled={scrolled} />
+            <NavDropdown title="BidIQ Platform" href="/bid-management" items={bidIq} scrolled={scrolled} />
+            <NavDropdown title="Government" href="/government" items={government} scrolled={scrolled} />
             <NavDropdown title="Company" href="/about" items={company} scrolled={scrolled} />
           </nav>
 
@@ -246,10 +264,10 @@ export function Navbar() {
                   </Link>
                 ))}
                 
-                {/* Mobile Services */}
+                {/* Mobile Sections */}
                 <div className="py-2">
-                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Services</p>
-                   {services.map((item) => (
+                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Contracting Services</p>
+                   {contracting.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
@@ -261,7 +279,34 @@ export function Navbar() {
                   ))}
                 </div>
 
-                {/* Mobile Company */}
+                <div className="py-2">
+                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">BidIQ Platform</p>
+                   {bidIq.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-blue-600"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="py-2">
+                   <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Government</p>
+                   {government.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-brand-blue-600"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+
                 <div className="py-2">
                    <p className="px-4 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Company</p>
                    {company.map((item) => (
@@ -275,6 +320,7 @@ export function Navbar() {
                     </Link>
                   ))}
                 </div>
+
               </div>
               
               <div className="pt-4 border-t border-gray-100 dark:border-white/10 space-y-3">
