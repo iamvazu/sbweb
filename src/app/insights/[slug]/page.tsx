@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { use } from "react";
 import { insights } from "../page";
@@ -13,28 +14,53 @@ export default function InsightDetail({ params }: { params: Promise<{ slug: stri
   if (!data) return notFound();
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-white dark:bg-black/20">
-      <div className="max-w-3xl mx-auto px-4 w-full">
-        
-        <Link href="/insights" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 mb-12 transition-colors font-bold tracking-wide uppercase text-xs">
-          <ArrowLeft className="w-4 h-4" /> Back to Insights
-        </Link>
-        
-        <header className="mb-12 border-b border-gray-200 dark:border-white/10 pb-12">
-          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-500 mb-6">
-            <span className="text-brand-blue-600 font-black">{data.category}</span>
-            <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {data.date}</span>
-            <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {data.readTime}</span>
-          </div>
+    <div className="flex flex-col min-h-screen">
+      {/* Premium Hero Section */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+        </div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <Link href="/insights" className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-10 transition-colors font-bold tracking-wide uppercase text-[10px]">
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to Insights
+          </Link>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] mb-8"
+          >
+            <span className="text-brand-blue-600 px-3 py-1 rounded-md bg-brand-blue-600/10 border border-brand-blue-600/20 backdrop-blur-md">{data.category}</span>
+            <span className="flex items-center gap-1.5 text-slate-400"><Calendar className="w-3.5 h-3.5" /> {data.date}</span>
+            <span className="flex items-center gap-1.5 text-slate-400"><Clock className="w-3.5 h-3.5" /> {data.readTime}</span>
+          </motion.div>
           
-          <h1 className="text-4xl md:text-5xl font-black text-brand-navy-900 dark:text-white leading-tight mb-6">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight mb-8 leading-[1.1] italic"
+          >
             {data.title}
-          </h1>
+          </motion.h1>
           
-          <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-slate-400 max-w-3xl font-medium leading-relaxed"
+          >
             {data.excerpt}
-          </p>
-        </header>
+          </motion.p>
+        </div>
+      </section>
+
+      <section className="pb-24 pt-16 bg-white dark:bg-black/20">
+        <div className="max-w-3xl mx-auto px-4 w-full">
+
 
         <article className="prose prose-lg dark:prose-invert prose-brand max-w-none text-slate-600 dark:text-slate-400">
           <p>
@@ -52,7 +78,8 @@ export default function InsightDetail({ params }: { params: Promise<{ slug: stri
             To leverage these strategies, prime contractors and agencies alike must vet their partners immediately at the RFQ stage. Ensuring your partners have their DIR Registration, CSLB bonds, and proper insurance limits drastically decreases the friction of award validation.
           </p>
         </article>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

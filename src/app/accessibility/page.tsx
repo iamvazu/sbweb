@@ -8,25 +8,47 @@ export default function AccessibilityPage() {
   const lastUpdated = "April 2026";
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-background-light dark:bg-black/20">
-      <div className="max-w-4xl mx-auto px-4 w-full">
-        
-        {/* Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-blue-600/10 text-brand-blue-600 mb-6">
+    <div className="flex flex-col min-h-screen">
+      {/* Premium Hero Section */}
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+        </div>
+
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-blue-600/10 text-brand-blue-600 mb-8 border border-brand-blue-600/20 backdrop-blur-md"
+          >
             <Accessibility className="w-8 h-8" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight mb-4">
-            Accessibility <span className="text-brand-blue-600">Statement</span>
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            Stronger Built LLC is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone and applying the relevant accessibility standards.
-          </p>
-        </motion.div>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-8 leading-[1.1] uppercase"
+          >
+            Accessibility <span className="text-brand-blue-600">Statement.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed"
+          >
+            Stronger Built LLC is committed to ensuring digital accessibility for people with disabilities. We are continually improving the user experience for everyone.
+          </motion.p>
+        </div>
+      </section>
+
+      <section className="pb-24 pt-16 bg-white dark:bg-black/20">
+        <div className="max-w-4xl mx-auto px-4 w-full">
+
 
         {/* Conformance Status */}
         <div className="space-y-8">
@@ -110,6 +132,7 @@ export default function AccessibilityPage() {
         </div>
 
       </div>
-    </div>
+    </section>
+  </div>
   );
 }
