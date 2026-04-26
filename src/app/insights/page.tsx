@@ -6,6 +6,14 @@ import { ArrowRight, BookOpen, Clock, Lightbulb } from "lucide-react";
 
 export const insights = [
   {
+    slug: "how-were-building-california-state-contracting-guide",
+    title: "How We’re Building California: A Guide to State Contracting and Our Commitment to Excellence",
+    category: "Government Contracting",
+    date: "April 2026",
+    readTime: "7 min read",
+    excerpt: "A strategic look at doing business with the State of California, focusing on DVBE certification, UNSPSC codes, CUF compliance, and emergency readiness."
+  },
+  {
     slug: "hiring-dvbe-contractors-california-guide",
     title: "The Ultimate Guide to Hiring DVBE Contractors in California",
     category: "Government Contracting",
