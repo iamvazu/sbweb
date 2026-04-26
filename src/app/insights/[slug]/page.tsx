@@ -63,7 +63,88 @@ export default function InsightDetail({ params }: { params: Promise<{ slug: stri
 
 
         <article className="prose prose-lg dark:prose-invert prose-brand max-w-none text-slate-600 dark:text-slate-400">
-          {resolvedParams.slug === "how-were-building-california-state-contracting-guide" ? (
+          {resolvedParams.slug === "building-california-future-billion-dollar-opportunity" ? (
+            <>
+              <p>
+                At <strong>Stronger Built</strong>, we believe in more than just high-quality construction; we believe in being a reliable partner for the infrastructure that powers our state. We recently tuned into the <em>Welcome to State Contracting</em> series by <strong>Angela Shell</strong>, Chief Procurement Officer for the State of California, to ensure our operations are perfectly aligned with the state&apos;s mission.
+              </p>
+
+              <div className="my-12 aspect-video rounded-[2rem] overflow-hidden shadow-2xl border border-white/10">
+                <iframe 
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/tbJ0rAzqY6w" 
+                  title="Welcome to State Contracting"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+              
+              <p>
+                Here is a look at the scale of the opportunity in California and how Stronger Built is positioned to deliver.
+              </p>
+
+              <h3>1. The Scale of the Mission: $12 Billion Annually</h3>
+              <p>
+                The State of California is one of the largest purchasers in the world. According to the DGS, the state spends between <strong>$10 billion and $12 billion each year</strong> on goods and services.
+              </p>
+              <p>
+                To ensure this spending supports the local economy, the state is mandated to direct:
+              </p>
+              <ul>
+                <li><strong>25%</strong> of those funds to Small Businesses (SB).</li>
+                <li><strong>3%</strong> of those funds to Disabled Veteran Business Enterprises (DVBE).</li>
+              </ul>
+              <p>
+                As a certified DVBE, Stronger Built is proud to be part of the <strong>$3.5 billion</strong> that has gone to certified businesses every year since 2020. This isn&apos;t just about contracts; it’s about driving economic recovery and growth in our communities.
+              </p>
+
+              <h3>2. Speaking the Language: UNSPSC Codes</h3>
+              <p>
+                A critical takeaway from the DGS is the importance of <strong>UNSPSC codes</strong> (United Nations Standard Products and Services Code). The state uses these 8-digit codes to identify exactly what a business provides.
+              </p>
+              <p>
+                We have optimized our profiles to align with these standards, ensuring that when state buyers search for &quot;General Building Construction&quot; or &quot;Technical Site Services,&quot; Stronger Built appears as a qualified, ready-to-work match.
+              </p>
+
+              <h3>3. The Power of &quot;Commercially Useful Function&quot; (CUF)</h3>
+              <p>
+                The DGS Chief Procurement Officer emphasized that success in state contracting requires performing a <strong>Commercially Useful Function</strong>. This means a business must actually execute, manage, and supervise the work—not just act as a &quot;pass-through.&quot;
+              </p>
+              <p>
+                At Stronger Built, our <strong>Class B General Contractor license</strong> and our hands-on project management style are the foundations of our CUF compliance. We take full responsibility for every distinct element of our projects, from initial price negotiation to final quality checks.
+              </p>
+
+              <h3>4. Beyond the Bid: Emergency Readiness</h3>
+              <p>
+                The state highlights an often-overlooked opportunity: the <strong>Emergency Registry</strong>. When disaster strikes, the state relies on registered contractors to bypass traditional long-form bidding for urgent repairs and debris removal.
+              </p>
+              <p>
+                Because we maintain a fleet of equipment and a ready-to-deploy team, we are committed to being part of California’s emergency response network, providing &quot;drop-of-a-hat&quot; service when the state needs us most.
+              </p>
+
+              <div className="mt-16 p-8 md:p-12 bg-brand-navy-900 rounded-[2.5rem] text-white not-prose relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/10 rounded-full blur-[80px]" />
+                <h3 className="text-2xl md:text-3xl font-serif mb-6 italic relative z-10">Looking to Partner?</h3>
+                <p className="text-slate-300 text-lg mb-10 relative z-10">
+                  Whether you are a state advocate seeking a reliable DVBE partner or a prime contractor looking for a subcontractor who understands the rigors of state compliance, Stronger Built is ready to build.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                  <Link 
+                    href="/government/capabilities-statement" 
+                    className="inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-brand-blue-600/20"
+                  >
+                    Download Capability Statement
+                  </Link>
+                  <Link 
+                    href="/contact" 
+                    className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all backdrop-blur-md"
+                  >
+                    Request a Consultation
+                  </Link>
+                </div>
+              </div>
+            </>
+          ) : resolvedParams.slug === "how-were-building-california-state-contracting-guide" ? (
             <>
               <p>
                 At <strong>Stronger Built</strong>, we believe in more than just high-quality construction; we believe in being a reliable partner for the infrastructure that powers our state. We recently tuned into a detailed briefing by the <em>California DGS Office of Small Business and DVBE Services</em> regarding how businesses can effectively support State of California projects.

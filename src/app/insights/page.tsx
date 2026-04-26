@@ -6,6 +6,14 @@ import { ArrowRight, BookOpen, Clock, Lightbulb } from "lucide-react";
 
 export const insights = [
   {
+    slug: "building-california-future-billion-dollar-opportunity",
+    title: "Building California’s Future: A Billion-Dollar Opportunity and Our Commitment to Excellence",
+    category: "Government Contracting",
+    date: "April 2026",
+    readTime: "8 min read",
+    excerpt: "A deep dive into California's $12 billion annual procurement mission, the importance of UNSPSC codes, and the critical role of DVBE certified partners in state infrastructure."
+  },
+  {
     slug: "how-were-building-california-state-contracting-guide",
     title: "How We’re Building California: A Guide to State Contracting and Our Commitment to Excellence",
     category: "Government Contracting",

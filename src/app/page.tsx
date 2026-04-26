@@ -222,6 +222,116 @@ export default function Home() {
           <MarketInsights />
         </div>
       </section>
+
+      {/* State Opportunity Infographic - NEW */}
+      <section className="py-20 bg-white dark:bg-brand-navy-900 overflow-hidden border-y border-slate-100 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">The Big Picture</h2>
+                <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6 italic">The $12 Billion <br /> California Mission.</h3>
+                <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                  As one of the world's largest purchasers, the State of California spends over $10 billion annually on goods and services. A significant portion of this is legally mandated to flow through certified small and veteran-owned businesses.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10">
+                  <div className="text-3xl font-black text-brand-navy-900 dark:text-white mb-1">25%</div>
+                  <div className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-3">Small Business Goal</div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    Mandated annual spend target for certified Small Businesses (SB).
+                  </p>
+                </div>
+                <div className="p-6 rounded-3xl bg-brand-blue-600/5 border border-brand-blue-600/10">
+                  <div className="text-3xl font-black text-brand-blue-600 mb-1">3%</div>
+                  <div className="text-[10px] font-black text-brand-blue-600 uppercase tracking-widest mb-3">DVBE Mandate</div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                    Exclusive spending target for Disabled Veteran Business Enterprises.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-bold italic">
+                "Stronger Built is proud to be part of the $3.5 billion that has gone to certified businesses every year since 2020."
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* Visual Infographic */}
+              <div className="bg-brand-navy-900 rounded-[3rem] p-10 md:p-12 text-white relative overflow-hidden shadow-2xl">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/20 rounded-full blur-[80px] -mr-32 -mt-32" />
+                
+                <div className="relative z-10 space-y-10">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.2em] mb-2">Annual State Procurement</div>
+                      <div className="text-5xl font-serif italic">$12,000,000,000</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                        <span>Small Business (25%)</span>
+                        <span className="text-brand-blue-400">$3.0B</span>
+                      </div>
+                      <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: "25%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                          className="h-full bg-brand-blue-600"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                        <span>DVBE Mandate (3%)</span>
+                        <span className="text-amber-400">$360M</span>
+                      </div>
+                      <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: "3%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+                          className="h-full bg-amber-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/10">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-brand-blue-600/20 flex items-center justify-center border border-brand-blue-600/30">
+                        <ShieldCheck className="w-6 h-6 text-brand-blue-600" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white uppercase tracking-wider">Certified Compliance</div>
+                        <div className="text-[10px] text-slate-400 font-medium">Verified SB/DVBE status for prime & sub contracts</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative Floating Element */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-6 -left-6 bg-amber-500 text-brand-navy-900 p-6 rounded-2xl shadow-xl z-20 hidden md:block"
+              >
+                <div className="text-2xl font-black leading-none mb-1">98.4%</div>
+                <div className="text-[9px] font-black uppercase tracking-widest">Compliance Rating</div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* BID MANAGEMENT CALLOUT */}
       <section className="py-20 bg-brand-navy-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue-600/10 rounded-full blur-[100px]" />

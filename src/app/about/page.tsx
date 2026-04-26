@@ -112,7 +112,7 @@ export default function AboutPage() {
               <p className="text-amber-600 font-black mb-8 tracking-[0.15em] text-[11px] uppercase">Managing Member & Licensed Contractor</p>
               
               <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium text-lg">
-                As a Service-Disabled Veteran with a VA rating ≥ 10%, Roy leverages profound disciplinary excellence to lead Stronger Built Group. Holding CSLB Class B, C-6, and C-36 classifications, he oversees the comprehensive execution of heavy infrastructure and commercial projects. Roy specializes in navigating the complexities of the <strong>California Department of Industrial Relations (DIR)</strong> and <strong>Prevailing Wage</strong> compliance, ensuring Stronger Built remains a high-trust partner for state agencies and prime contractors.
+                As a Service-Disabled Veteran with a VA rating ≥ 10%, Roy leverages profound disciplinary excellence to lead Stronger Built Group. Holding CSLB Class B, C-6, and C-36 classifications, he oversees the comprehensive execution of heavy infrastructure and commercial projects. Roy specializes in navigating the complexities of the <strong>California Department of Industrial Relations (DIR)</strong> and <strong>Prevailing Wage</strong> compliance, ensuring Stronger Built remains a high-trust partner for state agencies and prime contractors. Our team stays current with the <strong>DGS SB/DVBE Procurement Training Series</strong> to ensure we are always competitively responding to bids with the latest regulatory knowledge.
               </p>
 
               <div className="flex flex-wrap gap-4">
