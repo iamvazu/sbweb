@@ -13,7 +13,7 @@ export async function POST() {
       { data: users },
       { data: prospects }
     ] = await Promise.all([
-      supabase.from("bids").select("*").eq("status", "Posted"),
+      supabase.from("bids").select("*").eq("status", "Posted").gt("end_date", new Date().toISOString()),
       supabase.from("users").select("*"),
       supabase.from("prospects").select("*")
     ]);
@@ -47,10 +47,10 @@ export async function POST() {
         if (keywords.some(kw => bidText.includes(kw))) {
           // Check if entity also belongs to this category
           const entityText = isProspect 
-            ? (entity.legal_name || "" + " " + industryTypes.join(" ")).toLowerCase()
+            ? ((entity.legal_name || "") + " " + industryTypes.join(" ")).toLowerCase()
             : (entity.business_name || "").toLowerCase();
           
-          if (keywords.some(kw => entityText.includes(kw)) || industryTypes.some((it: string) => it.includes(cat))) {
+          if (keywords.some(kw => entityText.includes(kw)) || industryTypes.some((it: string) => it.toLowerCase().includes(cat))) {
             keywordMatch = true;
             reasons.push(`Industry: ${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
             break;

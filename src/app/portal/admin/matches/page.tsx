@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,7 +16,8 @@ import {
   ChevronUp,
   Building2,
   Calendar,
-  Send
+  Send,
+  Loader2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +33,11 @@ interface GroupedMatch {
     event_name: string;
     department_name: string;
     end_date: string;
+    estimated_value_max: number;
+    portal_link: string;
+    dvbe_goal: string;
+    sbe_only: boolean;
+    comments: string;
   };
   prospects: any[];
 }
@@ -41,27 +46,31 @@ export default function AdminMatchesPage() {
   const [groupedMatches, setGroupedMatches] = useState<GroupedMatch[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedBids, setExpandedBids] = useState<Set<string>>(new Set());
+  const [deployingId, setDeployingId] = useState<string | null>(null);
   const supabase = createClient();
   const { toast } = useToast();
 
   useEffect(() => {
     async function loadMatches() {
-      // Fetch matches with joined data
       const { data, error } = await supabase
         .from('prospect_bid_matches')
         .select(`
           *,
           prospect:prospects(legal_name, email, cert_types, city),
-          bid:bids(id, event_name, department_name, end_date)
+          bid:bids(id, event_name, department_name, end_date, estimated_value_max, portal_link, dvbe_goal, sbe_only, comments)
         `)
         .order('score', { ascending: false });
 
       if (error) {
         toast({ title: "Error", description: error.message, variant: "destructive" });
       } else {
-        // Group by Bid ID
         const groups: { [key: string]: GroupedMatch } = {};
-        data?.forEach((m) => {
+        const now = new Date();
+        
+        // Filter out old bids
+        const validData = data?.filter(m => m.bid && new Date(m.bid.end_date) > now);
+
+        validData?.forEach((m) => {
           const bidId = m.bid_id;
           if (!groups[bidId]) {
             groups[bidId] = {
@@ -78,15 +87,12 @@ export default function AdminMatchesPage() {
         });
 
         const sortedGroups = Object.values(groups).sort((a, b) => {
-            // Sort by highest average score or just date? 
-            // Let's sort by the highest single match score in the group
             const maxA = Math.max(...a.prospects.map(p => p.score));
             const maxB = Math.max(...b.prospects.map(p => p.score));
             return maxB - maxA;
         });
 
         setGroupedMatches(sortedGroups);
-        // Expand first bid by default
         if (sortedGroups.length > 0) {
             setExpandedBids(new Set([sortedGroups[0].bid.id]));
         }
@@ -94,7 +100,7 @@ export default function AdminMatchesPage() {
       setLoading(false);
     }
     loadMatches();
-  }, [supabase]);
+  }, [supabase, toast]);
 
   const toggleBid = (id: string) => {
     const next = new Set(expandedBids);
@@ -103,11 +109,36 @@ export default function AdminMatchesPage() {
     setExpandedBids(next);
   };
 
-  const handleDeploy = (prospectName: string) => {
-    toast({ 
-      title: "Outreach Deployed", 
-      description: `Targeting ${prospectName} for this solicitation.`,
-    });
+  const handleDeploy = async (matchId: string, prospect: any, bid: any) => {
+    setDeployingId(matchId);
+    try {
+      const res = await fetch("/api/admin/outreach", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prospect: prospect.details, bid })
+      });
+      const result = await res.json();
+      
+      if (result.success) {
+        toast({ 
+          title: "Outreach Deployed", 
+          description: `Email successfully sent to ${prospect.details?.legal_name}.`,
+        });
+        
+        // Optionally update the status of the match in supabase to "notified"
+        await supabase
+          .from('prospect_bid_matches')
+          .update({ status: 'notified' })
+          .eq('id', matchId);
+          
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (err: any) {
+      toast({ title: "Deployment Failed", description: err.message, variant: "destructive" });
+    } finally {
+      setDeployingId(null);
+    }
   };
 
    const handleSync = async () => {
@@ -121,7 +152,6 @@ export default function AdminMatchesPage() {
           title: "Sync Complete", 
           description: `Generated ${result.userMatches} user matches and ${result.prospectMatches} prospect matches.`,
         });
-        // Refresh page data
         window.location.reload();
       } else {
         throw new Error(result.error);
@@ -135,115 +165,113 @@ export default function AdminMatchesPage() {
   if (loading) return <MatchesSkeleton />;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-6 animate-in fade-in duration-500">
       
-      {/* Header View */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-slate-100 pb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-6">
         <div>
-          <h1 className="text-4xl font-black text-brand-navy-900 tracking-tighter uppercase italic">
-            Solicitation <span className="text-amber-500 underline decoration-4 underline-offset-8">Match Hub</span>
-          </h1>
-          <p className="text-slate-500 font-medium font-serif italic text-sm mt-3">
+          <h1 className="text-2xl font-bold text-[#0B1F3A]">Solicitation Match Hub</h1>
+          <p className="text-sm text-slate-500 mt-1">
              Managing top-tier matches for {groupedMatches.length} active government contracts.
           </p>
         </div>
         <div className="flex gap-3">
-           <Button variant="outline" className="rounded-xl border-slate-200 h-10 font-bold text-[10px] uppercase tracking-widest px-6 bg-white hover:bg-slate-50">
-             <Filter className="w-3 h-3 mr-2" /> Filter RFPs
+           <Button variant="outline" className="border-slate-200 bg-white hover:bg-slate-50">
+             <Filter className="w-4 h-4 mr-2" /> Filter RFPs
            </Button>
            <Button 
              onClick={handleSync}
              disabled={loading}
-             className="rounded-xl bg-brand-navy-900 text-white font-black text-[10px] uppercase tracking-widest h-10 px-6 shadow-xl"
+             className="bg-[#1E6FD9] hover:bg-blue-700 text-white"
            >
+             {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Target className="w-4 h-4 mr-2" />}
              {loading ? "Syncing..." : "Sync Pipeline"}
            </Button>
         </div>
       </div>
 
-      {/* Grouped Feed */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {groupedMatches.map((group) => (
-          <Card key={group.bid.id} className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem] overflow-hidden bg-white group/card">
+          <Card key={group.bid.id} className="p-0 border border-slate-200 shadow-sm rounded-xl bg-white overflow-hidden transition-colors hover:border-[#1E6FD9]/30">
             
-            {/* Bid Header Card */}
+            {/* Bid Header */}
             <div 
               onClick={() => toggleBid(group.bid.id)}
               className={cn(
-                "p-8 cursor-pointer transition-colors flex flex-col md:flex-row justify-between gap-6",
-                expandedBids.has(group.bid.id) ? "bg-slate-50/50" : "hover:bg-slate-50/30"
+                "p-6 cursor-pointer flex flex-col md:flex-row justify-between gap-4",
+                expandedBids.has(group.bid.id) ? "bg-slate-50/50 border-b border-slate-100" : ""
               )}
             >
-               <div className="flex-1 space-y-4">
+               <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-3">
-                     <Badge className="bg-brand-navy-900 text-white border-none text-[8px] font-black uppercase tracking-widest px-2 h-4">Active RFP</Badge>
-                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                        <Building2 className="w-3 h-3" /> {group.bid.department_name}
+                     <Badge variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-50">Active RFP</Badge>
+                     <p className="text-xs font-medium text-slate-500 flex items-center gap-1">
+                        <Building2 className="w-3.5 h-3.5" /> {group.bid.department_name}
                      </p>
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-black text-brand-navy-900 tracking-tighter leading-none italic max-w-4xl">
+                  <h2 className="text-lg font-semibold text-[#0B1F3A] leading-tight">
                      {group.bid.event_name}
                   </h2>
-                  <div className="flex items-center gap-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                     <div className="flex items-center gap-2">
-                        <Calendar className="w-3 h-3 text-amber-500" /> Due: {new Date(group.bid.end_date).toLocaleDateString()}
+                  <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
+                     <div className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" /> Due: {new Date(group.bid.end_date).toLocaleDateString()}
                      </div>
-                     <div className="flex items-center gap-2">
-                        <Target className="w-3 h-3 text-blue-500" /> {group.prospects.length} Direct Matches
+                     <div className="flex items-center gap-1.5">
+                        <Target className="w-3.5 h-3.5 text-[#1E6FD9]" /> {group.prospects.length} Direct Matches
                      </div>
                   </div>
                </div>
                <div className="flex items-center">
-                  <div className="h-12 w-12 rounded-full border-2 border-slate-100 flex items-center justify-center text-slate-300 group-hover/card:border-amber-500 group-hover/card:text-amber-500 transition-all">
-                     {expandedBids.has(group.bid.id) ? <ChevronUp /> : <ChevronDown />}
+                  <div className="h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 bg-white">
+                     {expandedBids.has(group.bid.id) ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </div>
                </div>
             </div>
 
             {/* Nested Prospects List */}
             {expandedBids.has(group.bid.id) && (
-              <div className="px-8 pb-8 animate-in slide-in-from-top-2 duration-300">
-                <Separator className="mb-8" />
-                <div className="grid grid-cols-1 gap-4">
+              <div className="p-6 bg-slate-50/30">
+                <div className="grid grid-cols-1 gap-3">
                   {group.prospects.map((p, idx) => (
-                    <div key={idx} className="flex flex-col lg:flex-row items-center justify-between p-6 bg-slate-50/50 rounded-3xl border border-slate-100 group/row hover:bg-white hover:shadow-lg hover:shadow-brand-blue-600/5 transition-all">
+                    <div key={idx} className="flex flex-col lg:flex-row items-center justify-between p-4 bg-white rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
                        
-                       <div className="flex items-center gap-6 flex-1 w-full lg:w-auto">
-                          {/* Score Circle */}
-                          <div className="flex flex-col items-center justify-center h-14 w-14 rounded-2xl bg-white border border-slate-100 shadow-inner">
-                             <span className="text-xl font-black text-amber-500 leading-none">{p.score}</span>
-                             <span className="text-[8px] font-black text-slate-400 uppercase">Pts</span>
+                       <div className="flex items-center gap-4 flex-1 w-full lg:w-auto">
+                          <div className="flex flex-col items-center justify-center h-12 w-12 rounded-lg bg-blue-50 border border-blue-100">
+                             <span className="text-lg font-bold text-blue-700 leading-none">{p.score}</span>
+                             <span className="text-[10px] font-medium text-blue-600/70 uppercase">Pts</span>
                           </div>
                           
-                          {/* Business Info */}
                           <div className="space-y-1">
-                             <h4 className="text-base font-black text-brand-navy-900 uppercase tracking-tighter leading-none">
+                             <h4 className="text-sm font-semibold text-[#0B1F3A]">
                                 {p.details?.legal_name}
                              </h4>
                              <div className="flex items-center gap-2">
-                                <p className="text-[10px] font-bold text-slate-400 italic">{p.details?.email}</p>
-                                <Separator orientation="vertical" className="h-2 bg-slate-200" />
-                                <p className="text-[10px] font-bold text-slate-400 flex items-center gap-1 uppercase">
-                                   <MapPin className="w-2.5 h-2.5" /> {p.details?.city}
+                                <p className="text-xs text-slate-500">{p.details?.email}</p>
+                                <Separator orientation="vertical" className="h-3 bg-slate-300" />
+                                <p className="text-xs text-slate-500 flex items-center gap-1">
+                                   <MapPin className="w-3 h-3" /> {p.details?.city}
                                 </p>
                              </div>
-                             {/* Reasons Preview */}
-                             <p className="text-[9px] font-bold text-success uppercase tracking-widest pt-1">
-                                ✓ {p.reasons?.slice(0, 2).join(" • ")}
+                             <p className="text-[11px] font-medium text-emerald-600 flex items-center gap-1 pt-0.5">
+                                <CheckCircle2 className="w-3 h-3" /> {p.reasons?.slice(0, 2).join(" • ")}
                              </p>
                           </div>
                        </div>
 
-                       {/* Action Panel */}
-                       <div className="flex items-center gap-3 mt-4 lg:mt-0 w-full lg:w-auto">
-                          <Button variant="ghost" className="hidden lg:flex h-10 px-4 rounded-xl text-slate-400 hover:text-brand-navy-900 font-bold text-[10px] uppercase tracking-widest">
-                             <Mail className="w-3 h-3 mr-2" /> Preview Email
+                       <div className="flex items-center gap-2 mt-4 lg:mt-0 w-full lg:w-auto">
+                          <Button variant="ghost" size="sm" className="hidden lg:flex text-slate-500 hover:text-[#0B1F3A]">
+                             <Mail className="w-4 h-4 mr-2" /> Preview
                           </Button>
                           <Button 
-                            onClick={() => handleDeploy(p.details?.legal_name)}
-                            className="flex-1 lg:flex-none h-11 px-8 rounded-xl bg-amber-500 text-brand-navy-900 hover:bg-amber-400 font-black text-[10px] uppercase tracking-widest shadow-lg shadow-amber-500/10 group/btn"
+                            onClick={() => handleDeploy(p.id, p, group.bid)}
+                            disabled={deployingId === p.id}
+                            size="sm"
+                            className="w-full lg:w-auto bg-[#1E6FD9] hover:bg-blue-700 text-white shadow-sm"
                           >
-                             Deploy Outreach <Send className="w-3 h-3 ml-2 group-hover/btn:translate-x-0.5 transition-transform" />
+                             {deployingId === p.id ? (
+                               <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending...</>
+                             ) : (
+                               <>Deploy Outreach <Send className="w-3.5 h-3.5 ml-2" /></>
+                             )}
                           </Button>
                        </div>
 
@@ -255,6 +283,13 @@ export default function AdminMatchesPage() {
 
           </Card>
         ))}
+        {groupedMatches.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-xl border border-dashed border-slate-300">
+            <Target className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+            <h3 className="text-lg font-medium text-[#0B1F3A]">No Active Matches Found</h3>
+            <p className="text-sm text-slate-500">Run the Sync Pipeline to find prospective matches for active bids.</p>
+          </div>
+        )}
       </div>
 
     </div>
@@ -263,16 +298,16 @@ export default function AdminMatchesPage() {
 
 function MatchesSkeleton() {
   return (
-    <div className="space-y-8 animate-pulse">
-      <div className="flex justify-between items-end pb-8 border-b border-slate-100">
-         <div className="space-y-3">
-            <Skeleton className="h-10 w-64" />
+    <div className="space-y-6 animate-pulse">
+      <div className="flex justify-between items-end pb-6 border-b border-slate-100">
+         <div className="space-y-2">
+            <Skeleton className="h-8 w-64" />
             <Skeleton className="h-4 w-48" />
          </div>
       </div>
-      <div className="space-y-6">
-        <Skeleton className="h-40 w-full rounded-[2rem]" />
-        <Skeleton className="h-40 w-full rounded-[2rem]" />
+      <div className="space-y-4">
+        <Skeleton className="h-32 w-full rounded-xl" />
+        <Skeleton className="h-32 w-full rounded-xl" />
       </div>
     </div>
   );
