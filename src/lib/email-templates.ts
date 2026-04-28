@@ -4,10 +4,10 @@ export function generateOutreachEmail(prospect: any, bid: any) {
 
   const firstName = legal_name ? legal_name.split(' ')[0] : 'Team';
   const daysLeft = Math.ceil((new Date(end_date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-  
+
   // Determine template based on bid and cert types
   let template = 3; // Default to general
-  
+
   if ((dvbe_goal && dvbe_goal !== "0") || event_name?.toLowerCase().includes('dvbe') || comments?.toLowerCase().includes('dvbe')) {
     if (cert_types?.includes('DVBE')) {
       template = 1;
@@ -40,7 +40,7 @@ We handle all of it.
 
 I'm Roy Krautstrunk, founder of BidIQ and a licensed SDVOSB/DVBE general contractor in San Diego (CSLB #1057434). For $149 we will read the full RFP, prepare your complete submission package, handle the compliance checklist, and file it on the portal on your behalf — with your name on it.
 
-If you win, we take 0.75% of the contract value. If you don't, you paid $149 and learned the process with a professional team behind you.
+If you win, we take 0.75% of the contract value. If you don't, you paid $249 and learned the process with a professional team behind you.
 
 For context, ${event_name} has an estimated value of ${estValue}. At 0.75%, a win would cost you ${successFee} total — on a contract worth ${estValue}.
 
@@ -66,7 +66,7 @@ Here's what's typically in one of these RFPs: scope of work narrative, pricing s
 
 We do this every week.
 
-For $149 flat, BidIQ will prepare your full submission package for ${event_name}, handle all compliance requirements, and file it on the CaleProcure portal under your company name. If you win, we charge 0.75% of the contract value — nothing if you don't.
+For $249 flat, BidIQ will prepare your full submission package for ${event_name}, handle all compliance requirements, and file it on the CaleProcure portal under your company name. If you win, we charge 0.75% of the contract value — nothing if you don't.
 
 No subscription. No retainer. One bid at a time.
 
@@ -90,7 +90,7 @@ Based on your CaleProcure registration — specifically your service areas and i
 
 I'm Roy Krautstrunk. I run BidIQ, a California government procurement platform built specifically for small businesses like ${legal_name}. I'm also a licensed SDVOSB and DVBE contractor in San Diego, so I've been on your side of this process.
 
-If you want, here's what we can do: for $149 we'll prepare your complete bid submission for ${event_name} — scope response, pricing schedule, compliance docs, everything — and file it on the portal under your name. If you win, 0.75% of the contract. If you don't, $149 is all you spent.
+If you want, here's what we can do: for $249 we'll prepare your complete bid submission for ${event_name} — scope response, pricing schedule, compliance docs, everything — and file it on the portal under your name. If you win, 0.75% of the contract. If you don't, $149 is all you spent.
 
 Or if you just want to see the bid first, go to: ${portal_link || 'CaleProcure'}
 
