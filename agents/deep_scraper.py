@@ -253,7 +253,8 @@ def run():
                                 logger.info(f"Successfully deep scraped {bid['event_id']} (sans phone)")
                             else:
                                 raise inner_e
-                logger.error(f"Failed to deep scrape {bid['event_id']}: {e}")
+            except Exception as e:
+                logger.error(f"Failed to deep scrape {bid.get('event_id', 'unknown')}: {e}")
             time.sleep(2)
             
         browser.close()
