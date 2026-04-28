@@ -36,29 +36,39 @@ export async function POST() {
       const reasons: string[] = [];
       const bidText = ((bid.event_name || "") + " " + (bid.comments || "")).toLowerCase();
       
-      // 1. Keyword/Industry Match (Max 50 pts)
+      // 1. Keyword/Industry Match
       const industryTypes = isProspect 
         ? (entity.industry_type || []) 
         : (entity.naics_codes || []);
       
-      let keywordMatch = false;
+      const entityName = isProspect 
+        ? (entity.legal_name || "").toLowerCase() 
+        : (entity.business_name || "").toLowerCase();
+
+      let matchedIndustry = "";
+      
       for (const [cat, keywords] of Object.entries(KEYWORD_MAP)) {
-        // Check if bid belongs to this category
-        if (keywords.some(kw => bidText.includes(kw))) {
-          // Check if entity also belongs to this category
-          const entityText = isProspect 
-            ? ((entity.legal_name || "") + " " + industryTypes.join(" ")).toLowerCase()
-            : (entity.business_name || "").toLowerCase();
+        // Find which specific keywords from this category are in the bid
+        const matchedBidKeywords = keywords.filter(kw => bidText.includes(kw));
+        
+        if (matchedBidKeywords.length > 0) {
+          // Tier 1: Direct Trade Match (50 points)
+          if (matchedBidKeywords.some(kw => entityName.includes(kw)) || entityName.includes(cat)) {
+             score += 50;
+             matchedIndustry = cat;
+             reasons.push(`Industry: ${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
+             break;
+          }
           
-          if (keywords.some(kw => entityText.includes(kw)) || industryTypes.some((it: string) => it.toLowerCase().includes(cat))) {
-            keywordMatch = true;
-            reasons.push(`Industry: ${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
-            break;
+          // Tier 2: Broad Category Match (15 points)
+          if (industryTypes.some((it: string) => it.toLowerCase().includes(cat))) {
+             score += 15;
+             matchedIndustry = cat;
+             reasons.push(`Broad Category: ${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
+             break;
           }
         }
       }
-
-      if (keywordMatch) score += 50;
 
       // 2. Certification Match (Max 30 pts)
       const certs = isProspect ? (entity.cert_types || []) : (entity.certifications || []);
