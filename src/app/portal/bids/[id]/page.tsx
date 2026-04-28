@@ -18,19 +18,14 @@ import {
   TrendingUp,
   Download,
   Info,
-  Loader2
+  Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { getStrategyForBid } from "@/lib/data/bid-strategies";
-import { createCheckoutSession } from "@/app/actions/stripe";
-import { updateMatchStage, trackBid } from "@/app/actions/bids";
 
 export default function BidDetailPage() {
   const { id } = useParams();
@@ -38,8 +33,6 @@ export default function BidDetailPage() {
   const { toast } = useToast();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedTier, setSelectedTier] = useState<string | null>("managed_bid");
-  const [isUpdating, setIsUpdating] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -51,7 +44,18 @@ export default function BidDetailPage() {
         .from("bids")
         .select(`
           *,
-          user_bid_matches (*)
+          prospect_bid_matches (
+            id,
+            score,
+            match_reasons,
+            prospect:prospects (
+              id,
+              legal_name,
+              email,
+              city,
+              cert_types
+            )
+          )
         `)
         .eq("id", id)
         .single();
@@ -60,6 +64,10 @@ export default function BidDetailPage() {
         toast({ title: "Error", description: "Could not load bid details.", variant: "destructive" });
         router.push("/portal/bids");
       } else {
+        // Sort matches by score descending
+        if (bid.prospect_bid_matches) {
+          bid.prospect_bid_matches.sort((a: any, b: any) => b.score - a.score);
+        }
         setData(bid);
       }
       setLoading(false);
@@ -67,54 +75,14 @@ export default function BidDetailPage() {
     fetchBid();
   }, [id, supabase, router, toast]);
 
-  const handleStatusUpdate = async (stage: string) => {
-    setIsUpdating(true);
-    try {
-      await updateMatchStage(match.id, stage);
-      toast({ title: "Updated", description: `Bid moved to ${stage.replace('_', ' ')}.` });
-      // Minor hack to update local state without full refetch
-      setData({ ...data, user_bid_matches: [{ ...match, pipeline_stage: stage }] });
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    }
-    setIsUpdating(false);
-  };
-
-  const handleTrackBid = async () => {
-    setIsUpdating(true);
-    try {
-      const result = await trackBid(bid.id);
-      if (result.success) {
-        toast({ title: "Success", description: "You are now tracking this bid." });
-        // Refresh local data
-        const { data: updatedBid } = await supabase
-          .from("bids")
-          .select("*, user_bid_matches(*)")
-          .eq("id", id)
-          .single();
-        setData(updatedBid);
-      }
-    } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    }
-    setIsUpdating(false);
-  };
-
   if (loading) return <BidDetailSkeleton />;
 
   const bid = data;
-  const match = data.user_bid_matches[0];
+  const matches = bid.prospect_bid_matches || [];
   
-  // REAL DATA PRIORITY: Use bid_plan from DB, fallback to generic ONLY if null
-  const aiPlan = bid.bid_plan || {};
-  const strategy = {
-    title: aiPlan.title || "Strategic Analysis Pending",
-    strategic_plan: aiPlan.strategic_plan || aiPlan.strategy || ["Waiting for AI depth analysis..."],
-    fit_score_modifiers: aiPlan.fit_indicators || aiPlan.strengths || ["Analyzing..."],
-    risks: aiPlan.risks || ["Evaluating risks..."]
-  };
-
-  const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : null;
+  // REAL DATA PRIORITY: Only show AI plan if it exists in DB
+  const aiPlan = bid.bid_plan;
+  const hasValidPlan = !!aiPlan && !!aiPlan.title;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -129,8 +97,8 @@ export default function BidDetailPage() {
       </button>
 
       {/* Hero Header */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 gap-8 items-start">
+        <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline" className="bg-white text-slate-500 uppercase font-black text-[9px] h-5 mb-1">
               {bid.source}
@@ -166,35 +134,6 @@ export default function BidDetailPage() {
             )}
           </div>
         </div>
-
-        <Card className="border-none shadow-xl shadow-brand-blue-600/5 bg-brand-navy-900 text-white overflow-hidden rounded-[2rem]">
-          <CardContent className="p-8 text-center space-y-4 relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-3xl" />
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200/60">Correlation Score</p>
-            <div className="relative inline-flex items-center justify-center">
-              <svg className="w-24 h-24 transform -rotate-90">
-                <circle
-                  cx="48" cy="48" r="40"
-                  stroke="currentColor" strokeWidth="8"
-                  fill="transparent"
-                  className="text-blue-200/5"
-                />
-                <circle
-                  cx="48" cy="48" r="40"
-                  stroke="currentColor" strokeWidth="8"
-                  fill="transparent"
-                  strokeDasharray={251.2}
-                  strokeDashoffset={251.2 - (251.2 * (match?.fit_score || 0)) / 100}
-                  className="text-brand-blue-600"
-                />
-              </svg>
-              <span className="absolute text-2xl font-black">{match?.fit_score || 0}%</span>
-            </div>
-            <p className="text-xs font-bold text-blue-100/60 max-w-[180px] mx-auto">
-              {!match ? "Analysis Pending" : (match.fit_score > 80 ? "Strategic High-Fit Opportunity" : "Moderate Alignment Opportunity")}
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Main Content & Sidebar */}
@@ -300,60 +239,65 @@ export default function BidDetailPage() {
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-xl shadow-brand-blue-600/5 overflow-hidden rounded-[2rem]">
-                <CardHeader className="bg-slate-50/50 p-8 border-b">
-                  <div className="flex items-center gap-3">
-                    <TrendingUp className="w-6 h-6 text-brand-blue-600" />
-                    <div>
-                      <CardTitle className="text-xl font-black text-brand-navy-900">{strategy.title}</CardTitle>
-                      <CardDescription className="font-medium">Curated strategic recommendations generated by BidIQ Agentic AI.</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-8">
-                  <div className="space-y-6">
-                    {strategy.strategic_plan.map((step: string, i: number) => (
-                      <div key={i} className="flex gap-4">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-blue-600/10 text-brand-blue-600 flex items-center justify-center font-black text-xs">
-                          {i + 1}
+              {/* ONLY RENDER AI IF IT EXISTS */}
+              {hasValidPlan && (
+                <>
+                  <Card className="border-none shadow-xl shadow-brand-blue-600/5 overflow-hidden rounded-[2rem]">
+                    <CardHeader className="bg-slate-50/50 p-8 border-b">
+                      <div className="flex items-center gap-3">
+                        <TrendingUp className="w-6 h-6 text-brand-blue-600" />
+                        <div>
+                          <CardTitle className="text-xl font-black text-brand-navy-900">{aiPlan.title}</CardTitle>
+                          <CardDescription className="font-medium">Curated strategic recommendations generated by BidIQ Agentic AI.</CardDescription>
                         </div>
-                        <p className="text-slate-600 font-medium leading-relaxed">{step}</p>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                    </CardHeader>
+                    <CardContent className="p-8">
+                      <div className="space-y-6">
+                        {(aiPlan.strategic_plan || aiPlan.strategy || []).map((step: string, i: number) => (
+                          <div key={i} className="flex gap-4">
+                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-blue-600/10 text-brand-blue-600 flex items-center justify-center font-black text-xs">
+                              {i + 1}
+                            </div>
+                            <p className="text-slate-600 font-medium leading-relaxed">{step}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="border-none shadow-sm bg-success/5 border-success/10 rounded-2xl">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-black flex items-center gap-2 text-success uppercase tracking-widest">
-                      <CheckCircle2 className="w-4 h-4" /> Strong Fit Indicators
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    {strategy.fit_score_modifiers?.map((m: string) => (
-                      <div key={m} className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                        <ChevronRight className="w-3 h-3 text-success" /> {m}
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-                <Card className="border-none shadow-sm bg-warning/5 border-warning/10 rounded-2xl">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-black flex items-center gap-2 text-warning uppercase tracking-widest">
-                      <AlertCircle className="w-4 h-4" /> Potential Risks
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    {strategy.risks.map((risk: string) => (
-                        <div key={risk} className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                            <ChevronRight className="w-3 h-3 text-warning" /> {risk}
-                        </div>
-                    ))}
-                  </CardContent>
-                </Card>
-              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="border-none shadow-sm bg-success/5 border-success/10 rounded-2xl">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-black flex items-center gap-2 text-success uppercase tracking-widest">
+                          <CheckCircle2 className="w-4 h-4" /> Strong Fit Indicators
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        {(aiPlan.fit_indicators || aiPlan.strengths || []).map((m: string) => (
+                          <div key={m} className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                            <ChevronRight className="w-3 h-3 text-success" /> {m}
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                    <Card className="border-none shadow-sm bg-warning/5 border-warning/10 rounded-2xl">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-black flex items-center gap-2 text-warning uppercase tracking-widest">
+                          <AlertCircle className="w-4 h-4" /> Potential Risks
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        {(aiPlan.risks || []).map((risk: string) => (
+                            <div key={risk} className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                                <ChevronRight className="w-3 h-3 text-warning" /> {risk}
+                            </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              )}
             </TabsContent>
 
             <TabsContent value="requirements" className="mt-8">
@@ -477,106 +421,59 @@ export default function BidDetailPage() {
           </Tabs>
         </div>
 
-        {/* Right: Hire Us / Action Bar */}
+        {/* Right: Prospect Matches Sidebar */}
         <div className="space-y-8">
-          
-          {/* Tracking Status Card */}
-          <Card className="border-none shadow-xl shadow-brand-blue-600/5 rounded-[2rem] overflow-hidden">
-            <CardHeader className="bg-slate-50/50 p-6 border-b">
-              <CardTitle className="text-sm font-black uppercase tracking-[0.1em]">Pipeline Stage</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              {!match ? (
-                <div className="space-y-4">
-                  <p className="text-xs font-bold text-slate-500 leading-relaxed italic">
-                    This bid is not currently in your pipeline. Track it to see analysis details.
-                  </p>
-                  <Button 
-                    onClick={handleTrackBid}
-                    disabled={isUpdating}
-                    className="w-full bg-brand-blue-600 hover:bg-blue-700 text-white h-11 rounded-xl font-bold"
-                  >
-                    {isUpdating ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : "Track this Opportunity"}
-                  </Button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 gap-2">
-                  {[
-                    { id: 'new_match', label: 'New Match', color: 'bg-blue-500' },
-                    { id: 'reviewing', label: 'Reviewing', color: 'bg-amber-500' },
-                    { id: 'pursuing', label: 'Pursuing', color: 'bg-purple-500' },
-                    { id: 'submitted', label: 'Submitted', color: 'bg-teal-500' },
-                  ].map((s) => (
-                    <Button
-                      key={s.id}
-                      variant={match.pipeline_stage === s.id ? 'default' : 'outline'}
-                      onClick={() => handleStatusUpdate(s.id)}
-                      disabled={isUpdating}
-                      className={`justify-start h-11 rounded-xl font-bold ${match.pipeline_stage === s.id ? 'bg-brand-navy-900 border-transparent' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
-                    >
-                      <div className={`w-2 h-2 rounded-full mr-3 ${s.color}`} />
-                      {s.label}
-                      {match.pipeline_stage === s.id && <CheckCircle2 className="w-4 h-4 ml-auto text-white" />}
-                    </Button>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
           <Card className="border-none shadow-2xl shadow-brand-blue-600/10 overflow-hidden rounded-[2rem] sticky top-24">
             <div className="h-2 bg-brand-blue-600" />
-            <CardHeader className="bg-slate-50/50 p-8">
-              <CardTitle className="text-xl font-black">Hire StrongerBuilt</CardTitle>
-              <CardDescription className="font-semibold">Let our experts handle your entire government bid response.</CardDescription>
-            </CardHeader>
-            <CardContent className="p-8 space-y-6">
-              
-              <div className="space-y-4">
-                {[
-                  { id: 'managed_bid', name: 'Managed Submission', price: '$249', desc: 'Expert proposal writing & portal filing.' },
-                ].map((tier) => (
-                  <div 
-                    key={tier.id}
-                    onClick={() => setSelectedTier(tier.id)}
-                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${selectedTier === tier.id ? 'border-brand-blue-600 bg-brand-blue-600/5 shadow-inner' : 'border-slate-100 hover:border-brand-blue-600/20'}`}
-                  >
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="font-black text-sm uppercase tracking-tighter">{tier.name}</span>
-                      <span className="font-black text-brand-blue-600">{tier.price}</span>
-                    </div>
-                    <p className="text-[10px] text-slate-500 font-bold">{tier.desc}</p>
-                  </div>
-                ))}
+            <CardHeader className="bg-slate-50/50 p-8 border-b">
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-xl font-black">Matched Prospects</CardTitle>
+                  <CardDescription className="font-semibold">{matches.length} businesses matched this bid.</CardDescription>
+                </div>
+                <div className="h-10 w-10 bg-brand-blue-600/10 rounded-full flex items-center justify-center text-brand-blue-600">
+                  <Users className="w-5 h-5" />
+                </div>
               </div>
-
-              <form action={createCheckoutSession} className="space-y-4">
-                <input type="hidden" name="bidId" value={bid.id} />
-                <input type="hidden" name="bidName" value={bid.event_name} />
-                <input type="hidden" name="tier" value={selectedTier || ''} />
-                
-                <Button 
-                  type="submit" 
-                  disabled={!selectedTier}
-                  className="w-full bg-brand-navy-900 hover:bg-black text-white h-14 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl disabled:opacity-50"
-                >
-                  Confirm & Secure Project
-                </Button>
-              </form>
-
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
-                <ShieldCheck className="w-5 h-5 text-success" />
-                <p className="text-[10px] uppercase font-black tracking-widest text-slate-500">
-                   Secured by Stripe <br/><span className="text-slate-400 font-bold tracking-normal italic">Verified SDVOSB Professional Service</span>
-                </p>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="max-h-[600px] overflow-y-auto">
+                {matches.length === 0 ? (
+                  <div className="p-8 text-center">
+                    <p className="text-sm text-slate-500 font-medium">No matches found for this bid.</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-slate-100">
+                    {matches.map((m: any) => (
+                      <div key={m.id} className="p-6 hover:bg-slate-50 transition-colors">
+                        <div className="flex justify-between items-start gap-4">
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-bold text-brand-navy-900 leading-snug">
+                              {m.prospect?.legal_name || "Unknown Business"}
+                            </h4>
+                            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+                              <MapPin className="w-3 h-3" /> {m.prospect?.city || "Unknown Location"}
+                            </div>
+                            {m.prospect?.cert_types && m.prospect.cert_types.length > 0 && (
+                              <div className="flex gap-1 mt-2">
+                                {m.prospect.cert_types.slice(0, 2).map((cert: string) => (
+                                  <Badge key={cert} variant="secondary" className="text-[9px] bg-slate-100 text-slate-600">
+                                    {cert}
+                                  </Badge>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col items-center justify-center h-10 w-10 rounded-lg bg-blue-50 border border-blue-100 flex-shrink-0">
+                             <span className="text-sm font-bold text-blue-700 leading-none">{m.score}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </CardContent>
-            <Separator />
-            <CardFooter className="p-6 bg-slate-50/50">
-              <p className="text-[10px] text-slate-400 font-bold text-center w-full">
-                Service includes technical writing, compliance review, and submission management.
-              </p>
-            </CardFooter>
           </Card>
         </div>
       </div>
@@ -589,11 +486,10 @@ function BidDetailSkeleton() {
     <div className="max-w-6xl mx-auto space-y-8 animate-pulse p-8">
       <Skeleton className="h-6 w-32" />
       <div className="grid grid-cols-3 gap-8">
-        <div className="col-span-2 space-y-4">
+        <div className="col-span-3 space-y-4">
           <Skeleton className="h-12 w-3/4" />
           <Skeleton className="h-6 w-1/2" />
         </div>
-        <Skeleton className="h-48 w-full rounded-[2rem]" />
       </div>
       <div className="grid grid-cols-3 gap-8 pt-8">
         <div className="col-span-2 h-[600px] bg-slate-100 rounded-[2rem]" />
