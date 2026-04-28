@@ -26,6 +26,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { generateOutreachEmail } from "@/lib/email-templates";
 
 interface GroupedMatch {
   bid: {
@@ -258,9 +266,26 @@ export default function AdminMatchesPage() {
                        </div>
 
                        <div className="flex items-center gap-2 mt-4 lg:mt-0 w-full lg:w-auto">
-                          <Button variant="ghost" size="sm" className="hidden lg:flex text-slate-500 hover:text-[#0B1F3A]">
-                             <Mail className="w-4 h-4 mr-2" /> Preview
-                          </Button>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="ghost" size="sm" className="hidden lg:flex text-slate-500 hover:text-[#0B1F3A]">
+                                 <Mail className="w-4 h-4 mr-2" /> Preview
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+                              <DialogHeader>
+                                <DialogTitle>Email Preview</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4 pt-4 text-sm text-slate-700">
+                                <div className="font-semibold pb-2 border-b border-slate-100">
+                                  Subject: {generateOutreachEmail(p.details || {}, group.bid || {} as any).subject}
+                                </div>
+                                <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-slate-600">
+                                  {generateOutreachEmail(p.details || {}, group.bid || {} as any).text}
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
                           <Button 
                             onClick={() => handleDeploy(p.id, p, group.bid)}
                             disabled={deployingId === p.id}
