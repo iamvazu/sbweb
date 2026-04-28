@@ -180,7 +180,7 @@ def run():
     res = supabase.table("bids")\
         .select("*")\
         .eq("status", "Posted")\
-        .or_("published_date.is.null,comments.is.null")\
+        .or_("published_date.is.null,comments.is.null,contact_phone.is.null")\
         .order("first_seen", desc=False)\
         .execute()
     
