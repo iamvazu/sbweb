@@ -31,10 +31,11 @@ export default function MatchesPage() {
         .from("user_bid_matches")
         .select(`
           *,
-          bids (*)
+          bids!inner (*)
         `)
         .eq("user_id", user.id)
         .eq("pipeline_stage", "new_match")
+        .gte("bids.end_date", new Date().toISOString())
         .order("fit_score", { ascending: false });
 
       setMatches(data || []);

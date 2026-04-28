@@ -118,9 +118,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       if (user) {
         const { count } = await supabase
           .from("user_bid_matches")
-          .select("*", { count: "exact", head: true })
+          .select("*, bids!inner(end_date)", { count: "exact", head: true })
           .eq("user_id", user.id)
-          .eq("pipeline_stage", "new_match");
+          .eq("pipeline_stage", "new_match")
+          .gte("bids.end_date", new Date().toISOString());
         setMatchCount(count || 0);
       }
     }
