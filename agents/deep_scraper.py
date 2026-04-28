@@ -24,6 +24,14 @@ def deep_scrape_bid(page, bid):
         return None
 
     human_delay(2, 4)
+    
+    # 0. Integrity Check: Verify event ID is on page to prevent cross-contamination
+    raw_id_part = bid['event_id'].split('_')[-1]
+    body_text = page.locator("body").inner_text()
+    if raw_id_part not in body_text:
+        logger.error(f"Integrity Check Failed: '{raw_id_part}' not found on page. Skipping to prevent data corruption.")
+        return None
+
     data = {}
     
     try:
@@ -198,6 +206,7 @@ def run():
         
         for bid in bids:
             try:
+                context.clear_cookies()
                 details = deep_scrape_bid(page, bid)
                 if details:
                     # Clean up the published_date to be a valid ISO timestamp or current time
