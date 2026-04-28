@@ -125,7 +125,7 @@ export default function BidDetailPage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-brand-blue-600" />
-              Due: {bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'TBD'}
+              Due: {bid.end_date ? new Date(bid.end_date).toLocaleString('en-US', { timeZone: 'UTC', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' PDT' : 'TBD'}
             </div>
             {bid.event_version && (
               <Badge variant="secondary" className="bg-slate-100 text-slate-600 font-bold px-2 py-0 h-5">

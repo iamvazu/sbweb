@@ -233,9 +233,17 @@ def run():
                     update_payload = {k: v for k, v in update_payload.items() if v is not None}
                     
                     if update_payload:
-                        supabase.table("bids").update(update_payload).eq("id", bid["id"]).execute()
-                        logger.info(f"Successfully deep scraped {bid['event_id']}")
-            except Exception as e:
+                        try:
+                            supabase.table("bids").update(update_payload).eq("id", bid["id"]).execute()
+                            logger.info(f"Successfully deep scraped {bid['event_id']}")
+                        except Exception as inner_e:
+                            logger.warning(f"Update failed for {bid['event_id']}: {inner_e}. Retrying without contact_phone.")
+                            if "contact_phone" in update_payload:
+                                del update_payload["contact_phone"]
+                                supabase.table("bids").update(update_payload).eq("id", bid["id"]).execute()
+                                logger.info(f"Successfully deep scraped {bid['event_id']} (sans phone)")
+                            else:
+                                raise inner_e
                 logger.error(f"Failed to deep scrape {bid['event_id']}: {e}")
             time.sleep(2)
             
