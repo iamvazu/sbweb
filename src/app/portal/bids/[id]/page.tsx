@@ -33,12 +33,16 @@ export default function BidDetailPage() {
   const { toast } = useToast();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
     async function fetchBid() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+      
+      const adminEmails = ['roy@strongerbuilt.us', 'crazyme2207@gmail.com'];
+      setIsAdmin(user.email?.endsWith('@strongerbuilt.us') || adminEmails.includes(user.email || ''));
 
       const { data: bid, error } = await supabase
         .from("bids")
@@ -421,60 +425,99 @@ export default function BidDetailPage() {
           </Tabs>
         </div>
 
-        {/* Right: Prospect Matches Sidebar */}
+        {/* Right: Contextual Sidebar */}
         <div className="space-y-8">
-          <Card className="border-none shadow-2xl shadow-brand-blue-600/10 overflow-hidden rounded-[2rem] sticky top-24">
-            <div className="h-2 bg-brand-blue-600" />
-            <CardHeader className="bg-slate-50/50 p-8 border-b">
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-xl font-black">Matched Prospects</CardTitle>
-                  <CardDescription className="font-semibold">{matches.length} businesses matched this bid.</CardDescription>
-                </div>
-                <div className="h-10 w-10 bg-brand-blue-600/10 rounded-full flex items-center justify-center text-brand-blue-600">
-                  <Users className="w-5 h-5" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="max-h-[600px] overflow-y-auto">
-                {matches.length === 0 ? (
-                  <div className="p-8 text-center">
-                    <p className="text-sm text-slate-500 font-medium">No matches found for this bid.</p>
+          {isAdmin ? (
+            <Card className="border-none shadow-2xl shadow-brand-blue-600/10 overflow-hidden rounded-[2rem] sticky top-24">
+              <div className="h-2 bg-brand-blue-600" />
+              <CardHeader className="bg-slate-50/50 p-8 border-b">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl font-black">Matched Prospects</CardTitle>
+                    <CardDescription className="font-semibold">{matches.length} businesses matched this bid.</CardDescription>
                   </div>
-                ) : (
-                  <div className="divide-y divide-slate-100">
-                    {matches.map((m: any) => (
-                      <div key={m.id} className="p-6 hover:bg-slate-50 transition-colors">
-                        <div className="flex justify-between items-start gap-4">
-                          <div className="space-y-1">
-                            <h4 className="text-sm font-bold text-brand-navy-900 leading-snug">
-                              {m.prospect?.legal_name || "Unknown Business"}
-                            </h4>
-                            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                              <MapPin className="w-3 h-3" /> {m.prospect?.city || "Unknown Location"}
-                            </div>
-                            {m.prospect?.cert_types && m.prospect.cert_types.length > 0 && (
-                              <div className="flex gap-1 mt-2">
-                                {m.prospect.cert_types.slice(0, 2).map((cert: string) => (
-                                  <Badge key={cert} variant="secondary" className="text-[9px] bg-slate-100 text-slate-600">
-                                    {cert}
-                                  </Badge>
-                                ))}
+                  <div className="h-10 w-10 bg-brand-blue-600/10 rounded-full flex items-center justify-center text-brand-blue-600">
+                    <Users className="w-5 h-5" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="max-h-[600px] overflow-y-auto">
+                  {matches.length === 0 ? (
+                    <div className="p-8 text-center">
+                      <p className="text-sm text-slate-500 font-medium">No matches found for this bid.</p>
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-slate-100">
+                      {matches.map((m: any) => (
+                        <div key={m.id} className="p-6 hover:bg-slate-50 transition-colors">
+                          <div className="flex justify-between items-start gap-4">
+                            <div className="space-y-1">
+                              <h4 className="text-sm font-bold text-brand-navy-900 leading-snug">
+                                {m.prospect?.legal_name || "Unknown Business"}
+                              </h4>
+                              <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+                                <MapPin className="w-3 h-3" /> {m.prospect?.city || "Unknown Location"}
                               </div>
-                            )}
-                          </div>
-                          <div className="flex flex-col items-center justify-center h-10 w-10 rounded-lg bg-blue-50 border border-blue-100 flex-shrink-0">
-                             <span className="text-sm font-bold text-blue-700 leading-none">{m.score}</span>
+                              {m.prospect?.cert_types && m.prospect.cert_types.length > 0 && (
+                                <div className="flex gap-1 mt-2">
+                                  {m.prospect.cert_types.slice(0, 2).map((cert: string) => (
+                                    <Badge key={cert} variant="secondary" className="text-[9px] bg-slate-100 text-slate-600">
+                                      {cert}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex flex-col items-center justify-center h-10 w-10 rounded-lg bg-blue-50 border border-blue-100 flex-shrink-0">
+                               <span className="text-sm font-bold text-blue-700 leading-none">{m.score}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="border-none shadow-2xl shadow-brand-blue-600/10 overflow-hidden rounded-[2rem] sticky top-24">
+              <div className="h-2 bg-brand-blue-600" />
+              <CardHeader className="bg-slate-50/50 p-8 border-b">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl font-black text-brand-navy-900">Hire Stronger Built</CardTitle>
+                    <CardDescription className="font-semibold mt-1">Unlock RFP/IFB writing services</CardDescription>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                  <div className="h-10 w-10 bg-brand-blue-600/10 rounded-full flex items-center justify-center text-brand-blue-600 shrink-0">
+                    <FileText className="w-5 h-5" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="p-8 space-y-8">
+                <div className="space-y-2">
+                  <h3 className="text-4xl font-black text-brand-navy-900 tracking-tighter">$249.00 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">flat fee</span></h3>
+                  <p className="text-sm text-slate-600 font-medium leading-relaxed">Let our expert procurement team handle the complex compliance, documentation, and proposal writing required for this bid.</p>
+                </div>
+                <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                  <div className="flex items-start gap-3 text-sm font-bold text-slate-700">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" /> Executive Summary Generation
+                  </div>
+                  <div className="flex items-start gap-3 text-sm font-bold text-slate-700">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" /> Compliance Document Review
+                  </div>
+                  <div className="flex items-start gap-3 text-sm font-bold text-slate-700">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" /> Pricing Strategy Consultation
+                  </div>
+                </div>
+                <Button className="w-full h-14 rounded-xl text-base font-black uppercase tracking-wide bg-brand-blue-600 hover:bg-brand-blue-700 shadow-xl shadow-brand-blue-600/20 transition-all hover:scale-[1.02]" asChild>
+                  <a href={`/portal/hire?bid=${bid.id}`}>
+                    Secure This Bid <ChevronRight className="w-5 h-5 ml-2" />
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
