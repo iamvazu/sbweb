@@ -24,8 +24,10 @@ def send_digest_to_user(user, matches):
     
     bid_list_html = "<ul>"
     for m in matches:
-        # We need to fetch bid names - in a real app would use a join or fetch before
-        bid_list_html += f"<li><strong>{m['fit_score']}% Split</strong> - Bid: {m['bid_id']}</li>"
+        bid = m.get("bids", {}) or {}
+        bid_name = bid.get("event_name", "Unknown Bid")
+        bid_url = f"https://www.strongerbuilt.us/portal/bids/{m['bid_id']}"
+        bid_list_html += f"<li><strong>{m['fit_score']}% Split</strong> - <a href='{bid_url}'>{bid_name}</a></li>"
     bid_list_html += "</ul>"
     
     try:
@@ -33,7 +35,7 @@ def send_digest_to_user(user, matches):
             "from": f"BidIQ <{FROM_EMAIL}>",
             "to": user["email"],
             "subject": f"BidIQ: {len(matches)} new matched bids for you today",
-            "html": f"<p>Hello {user['business_name']},</p><p>We found new opportunities that match your profile:</p>{bid_list_html}<p><a href='https://www.strongerbuilt.us/portal/matches'>View Details in Portal</a></p>"
+            "html": f"<p>Hello {user.get('business_name', 'Partner')},</p><p>We found new opportunities that match your profile:</p>{bid_list_html}<p><a href='https://www.strongerbuilt.us/portal/matches'>View All Matches in Portal</a></p>"
         })
         logger.info(f"Digest sent to {user['email']}")
     except Exception as e:
@@ -51,7 +53,7 @@ def run():
     for user in users:
         # Find matches for this user created today
         # Note: requires created_at on user_bid_matches
-        matches = supabase.table("user_bid_matches").select("*").eq("user_id", user["id"]).gte("matched_at", today).execute().data
+        matches = supabase.table("user_bid_matches").select("*, bids(id, event_name)").eq("user_id", user["id"]).gte("matched_at", today).execute().data
         
         if matches:
             send_digest_to_user(user, matches)
