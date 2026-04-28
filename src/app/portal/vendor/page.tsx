@@ -128,6 +128,20 @@ export default function VendorDashboard() {
         </Card>
       )}
 
+      {/* Market Opportunity Intelligence */}
+      <section className="pt-4">
+        <Card className="p-8 border-slate-200 shadow-sm rounded-3xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+              <h3 className="text-xl font-black text-brand-navy-900 uppercase tracking-tight">Market Opportunity Intelligence</h3>
+              <p className="text-sm text-slate-500 font-medium mt-1">Data-driven insights to guide your next strategic bid.</p>
+            </div>
+            <Badge variant="secondary" className="bg-brand-blue-600/10 text-brand-blue-600 border-none font-bold py-1 px-3">LIVE MARKET DATA</Badge>
+          </div>
+          <MarketInsights />
+        </Card>
+      </section>
+
       {/* Main Section: Matches */}
       <section className="space-y-6 pt-4">
         <div className="flex items-center justify-between">
@@ -164,26 +178,19 @@ export default function VendorDashboard() {
       </section>
 
       {/* Marketing / Analytics Teaser */}
-      <div className="grid md:grid-cols-2 gap-6 pt-8">
-        <Card className="p-6 bg-[#0B1F3A] text-white border-none shadow-xl">
-          <h3 className="text-lg font-bold mb-2">Want to win more?</h3>
-          <p className="text-blue-100/60 text-sm mb-6">
-            Our strategic advisors can handle your entire bid submission—from technical writing to prevailing wage compliance.
-          </p>
-          <Button asChild className="bg-[#1E6FD9] hover:bg-blue-600 border-none w-full sm:w-auto">
-            <Link href="/portal/hire">Explore Managed Bidding</Link>
-          </Button>
-        </Card>
-
-        <Card className="p-8 border-slate-200 col-span-full">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h3 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Market Opportunity Intelligence</h3>
-              <p className="text-sm text-slate-500 font-medium italic">"Data-driven insights to guide your next strategic bid."</p>
+      <div className="pt-8">
+        <Card className="p-8 bg-brand-navy-900 text-white border-none shadow-xl rounded-3xl">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-black tracking-tight">Want to win more?</h3>
+              <p className="text-blue-100/70 text-sm max-w-xl">
+                Our strategic advisors can handle your entire bid submission—from technical writing to prevailing wage compliance.
+              </p>
             </div>
-            <Badge variant="secondary" className="bg-brand-blue-600/10 text-brand-blue-600 border-none font-bold">LIVE MARKET DATA</Badge>
+            <Button asChild className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold h-12 px-8 shrink-0 border-none shadow-lg shadow-brand-blue-600/20">
+              <Link href="/portal/hire">Explore Managed Bidding</Link>
+            </Button>
           </div>
-          <MarketInsights />
         </Card>
       </div>
     </div>
