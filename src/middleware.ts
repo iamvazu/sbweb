@@ -6,10 +6,11 @@ export async function middleware(request: NextRequest) {
   if (!supabase) return response;
 
   const isPortalRoute = request.nextUrl.pathname.startsWith('/portal')
+  const isBidsRoute = request.nextUrl.pathname.startsWith('/portal/bids')
   const isLoginRoute = request.nextUrl.pathname === '/login'
 
-  // If user is NOT authenticated and tries to access portal -> redirect to login
-  if (isPortalRoute && !user) {
+  // If user is NOT authenticated and tries to access portal (except public bids) -> redirect to login
+  if (isPortalRoute && !isBidsRoute && !user) {
     return Response.redirect(new URL('/login', request.url))
   }
 

@@ -35,7 +35,6 @@ export default function BidsBrowsePage() {
     async function fetchBids() {
       setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
 
       let query = supabase
         .from("bids")

@@ -39,10 +39,13 @@ export default function BidDetailPage() {
   useEffect(() => {
     async function fetchBid() {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
       
-      const adminEmails = ['roy@strongerbuilt.us', 'crazyme2207@gmail.com'];
-      setIsAdmin(user.email?.endsWith('@strongerbuilt.us') || adminEmails.includes(user.email || ''));
+      if (user) {
+        const adminEmails = ['roy@strongerbuilt.us', 'crazyme2207@gmail.com'];
+        setIsAdmin(user.email?.endsWith('@strongerbuilt.us') || adminEmails.includes(user.email || ''));
+      } else {
+        setIsAdmin(false);
+      }
 
       const { data: bid, error } = await supabase
         .from("bids")
