@@ -266,17 +266,15 @@ export default function BidTicker() {
                       exit={{ opacity: 0, x: 10 }}
                       transition={{ delay: idx * 0.05 }}
                     >
-                      <a
-                        href={bid.portal_link ?? "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <Link
+                        href={`/portal/bids/${bid.id}`}
                         className="flex items-start gap-5 px-8 py-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group"
                       >
                         <div
                           className="mt-2 h-2.5 w-2.5 rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(0,0,0,0.1)] group-hover:scale-125 transition-transform"
                           style={{ background: color }}
                         />
-
+ 
                         <div className="flex-1 min-w-0">
                           <p className="text-base font-bold text-brand-navy-900 dark:text-white truncate group-hover:text-brand-blue-600 transition-colors uppercase tracking-tight">
                             {bid.event_name}
@@ -313,7 +311,7 @@ export default function BidTicker() {
                             </span>
                           </div>
                         </div>
-
+ 
                         <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
                           <span className={cn(
                             "text-[10px] font-black px-3 py-1 rounded-full border uppercase tracking-widest whitespace-nowrap shadow-sm",
@@ -325,7 +323,7 @@ export default function BidTicker() {
                             <Clock size={10} /> {endFormatted}
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     </motion.div>
                   );
                 })}
