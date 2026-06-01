@@ -126,14 +126,14 @@ function HireContent() {
     {
       id: "managed_bid",
       name: "Managed Bid",
-      price: 249,
+      price: 450,
       description: "We write and file the proposal for you.",
       features: [
         "Full RFP / IFB analysis",
         "Proposal writing & filing",
         "Labor compliance review",
         "Pre-bid representation",
-        "0.75% success fee on win",
+        "1.00% success fee on win",
       ],
       cta: "Hire for this Bid",
       popular: false

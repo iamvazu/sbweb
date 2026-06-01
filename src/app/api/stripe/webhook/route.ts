@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             user_id: metadata.userId,
             bid_id: metadata.bidId,
             tier: metadata.tier || 'managed_bid',
-            price_agreed: session.amount_total ? session.amount_total / 100 : 249,
+            price_agreed: session.amount_total ? session.amount_total / 100 : 450,
             payment_status: 'paid',
             stripe_payment_id: session.payment_intent as string,
             status: 'intake'

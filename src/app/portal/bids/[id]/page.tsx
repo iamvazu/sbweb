@@ -499,7 +499,7 @@ export default function BidDetailPage() {
               </CardHeader>
               <CardContent className="p-8 space-y-8">
                 <div className="space-y-2">
-                  <h3 className="text-4xl font-black text-brand-navy-900 tracking-tighter">$249.00 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">flat fee</span></h3>
+                  <h3 className="text-4xl font-black text-brand-navy-900 tracking-tighter">$450.00 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">flat fee</span></h3>
                   <p className="text-sm text-slate-600 font-medium leading-relaxed">Let our expert procurement team handle the complex compliance, documentation, and proposal writing required for this bid.</p>
                 </div>
                 <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">

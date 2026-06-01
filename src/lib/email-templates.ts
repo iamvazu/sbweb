@@ -23,7 +23,7 @@ export function generateOutreachEmail(prospect: any, bid: any) {
 
   const formatValue = (val: number) => val ? `$${val.toLocaleString()}` : 'TBD';
   const estValue = formatValue(estimated_value_max);
-  const successFee = formatValue(estimated_value_max ? estimated_value_max * 0.0075 : 0);
+  const successFee = formatValue(estimated_value_max ? estimated_value_max * 0.01 : 0);
   const formattedEndDate = new Date(end_date).toLocaleDateString();
 
   if (template === 1) {
@@ -38,11 +38,11 @@ Most vendors on CaleProcure never bid on contracts like this, not because they c
 
 We handle all of it.
 
-I'm Roy Krautstrunk, founder of BidIQ and a licensed SDVOSB/DVBE general contractor in San Diego (CSLB #1057434). For $149 we will read the full RFP, prepare your complete submission package, handle the compliance checklist, and file it on the portal on your behalf — with your name on it.
+I'm Roy Krautstrunk, founder of BidIQ and a licensed SDVOSB/DVBE general contractor in San Diego (CSLB #1057434). For $450 we will read the full RFP, prepare your complete submission package, handle the compliance checklist, and file it on the portal on your behalf — with your name on it.
 
-If you win, we take 0.75% of the contract value. If you don't, you paid $249 and learned the process with a professional team behind you.
+If you win, we take 1.00% of the contract value. If you don't, you paid $450 and learned the process with a professional team behind you.
 
-For context, ${event_name} has an estimated value of ${estValue}. At 0.75%, a win would cost you ${successFee} total — on a contract worth ${estValue}.
+For context, ${event_name} has an estimated value of ${estValue}. At 1.00%, a win would cost you ${successFee} total — on a contract worth ${estValue}.
 
 Want us to take a look at the bid and tell you whether it's worth pursuing? Reply to this email or call me directly at 831-760-0806. I'll give you an honest assessment at no charge.
 
@@ -66,7 +66,7 @@ Here's what's typically in one of these RFPs: scope of work narrative, pricing s
 
 We do this every week.
 
-For $249 flat, BidIQ will prepare your full submission package for ${event_name}, handle all compliance requirements, and file it on the CaleProcure portal under your company name. If you win, we charge 0.75% of the contract value — nothing if you don't.
+For $450 flat, BidIQ will prepare your full submission package for ${event_name}, handle all compliance requirements, and file it on the CaleProcure portal under your company name. If you win, we charge 1.00% of the contract value — nothing if you don't.
 
 No subscription. No retainer. One bid at a time.
 
@@ -90,7 +90,7 @@ Based on your CaleProcure registration — specifically your service areas and i
 
 I'm Roy Krautstrunk. I run BidIQ, a California government procurement platform built specifically for small businesses like ${legal_name}. I'm also a licensed SDVOSB and DVBE contractor in San Diego, so I've been on your side of this process.
 
-If you want, here's what we can do: for $249 we'll prepare your complete bid submission for ${event_name} — scope response, pricing schedule, compliance docs, everything — and file it on the portal under your name. If you win, 0.75% of the contract. If you don't, $149 is all you spent.
+If you want, here's what we can do: for $450 we'll prepare your complete bid submission for ${event_name} — scope response, pricing schedule, compliance docs, everything — and file it on the portal under your name. If you win, 1.00% of the contract. If you don't, $450 is all you spent.
 
 Or if you just want to see the bid first, go to: ${portal_link || 'CaleProcure'}
 

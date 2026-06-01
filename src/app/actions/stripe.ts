@@ -21,7 +21,7 @@ export async function createCheckoutSession(formData: FormData) {
   const prices: Record<string, number> = {
     'scout': 4900,           // $49.00/mo
     'pro': 9900,             // $99.00/mo
-    'managed_bid': 24900,    // $249.00 per bid
+    'managed_bid': 45000,    // $450.00 per bid
   };
 
   const tierNames: Record<string, string> = {

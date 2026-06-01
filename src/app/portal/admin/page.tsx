@@ -490,7 +490,7 @@ export default function AdminDashboardPage() {
                          <p className="text-lg font-bold">${data.metrics.proRevenue.toLocaleString()}</p>
                       </div>
                       <div>
-                         <p className="text-[10px] font-black text-blue-200/30 uppercase tracking-widest">RFP ($249)</p>
+                         <p className="text-[10px] font-black text-blue-200/30 uppercase tracking-widest">RFP ($450)</p>
                          <p className="text-lg font-bold">${data.metrics.serviceRevenue.toLocaleString()}</p>
                       </div>
                    </div>

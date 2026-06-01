@@ -432,7 +432,7 @@ export default function BidManagementPage() {
                <div className="order-4 lg:order-4 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">PER SUBMISSION</span>
                   <div className="flex items-baseline gap-1 mb-6">
-                     <span className="text-5xl font-bold text-brand-navy-900">$249</span>
+                     <span className="text-5xl font-bold text-brand-navy-900">$450</span>
                      <span className="text-slate-500 font-bold text-sm">per bid</span>
                   </div>
                   <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
@@ -459,14 +459,14 @@ export default function BidManagementPage() {
                   
                   <div className="border-t border-slate-100 pt-6 mb-8">
                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">If you win</span>
-                     <span className="text-lg font-black text-brand-navy-900 block leading-none">0.75% of contract value</span>
+                     <span className="text-lg font-black text-brand-navy-900 block leading-none">1.00% of contract value</span>
                      <span className="text-[9px] text-slate-400 font-bold leading-tight block mt-1 italic">
-                        On a $300,000 contract that is $2,250 — only charged if you are awarded the contract.
+                        On a $300,000 contract that is $3,000 — only charged if you are awarded the contract.
                      </span>
                   </div>
 
                   <Link href="/portal/hire" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-navy-900 text-white font-bold text-sm hover:bg-brand-blue-600 transition-all shadow-lg">
-                     Get RFP Help — $249/bid
+                     Get RFP Help — $450/bid
                   </Link>
                </div>
 
@@ -494,7 +494,7 @@ export default function BidManagementPage() {
                         Do I need a subscription to use the managed bid service?
                      </AccordionTrigger>
                      <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        No. The $249 managed submission is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
+                        No. The $450 managed submission is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
                      </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-slate-100 dark:border-white/10">
@@ -502,7 +502,7 @@ export default function BidManagementPage() {
                         What is the success fee and when do I pay it?
                      </AccordionTrigger>
                      <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        The success fee is 0.75% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $1,500. If you do not win, the only cost is the $249 submission fee. The success fee is invoiced after the award notice is issued.
+                        The success fee is 1.00% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $2,000. If you do not win, the only cost is the $450 submission fee. The success fee is invoiced after the award notice is issued.
                      </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-slate-100 dark:border-white/10">
@@ -532,7 +532,7 @@ export default function BidManagementPage() {
                      Create Free Account
                   </Link>
                   <Link href="/portal/hire" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white text-white font-bold text-sm hover:bg-white hover:text-brand-navy-900 transition-all">
-                     Get RFP Help — $249
+                     Get RFP Help — $450
                   </Link>
                </div>
                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex flex-wrap justify-center gap-x-4 gap-y-2 opacity-60">

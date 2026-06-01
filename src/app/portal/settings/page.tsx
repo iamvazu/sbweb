@@ -337,7 +337,7 @@ export default function ProfilePage() {
                   <div className="space-y-4 flex-1">
                     <div className="flex justify-between items-start">
                       <Badge className="bg-success/10 text-success uppercase text-[9px] font-black">Managed</Badge>
-                      <span className="text-2xl font-black text-brand-navy-900">$249<span className="text-xs text-slate-400 font-medium">/bid</span></span>
+                      <span className="text-2xl font-black text-brand-navy-900">$450<span className="text-xs text-slate-400 font-medium">/bid</span></span>
                     </div>
                     <p className="text-xs text-slate-500 font-medium leading-relaxed">
                       Full-service bid submission. We write and file the proposal for you.
