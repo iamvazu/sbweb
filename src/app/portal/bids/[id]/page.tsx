@@ -27,6 +27,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 
+function getManagedBidPrice(estimatedValue: number | null | undefined): { price: number; label: string } {
+  if (!estimatedValue) return { price: 450, label: "$450.00" };
+  if (estimatedValue <= 1000000) return { price: 450, label: "$450.00" };
+  if (estimatedValue <= 3500000) return { price: 850, label: "$850.00" };
+  if (estimatedValue <= 6500000) return { price: 1500, label: "$1,500.00" };
+  return { price: 1500, label: "$1,500.00" };
+}
+
 export default function BidDetailPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -499,7 +507,9 @@ export default function BidDetailPage() {
               </CardHeader>
               <CardContent className="p-8 space-y-8">
                 <div className="space-y-2">
-                  <h3 className="text-4xl font-black text-brand-navy-900 tracking-tighter">$450.00 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">flat fee</span></h3>
+                  <h3 className="text-4xl font-black text-brand-navy-900 tracking-tighter">
+                    {getManagedBidPrice(bid.estimated_value_max).label} <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">flat fee</span>
+                  </h3>
                   <p className="text-sm text-slate-600 font-medium leading-relaxed">Let our expert procurement team handle the complex compliance, documentation, and proposal writing required for this bid.</p>
                 </div>
                 <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">

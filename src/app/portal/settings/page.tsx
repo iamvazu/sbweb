@@ -337,15 +337,16 @@ export default function ProfilePage() {
                   <div className="space-y-4 flex-1">
                     <div className="flex justify-between items-start">
                       <Badge className="bg-success/10 text-success uppercase text-[9px] font-black">Managed</Badge>
-                      <span className="text-2xl font-black text-brand-navy-900">$450<span className="text-xs text-slate-400 font-medium">/bid</span></span>
+                      <span className="text-2xl font-black text-brand-navy-900">from $450<span className="text-xs text-slate-400 font-medium">/bid</span></span>
                     </div>
                     <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                      Full-service bid submission. We write and file the proposal for you.
+                       Full-service bid submission. We write and file the proposal for you.
                     </p>
                     <ul className="space-y-2">
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> RFP Technical Writing</li>
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> DIR Compliance Audit</li>
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Full Submission Filing</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $1M: $450 fee</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $3.5M: $850 fee</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $6.5M: $1,500 fee</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> DIR Compliance Audit & Filing</li>
                     </ul>
                   </div>
                   <Button 

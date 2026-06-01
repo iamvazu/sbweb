@@ -30,8 +30,27 @@ export async function createCheckoutSession(formData: FormData) {
     'managed_bid': "Expert Managed Bid Submission",
   };
 
-  const amount = prices[tier] || 150000;
+  let amount = prices[tier] || 150000;
   const name = tierNames[tier] || "Bid Management Service";
+
+  if (tier === 'managed_bid' && bidId) {
+    const { data: bid } = await supabase
+      .from("bids")
+      .select("estimated_value_max")
+      .eq("id", bidId)
+      .single();
+
+    if (bid) {
+      const estValue = bid.estimated_value_max || 0;
+      if (estValue <= 1000000) {
+        amount = 45000; // $450
+      } else if (estValue <= 3500000) {
+        amount = 85000; // $850
+      } else {
+        amount = 150000; // $1,500
+      }
+    }
+  }
 
   const host = (await headers()).get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";

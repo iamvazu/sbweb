@@ -27,6 +27,14 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { createCheckoutSession, createSubscriptionSession } from "@/app/actions/stripe";
 
+function getManagedBidPrice(estimatedValue: number | null | undefined): { price: number; label: string } {
+  if (!estimatedValue) return { price: 450, label: "starting at $450" };
+  if (estimatedValue <= 1000000) return { price: 450, label: "$450" };
+  if (estimatedValue <= 3500000) return { price: 850, label: "$850" };
+  if (estimatedValue <= 6500000) return { price: 1500, label: "$1,500" };
+  return { price: 1500, label: "$1,500" };
+}
+
 function HireContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -129,11 +137,12 @@ function HireContent() {
       price: 450,
       description: "We write and file the proposal for you.",
       features: [
-        "Full RFP / IFB analysis",
-        "Proposal writing & filing",
-        "Labor compliance review",
-        "Pre-bid representation",
+        "Full RFP / IFB analysis & narrative",
         "1.00% success fee on win",
+        "Up to $1M: $450 flat fee",
+        "Up to $3.5M: $850 flat fee",
+        "Up to $6.5M: $1,500 flat fee",
+        "DIR compliance & labor filing",
       ],
       cta: "Hire for this Bid",
       popular: false
@@ -192,8 +201,16 @@ function HireContent() {
               <CardTitle className="text-xl font-bold">{tier.name}</CardTitle>
               <CardDescription className="min-h-[40px] mt-2">{tier.description}</CardDescription>
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-4xl font-black text-[#0B1F3A]">${tier.price.toLocaleString()}</span>
-                <span className="text-slate-400 font-medium">/ bid</span>
+                <span className="text-4xl font-black text-[#0B1F3A]">
+                  {tier.id === 'managed_bid' 
+                    ? (selectedBid 
+                        ? `$${getManagedBidPrice(selectedBid.estimated_value_max).price.toLocaleString()}` 
+                        : "starting at $450")
+                    : `$${tier.price.toLocaleString()}`
+                  }
+                </span>
+                {tier.id !== 'managed_bid' && <span className="text-slate-400 font-medium">/ bid</span>}
+                {tier.id === 'managed_bid' && <span className="text-slate-400 font-medium">{selectedBid ? '/ bid' : ''}</span>}
               </div>
             </CardHeader>
 
