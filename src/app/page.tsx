@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowRight, 
   ShieldCheck, 
@@ -683,16 +684,19 @@ export default function Home() {
               </p>
             </div>
             
-            <div className="lg:col-span-5 relative flex items-center justify-center">
-              <div className="relative w-full max-w-md aspect-square bg-slate-50 dark:bg-white/5 rounded-[2.5rem] border border-gray-100 dark:border-white/10 shadow-2xl flex items-center justify-center p-8 text-center overflow-hidden">
-                <div className="absolute top-0 left-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-3xl" />
-                <div className="relative z-10 space-y-4">
-                  <ShieldCheck className="w-16 h-16 text-brand-blue-600 mx-auto" />
-                  <h3 className="text-xl font-bold text-brand-navy-900 dark:text-white uppercase tracking-tight">Veteran-Owned Firm</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-                    Personally navigated complex government procurement channels. Built on discipline, compliance, and precision.
-                  </p>
-                </div>
+            <div className="lg:col-span-5 relative">
+              {/* Background atmospheric glow */}
+              <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-brand-blue-600/10 to-indigo-500/10 blur-xl opacity-80" />
+              
+              <div className="relative w-full aspect-[1000/534] rounded-[2rem] border border-slate-200/60 dark:border-white/10 shadow-2xl overflow-hidden bg-slate-50 dark:bg-white/5 group">
+                <Image 
+                  src="/images/projects/vetrenowned.png" 
+                  alt="Stronger Built Veteran-Owned Team"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                  priority
+                />
               </div>
             </div>
 
