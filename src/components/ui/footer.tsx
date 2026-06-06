@@ -66,6 +66,7 @@ export function Footer() {
               <li><Link href="/learning-center" className="hover:text-white transition-colors">Learning Center</Link></li>
               <li><Link href="/#industries" className="hover:text-white transition-colors">Industries</Link></li>
               <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Desk</Link></li>
               <li className="pt-4 mt-2">
                 {session ? (
