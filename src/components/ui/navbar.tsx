@@ -41,6 +41,7 @@ export function Navbar() {
     { name: "How It Works", href: "/#how-it-works" },
     { name: "Pricing", href: "/#pricing" },
     { name: "Results", href: "/projects" },
+    { name: "Learning Center", href: "/learning-center" },
     { name: "Industries", href: "/#industries" },
     { name: "About", href: "/about" },
   ];

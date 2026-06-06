@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { COUNTIES } from '@/lib/data/counties';
+import { CATEGORIES, ALL_ARTICLES } from '@/lib/data/learning-center';
 
 const BASE_URL = 'https://www.strongerbuilt.us';
 
@@ -120,12 +121,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
+  // 6. Learning Center Index
+  const learningCenterIndexEntry = {
+    url: `${BASE_URL}/learning-center`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.9,
+  };
+
+  // 7. Learning Center Category Hubs
+  const learningCenterCategoryEntries = CATEGORIES.map(category => ({
+    url: `${BASE_URL}/learning-center/category/${category.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
+  // 8. Learning Center Articles
+  const learningCenterArticleEntries = ALL_ARTICLES.map(article => ({
+    url: `${BASE_URL}/learning-center/${article.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
   return [
     ...staticEntries,
     ...serviceEntries,
     ...projectEntries,
     ...cityEntries,
     ...pseoEntries,
+    learningCenterIndexEntry,
+    ...learningCenterCategoryEntries,
+    ...learningCenterArticleEntries,
   ];
 }
 
