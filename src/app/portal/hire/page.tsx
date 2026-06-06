@@ -232,8 +232,11 @@ function HireContent() {
                     : `$${tier.price.toLocaleString()}`
                   }
                 </span>
-                {tier.id !== 'managed_bid' && <span className="text-slate-400 font-medium">/ bid</span>}
-                {tier.id === 'managed_bid' && <span className="text-slate-400 font-medium">{selectedBid ? '/ bid' : ''}</span>}
+                {tier.id !== 'managed_bid' ? (
+                  <span className="text-slate-400 font-medium">/ mo</span>
+                ) : (
+                  <span className="text-slate-400 font-medium">{selectedBid ? '/ bid' : ''}</span>
+                )}
               </div>
             </CardHeader>
 

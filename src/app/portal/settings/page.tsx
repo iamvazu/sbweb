@@ -343,10 +343,11 @@ export default function ProfilePage() {
                        Full-service bid submission. We write and file the proposal for you.
                     </p>
                     <ul className="space-y-2">
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $1M: $450 fee</li>
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $3.5M: $850 fee</li>
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Up to $6.5M: $1,500 fee</li>
-                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> DIR Compliance Audit & Filing</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Bid writing fee starts at $450</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Under $1M: $450 | Under $2M: $750 | Under $3M: $1,000</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Under $4M: $1,250 | Under $5M: $1,500 | Over $5M: +$250/add'l $1M</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> Success fee steps down (1.00% to 0.50%)</li>
+                      <li className="flex items-center gap-2 text-[10px] font-bold text-slate-600"><CheckCircle2 className="w-3 h-3 text-green-500" /> DIR compliance & labor filing</li>
                     </ul>
                   </div>
                   <Button 
