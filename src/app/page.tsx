@@ -109,6 +109,93 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const svg = document.getElementById("sbmapSvg");
+    if (!svg) return;
+
+    const NS = "http://www.w3.org/2000/svg";
+
+    // Clear any existing children to prevent duplicate drawing on hot-reload/re-mount
+    while (svg.firstChild) {
+      svg.removeChild(svg.firstChild);
+    }
+
+    // Continental US outline, traced to real proportions (viewBox 600 x 380, y down = south)
+    const US = [
+      [38,44],[150,40],[260,38],[300,40],[330,46],[352,64],[372,58],[388,74],[418,82],[448,70],
+      [478,58],[500,50],[516,44],[523,58],[512,72],[516,90],[506,104],[514,120],[504,138],[514,156],
+      [508,174],[502,188],[508,200],[516,212],[517,232],[510,252],[503,260],[497,244],[496,224],[486,210],
+      [462,206],[436,210],[430,220],[418,210],[398,208],[372,226],[350,250],[332,234],[312,220],[300,216],
+      [300,224],[280,214],[240,210],[195,207],[150,205],[135,212],[118,193],[100,170],[82,142],[68,112],
+      [56,84],[46,58]
+    ];
+
+    function el(t: string, a: Record<string, any>) {
+      const e = document.createElementNS(NS, t);
+      for (const k in a) e.setAttribute(k, String(a[k]));
+      return e;
+    }
+
+    function pip(x: number, y: number, poly: number[][]) {
+      let c = false;
+      for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+        const xi = poly[i][0], yi = poly[i][1];
+        const xj = poly[j][0], yj = poly[j][1];
+        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) c = !c;
+      }
+      return c;
+    }
+
+    const dStr = "M" + US.map((p) => p[0] + "," + p[1]).join(" L") + " Z";
+    svg.appendChild(el("path", { d: dStr, class: "landfill" }));
+
+    // sparse interior dot grid (subtle texture, clipped to land)
+    for (let gy = 46; gy <= 255; gy += 15) {
+      for (let gx = 40; gx <= 520; gx += 18) {
+        if (pip(gx, gy, US)) {
+          const d = el("circle", { cx: gx, cy: gy, r: 1.5, class: "griddot" });
+          d.setAttribute("opacity", (0.18 + Math.random() * 0.18).toFixed(2));
+          svg.appendChild(d);
+        }
+      }
+    }
+
+    svg.appendChild(el("path", { d: dStr, class: "border" }));
+
+    // city hubs + sparse network
+    const H: Record<string, number[]> = { 
+      sea: [55, 70], sf: [88, 138], la: [118, 185], phx: [170, 196], 
+      den: [250, 150], dal: [352, 212], chi: [400, 108], atl: [455, 186], 
+      dc: [505, 108], mia: [505, 250] 
+    };
+    const L = [
+      ["sea", "den"], ["sf", "den"], ["la", "phx"], ["phx", "den"], 
+      ["den", "dal"], ["den", "chi"], ["chi", "dc"], ["dal", "atl"], 
+      ["atl", "dc"], ["atl", "mia"]
+    ];
+
+    L.forEach((lk, i) => {
+      const a = H[lk[0]], b = H[lk[1]];
+      svg.appendChild(el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], class: "netline" }));
+      const p = el("circle", { r: 2.4, class: "netdot" });
+      
+      const animX = el("animate", { attributeName: "cx", values: a[0] + ";" + b[0], dur: "3s", begin: (i * 0.35) + "s", repeatCount: "indefinite" });
+      const animY = el("animate", { attributeName: "cy", values: a[1] + ";" + b[1], dur: "3s", begin: (i * 0.35) + "s", repeatCount: "indefinite" });
+      const animOp = el("animate", { attributeName: "opacity", values: "0;1;1;0", dur: "3s", begin: (i * 0.35) + "s", repeatCount: "indefinite" });
+      
+      p.appendChild(animX);
+      p.appendChild(animY);
+      p.appendChild(animOp);
+      svg.appendChild(p);
+    });
+
+    Object.keys(H).forEach((k) => {
+      svg.appendChild(el("circle", { cx: H[k][0], cy: H[k][1], r: 6, class: "halo" }));
+      svg.appendChild(el("circle", { cx: H[k][0], cy: H[k][1], r: 2.8, class: "hub" }));
+    });
+  }, []);
+
+
   const industries = [
     { name: "IT & Software", desc: "SaaS licenses, custom software development, cloud infrastructure, IT support, cybersecurity audits.", icon: Zap, image: "/images/industries/it.png" },
     { name: "Healthcare & Staffing", desc: "Medical supplies, nursing services, technical staff augmentation, wellness program administration.", icon: Users, image: "/images/industries/healthcare.png" },
@@ -177,123 +264,223 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Right Column: Animated Proposal Builder Stage */}
+            {/* Right Column: Animated Proposal Builder Stage (US map outline) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
               className="lg:col-span-5 hidden lg:block"
             >
-              <div className="sb-stage" aria-label="How a winning proposal is built">
-                <div className="sb-glow"></div>
+              <style dangerouslySetInnerHTML={{ __html: `
+                .sbmap-stage {
+                  --blue:#2563eb; --navy:#0b1736; --ink:#16233f; --line:#bcd2f5;
+                  --dot:#9cbcff; --pulse:#3b82f6; --card-bd:#e6ecf6; --green:#34d27f;
+                  position:relative; width:100%; max-width:660px; aspect-ratio:600 / 540;
+                  margin:0 auto; container-type:inline-size; font-family:"Poppins",system-ui,sans-serif;
+                }
 
-                {/* connector wires + traveling pulses */}
-                <svg className="sb-wires" viewBox="0 0 560 580" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                  <path id="w1" d="M175,85 C 250,120 235,260 280,345" />
-                  <path id="w2" d="M163,205 C 232,222 246,300 280,345" />
-                  <path id="w3" d="M179,325 C 232,334 252,340 280,345" />
-                  <path id="w4" d="M385,85 C 312,120 325,260 280,345" />
-                  <path id="w5" d="M397,205 C 330,222 314,300 280,345" />
-                  <path id="w6" d="M381,325 C 330,334 308,340 280,345" />
-                  <path id="w7" d="M280,415 L280,470" />
+                .sbmap-map   { position:absolute; inset:0; width:100%; height:100%; z-index:0; overflow:visible; }
+                .sbmap-pop   { position:absolute; inset:0; z-index:1; pointer-events:none; }
+                .sbmap-wires { position:absolute; inset:0; width:100%; height:100%; z-index:2; overflow:visible; }
 
-                  <circle className="sb-dot" r="4.2">
+                .sbmap-map .landfill { fill: rgba(47,107,255,.045); stroke:none; }
+                .sbmap-map .border   { fill:none; stroke:#8fb4ff; stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round; opacity:.7; }
+                .sbmap-map .griddot  { fill: var(--dot); }
+                .sbmap-map .netline  { stroke:#a9c6ff; stroke-width:1; stroke-dasharray:2 5; opacity:.7; }
+                .sbmap-map .halo     { fill:#2f6bff; opacity:.16; }
+                .sbmap-map .hub      { fill:#2f6bff; }
+                .sbmap-map .netdot   { fill:var(--pulse); filter: drop-shadow(0 0 3px rgba(59,130,246,.9)); }
+
+                /* centered data popups */
+                .pop { position:absolute; transform:translate(-50%,-50%);
+                  display:flex; align-items:center; gap:1.4cqw;
+                  background:rgba(255,255,255,.95); backdrop-filter:blur(6px);
+                  border:1px solid #d7e4fb; border-radius:99px; padding:1.3cqw 2.3cqw;
+                  box-shadow:0 5cqw 13cqw -8cqw rgba(20,40,90,.45);
+                  font-size:1.65cqw; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--ink);
+                  white-space:nowrap; opacity:0; }
+                .pop .pd { width:1.7cqw; height:1.7cqw; border-radius:50%; background:var(--green); box-shadow:0 0 0 .6cqw rgba(52,210,127,.25); flex:none; }
+                .pop.blue .pd { background:#2f6bff; box-shadow:0 0 0 .6cqw rgba(47,107,255,.25); }
+                .pop.amber .pd{ background:#f59e0b; box-shadow:0 0 0 .6cqw rgba(245,158,11,.25); }
+                .pop1 { animation: popCycle 9s ease-in-out infinite 0s; }
+                .pop2 { animation: popCycle 9s ease-in-out infinite 3s; }
+                .pop3 { animation: popCycle 9s ease-in-out infinite 6s; }
+                @keyframes popCycle {
+                  0%{opacity:0;transform:translate(-50%,-44%) scale(.96);}
+                  6%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+                  27%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+                  34%{opacity:0;transform:translate(-50%,-56%) scale(.98);}
+                  100%{opacity:0;}
+                }
+
+                .sbmap-wires path { fill:none; stroke:var(--line); stroke-width:2; stroke-dasharray:5 7; animation: sbFlow 1.4s linear infinite; }
+                @keyframes sbFlow { to { stroke-dashoffset:-24; } }
+                .sbmap-wires .sb-dot { fill:var(--pulse); filter:drop-shadow(0 0 3px rgba(59,130,246,.9)); }
+
+                .sbmap-card { position:absolute; transform:translate(-50%,-50%); width:26cqw; z-index:3; }
+                .sbmap-card .inner { background:#fff; border:1px solid var(--card-bd); border-radius:3cqw; padding:2.2cqw 2.4cqw;
+                  box-shadow:0 4cqw 7cqw -3cqw rgba(20,40,90,.22); display:flex; align-items:center; gap:1.8cqw; animation: sbFloat 6s ease-in-out infinite; }
+                .sbmap-chip { flex:none; width:6.4cqw; height:6.4cqw; border-radius:1.8cqw; display:grid; place-items:center; color:#fff; background:linear-gradient(150deg,#4f86ff,#1e54e6); }
+                .sbmap-chip svg { width:3.6cqw; height:3.6cqw; }
+                .sbmap-txt .ttl { font-size:2.25cqw; font-weight:700; color:var(--ink); line-height:1.15; }
+                .sbmap-txt .tag { font-size:1.4cqw; font-weight:700; letter-spacing:.18em; color:#9aa8c0; text-transform:uppercase; margin-top:.4cqw; }
+                .in { opacity:0; animation: sbIn .6s cubic-bezier(.2,.8,.25,1) forwards; }
+                @keyframes sbIn { from{opacity:0;transform:translateY(2.2cqw) scale(.96);} to{opacity:1;transform:none;} }
+                @keyframes sbFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-1.4cqw);} }
+
+                .sbmap-hub { position:absolute; left:50%; top:63%; transform:translate(-50%,-50%); width:21cqw; height:21cqw; border-radius:4.6cqw;
+                  background:linear-gradient(160deg,#14275a,#0b1736); box-shadow:0 9cqw 20cqw -6cqw rgba(11,23,54,.6), inset 0 0 0 1px rgba(255,255,255,.06);
+                  display:grid; place-items:center; z-index:4; }
+                .sbmap-hub::before { content:""; position:absolute; inset:-2cqw; border-radius:6.6cqw;
+                  background:conic-gradient(from 0deg, transparent 0 60%, rgba(59,130,246,.9) 78%, transparent 92%);
+                  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+                          mask:radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px)); animation: sbSpin 6s linear infinite; }
+                @keyframes sbSpin { to { transform:rotate(360deg); } }
+                .sbmap-mono { text-align:center; color:#fff; line-height:1; }
+                .sbmap-mono b { display:block; font-size:7.4cqw; font-weight:800; letter-spacing:-.04em; }
+                .sbmap-mono b span { color:#4f86ff; }
+                .sbmap-mono small { display:block; font-size:1.4cqw; font-weight:600; letter-spacing:.2em; color:#93a6c9; margin-top:.9cqw; text-transform:uppercase; }
+
+                /* OUTPUT — fixed badge layout */
+                .sbmap-out { position:absolute; left:50%; top:88.5%; transform:translate(-50%,-50%); width:56cqw; z-index:5; }
+                .sbmap-out .inner { background:linear-gradient(160deg,#12224d,#0b1736); border-radius:2.8cqw; padding:2.6cqw 3cqw;
+                  box-shadow:0 7cqw 18cqw -6cqw rgba(11,23,54,.55); display:flex; align-items:center; gap:2.4cqw; border:1px solid rgba(255,255,255,.08); }
+                .sbmap-out .medal { flex:none; width:7.4cqw; height:7.4cqw; border-radius:2.2cqw; display:grid; place-items:center; color:#fff;
+                  background:linear-gradient(150deg,#2f6bff,#1741b6); box-shadow:0 0 0 .7cqw rgba(47,107,255,.18); }
+                .sbmap-out .medal svg { width:4.2cqw; height:4.2cqw; }
+                .sbmap-out .otext { display:flex; flex-direction:column; gap:1cqw; min-width:0; }
+                .sbmap-out .ttl { font-size:2.8cqw; font-weight:800; color:#fff; line-height:1; }
+                .sbmap-out .badges { display:flex; align-items:center; gap:1.4cqw; flex-wrap:wrap; }
+                .sbmap-out .chip { font-size:1.45cqw; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#0b1736;
+                  background:var(--green); border-radius:99px; padding:.7cqw 1.6cqw; line-height:1; }
+                .sbmap-out .sub { font-size:1.5cqw; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7fa6ff; }
+
+                /* Dark mode specific additions for theme compatibility */
+                .dark .sbmap-card .inner { background: #0d1a30; box-shadow: 0 4cqw 7cqw -3cqw rgba(0,0,0,.5); }
+                .dark .sbmap-txt .ttl { color: #fff; }
+                .dark .pop { background: rgba(13, 26, 48, 0.95); border-color: rgba(59, 130, 246, 0.2); color: #fff; }
+                .dark .sbmap-stage { --line: rgba(59, 130, 246, 0.25); --card-bd: rgba(255, 255, 255, 0.08); }
+
+                @media (prefers-reduced-motion: reduce) {
+                  .sbmap-wires path,.sbmap-hub::before,.sbmap-card .inner,.sb-dot,.pop1,.pop2,.pop3,.netdot { animation:none !important; }
+                  .in { opacity:1; animation:none; } .pop { opacity:1; }
+                }
+              ` }} />
+
+              <div className="sbmap-stage" aria-label="Stronger Built finds and wins government bids nationwide">
+                <svg className="sbmap-map" viewBox="0 0 600 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true" id="sbmapSvg" />
+
+                {/* data popups: centered over open map area */}
+                <div className="sbmap-pop">
+                  <div className="pop pop1 green" style={{ left: "50%", top: "9%" }}><span className="pd" />New RFP Posted</div>
+                  <div className="pop pop2 blue"  style={{ left: "63%", top: "21%" }}><span className="pd" />Bid Submitted · On Time</div>
+                  <div className="pop pop3 amber" style={{ left: "37%", top: "21%" }}><span className="pd" />Contract Awarded</div>
+                </div>
+
+                <svg className="sbmap-wires" viewBox="0 0 600 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <path id="m1" d="M170,165 C 250,190 250,300 300,335" />
+                  <path id="m2" d="M160,272 C 240,288 250,318 300,335" />
+                  <path id="m3" d="M175,388 C 245,378 255,350 300,335" />
+                  <path id="m4" d="M430,165 C 350,190 350,300 300,335" />
+                  <path id="m5" d="M440,272 C 360,288 350,318 300,335" />
+                  <path id="m6" d="M425,388 C 355,378 345,350 300,335" />
+                  <path id="m7" d="M300,402 L300,440" />
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="0.2s" repeatCount="indefinite">
-                      <mpath href="#w1"/>
+                      <mpath href="#m1"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.2s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.2">
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="0.7s" repeatCount="indefinite">
-                      <mpath href="#w2"/>
+                      <mpath href="#m2"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.7s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.2">
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="1.2s" repeatCount="indefinite">
-                      <mpath href="#w3"/>
+                      <mpath href="#m3"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="1.2s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.2">
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="0.45s" repeatCount="indefinite">
-                      <mpath href="#w4"/>
+                      <mpath href="#m4"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.45s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.2">
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="0.95s" repeatCount="indefinite">
-                      <mpath href="#w5"/>
+                      <mpath href="#m5"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.95s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.2">
+                  <circle className="sb-dot" r="4">
                     <animateMotion dur="2.6s" begin="1.45s" repeatCount="indefinite">
-                      <mpath href="#w6"/>
+                      <mpath href="#m6"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="1.45s" repeatCount="indefinite"/>
                   </circle>
-                  <circle className="sb-dot" r="4.6" style={{ fill: "#44d18a" }}>
+                  <circle className="sb-dot" r="4.4" style={{ fill: "var(--green)" }}>
                     <animateMotion dur="1.5s" begin="2s" repeatCount="indefinite">
-                      <mpath href="#w7"/>
+                      <mpath href="#m7"/>
                     </animateMotion>
                     <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.2;.8;1" dur="1.5s" begin="2s" repeatCount="indefinite"/>
                   </circle>
                 </svg>
 
-                {/* INPUT CARDS */}
-                <div className="sb-card sb-in" style={{ left: "17.9%", top: "12.9%", animationDelay: ".05s" }}>
+                <div className="sbmap-card in" style={{ left: "15.8%", top: "27.8%", animationDelay: ".05s" }}>
                   <div className="inner" style={{ animationDelay: "0s" }}>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <path d="M8 13h8M8 17h6"/>
                       </svg>
                     </span>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">RFP Requirements</span>
                       <span className="tag">Input</span>
                     </span>
                   </div>
                 </div>
 
-                <div className="sb-card sb-in" style={{ left: "15.7%", top: "33.6%", animationDelay: ".18s" }}>
+                <div className="sbmap-card in" style={{ left: "14.2%", top: "50%", animationDelay: ".18s" }}>
                   <div className="inner" style={{ animationDelay: ".6s" }}>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M3 21h18M5 21V7l7-4 7 4v14"/>
-                        <path d="M9 21v-5h6v5M9 11h.01M15 11h.01"/>
+                        <path d="M9 21v-5h6v5"/>
                       </svg>
                     </span>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">Your Capabilities</span>
                       <span className="tag">Input</span>
                     </span>
                   </div>
                 </div>
 
-                <div className="sb-card sb-in" style={{ left: "18.6%", top: "54.3%", animationDelay: ".31s" }}>
+                <div className="sbmap-card in" style={{ left: "16.7%", top: "72.2%", animationDelay: ".31s" }}>
                   <div className="inner" style={{ animationDelay: "1.2s" }}>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M9 11l3 3L22 4"/>
                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                       </svg>
                     </span>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">Compliance Matrix</span>
                       <span className="tag">Input</span>
                     </span>
                   </div>
                 </div>
 
-                <div className="sb-card sb-right-card sb-in" style={{ left: "79%", top: "12.9%", animationDelay: ".12s" }}>
+                <div className="sbmap-card in" style={{ left: "84.2%", top: "27.8%", animationDelay: ".12s" }}>
                   <div className="inner" style={{ animationDelay: ".3s" }}>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">Pricing Strategy</span>
                       <span className="tag">Input</span>
                     </span>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                       </svg>
@@ -301,13 +488,13 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="sb-card sb-right-card sb-in" style={{ left: "81%", top: "33.6%", animationDelay: ".25s" }}>
+                <div className="sbmap-card in" style={{ left: "85.8%", top: "50%", animationDelay: ".25s" }}>
                   <div className="inner" style={{ animationDelay: ".9s" }}>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">Past Performance</span>
                       <span className="tag">Input</span>
                     </span>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/>
                         <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>
@@ -316,13 +503,13 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="sb-card sb-right-card sb-in" style={{ left: "78%", top: "54.3%", animationDelay: ".38s" }}>
+                <div className="sbmap-card in" style={{ left: "83.3%", top: "72.2%", animationDelay: ".38s" }}>
                   <div className="inner" style={{ animationDelay: "1.5s" }}>
-                    <span className="sb-txt">
+                    <span className="sbmap-txt">
                       <span className="ttl">Win Strategy</span>
                       <span className="tag">Input</span>
                     </span>
-                    <span className="sb-chip">
+                    <span className="sbmap-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <circle cx="12" cy="12" r="9"/>
                         <circle cx="12" cy="12" r="5"/>
@@ -332,16 +519,14 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* CENTRAL HUB */}
-                <div className="sb-hub sb-in" style={{ animationDelay: ".5s" }} aria-label="Stronger Built">
-                  <div className="sb-mono">
+                <div className="sbmap-hub in" style={{ animationDelay: ".5s" }}>
+                  <div className="sbmap-mono">
                     <b>S<span>B</span></b>
                     <small>Built by experts</small>
                   </div>
                 </div>
 
-                {/* OUTPUT */}
-                <div className="sb-out sb-in" style={{ animationDelay: ".85s" }}>
+                <div className="sbmap-out in" style={{ animationDelay: ".85s" }}>
                   <div className="inner">
                     <span className="medal">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -349,9 +534,12 @@ export default function Home() {
                         <path d="M9 14.5 8 22l4-2.2L16 22l-1-7.5"/>
                       </svg>
                     </span>
-                    <span>
+                    <span className="otext">
                       <span className="ttl">Winning Proposal</span>
-                      <span className="badges"><b>Compliant</b> · On Time · Pay When You Win</span>
+                      <span className="badges">
+                        <span className="chip">Compliant</span>
+                        <span className="sub">On Time · Pay When You Win</span>
+                      </span>
                     </span>
                   </div>
                 </div>
