@@ -45,25 +45,33 @@ export default function LearningCenterPage() {
   }, [filteredArticles]);
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-800">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-brand-navy-900 to-[#122c52] text-white pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_800px_600px_at_85%_-10%,rgba(30,111,217,0.15),transparent)] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-blue-600/20 border border-brand-blue-600/30 text-brand-blue-400 text-xs font-bold uppercase tracking-wider mb-6">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Resource Hub</span>
+    <div className="bg-slate-50 min-h-screen text-slate-800 dark:bg-brand-navy-900 dark:text-slate-100">
+      {/* Hero Section (Light Background matching Homepage sb-hero style) */}
+      <section className="relative px-6 pt-32 pb-20 overflow-hidden sb-hero border-b border-slate-200/50 dark:border-white/5 bg-slate-50 dark:bg-brand-navy-900">
+        {/* Background Decorative Gradients */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[120px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-50 dark:bg-brand-blue-500/10 border border-brand-blue-100 dark:border-brand-blue-500/20 backdrop-blur-md mb-6">
+            <BookOpen className="w-3.5 h-3.5 text-brand-blue-600 dark:text-brand-blue-400" />
+            <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-600 dark:text-brand-blue-400 uppercase">
+              Resource Hub · Expert Bidding Guides
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight max-w-4xl mx-auto">
-            Stronger Built <span className="text-brand-blue-500">Learning Center</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 dark:text-white tracking-tight mb-6 leading-tight max-w-4xl mx-auto font-bold">
+            Stronger Built <span className="text-brand-blue-600 dark:text-brand-blue-400">Learning Center</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
             Expert strategies, compliance checklists, and comprehensive state-by-state procurement guides to help your business win government contracts.
           </p>
 
           {/* Search Box */}
           <div className="max-w-xl mx-auto relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-blue-500 transition-colors">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-brand-blue-600 transition-colors">
               <Search className="w-5 h-5" />
             </div>
             <input
@@ -71,7 +79,7 @@ export default function LearningCenterPage() {
               placeholder="Search guides, portal names, or state names..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white text-slate-900 placeholder-slate-400 border border-slate-200 shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent text-sm md:text-base font-medium transition-all"
+              className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-200 dark:border-white/10 shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent text-sm md:text-base font-medium transition-all"
             />
           </div>
         </div>
@@ -79,7 +87,7 @@ export default function LearningCenterPage() {
 
       {/* Category Tabs */}
       <section className="max-w-7xl mx-auto px-6 md:px-10 -mt-8 relative z-20">
-        <div className="bg-white rounded-3xl p-3 shadow-lg border border-slate-200/80">
+        <div className="bg-white dark:bg-slate-800 rounded-3xl p-3 shadow-lg border border-slate-200/80 dark:border-white/10">
           <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide py-1">
             <button
               onClick={() => handleCategorySelect("all")}
@@ -87,7 +95,7 @@ export default function LearningCenterPage() {
                 "px-5 py-3 rounded-2xl text-[13px] font-bold tracking-tight transition-all shrink-0 cursor-pointer",
                 activeCategory === "all"
                   ? "bg-brand-blue-600 text-white shadow-md shadow-brand-blue-500/10"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
               )}
             >
               All Topics
@@ -100,7 +108,7 @@ export default function LearningCenterPage() {
                   "px-5 py-3 rounded-2xl text-[13px] font-bold tracking-tight transition-all shrink-0 cursor-pointer",
                   activeCategory === category.slug
                     ? "bg-brand-blue-600 text-white shadow-md shadow-brand-blue-500/10"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
                 )}
               >
                 {category.name}
