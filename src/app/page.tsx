@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import BidTicker from "@/components/market/bid-ticker";
+import { JsonLd } from "@/components/seo/json-ld";
+
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -871,6 +873,37 @@ export default function Home() {
 
       {/* FAQ Section */}
       <section className="py-24 bg-slate-50 dark:bg-black/10 border-b border-gray-100 dark:border-white/5">
+        {/* FAQ Schema for only the 6 visible questions */}
+        <JsonLd 
+          type="FAQPage" 
+          data={[
+            {
+              question: "How does \"Pay When You Win\" work?",
+              answer: "You pay a low bid writing fee to produce your proposal, plus a small success fee that's charged only if you're awarded the contract. If you don't win, you owe nothing beyond the bid writing fee."
+            },
+            {
+              question: "How much does it cost to bid?",
+              answer: "The bid writing fee starts at $450 for contracts up to $1 million and scales with contract size, plus a success fee charged only if you win — 1.0% up to $1M, stepping down to 0.5% above $5M."
+            },
+            {
+              question: "Who actually writes my proposal?",
+              answer: "A named human consultant and expert writer assigned to your engagement. Every word is written, reviewed, and owned by our team, and the proposal is submitted under your company's name."
+            },
+            {
+              question: "Can you guarantee I'll win?",
+              answer: "No — and anyone who promises a guaranteed win isn't being straight with you. What we guarantee is a high-quality, fully compliant, strategically written proposal submitted on time. And because of Pay-When-You-Win, we're financially invested in your result."
+            },
+            {
+              question: "Do you work nationwide?",
+              answer: "Yes. We help clients pursue federal, state, county, and city contracts in all 50 states."
+            },
+            {
+              question: "How do I get started?",
+              answer: "Book a free consultation. We'll review your opportunity, confirm pricing and timeline in writing, and get to work."
+            }
+          ]} 
+        />
+
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
@@ -885,30 +918,57 @@ export default function Home() {
             {[
               {
                 q: "How does \"Pay When You Win\" work?",
-                a: "You pay a low upfront engagement fee to cover the compliance extraction, compliance matrix setup, and proposal strategy. The remaining success fee is a percentage of the contract value, charged only if your bid is awarded. We confirm exact numbers in writing on your free consultation, before any work starts."
+                a: "You pay a low bid writing fee to produce your proposal, plus a small success fee that's charged only if you're awarded the contract. If you don't win, you owe nothing beyond the bid writing fee."
+              },
+              {
+                q: "How much does it cost to bid?",
+                a: "The bid writing fee starts at $450 for contracts up to $1 million and scales with contract size, plus a success fee charged only if you win — 1.0% up to $1M, stepping down to 0.5% above $5M."
               },
               {
                 q: "Who actually writes my proposal?",
-                a: "A named human consultant and expert writer is assigned to your engagement. They handle all drafting, compliance tracking, and submission under your company's name. There is no automated or AI drafting; it is entirely human-led expertise."
+                a: "A named human consultant and expert writer assigned to your engagement. Every word is written, reviewed, and owned by our team, and the proposal is submitted under your company's name."
               },
               {
-                q: "Do I have to sign a long-term contract?",
-                a: "No. You can engage us for a single bid or sign up for a month-to-month retainer. You are never locked in."
+                q: "Can you guarantee I'll win?",
+                a: "No — and anyone who promises a guaranteed win isn't being straight with you. What we guarantee is a high-quality, fully compliant, strategically written proposal submitted on time. And because of Pay-When-You-Win, we're financially invested in your result."
               },
               {
-                q: "What if I just want to find opportunities myself?",
-                a: "You can use our free nationwide bid search by registering on the portal. When you find an opportunity you want to pursue, you can hire us to handle the strategy, proposal writing, and submission."
+                q: "Do you work nationwide?",
+                a: "Yes. We help clients pursue federal, state, county, and city contracts in all 50 states."
               },
               {
-                q: "How fast can you turn a bid around?",
-                a: "Turnaround times depend on the RFP's size and complexity. Bring us the opportunity as early as possible, and we will give you an honest go/no-go assessment and timeline on our free call."
+                q: "How do I get started?",
+                a: "Book a free consultation. We'll review your opportunity, confirm pricing and timeline in writing, and get to work."
               }
             ].map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} />
             ))}
           </div>
+
+          {/* CTA Block below the 6 questions */}
+          <div className="text-center mt-12 space-y-4 border-t border-slate-200/60 dark:border-white/5 pt-10">
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-semibold">
+              Still have questions? We've answered the rest.
+            </p>
+            <div className="inline-flex gap-3 flex-wrap justify-center">
+              <Link 
+                href="/faqs" 
+                className="inline-flex items-center justify-center gap-2 font-bold text-sm px-6 py-3.5 rounded-full bg-brand-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all"
+              >
+                <span>View All FAQs</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link 
+                href="/contact" 
+                className="inline-flex items-center justify-center gap-2 font-bold text-sm px-6 py-3.5 rounded-full bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:-translate-y-0.5 transition-all shadow-sm"
+              >
+                <span>Book a Free Call</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
+
 
       {/* Final CTA Section */}
       <section className="relative py-24 bg-brand-navy-900 overflow-hidden text-white border-t border-white/5">
@@ -953,12 +1013,15 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
     <div className="border border-gray-200 dark:border-white/10 rounded-[2rem] bg-white dark:bg-brand-navy-900/40 overflow-hidden transition-all hover:border-brand-blue-600/30 shadow-sm">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-8 py-6 flex items-center justify-between text-left group"
+        aria-expanded={isOpen}
+        className="w-full px-8 py-6 flex items-center justify-between text-left group cursor-pointer"
       >
-        <span className="text-base sm:text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">{question}</span>
+        <h3 className="text-base sm:text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">
+          {question}
+        </h3>
         <ChevronDown 
           className={cn(
-            "w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0 ml-4",
+            "w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0 ml-4 motion-reduce:transition-none",
             isOpen && "rotate-180 text-brand-blue-600"
           )} 
         />
@@ -970,6 +1033,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="motion-reduce:transition-none"
           >
             <div className="px-8 pb-8">
               <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">

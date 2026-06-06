@@ -52,7 +52,8 @@ const STATIC_ROUTES = [
   "/contact",
   "/service-areas",
   "/insights",
-  "/careers"
+  "/careers",
+  "/faqs"
 ];
 
 const CITY_SLUGS = [
