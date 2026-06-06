@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,9 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [session, setSession] = useState<any>(null);
   const supabase = createClient();
+  const pathname = usePathname();
+
+  const isDarkBgPage = pathname === "/login";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,15 +60,13 @@ export function Navbar() {
           <Link href="/" className="flex flex-col items-start gap-0.5 group">
             <span className={cn(
               "text-xl md:text-2xl font-black tracking-tight leading-none transition-colors",
-              !scrolled && "text-brand-navy-900 dark:text-white",
-              scrolled && "text-brand-navy-900 dark:text-white"
+              isDarkBgPage && !scrolled ? "text-white" : "text-brand-navy-900 dark:text-white"
             )}>
               STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
             </span>
             <span className={cn(
               "text-[9px] md:text-[10px] font-semibold tracking-widest uppercase leading-none transition-colors",
-              !scrolled && "text-slate-500 dark:text-slate-400",
-              scrolled && "text-slate-500 dark:text-slate-400"
+              isDarkBgPage && !scrolled ? "text-slate-400" : "text-slate-500 dark:text-slate-400"
             )}>
               LLC
             </span>
@@ -78,9 +80,11 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all",
-                  !scrolled 
-                    ? "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-100/50 dark:hover:bg-white/5" 
-                    : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
+                  isDarkBgPage && !scrolled
+                    ? "text-slate-300 hover:text-white hover:bg-white/5"
+                    : !scrolled 
+                      ? "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-100/50 dark:hover:bg-white/5" 
+                      : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
                 )}
               >
                 {link.name}
@@ -96,20 +100,20 @@ export function Navbar() {
                   href="/login"
                   className={cn(
                     "text-[13px] font-bold px-4 py-2 transition-all",
-                    !scrolled 
-                      ? "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white" 
+                    isDarkBgPage && !scrolled
+                      ? "text-slate-300 hover:text-white"
                       : "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white"
                   )}
                 >
                   Portal Login
                 </Link>
                 <Link
-                  href="/login?tab=signup"
+                  href="/open-bids"
                   className={cn(
                     "px-5 py-2.5 rounded-full text-[13px] font-bold transition-all border",
-                    !scrolled 
-                      ? "border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5" 
-                      : "border-gray-200 dark:border-white/15 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5"
+                    isDarkBgPage && !scrolled
+                      ? "border-white/15 text-slate-300 hover:bg-white/5"
+                      : "border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5"
                   )}
                 >
                   Search Open Bids
@@ -181,7 +185,7 @@ export function Navbar() {
                       Portal Login
                     </Link>
                     <Link
-                      href="/login?tab=signup"
+                      href="/open-bids"
                       onClick={() => setMobileMenuOpen(false)}
                       className="block w-full text-center bg-transparent border border-gray-200 dark:border-white/15 text-slate-900 dark:text-white py-4 rounded-2xl font-bold shadow-sm"
                     >
