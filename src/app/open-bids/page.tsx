@@ -216,7 +216,7 @@ export default function OpenBidsPage() {
       <span>
         {parts.map((part, i) => 
           part.toLowerCase() === searchWord.toLowerCase() 
-            ? <mark key={i} className="bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 font-bold px-0.5 rounded">{part}</mark>
+            ? <mark key={i} className="bg-blue-100 dark:bg-blue-950/40 text-brand-blue-600 dark:text-blue-300 font-bold px-0.5 rounded">{part}</mark>
             : part
         )}
       </span>
@@ -248,7 +248,7 @@ export default function OpenBidsPage() {
         {/* Title Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 pt-8 pb-4">
           <h1 className="text-4xl sm:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight leading-tight">
-            Find an open bid <span className="bg-gradient-to-r from-emerald-500 via-green-500 to-lime-500 bg-clip-text text-transparent italic block sm:inline">ripe for the picking</span>
+            Find an open bid <span className="bg-gradient-to-r from-brand-blue-600 via-blue-500 to-sky-400 bg-clip-text text-transparent italic block sm:inline">ripe for the picking</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
             Search hundreds of live government solicitations across multiple states and portals. Free to browse.
@@ -262,7 +262,7 @@ export default function OpenBidsPage() {
               <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
               <Input 
                 placeholder="Search by keyword, agency, title or location..."
-                className="pl-12 pr-4 h-12 rounded-full border-slate-200 bg-white/90 shadow-lg shadow-indigo-100/30 focus:shadow-xl focus:shadow-indigo-100/50 transition-all text-slate-900 text-sm focus-visible:ring-emerald-500"
+                className="pl-12 pr-4 h-12 rounded-full border-slate-200 bg-white/90 shadow-lg shadow-indigo-100/30 focus:shadow-xl focus:shadow-indigo-100/50 transition-all text-slate-900 text-sm focus-visible:ring-brand-blue-600"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -278,10 +278,10 @@ export default function OpenBidsPage() {
 
             <Button 
               onClick={handleSavedSearchClick}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full h-12 px-6 font-bold uppercase tracking-wider text-[11px] flex items-center gap-2 shadow-md shadow-emerald-500/10 shrink-0 w-full sm:w-auto"
+              className="bg-brand-blue-600 hover:bg-blue-700 text-white rounded-full h-12 px-6 font-bold uppercase tracking-wider text-[11px] flex items-center gap-2 shadow-md shadow-blue-500/10 shrink-0 w-full sm:w-auto"
             >
-              <Bell className="h-4 w-4" />
-              Saved Search
+              <Search className="h-4 w-4" />
+              Search
             </Button>
           </div>
 
@@ -357,7 +357,7 @@ export default function OpenBidsPage() {
                           id={`state-${state}`} 
                           checked={selectedStates.includes(state)}
                           onCheckedChange={() => toggleStateFilter(state)}
-                          className="border-slate-300 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500 rounded"
+                          className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
                         />
                         <Label 
                           htmlFor={`state-${state}`}
@@ -382,7 +382,7 @@ export default function OpenBidsPage() {
             {/* Header info bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white px-6 py-4 rounded-2xl border border-slate-100 shadow-sm">
               <div className="text-xs text-slate-500 font-semibold">
-                {filteredBids.length} results on {Math.ceil(filteredBids.length / ITEMS_PER_PAGE)} pages in <span className="text-emerald-600 font-bold">{searchTime}ms</span>
+                {filteredBids.length} results on {Math.ceil(filteredBids.length / ITEMS_PER_PAGE)} pages in <span className="text-brand-blue-600 font-bold">{searchTime}ms</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
@@ -440,7 +440,7 @@ export default function OpenBidsPage() {
                           <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-slate-50 border-slate-200 text-slate-500 rounded-sm">
                             {bid.source}
                           </Badge>
-                          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-emerald-50 border-emerald-100 text-emerald-600 rounded-sm">
+                          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-blue-50 border-blue-100 text-brand-blue-600 rounded-sm">
                             {bid.state}
                           </Badge>
                           {daysLeft !== null && (
@@ -525,7 +525,7 @@ export default function OpenBidsPage() {
                           <Button 
                             asChild
                             size="sm" 
-                            className="h-10 bg-emerald-500 hover:bg-emerald-600 text-white flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider shadow-md shadow-emerald-500/10"
+                            className="h-10 bg-brand-blue-600 hover:bg-blue-700 text-white flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider shadow-md shadow-blue-500/10"
                           >
                             <Link href={`/login?tab=signup&redirect=/portal/hire?bid=${bid.id}`}>
                               Get started!
@@ -547,7 +547,7 @@ export default function OpenBidsPage() {
                     <Button 
                       onClick={() => { setSearch(""); setSelectedStates([]); }}
                       variant="link" 
-                      className="text-emerald-500 font-bold"
+                      className="text-brand-blue-600 font-bold"
                     >
                       Clear search filters
                     </Button>
@@ -594,7 +594,7 @@ export default function OpenBidsPage() {
           <DialogContent className="max-w-xl md:max-w-2xl overflow-y-auto max-h-[85vh] rounded-[2rem] border-slate-100 p-8">
             <DialogHeader className="space-y-3">
               <div className="flex items-center gap-2">
-                <Badge className="bg-emerald-500 text-white border-none text-[9px] uppercase tracking-wider font-bold">
+                <Badge className="bg-brand-blue-600 text-white border-none text-[9px] uppercase tracking-wider font-bold">
                   {selectedBid.state}
                 </Badge>
                 <Badge variant="outline" className="text-[9px] uppercase tracking-wider font-bold text-slate-400 border-slate-200">
@@ -671,7 +671,7 @@ export default function OpenBidsPage() {
               </Button>
               <Button 
                 asChild
-                className="h-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-black uppercase text-xs tracking-widest px-6 shadow-md shadow-emerald-500/10"
+                className="h-11 bg-brand-blue-600 hover:bg-blue-700 text-white rounded-xl font-black uppercase text-xs tracking-widest px-6 shadow-md shadow-blue-500/10"
               >
                 <Link href={`/login?tab=signup&redirect=/portal/hire?bid=${selectedBid.id}`}>
                   Get Started on Bid!
