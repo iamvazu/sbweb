@@ -17,8 +17,8 @@ const lora = Lora({ subsets: ['latin'], variable: '--font-serif' });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Stronger Built LLC | California Public Works & DVBE Contractor",
-  description: "Stronger Built LLC is your high-authority partner for California public works. Whether you need a licensed GC for heavy civil projects or expert bid management to win your next RFP, we deliver executive-level performance.",
+  title: "Stronger Built — We Find, Write & Win Government Bids. You Pay When You Win.",
+  description: "Stronger Built's expert consultants find, manage, and win government RFPs for businesses nationwide. Pay-when-you-win pricing. Free consultation.",
 };
 
 export default function RootLayout({

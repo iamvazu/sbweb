@@ -35,7 +35,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mt-4">
-              Licensed General Contractor. Service-Disabled Veteran Owned (SDVOSB). Certified DVBE. Serving California Agencies with Premium Construction and Maintenance.
+              Veteran-owned proposal consultants who find, manage, and win government bids for businesses nationwide.
             </p>
           </div>
 
@@ -44,15 +44,15 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <Award className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                <span><strong className="text-white">CSLB #1057434</strong><br/>Class B (General), C-6 (Cabinet/Millwork), C-36 (Plumbing)</span>
+                <span><strong className="text-white">Veteran-Owned Firm</strong><br/>Certified Service-Disabled Veteran-Owned Small Business (SDVOSB)</span>
               </li>
               <li className="flex items-start gap-3">
                 <ShieldCheck className="w-5 h-5 text-success shrink-0" />
-                <span><strong className="text-white">Fully Insured via Insureon</strong><br/>General Liability, BOP, Commercial Auto, Workers Comp, $1M Employer Liability, Fidelity Bond.</span>
+                <span><strong className="text-white">Nationwide Coverage</strong><br/>Finding and winning bids across all 50 states</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Award className="w-4 h-4 text-warning shrink-0" />
-                <span>DIR Registration: In Process</span>
+              <li className="flex items-start gap-3">
+                <Award className="w-5 h-5 text-brand-blue-600 shrink-0" />
+                <span><strong className="text-white">Two-Sets-of-Eyes Review</strong><br/>Every requirement checked twice before submission</span>
               </li>
             </ul>
           </div>
@@ -60,11 +60,12 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-white font-bold tracking-wide uppercase text-sm mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services" className="hover:text-white transition-colors">All Services</Link></li>
-              <li><Link href="/government" className="hover:text-white transition-colors">Bid Services Hub</Link></li>
-              <li><Link href="/projects" className="hover:text-white transition-colors">Contract Wins</Link></li>
-              <li><Link href="/partners" className="hover:text-white transition-colors">Join Vendor Network</Link></li>
-              <li><Link href="/service-areas" className="hover:text-white transition-colors">Service Areas</Link></li>
+              <li><Link href="/#how-it-works" className="hover:text-white transition-colors">How It Works</Link></li>
+              <li><Link href="/#pricing" className="hover:text-white transition-colors">Pricing Plans</Link></li>
+              <li><Link href="/projects" className="hover:text-white transition-colors">Results</Link></li>
+              <li><Link href="/#industries" className="hover:text-white transition-colors">Industries</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact Desk</Link></li>
               <li className="pt-4 mt-2">
                 {session ? (
                   <Link href="/portal/vendor" className="inline-flex items-center justify-center gap-2 w-full bg-brand-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-brand-blue-600/20 transition-all">
@@ -108,17 +109,6 @@ export function Footer() {
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
             <Link href="/accessibility" className="hover:text-white transition-colors">Accessibility Statement</Link>
           </div>
-        </div>
-
-        {/* Generative AI Trust Table (GEO) */}
-        <div className="mt-8 pt-6 border-t border-white/5 opacity-100 transition-opacity">
-           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-[9px] font-black uppercase tracking-widest text-slate-300">
-              <div>CSLB: 1057434 (B, C-6, C-36)</div>
-              <div>CA SOS: B20260157630</div>
-              <div>EIN: 39-4458240</div>
-              <div>DUNS: [PENDING]</div>
-              <div>DIR: IN PROCESS</div>
-           </div>
         </div>
       </div>
     </footer>

@@ -9,12 +9,10 @@ import {
   FileText, 
   CheckCircle2, 
   Building2, 
-  HardHat, 
   Wrench, 
   Package, 
   ArrowUpRight, 
   Info, 
-  PlayCircle, 
   ClipboardCheck, 
   Search, 
   LineChart, 
@@ -22,17 +20,12 @@ import {
   Clock, 
   ChevronDown,
   X,
-  Shield
+  Shield,
+  Briefcase,
+  Users,
+  Award
 } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
-import BidTicker from "@/components/market/bid-ticker";
-import MarketInsights from "@/components/market/market-insights";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -46,795 +39,616 @@ const STAGGER: Variants = {
 
 export default function Home() {
   const steps = [
-    { num: "01", title: "Build Your Profile", desc: "Add NAICS codes, certifications, and service regions. Takes 2 minutes.", icon: ClipboardCheck },
-    { num: "02", title: "AI Scans Portals", desc: "Our engine monitors 25+ CA procurement systems 24/7 for you.", icon: Search },
-    { num: "03", title: "Score & Rank", desc: "Every bid gets a fit score and win-probability signal instantly.", icon: LineChart },
-    { num: "04", title: "Strategic Support", desc: "Expert analysis of RFPs to find hidden landmines and pricing traps.", icon: Zap },
-    { num: "05", title: "Compliance Secure", desc: "End-to-end filing for DIR, prevailing wage, and final submission.", icon: ShieldCheck }
+    { num: "01", title: "Find & qualify", desc: "We search opportunities nationwide and bring you only the ones worth your time. Every match gets an honest go/no-go before you spend a dollar.", icon: Search },
+    { num: "02", title: "Strategize", desc: "A named consultant builds your win strategy—how to position your strengths, where the disqualification traps are, and how to price to win.", icon: LineChart },
+    { num: "03", title: "Write & build", desc: "Expert writers produce the full proposal: every requirement mapped to a response, a complete compliance matrix, clean formatting, all under your company's name.", icon: FileText },
+    { num: "04", title: "Review & submit", desc: "Two sets of eyes check every requirement, then we file on time through the buyer's portal and confirm receipt.", icon: ShieldCheck },
+    { num: "05", title: "Debrief", desc: "Win or lose, we walk through the result with you, so the next bid is stronger.", icon: Clock }
   ];
 
-  const portals = [
-    "Cal eProcure", "PlanetBids", "San Diego BuyNet", "City of Los Angeles (RAMP)", 
-    "Port of Long Beach", "Oakland iSupplier", "Orange County Bids", "City of San Jose",
-    "Sacramento County", "Riverside County", "Fresno County", "San Bernardino ePro",
-    "City of Anaheim", "City of Fullerton", "OCTA", "City of Irvine",
-    "CSU System", "UC System", "Metrolink", "BART", "MTS San Diego"
+  const industries = [
+    { name: "IT & Software", desc: "SaaS licenses, custom software development, cloud infrastructure, IT support, cybersecurity audits.", icon: Zap },
+    { name: "Healthcare & Staffing", desc: "Medical supplies, nursing services, technical staff augmentation, wellness program administration.", icon: Users },
+    { name: "Professional Services", desc: "Management consulting, engineering, financial audits, marketing agencies, legal support services.", icon: Briefcase },
+    { name: "Security & Operations", desc: "Armed/unarmed guard services, surveillance installation, alarm monitoring, cybersecurity monitoring.", icon: Shield },
+    { name: "Education & Training", desc: "Curriculum design, professional training, educational materials, school district supply services.", icon: Award },
+    { name: "Facilities & Maintenance", desc: "Janitorial services, HVAC maintenance, commercial landscaping, multi-trade repairs, electrical audits.", icon: Wrench },
+    { name: "Material Supply & Logistics", desc: "Bulk equipment sourcing, specialized materials, office supply networks, delivery services.", icon: Package }
   ];
 
   return (
     <div className="flex flex-col min-h-screen">
       
-      {/* Hero Section - COMPACTED */}
-      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
-        {/* Background Decorative Elements */}
+      {/* Hero Section */}
+      <section className="relative px-6 pt-24 pb-16 md:pt-40 md:pb-28 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+        {/* Background Decorative Gradients */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
-          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
-          
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/15 blur-[120px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[100px]" />
           <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <motion.div 
+            initial="hidden" 
+            animate="show" 
+            variants={STAGGER}
+            className="space-y-8 max-w-4xl mx-auto"
+          >
+            <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-500/10 border border-brand-blue-500/20 backdrop-blur-md">
+              <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-400 uppercase">
+                Expert Proposal Consultants · Nationwide
+              </span>
+            </motion.div>
             
-            {/* Left Content */}
-            <motion.div 
-              initial="hidden" 
-              animate="show" 
-              variants={STAGGER}
-              className="lg:col-span-7 space-y-6"
-            >
-              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 backdrop-blur-md">
-                <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">
-                  Government Contracting Excellence
-                </span>
-              </motion.div>
-              
-              <motion.h1 variants={FADE_UP} className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1]">
-                California's Dual-Force <br className="hidden md:block"/>
-                <span className="italic text-brand-blue-600">Contracting & Intelligence</span> <br className="hidden md:block"/>
-                Authority.
-              </motion.h1>
-              
-              <motion.p variants={FADE_UP} className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed font-medium">
-                Stronger Built LLC delivers high-stakes public works construction as a licensed GC, while empowering vendors with BidIQ—the state's most advanced procurement intelligence platform.
-              </motion.p>
-              
-              <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/bid-management" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
-                  <span>Explore BidIQ Platform</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link href="/services" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
-                  <HardHat className="w-5 h-5 text-brand-blue-600" />
-                  <span>Our Contracting Services</span>
-                </Link>
-              </motion.div>
-
-              
-              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-3 gap-x-5 pt-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-success" />
-                  Licensed & Bonded
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-success" />
-                  DIR Registered
-                </div>
-                <div className="flex items-center gap-2 text-slate-400">
-                  <span className="text-slate-700 font-black px-1 opacity-20">•</span>
-                  <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600" />
-                  No credit card required
-                </div>
-                <div className="flex items-center gap-2 text-slate-400">
-                  <span className="text-slate-700 font-black px-1 opacity-20">•</span>
-                  <Clock className="w-3.5 h-3.5 text-brand-blue-600" />
-                  Set up in 10 minutes
-                </div>
-              </motion.div>
+            <motion.h1 variants={FADE_UP} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-[1.1] font-bold">
+              We win government bids for you. <br />
+              <span className="italic text-brand-blue-500">You mostly pay when you win.</span>
+            </motion.h1>
+            
+            <motion.p variants={FADE_UP} className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
+              Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
+            </motion.p>
+            
+            <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
+                <span>Book a Free Consultation</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
+                <Search className="w-5 h-5 text-brand-blue-500" />
+                <span>Search Open Bids — Free</span>
+              </Link>
             </motion.div>
 
-            {/* Right Content - Visual */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, x: 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
-              className="lg:col-span-5 relative hidden md:block"
-            >
-              <div className="relative aspect-square rounded-[2.5rem] overflow-hidden border-8 border-white/5 shadow-2xl group">
-                <div className="absolute inset-0 bg-brand-navy-900/40 z-10 group-hover:opacity-0 transition-opacity duration-700" />
-                <iframe
-                  src="https://www.youtube.com/embed/G6FPnOQpdhw?autoplay=1&mute=1&controls=0&loop=1&playlist=G6FPnOQpdhw&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[120%] pointer-events-none grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
-                  allow="autoplay; encrypted-media"
-                  title="Stronger Built Background"
-                />
-                
-                <div className="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-brand-navy-900/95 backdrop-blur-xl p-5 rounded-2xl z-20 border border-white/20 shadow-2xl transform group-hover:scale-105 transition-transform duration-500">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-brand-blue-600">Active Pipeline</span>
-                    <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                  </div>
-                  <div className="space-y-2.5">
-                    <div className="h-1.5 w-full bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: "75%" }}
-                        transition={{ delay: 1, duration: 1.5 }}
-                        className="h-full bg-brand-blue-600"
-                      />
-                    </div>
-                    <div className="flex justify-between text-[9px] font-bold text-slate-500">
-                      <span>PROJECT COMPLIANCE</span>
-                      <span className="text-brand-navy-900 dark:text-white">98.4%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <motion.div variants={FADE_UP} className="flex flex-wrap items-center justify-center gap-y-3 gap-x-6 pt-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
+              <div>Nationwide Coverage</div>
+              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+              <div>All 50 States</div>
+              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+              <div>No Long-term Contract</div>
+              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+              <div>Veteran-Owned</div>
             </motion.div>
-
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Trust Strip */}
-      <section className="bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex flex-wrap justify-between items-center gap-8 opacity-60 hover:opacity-100 transition-all duration-500">
+      <section className="bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center lg:text-left">
             {[
-              { label: "CSLB #1057434", sub: "Class B, C-6, C-36", img: "/images/logos/cslb.png" },
-              { label: "SDVOSB", sub: "Service-Disabled Veteran", img: "/images/logos/sdvosb.png" },
-              { label: "DVBE", sub: "Certified Entity", img: "/images/logos/dvbe.png" },
-              { label: "DIR Registration", sub: "In Process", img: "/images/logos/dir.png" },
-              { label: "Insured", sub: "Insureon Premium", img: "/images/logos/insureon.png" },
-            ].map((cert, i) => (
-              <div key={i} className="flex items-center gap-4 group/logo">
-                <div className="h-10 w-10 relative flex-shrink-0 flex items-center justify-center grayscale group-hover/logo:grayscale-0 transition-all duration-500">
-                  <img src={cert.img} alt={cert.label} className="max-h-full max-w-full object-contain" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[11px] font-black text-brand-navy-900 dark:text-white uppercase tracking-wider">{cert.label}</span>
-                  <span className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">{cert.sub}</span>
-                </div>
+              "Serving clients in all 50 states",
+              "Named consultant on every engagement",
+              "On-time submission guaranteed",
+              "Two-sets-of-eyes compliance review"
+            ].map((text, i) => (
+              <div key={i} className="flex items-center justify-center lg:justify-start gap-3 py-2">
+                <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">{text}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Live Bid Pulse */}
-      <section className="py-12 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20 overflow-hidden">
+      {/* The Problem Section */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <BidTicker />
-        </div>
-      </section>
-
-      {/* Market Intelligence Dashboard - NEW */}
-      <section className="py-12 md:py-20 bg-slate-50 dark:bg-black/20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-12">
-            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Market Intelligence</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Real-Time Opportunity <span className="italic text-brand-blue-600">Analytics.</span></h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl leading-relaxed">
-              We track thousands of solicitations across California. Our AI categorizes and scores each one so you can focus on the most profitable opportunities.
-            </p>
-          </div>
-          <MarketInsights />
-        </div>
-      </section>
-
-      {/* State Opportunity Infographic - NEW */}
-      <section className="py-20 bg-white dark:bg-brand-navy-900 overflow-hidden border-y border-slate-100 dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-[11px] font-black text-brand-blue-600 uppercase tracking-[0.3em] mb-4">The Big Picture</h2>
-                <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6 italic">The $12 Billion <br /> California Mission.</h3>
-                <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
-                  As one of the world's largest purchasers, the State of California spends over $10 billion annually on goods and services. A significant portion of this is legally mandated to flow through certified small and veteran-owned businesses.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="p-6 rounded-3xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10">
-                  <div className="text-3xl font-black text-brand-navy-900 dark:text-white mb-1">25%</div>
-                  <div className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-3">Small Business Goal</div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                    Mandated annual spend target for certified Small Businesses (SB).
-                  </p>
-                </div>
-                <div className="p-6 rounded-3xl bg-brand-blue-600/5 border border-brand-blue-600/10">
-                  <div className="text-3xl font-black text-brand-blue-600 mb-1">3%</div>
-                  <div className="text-[10px] font-black text-brand-blue-600 uppercase tracking-widest mb-3">DVBE Mandate</div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                    Exclusive spending target for Disabled Veteran Business Enterprises.
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-sm text-slate-500 dark:text-slate-400 font-bold italic">
-                "Stronger Built is proud to be part of the $3.5 billion that has gone to certified businesses every year since 2020."
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            <div className="lg:col-span-5 space-y-4">
+              <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
+                Why this is hard
+              </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
+                Winning government bids is a full-time job.
+              </h2>
+            </div>
+            
+            <div className="lg:col-span-7 space-y-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed text-base md:text-lg">
+              <p>
+                The opportunities are scattered across thousands of federal, state, county, and city sources. Every RFP is dozens of pages of requirements and formatting rules—and one missed checkbox gets you disqualified before anyone reads your price.
+              </p>
+              <p>
+                Most businesses don't lose because they're the wrong vendor. They lose because bidding well takes time and expertise they can't spare.
+              </p>
+              <p className="text-brand-blue-600 dark:text-brand-blue-400 font-bold uppercase tracking-wider text-sm">
+                That's the part we do.
               </p>
             </div>
 
-            <div className="relative">
-              {/* Visual Infographic */}
-              <div className="bg-brand-navy-900 rounded-[3rem] p-10 md:p-12 text-white relative overflow-hidden shadow-2xl">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/20 rounded-full blur-[80px] -mr-32 -mt-32" />
-                
-                <div className="relative z-10 space-y-10">
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <div className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.2em] mb-2">Annual State Procurement</div>
-                      <div className="text-5xl font-serif italic">$12,000,000,000</div>
-                    </div>
-                  </div>
+          </div>
+        </div>
+      </section>
 
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                        <span>Small Business (25%)</span>
-                        <span className="text-brand-blue-400">$3.0B</span>
-                      </div>
-                      <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: "25%" }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1.5, ease: "easeOut" }}
-                          className="h-full bg-brand-blue-600"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                        <span>DVBE Mandate (3%)</span>
-                        <span className="text-amber-400">$360M</span>
-                      </div>
-                      <div className="h-3 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: "3%" }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-                          className="h-full bg-amber-500"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-6 border-t border-white/10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-brand-blue-600/20 flex items-center justify-center border border-brand-blue-600/30">
-                        <ShieldCheck className="w-6 h-6 text-brand-blue-600" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-white uppercase tracking-wider">Certified Compliance</div>
-                        <div className="text-[10px] text-slate-400 font-medium">Verified SB/DVBE status for prime & sub contracts</div>
-                      </div>
-                    </div>
-                  </div>
+      {/* D differentiator Section */}
+      <section className="py-24 bg-white dark:bg-brand-navy-900 overflow-hidden border-b border-slate-100 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative rounded-[3rem] bg-brand-navy-900 p-8 sm:p-12 md:p-16 text-white overflow-hidden shadow-2xl border border-white/5">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-blue-600/10 rounded-full blur-[80px]" />
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              <div className="space-y-6">
+                <span className="text-[10px] font-black text-amber-400 uppercase tracking-[0.25em]">
+                  Pricing that's actually on your side
+                </span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold tracking-tight leading-tight">
+                  Most consultants charge you whether you win or lose. <br />
+                  <span className="italic text-brand-blue-400">We'd rather get paid when you win.</span>
+                </h2>
+              </div>
+              <div className="space-y-6 text-slate-300 font-medium leading-relaxed">
+                <p>
+                  Choose <strong>Pay-When-You-Win</strong>: a low upfront to get started, plus a small percentage of the contract value only if you're awarded. Lose, and you've risked a fraction of what a flat-fee firm charges.
+                </p>
+                <p>
+                  Win, and we both win—which is exactly the point. Prefer predictability? Pick a flat rate or a monthly retainer instead.
+                </p>
+                <div className="pt-2">
+                  <Link href="/#pricing" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-0.5">
+                    Compare Pricing Options
+                  </Link>
                 </div>
               </div>
-
-              {/* Decorative Floating Element */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-6 -left-6 bg-amber-500 text-brand-navy-900 p-6 rounded-2xl shadow-xl z-20 hidden md:block"
-              >
-                <div className="text-2xl font-black leading-none mb-1">98.4%</div>
-                <div className="text-[9px] font-black uppercase tracking-widest">Compliance Rating</div>
-              </motion.div>
             </div>
           </div>
         </div>
       </section>
-      {/* BID MANAGEMENT CALLOUT */}
-      <section className="py-20 bg-brand-navy-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue-600/10 rounded-full blur-[100px]" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-amber-400 font-black uppercase tracking-[0.3em] text-[10px] mb-4">Strategic Procurement</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-white mb-6 tracking-tight leading-[1.1]">
-              Winning Government Bids Is a <br className="hidden md:block"/> Full-Time Job. <span className="text-brand-blue-600 italic">We Do It For You.</span>
-            </h3>
-            <p className="text-lg text-slate-400 mb-10 font-medium max-w-2xl mx-auto leading-relaxed">
-              Stop guessing on RFP requirements. We've helped California small businesses win government contracts from $50,000 to $2 million.
-            </p>
-            <Link href="/bid-management" className="inline-flex items-center gap-3 bg-white text-brand-navy-900 px-8 py-4 rounded-full font-bold text-sm hover:bg-brand-blue-600 hover:text-white transition-all shadow-xl hover:-translate-y-1">
-              Start Your Successful Bid <ArrowRight className="w-5 h-5" />
-            </Link>
+
+      {/* The Opportunity Section */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            <div className="lg:col-span-7 space-y-6">
+              <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.25em]">
+                The big picture
+              </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
+                The federal government alone spends $700+ billion a year.
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed text-base md:text-lg">
+                The U.S. government is the largest buyer of goods and services on earth—and by law, a significant share is set aside for small businesses and veteran-owned firms. Add state, county, and city contracts on top, and the opportunity is enormous. The hard part isn't that the work isn't there. It's finding it and winning it. We do both.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-8 rounded-3xl bg-white dark:bg-brand-navy-900 border border-gray-100 dark:border-white/5 shadow-xl sm:col-span-2">
+                <div className="text-5xl font-black text-brand-navy-900 dark:text-white mb-2">$700B+</div>
+                <div className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">Annual federal contract spending</div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                  Trillions more in state, county, city and municipal procurement processes across the United States.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-3xl bg-white dark:bg-brand-navy-900 border border-gray-100 dark:border-white/5 shadow-xl">
+                <div className="text-3xl font-black text-brand-blue-600 mb-1">23%</div>
+                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Small Business Goal</div>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                  Federal statutory target set aside for qualified small businesses.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-3xl bg-white dark:bg-brand-navy-900 border border-gray-100 dark:border-white/5 shadow-xl">
+                <div className="text-3xl font-black text-brand-blue-600 mb-1">All 50</div>
+                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">States We Help In</div>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                  Broad geographic coverage helping businesses target any locale.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* THE WORKFLOW - ADDED PER REQUEST */}
-      <section id="how-it-works" className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden">
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-24 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">The Workflow</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Start Bidding in <span className="italic text-brand-blue-600">5 Simple Steps</span></h3>
+          <div className="text-center mb-20 max-w-2xl mx-auto">
+            <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.25em]">
+              The process
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold mt-2">
+              From "where do I start" to "submitted on time."
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             {steps.map((step, i) => (
-              <div key={i} className="relative">
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-16 h-16 rounded-2xl bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 shadow-xl flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 group-hover:border-brand-blue-600 transition-all">
-                    <step.icon className="w-7 h-7" />
-                  </div>
-                  <div className="absolute top-8 left-1/2 w-full h-[2px] bg-slate-200 dark:bg-white/5 -z-0 hidden md:block last:hidden" />
-                  <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">{step.num}</span>
-                  <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-none h-[2em]">{step.title}</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                    {step.desc}
-                  </p>
+              <div key={i} className="relative flex flex-col items-center text-center group">
+                <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-xl flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 group-hover:border-brand-blue-600 group-hover:text-brand-blue-600 transition-all duration-300">
+                  <step.icon className="w-7 h-7 transition-transform duration-300 group-hover:rotate-6" />
                 </div>
+                <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">{step.num}</span>
+                <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-tight h-[2.5em] flex items-center">
+                  {step.title}
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* NEW PRICING SECTION - MODEL C (MIRRORED FROM BID MANAGEMENT) */}
-      <section id="pricing" className="py-32 bg-white dark:bg-black/20 border-t border-slate-100 dark:border-white/5 overflow-hidden">
-         <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-               <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-4 italic">Simple, transparent pricing</h3>
-               <p className="text-lg text-slate-500 font-medium">Start free. Pay as you grow. We only take a success fee when you win.</p>
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden border-b border-gray-100 dark:border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
+            <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
+              Transparent pricing
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
+              Three ways to pay. You pick.
+            </h2>
+            <p className="text-base sm:text-lg text-slate-500 font-medium">
+              Same full-service delivery in every option—a named consultant, expert writing, full compliance review, and on-time submission. What changes is how you pay.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-16">
+            
+            {/* Pay When You Win */}
+            <div className="relative flex flex-col p-10 rounded-[3rem] bg-brand-navy-900 border-2 border-brand-blue-600 scale-100 lg:scale-105 shadow-2xl z-10 text-white">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
+                Most Popular
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 mb-2">LOW RISK START</span>
+              <div className="mb-4">
+                <span className="text-4xl font-bold">$1,500</span>
+                <span className="text-slate-400 font-bold text-sm"> upfront</span>
+              </div>
+              <p className="text-sm text-slate-400 mb-8 font-medium leading-relaxed">
+                Low upfront fee to cover initial extraction and strategy setup, plus a small success fee charged only if you win.
+              </p>
+              
+              <div className="space-y-4 flex-grow mb-8 border-t border-white/10 pt-6">
+                <div className="flex justify-between items-center text-xs font-bold text-slate-300">
+                  <span>Success Fee</span>
+                  <span className="text-white font-black">1.0% of contract value</span>
+                </div>
+                <div className="text-[10px] text-slate-400 leading-relaxed italic">
+                  *Example: On a $300,000 contract, you pay a $3,000 success fee only if awarded the contract. Lose, and you pay nothing more.
+                </div>
+              </div>
+              
+              <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
+                Start a Pay-When-You-Win Bid
+              </Link>
+            </div>
+
+            {/* Flat Rate */}
+            <div className="flex flex-col p-10 rounded-[3rem] border border-gray-200 dark:border-white/5 bg-white dark:bg-brand-navy-900/40 hover:shadow-xl transition-all">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue-600 mb-2">TOTAL CERTAINTY</span>
+              <div className="mb-4">
+                <span className="text-sm font-black text-slate-400 uppercase tracking-widest block mr-1">One All-Inclusive Price</span>
+                <span className="text-4xl font-bold text-brand-navy-900 dark:text-white">Per Bid</span>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 font-medium leading-relaxed">
+                Flat cost per bid with zero success fees. Ideal for businesses with clear budgeting requirements.
+              </p>
+
+              <div className="flex flex-col mb-8 bg-slate-50 dark:bg-white/5 p-5 rounded-[2rem] border border-slate-100 dark:border-white/5 space-y-2.5">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Pricing by Contract Size</span>
+                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <span>Contracts up to $1M</span>
+                  <span className="text-brand-navy-900 dark:text-white font-black">$450</span>
+                </div>
+                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <span>Contracts up to $3.5M</span>
+                  <span className="text-brand-navy-900 dark:text-white font-black">$850</span>
+                </div>
+                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <span>Contracts up to $6.5M</span>
+                  <span className="text-brand-navy-900 dark:text-white font-black">$1,500</span>
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 dark:border-white/20 text-brand-navy-900 dark:text-white font-bold text-sm hover:bg-brand-navy-900 dark:hover:bg-white/10 hover:text-white dark:hover:text-white transition-all">
+                  Get a Flat-Rate Quote
+                </Link>
+              </div>
+            </div>
+
+            {/* Monthly Retainer */}
+            <div className="flex flex-col p-10 rounded-[3rem] border border-gray-200 dark:border-white/5 bg-white dark:bg-brand-navy-900/40 hover:shadow-xl transition-all">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">RECURRING VALUE</span>
+              <div className="mb-4">
+                <span className="text-sm font-black text-slate-400 uppercase tracking-widest block mr-1">For Active Bidders</span>
+                <span className="text-4xl font-bold text-brand-navy-900 dark:text-white">Proposal Team</span>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 font-medium leading-relaxed">
+                Add an entire proposal department to your company. Best for teams bidding on multiple opportunities regularly.
+              </p>
+
+              <div className="flex flex-col mb-8 bg-slate-50 dark:bg-white/5 p-5 rounded-[2rem] border border-slate-100 dark:border-white/5 space-y-2.5">
+                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Retainer Tiers</span>
+                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <div>
+                    <span>Pursue</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">1 managed bid / mo</span>
+                  </div>
+                  <span className="text-brand-navy-900 dark:text-white font-black">$1,500/mo</span>
+                </div>
+                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <div>
+                    <span>Compete</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">2 managed bids / mo</span>
+                  </div>
+                  <span className="text-brand-navy-900 dark:text-white font-black">$2,800/mo</span>
+                </div>
+                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <div>
+                    <span>Dominate</span>
+                    <span className="block text-[9px] text-slate-400 font-medium">High volume & custom</span>
+                  </div>
+                  <span className="text-brand-navy-900 dark:text-white font-black">Custom</span>
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 dark:border-white/20 text-brand-navy-900 dark:text-white font-bold text-sm hover:bg-brand-navy-900 dark:hover:bg-white/10 hover:text-white dark:hover:text-white transition-all">
+                  Talk to Us About a Retainer
+                </Link>
+              </div>
+            </div>
+
+          </div>
+
+          {/* What You Get Grid */}
+          <div className="max-w-4xl mx-auto bg-white dark:bg-brand-navy-900 rounded-[2.5rem] border border-gray-100 dark:border-white/10 p-8 sm:p-10 shadow-lg text-left">
+            <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-6 uppercase tracking-tight border-b border-slate-100 dark:border-white/5 pb-4">
+              What you get on every bid
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "A named consultant who owns your bid end to end",
+                "Eligibility and honest go/no-go assessment",
+                "Full requirement extraction and compliance matrix",
+                "Proposal writing, formatting, and design under your name",
+                "Two-sets-of-eyes compliance and quality review",
+                "On-time submission through the buyer's portal",
+                "Post-award debrief session"
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
+                  <span className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-normal">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Operator Credibility */}
+      <section className="py-24 bg-white dark:bg-brand-navy-900 overflow-hidden border-b border-slate-100 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            <div className="lg:col-span-7 space-y-6">
+              <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
+                Why clients trust us with their bids
+              </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
+                We've filed these bids ourselves. We know what gets you disqualified.
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed text-base md:text-lg">
+                Stronger Built is a veteran-owned firm that has personally navigated government procurement portals and submitted winning bids. We know the requirements buyers actually enforce, the formatting that gets proposals tossed, and the deadlines that don't forgive. When you choose Pay-When-You-Win, our reward depends on your result—so we treat your bid like our own.
+              </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mb-20">
-               
-               {/* CARD 1 — FREE */}
-               <div className="order-2 lg:order-1 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 mb-2">ALWAYS FREE</span>
-                  <div className="flex items-baseline gap-1 mb-6">
-                     <span className="text-5xl font-bold text-brand-navy-900">$0</span>
-                     <span className="text-slate-500 font-bold text-sm">forever</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
-                     Set up your business profile and see which California government contracts match your certifications and service area. No credit card required.
+            <div className="lg:col-span-5 relative flex items-center justify-center">
+              <div className="relative w-full max-w-md aspect-square bg-slate-50 dark:bg-white/5 rounded-[2.5rem] border border-gray-100 dark:border-white/10 shadow-2xl flex items-center justify-center p-8 text-center overflow-hidden">
+                <div className="absolute top-0 left-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-3xl" />
+                <div className="relative z-10 space-y-4">
+                  <ShieldCheck className="w-16 h-16 text-brand-blue-600 mx-auto" />
+                  <h3 className="text-xl font-bold text-brand-navy-900 dark:text-white uppercase tracking-tight">Veteran-Owned Firm</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                    Personally navigated complex government procurement channels. Built on discipline, compliance, and precision.
                   </p>
-                  <div className="space-y-4 mb-10 flex-grow">
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Business profile</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">See matched bids</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">5 bid alerts / mo</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Basic compliance flags</span>
-                     </div>
-                     <div className="flex items-center gap-3 text-slate-300">
-                        <X className="w-5 h-5 shrink-0" />
-                        <span className="text-xs font-bold">AI bid plans & SWOT</span>
-                     </div>
-                     <div className="flex items-center gap-3 text-slate-300">
-                        <X className="w-5 h-5 shrink-0" />
-                        <span className="text-xs font-bold">Prospective bidder data</span>
-                     </div>
-                  </div>
-                  <Link href="/portal/signup" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 text-brand-navy-900 font-bold text-sm hover:bg-brand-navy-900 hover:text-white transition-all">
-                     Create Free Account
-                  </Link>
-               </div>
-
-               {/* CARD 2 — SCOUT */}
-               <div className="order-3 lg:order-2 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue-600 mb-2">MONTHLY SUBSCRIPTION</span>
-                  <div className="flex items-baseline gap-1 mb-6">
-                     <span className="text-5xl font-bold text-brand-navy-900">$49</span>
-                     <span className="text-slate-500 font-bold text-sm">/ month</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-8 font-medium leading-relaxed">
-                     100 bid alerts for your services per month. State portal (Cal eProcure) access. AI fit score matching your business profile.
-                  </p>
-                  <div className="space-y-4 mb-10 flex-grow">
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Everything in Free</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">100 bid alerts / month</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Cal eProcure State Portal</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">AI fit score matching profile</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Daily email digest</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Pipeline tracker</span>
-                     </div>
-                  </div>
-                  <Link href="/portal/signup?plan=scout" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 text-brand-navy-900 font-bold text-sm hover:bg-brand-navy-900 hover:text-white transition-all">
-                     Start Scout — $49/mo
-                  </Link>
-               </div>
-
-               {/* CARD 3 — PRO */}
-               <div className="relative order-1 lg:order-3 flex flex-col p-10 rounded-[3rem] bg-brand-navy-900 border-2 border-brand-blue-600 scale-105 shadow-2xl z-10">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
-                     Most Popular
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 mb-2">MONTHLY SUBSCRIPTION</span>
-                  <div className="flex items-baseline gap-1 mb-6 text-white">
-                     <span className="text-5xl font-bold">$99</span>
-                     <span className="text-slate-400 font-bold text-sm">/ month</span>
-                  </div>
-                  <p className="text-sm text-slate-400 mb-8 font-medium leading-relaxed">
-                     All 25+ California state, city, county and educational portals. Unlimited bid alerts and deep AI analysis.
-                  </p>
-                  <div className="space-y-4 mb-10 flex-grow">
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Everything in Scout</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Unlimited bid alerts</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">All 25+ California portals</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">AI Analysis (10 unlocked bids)</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">DIR/Wage compliance screening</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-white">Priority email support</span>
-                     </div>
-                  </div>
-                  <Link href="/portal/signup?plan=pro" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-white text-brand-navy-900 font-bold text-sm hover:bg-slate-100 transition-all shadow-xl">
-                     Start Pro — $99/mo
-                  </Link>
-               </div>
-
-               {/* CARD 4 — MANAGED */}
-               <div className="order-4 lg:order-4 flex flex-col p-10 rounded-[3rem] border border-gray-200 bg-white hover:shadow-xl transition-all">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">PER SUBMISSION</span>
-                  <div className="flex items-baseline gap-1 mb-4">
-                     <span className="text-sm font-black text-slate-400 uppercase tracking-widest block mr-1">Starting at</span>
-                     <span className="text-5xl font-bold text-brand-navy-900">$450</span>
-                     <span className="text-slate-500 font-bold text-sm">/ bid</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-6 font-medium leading-relaxed">
-                     We write the complete proposal under your business name and file it on the portal. You focus on the work — we handle the paperwork.
-                  </p>
-
-                  {/* Pricing Tiers Box */}
-                  <div className="flex flex-col mb-8 bg-slate-50/80 p-5 rounded-[2rem] border border-slate-100/80 space-y-2.5">
-                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Bid Writing Fee Tiers</span>
-                     <div className="flex justify-between items-center text-xs font-bold text-slate-700">
-                        <span>Contracts up to $1M</span>
-                        <span className="text-brand-navy-900 font-black">$450</span>
-                     </div>
-                     <div className="flex justify-between items-center text-xs font-bold text-slate-700">
-                        <span>Contracts up to $3.5M</span>
-                        <span className="text-brand-navy-900 font-black">$850</span>
-                     </div>
-                     <div className="flex justify-between items-center text-xs font-bold text-slate-700">
-                        <span>Contracts up to $6.5M</span>
-                        <span className="text-brand-navy-900 font-black">$1,500</span>
-                     </div>
-                  </div>
-
-                  <div className="space-y-4 mb-6 flex-grow">
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Full RFP / IFB analysis</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Proposal writing & filing</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Labor compliance review</span>
-                     </div>
-                     <div className="flex items-center gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0" />
-                        <span className="text-xs font-bold text-brand-navy-900">Pre-bid representation</span>
-                     </div>
-                  </div>
-                  
-                  <div className="border-t border-slate-100 pt-6 mb-8">
-                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">If you win</span>
-                     <span className="text-lg font-black text-brand-navy-900 block leading-none">1.00% of contract value</span>
-                     <span className="text-[9px] text-slate-400 font-bold leading-tight block mt-1 italic">
-                        On a $300,000 contract that is $3,000 — only charged if you are awarded the contract.
-                     </span>
-                  </div>
-
-                  <Link href="/portal/hire" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-navy-900 text-white font-bold text-sm hover:bg-brand-blue-600 transition-all shadow-lg">
-                     Get RFP Help — starting at $450
-                  </Link>
-               </div>
-
-            </div>
-
-            {/* Trust Callout Box */}
-            <div className="max-w-4xl mx-auto bg-brand-blue-50 border-l-4 border-brand-blue-600 rounded-xl p-6 md:p-8 mb-20 shadow-sm text-left">
-               <div className="flex items-start gap-4">
-                  <Shield className="w-6 h-6 text-brand-blue-600 shrink-0" />
-                  <div>
-                     <h4 className="text-sm font-bold text-brand-blue-600 uppercase tracking-widest mb-2">Why businesses trust us with their bids</h4>
-                     <p className="text-sm text-brand-navy-900 font-medium leading-relaxed">
-                        StrongerBuilt LLC is a licensed California general contractor (CSLB #1057434), SDVOSB and DVBE certified. We have personally submitted government bids on CaleProcure, PlanetBids, and Caltrans. We know what gets proposals disqualified — and we make sure yours never is.
-                     </p>
-                  </div>
-               </div>
-            </div>
-
-            {/* FAQ Accordion */}
-            <div className="max-w-3xl mx-auto mb-20 text-left">
-               <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white mb-8 text-center italic">Frequently Asked Questions</h3>
-               <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1" className="border-slate-100 dark:border-white/10">
-                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
-                        Do I need a subscription to use the managed bid service?
-                     </AccordionTrigger>
-                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        No. The managed submission starting at $450 is a standalone service. You can pay per bid with no monthly commitment. A subscription gives you the AI matching and intelligence layer — but it is not required to hire us to write a bid.
-                     </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-2" className="border-slate-100 dark:border-white/10">
-                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
-                        What is the success fee and when do I pay it?
-                     </AccordionTrigger>
-                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        The success fee is 1.00% of the contract value, charged only if your bid is awarded. On a $200,000 contract that is $2,000. If you do not win, the only cost is the flat submission fee ($450, $850, or $1,500 depending on the contract size). The success fee is invoiced after the award notice is issued.
-                     </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="item-3" className="border-slate-100 dark:border-white/10">
-                     <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600">
-                        What counts as a mandatory pre-bid meeting and can you attend on my behalf?
-                     </AccordionTrigger>
-                     <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                        Some California government contracts require all bidders to attend an in-person or virtual meeting before the submission deadline. If your name is not on the sign-in sheet, your bid is automatically disqualified — by law, with no exceptions. BidIQ flags these automatically. For Full-Cycle managed submissions, site walk attendance is included.
-                     </AccordionContent>
-                  </AccordionItem>
-               </Accordion>
-            </div>
-         </div>
-      </section>
-
-      {/* Services Grid - RESTORED FULL */}
-      <section className="py-24 bg-background-light dark:bg-black/20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Prime Contracting Excellence</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Self-Performed & Expertly <span className="italic text-brand-blue-600">Managed.</span></h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">As a licensed California General Contractor, we provide rigorous oversight and high-quality execution for government and commercial infrastructure.</p>
-          </div>
-
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: FileText, title: "Strategic Bid Management", desc: "End-to-end RFP management, DIR compliance, and pricing strategy.", href: "/bid-management", image: "/images/services/bid-management.png" },
-              { icon: HardHat, title: "Construction Consulting", desc: "Feasibility studies, cost estimation, and constructability reviews.", href: "/services/construction-consulting", image: "/images/services/construction-consulting.png" },
-              { icon: CheckCircle2, title: "Project Management", desc: "CPM scheduling, QA/QC, and rigorous design-build oversight.", href: "/services/project-management", image: "/images/services/project-management-team.png" },
-              { icon: Building2, title: "Subcontracting Services", desc: "Certified DVBE partnership managing premium specialized trades.", href: "/services/subcontracting-services", image: "/images/services/subcontracting-logistics.png" },
-              { icon: Wrench, title: "Facility Maintenance", desc: "Multi-trade ongoing maintenance. Rapid emergency responses.", href: "/services/facility-maintenance", image: "/images/services/hvac-service.png" },
-              { icon: ShieldCheck, title: "Janitorial Services", desc: "DIR-registered commercial cleaning and deep sanitization.", href: "/services/janitorial-services", image: "/images/services/janitorial-service.png" },
-              { icon: Package, title: "Material Supply", desc: "Bulk sourcing and logistics to hit diversity spend targets.", href: "/services/construction-material-supply", image: "/images/services/material-supply.png" },
-              { icon: Wrench, title: "Plumbing Services", desc: "Specialized C-36 commercial and industrial plumbing solutions.", href: "/services/plumbing", image: "/images/services/plumbing-service.png" },
-              { icon: Building2, title: "Modular Construction", desc: "Strategic fabrication and installation of high-efficiency modular units.", href: "/services/modular", image: "/images/services/modular-construction.png" },
-            ].map((srv, i) => (
-              <div key={i} className="group flex flex-col bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-brand-blue-600/10 transition-all duration-300 hover:-translate-y-2">
-                <div className="aspect-[16/10] relative overflow-hidden">
-                  <img src={srv.image} alt={srv.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
-                  <div className="absolute top-4 left-4">
-                    <div className="w-10 h-10 rounded-xl bg-white/90 dark:bg-brand-navy-900/90 backdrop-blur-md flex items-center justify-center text-brand-blue-600 shadow-lg">
-                      <srv.icon className="w-5 h-5" />
-                    </div>
-                  </div>
-                </div>
-                <div className="p-8 flex flex-col flex-grow">
-                  <h4 className="text-2xl font-bold text-brand-navy-900 dark:text-white mb-4 tracking-tight group-hover:text-brand-blue-600 transition-colors">
-                    {srv.title}
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8 flex-grow font-medium text-sm">
-                    {srv.desc}
-                  </p>
-                  <Link href={srv.href} className="inline-flex items-center gap-2 text-xs font-black text-brand-blue-600 uppercase tracking-widest group/link">
-                    <span>Learn More</span>
-                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-2 transition-transform" />
-                  </Link>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-16 text-center">
-            <Link 
-              href="/services" 
-              className="inline-flex items-center gap-3 bg-brand-navy-900 dark:bg-brand-blue-600 text-white px-10 py-5 rounded-full font-bold text-sm hover:bg-brand-blue-600 dark:hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 group"
-            >
-              <span>Explore All Commercial Services</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Data Sources Section */}
-      <section className="py-24 bg-brand-navy-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
-        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-           <h2 className="text-[11px] font-black text-amber-400 uppercase tracking-[0.3em] mb-4">Procurement Intelligence</h2>
-           <h3 className="text-5xl md:text-7xl font-serif text-white mb-6 italic">25+ Portals. <span className="text-brand-blue-600">One Feed.</span></h3>
-           <p className="text-lg text-slate-400 mb-16 max-w-2xl mx-auto font-medium">We monitor state, county, city, university, and many other procurement systems so you never have to.</p>
-           
-           <div className="flex flex-wrap justify-center gap-3">
-              {portals.map((p, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-white/5 border border-white/10 hover:border-brand-blue-600 px-6 py-3 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all cursor-default"
-                >
-                  {p}
-                </motion.div>
-              ))}
-           </div>
-        </div>
-      </section>
-
-      {/* Featured Projects - RESTORED FULL */}
-      <section className="py-24 bg-white dark:bg-brand-navy-900 border-t border-gray-100 dark:border-white/5 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-[11px] font-bold tracking-widest text-amber-600 uppercase mb-3">Construction Authority</h2>
-              <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white">Past <span className="italic text-brand-blue-600">Performance.</span></h3>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies / Results */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden border-b border-gray-100 dark:border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+              <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.25em]">
+                The results speak for themselves
+              </span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold mt-2">
+                Real bids. Real wins.
+              </h2>
+            </div>
+            
             <Link href="/projects" className="text-brand-blue-600 font-bold hover:text-blue-700 flex items-center gap-2 group text-sm">
-              View All Pipeline
+              <span>View Case Studies</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             {[
               {
-                slug: "caltrans-district-11-t-i",
-                title: "Caltrans District 11 TI",
-                client: "Caltrans",
-                image: "/images/projects/caltrans-district-11-ti.png",
-                scope: "District Administrative TI",
-                size: "15,000 sqft",
-                role: "General Contractor",
-                work: "ADA Upgrades"
+                slug: "case-study-1",
+                industry: "Information Technology",
+                client: "Federal Agency RFP",
+                challenge: "RFP required complex cybersecurity clearances and strict compliance metrics on a 10-day turnaround.",
+                outcome: "Won proposal. Secured $1.2M multi-year service contract under the Pay-When-You-Win model."
               },
               {
-                slug: "affordable-housing-project",
-                title: "Affordable Housing",
-                client: "City of LA",
-                image: "/images/projects/affordable-housing.png",
-                scope: "32 Unit Housing Project",
-                size: "150,000 sqft",
-                role: "Modular Manufacturer",
-                work: "Fabrication / Installation"
+                slug: "case-study-2",
+                industry: "Professional Staffing",
+                client: "State Procurement Authority",
+                challenge: "Highly competitive bid with a complex pricing sheet and strict small business set-aside requirements.",
+                outcome: "Successfully qualified and selected as prime vendor. Estimated contract value of $2.4M."
               }
-            ].map((proj) => (
-              <div key={proj.slug} className="flex flex-col rounded-[2.5rem] overflow-hidden border border-gray-200 dark:border-white/10 bg-slate-50 dark:bg-brand-navy-900/50 group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                <div className="h-64 w-full relative overflow-hidden flex items-center justify-center bg-slate-200">
-                  <img src={proj.image} alt={proj.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-brand-navy-900/20 group-hover:bg-transparent transition-colors" />
-                  <div className="absolute top-6 right-6 bg-brand-navy-900/60 backdrop-blur-md px-4 py-1.5 rounded-full text-[9px] font-black text-white uppercase tracking-widest border border-white/5">
-                    Data Verified
+            ].map((study, i) => (
+              <div key={i} className="flex flex-col rounded-[2.5rem] border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-navy-900/50 p-8 sm:p-10 shadow-lg group hover:shadow-2xl transition-all duration-300">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-blue-600">{study.industry}</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 px-3 py-1 rounded-full">
+                    {study.client}
+                  </span>
+                </div>
+                <div className="space-y-4 mb-8 flex-grow">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    <strong className="text-brand-navy-900 dark:text-white text-sm block mb-1">Challenge:</strong>
+                    {study.challenge}
+                  </div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    <strong className="text-brand-blue-600 dark:text-brand-blue-400 text-sm block mb-1">Result:</strong>
+                    {study.outcome}
                   </div>
                 </div>
-                
-                <div className="p-10 flex flex-col flex-1">
-                  <h3 className="text-3xl font-bold text-brand-navy-900 dark:text-white mb-8 uppercase tracking-tight leading-none group-hover:text-brand-blue-600 transition-colors">
-                    {proj.title}
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 gap-4 mb-10">
-                    {[
-                      { label: "Scope", value: proj.scope },
-                      { label: "Role", value: proj.role },
-                      { label: "Work", value: proj.work },
-                      { label: "Lead", value: proj.client }
-                    ].map((spec) => (
-                      <div key={spec.label} className="flex gap-4 text-[10px] uppercase tracking-widest">
-                        <span className="font-black text-brand-blue-600 w-20 shrink-0">{spec.label}:</span>
-                        <span className="font-bold text-slate-600 dark:text-slate-300">{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-auto grid grid-cols-2 gap-4">
-                    <Link href={`/projects/${proj.slug}`} className="flex items-center justify-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-[10px] font-black text-brand-navy-900 dark:text-white hover:border-brand-blue-600 transition-all uppercase tracking-widest">
-                      Study <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                    <Link href="/contact" className="flex items-center justify-center gap-2 bg-brand-blue-600 text-white rounded-2xl px-6 py-4 text-[10px] font-black hover:bg-blue-700 transition-all uppercase tracking-widest">
-                      Refer <Info className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
+                <Link href="/projects" className="inline-flex items-center gap-2 text-xs font-black text-brand-blue-600 uppercase tracking-widest group/link mt-auto">
+                  <span>View Case Study details</span>
+                  <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                </Link>
               </div>
             ))}
           </div>
 
+          <div className="max-w-3xl mx-auto bg-brand-blue-600/5 rounded-3xl p-8 border border-brand-blue-600/10 text-center">
+            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 font-medium italic mb-4">
+              "[Real client quote, with permission.]"
+            </p>
+            <div className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+              [Name, Title, Company]
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* FAQ Section - NEW */}
-      <section className="py-24 bg-slate-50 dark:bg-black/10 border-t border-gray-100 dark:border-white/5">
+      {/* Industries Section */}
+      <section id="industries" className="py-24 bg-white dark:bg-brand-navy-900 overflow-hidden border-b border-slate-100 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.25em]">
+              Wherever there's an RFP
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold mt-2">
+              We go where your business goes.
+            </h2>
+            <p className="text-slate-500 font-medium mt-4">
+              If there are government bids in your field, we have a way to win them—nationwide.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {industries.map((ind, i) => (
+              <div key={i} className="p-8 rounded-[2rem] border border-gray-100 dark:border-white/5 bg-slate-50/50 dark:bg-white/5 hover:bg-white dark:hover:bg-brand-navy-800 transition-all duration-300 hover:shadow-xl group">
+                <div className="w-10 h-10 rounded-xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 transition-transform">
+                  <ind.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-2 uppercase tracking-tight">
+                  {ind.name}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
+                  {ind.desc}
+                </p>
+              </div>
+            ))}
+            
+            <div className="p-8 rounded-[2rem] border-2 border-dashed border-gray-200 dark:border-white/10 flex flex-col justify-center items-center text-center">
+              <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-2 uppercase tracking-tight">
+                Don't see your industry?
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold mb-6 max-w-[200px]">
+                We handle bids across almost all sectors. Let's discuss your specific RFP.
+              </p>
+              <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-black text-brand-blue-600 uppercase tracking-widest group">
+                <span>Let's talk</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-slate-50 dark:bg-black/10 border-b border-gray-100 dark:border-white/5">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-[11px] font-black text-amber-600 uppercase tracking-[0.3em] mb-4">Questions from first-time users</h2>
-            <h3 className="text-3xl md:text-5xl font-serif text-brand-navy-900 dark:text-white mb-6">Frequently Asked <span className="italic text-brand-blue-600">Questions.</span></h3>
+            <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
+              Frequently Asked Questions
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold mt-2">
+              Common Questions
+            </h2>
           </div>
 
           <div className="space-y-4">
             {[
               {
-                q: "What is a DVBE / SDVOSB contractor and why does it matter?",
-                a: "A Disabled Veteran Business Enterprise (DVBE) and Service-Disabled Veteran-Owned Small Business (SDVOSB) are certified entities that help government agencies meet mandatory diversity spend goals. In California, many public works contracts have a 3% mandatory DVBE participation goal. Partnering with Stronger Built LLC ensures you meet these requirements with a high-performance prime or subcontractor."
+                q: "How does \"Pay When You Win\" work?",
+                a: "You pay a low upfront engagement fee to cover the compliance extraction, compliance matrix setup, and proposal strategy. The remaining success fee is a percentage of the contract value, charged only if your bid is awarded. We confirm exact numbers in writing on your free consultation, before any work starts."
               },
               {
-                q: "How do I ensure my business is DIR and Prevailing Wage compliant?",
-                a: "California Labor Code requires all contractors bidding on public works projects to be registered with the Department of Industrial Relations (DIR). You must also pay 'Prevailing Wages' as determined by the Office of Policy, Research and Legislation (OPRL). BidIQ automatically flags these requirements and our Managed Submission service handles the complex eCPR and DAS filing for you."
+                q: "Who actually writes my proposal?",
+                a: "A named human consultant and expert writer is assigned to your engagement. They handle all drafting, compliance tracking, and submission under your company's name. There is no automated or AI drafting; it is entirely human-led expertise."
               },
               {
-                q: "How does BidIQ outperform manual portal searching?",
-                a: "Manual searching often results in missed opportunities and hours of wasted time. BidIQ consolidates over 30+ California procurement portals into a single, intelligent feed. We don't just list contracts; we rank them based on your specific NAICS codes, certifications, and past performance. Most users reclaim over 10 hours a week by focusing only on high-fit bids."
+                q: "Do I have to sign a long-term contract?",
+                a: "No. You can engage us for a single bid or sign up for a month-to-month retainer. You are never locked in."
               },
               {
-                q: "Can Stronger Built LLC attend mandatory pre-bid meetings for me?",
-                a: "Yes. For our Managed Submission clients, site walk attendance is included. California law strictly requires attendance at mandatory pre-bid meetings; if you aren't on the sign-in sheet, your bid is disqualified with no exceptions. We represent your interests on-site, capturing critical job-site data for more accurate pricing."
+                q: "What if I just want to find opportunities myself?",
+                a: "You can use our free nationwide bid search by registering on the portal. When you find an opportunity you want to pursue, you can hire us to handle the strategy, proposal writing, and submission."
               },
               {
-                q: "What specific contract sources does BidIQ monitor?",
-                a: "Our engine scans a massive array of California-specific sources, including Cal eProcure, PlanetBids, and many municipal hubs like RAMP (LA) and BuyNet (San Diego). While the Starter tier covers core local portals, our Professional and Enterprise plans unlock expanded state-wide and specialized agency feeds."
+                q: "How fast can you turn a bid around?",
+                a: "Turnaround times depend on the RFP's size and complexity. Bring us the opportunity as early as possible, and we will give you an honest go/no-go assessment and timeline on our free call."
               }
             ].map((faq, i) => (
               <FAQItem key={i} question={faq.q} answer={faq.a} />
             ))}
           </div>
-
-          <div className="mt-16 bg-brand-blue-600/5 rounded-3xl p-8 border border-brand-blue-600/10 text-center">
-             <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-3">Looking for more compliance resources?</h4>
-             <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-xl mx-auto font-medium">Visit our Knowledge Hub for deep-dives into California public works laws, DIR registration guides, and strategic bidding tips.</p>
-             <Link href="/insights" className="inline-flex items-center gap-2 text-brand-blue-600 font-black uppercase tracking-widest text-xs group">
-                Go to Knowledge Hub <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-             </Link>
-          </div>
         </div>
       </section>
 
+      {/* Final CTA Section */}
+      <section className="relative py-24 bg-brand-navy-900 overflow-hidden text-white border-t border-white/5">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-6 text-center relative z-10 space-y-8">
+          <span className="text-[10px] font-black text-amber-400 uppercase tracking-[0.25em]">
+            Ready to win?
+          </span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold tracking-tight leading-tight">
+            Let's win your next bid.
+          </h2>
+          <p className="text-base sm:text-lg text-slate-400 max-w-xl mx-auto font-medium leading-relaxed">
+            Free consultation. Clear terms. And with Pay-When-You-Win, you don't carry the risk alone.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-xl hover:-translate-y-1">
+              <span>Book a Free Consultation</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
+              <span>Search Open Bids — Free</span>
+            </Link>
+          </div>
+
+          <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-center items-center gap-y-2 gap-x-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <div>📞 (831) 760-0806</div>
+            <div className="hidden sm:block">·</div>
+            <div>✉️ info@strongerbuilt.us</div>
+          </div>
+        </div>
+      </section>
 
     </div>
   );
@@ -844,15 +658,15 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-gray-200 dark:border-white/10 rounded-[2rem] bg-white dark:bg-brand-navy-900/40 overflow-hidden transition-all hover:border-brand-blue-600/30">
+    <div className="border border-gray-200 dark:border-white/10 rounded-[2rem] bg-white dark:bg-brand-navy-900/40 overflow-hidden transition-all hover:border-brand-blue-600/30 shadow-sm">
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-8 py-6 flex items-center justify-between text-left group"
       >
-        <span className="text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">{question}</span>
+        <span className="text-base sm:text-lg font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors">{question}</span>
         <ChevronDown 
           className={cn(
-            "w-5 h-5 text-slate-400 transition-transform duration-300",
+            "w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0 ml-4",
             isOpen && "rotate-180 text-brand-blue-600"
           )} 
         />
@@ -866,7 +680,7 @@ function FAQItem({ question, answer }: { question: string, answer: string }) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="px-8 pb-8">
-              <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
                 {answer}
               </p>
             </div>
