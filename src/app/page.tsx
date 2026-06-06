@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { 
@@ -80,13 +80,29 @@ export default function Home() {
   const shortVal = formatShortVal(contractValue);
   const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
-  const steps = [
-    { num: "01", title: "Find & qualify", desc: "We search opportunities nationwide and bring you only the ones worth your time. Every match gets an honest go/no-go before you spend a dollar.", icon: Search },
-    { num: "02", title: "Strategize", desc: "A named consultant builds your win strategy—how to position your strengths, where the disqualification traps are, and how to price to win.", icon: LineChart },
-    { num: "03", title: "Write & build", desc: "Expert writers produce the full proposal: every requirement mapped to a response, a complete compliance matrix, clean formatting, all under your company's name.", icon: FileText },
-    { num: "04", title: "Review & submit", desc: "Two sets of eyes check every requirement, then we file on time through the buyer's portal and confirm receipt.", icon: ShieldCheck },
-    { num: "05", title: "Debrief", desc: "Win or lose, we walk through the result with you, so the next bid is stronger.", icon: Clock }
-  ];
+  const [hiwInView, setHiwInView] = useState(false);
+
+  useEffect(() => {
+    const el = document.querySelector('.hiw');
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setHiwInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setHiwInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const industries = [
     { name: "IT & Software", desc: "SaaS licenses, custom software development, cloud infrastructure, IT support, cybersecurity audits.", icon: Zap },
@@ -471,32 +487,105 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-24 bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20 max-w-2xl mx-auto">
-            <span className="text-[10px] font-black text-brand-blue-600 uppercase tracking-[0.25em]">
-              The process
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold mt-2">
-              From "where do I start" to "submitted on time."
-            </h2>
-          </div>
+      <section className={cn("hiw", hiwInView && "in")} id="how-it-works">
+        <div className="hiw-head">
+          <span className="hiw-eyebrow">The Process</span>
+          <h2>From <em>"where do I start"</em> to <em>"submitted on time."</em></h2>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            {steps.map((step, i) => (
-              <div key={i} className="relative flex flex-col items-center text-center group">
-                <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-xl flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 group-hover:border-brand-blue-600 group-hover:text-brand-blue-600 transition-all duration-300">
-                  <step.icon className="w-7 h-7 transition-transform duration-300 group-hover:rotate-6" />
-                </div>
-                <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2">{step.num}</span>
-                <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-3 uppercase tracking-tight leading-tight h-[2.5em] flex items-center">
-                  {step.title}
-                </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                  {step.desc}
-                </p>
+        <div className="hiw-track">
+          <div className="hiw-line"><div className="fill"></div></div>
+          <div className="hiw-pulse"></div>
+
+          <div className="hiw-steps">
+
+            {/* 01 FIND & QUALIFY */}
+            <div className="step">
+              <div className="tile" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <circle className="fillp" cx="20" cy="20" r="12"/>
+                  <circle className="linep" cx="20" cy="20" r="12"/>
+                  <path className="linep" d="M29 29 L40 40"/>
+                  <path className="linep" d="M15 20 l4 4 l7 -8"/>
+                </svg>
               </div>
-            ))}
+              <div className="step-body">
+                <div className="step-num">01</div>
+                <div className="step-title">Find &amp; Qualify</div>
+                <p className="step-desc">We search opportunities nationwide and bring you only the ones worth your time — with an honest go/no-go before you spend a dollar.</p>
+              </div>
+            </div>
+
+            {/* 02 STRATEGIZE */}
+            <div className="step">
+              <div className="tile" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <circle className="fillp" cx="21" cy="24" r="14"/>
+                  <circle className="linep" cx="21" cy="24" r="14"/>
+                  <circle className="linep" cx="21" cy="24" r="7"/>
+                  <circle className="dot" cx="21" cy="24" r="2.4"/>
+                  <path className="linep" d="M21 24 L40 8"/>
+                  <path className="linep" d="M40 8 l-6 .4 M40 8 l-.4 6"/>
+                </svg>
+              </div>
+              <div className="step-body">
+                <div className="step-num">02</div>
+                <div className="step-title">Strategize</div>
+                <p className="step-desc">A named consultant builds your win strategy — how to position your strengths, dodge disqualification traps, and price to win.</p>
+              </div>
+            </div>
+
+            {/* 03 WRITE & BUILD (core) */}
+            <div className="step core">
+              <div className="tile" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <path className="fillp" d="M12 6 h16 l8 8 v28 a0 0 0 0 1 0 0 H12 a0 0 0 0 1 0 0 Z"/>
+                  <path className="linep" d="M28 6 v8 h8"/>
+                  <path className="linep" d="M12 6 h16 l8 8 v28 H12 Z"/>
+                  <path className="linep" d="M17 22 h10 M17 28 h14 M17 34 h8"/>
+                  <path className="linep" d="M31 33 l8 -8 a2.1 2.1 0 0 1 3 3 l-8 8 l-4 1 z"/>
+                </svg>
+              </div>
+              <div className="step-body">
+                <div className="step-num">03</div>
+                <div className="step-title">Write &amp; Build</div>
+                <p className="step-desc">Expert writers produce the full proposal: every requirement mapped to a response, a complete compliance matrix, clean formatting — all under your company's name.</p>
+              </div>
+            </div>
+
+            {/* 04 REVIEW & SUBMIT */}
+            <div className="step">
+              <div className="tile" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <path className="fillp" d="M24 5 l15 6 v11 c0 11 -7 17 -15 20 c-8 -3 -15 -9 -15 -20 V11 Z"/>
+                  <path className="linep" d="M24 5 l15 6 v11 c0 11 -7 17 -15 20 c-8 -3 -15 -9 -15 -20 V11 Z"/>
+                  <path className="linep" d="M17 23 l5 5 l9 -11"/>
+                </svg>
+              </div>
+              <div className="step-body">
+                <div className="step-num">04</div>
+                <div className="step-title">Review &amp; Submit</div>
+                <p className="step-desc">Two sets of eyes check every requirement, then we file on time through the buyer's portal and confirm receipt.</p>
+              </div>
+            </div>
+
+            {/* 05 DEBRIEF */}
+            <div className="step">
+              <div className="tile" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <circle className="fillp" cx="24" cy="24" r="14"/>
+                  <path className="linep" d="M38 18 a15 15 0 1 0 1.5 9"/>
+                  <path className="linep" d="M38 9 v9 h-9"/>
+                  <path className="linep" d="M18 25 l4 4 l9 -10"/>
+                </svg>
+              </div>
+              <div className="step-body">
+                <div className="step-num">05</div>
+                <div className="step-title">Debrief</div>
+                <p className="step-desc">Win or lose, we walk through the result with you — so the next bid is stronger than the last.</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
