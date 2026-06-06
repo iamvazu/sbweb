@@ -14,11 +14,14 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export default function MatchesPage() {
   const [matches, setMatches] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState("fit_score");
+  const [showClosed, setShowClosed] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -27,22 +30,32 @@ export default function MatchesPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data } = await supabase
+      let query = supabase
         .from("user_bid_matches")
         .select(`
           *,
           bids!inner (*)
         `)
         .eq("user_id", user.id)
-        .eq("pipeline_stage", "new_match")
-        .gte("bids.end_date", new Date().toISOString())
-        .order("fit_score", { ascending: false });
+        .eq("pipeline_stage", "new_match");
+
+      if (!showClosed) {
+        query = query.gte("bids.end_date", new Date().toISOString());
+      }
+
+      if (sortBy === "fit_score") {
+        query = query.order("fit_score", { ascending: false });
+      } else {
+        query = query.order("created_at", { ascending: false });
+      }
+
+      const { data } = await query;
 
       setMatches(data || []);
       setIsLoading(false);
     }
     loadMatches();
-  }, [supabase, sortBy]);
+  }, [supabase, sortBy, showClosed]);
 
   if (isLoading) {
     return (
@@ -64,17 +77,30 @@ export default function MatchesPage() {
           <p className="text-sm text-slate-500">Government contracts correlated to your business profile.</p>
         </div>
         
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-2">Sort by</span>
-          <Select value={sortBy} onValueChange={(v) => setSortBy(v || "fit_score")}>
-            <SelectTrigger className="w-[180px] h-10 border-slate-200">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="fit_score">Highest Fit Score</SelectItem>
-              <SelectItem value="matched_at">Recently Matched</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex items-center space-x-2 bg-white px-3 py-2 rounded-lg border border-slate-200 h-10 shrink-0">
+            <Checkbox 
+              id="show-closed" 
+              checked={showClosed} 
+              onCheckedChange={(checked) => setShowClosed(checked as boolean)}
+            />
+            <Label htmlFor="show-closed" className="text-xs font-bold text-slate-600 cursor-pointer uppercase tracking-wider">
+              Show Closed Matches
+            </Label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-2">Sort by</span>
+            <Select value={sortBy} onValueChange={(v) => setSortBy(v || "fit_score")}>
+              <SelectTrigger className="w-[180px] h-10 border-slate-200 bg-white">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="fit_score">Highest Fit Score</SelectItem>
+                <SelectItem value="matched_at">Recently Matched</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 

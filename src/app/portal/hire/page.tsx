@@ -27,12 +27,31 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { createCheckoutSession, createSubscriptionSession } from "@/app/actions/stripe";
 
-function getManagedBidPrice(estimatedValue: number | null | undefined): { price: number; label: string } {
-  if (!estimatedValue) return { price: 450, label: "starting at $450" };
-  if (estimatedValue <= 1000000) return { price: 450, label: "$450" };
-  if (estimatedValue <= 3500000) return { price: 850, label: "$850" };
-  if (estimatedValue <= 6500000) return { price: 1500, label: "$1,500" };
-  return { price: 1500, label: "$1,500" };
+function getManagedBidPrice(estimatedValue: number | null | undefined): { price: number; rate: number; label: string } {
+  if (!estimatedValue) return { price: 450, rate: 1.00, label: "starting at $450" };
+  const m = estimatedValue / 1000000;
+  let price = 450;
+  let rate = 1.00;
+  if (m <= 1) {
+    price = 450;
+    rate = 1.00;
+  } else if (m <= 2) {
+    price = 750;
+    rate = 0.90;
+  } else if (m <= 3) {
+    price = 1000;
+    rate = 0.80;
+  } else if (m <= 4) {
+    price = 1250;
+    rate = 0.70;
+  } else if (m <= 5) {
+    price = 1500;
+    rate = 0.60;
+  } else {
+    price = 1500 + 250 * Math.ceil(m - 5);
+    rate = 0.50;
+  }
+  return { price, rate, label: `$${price.toLocaleString()}` };
 }
 
 function HireContent() {
@@ -138,10 +157,14 @@ function HireContent() {
       description: "We write and file the proposal for you.",
       features: [
         "Full RFP / IFB analysis & narrative",
-        "1.00% success fee on win",
-        "Up to $1M: $450 flat fee",
-        "Up to $3.5M: $850 flat fee",
-        "Up to $6.5M: $1,500 flat fee",
+        selectedBid 
+          ? `${(getManagedBidPrice(selectedBid.estimated_value_max).rate).toFixed(2)}% success fee on win` 
+          : "Success fee steps down as contracts get bigger (1.00% to 0.50%)",
+        selectedBid
+          ? `Bid writing fee: $${getManagedBidPrice(selectedBid.estimated_value_max).price.toLocaleString()}`
+          : "Bid writing fee starts at $450 (varies by contract size)",
+        "Under $1M: $450 | Under $2M: $750 | Under $3M: $1,000",
+        "Under $4M: $1,250 | Under $5M: $1,500 | Over $5M: +$250 per additional $1M",
         "DIR compliance & labor filing",
       ],
       cta: "Hire for this Bid",

@@ -37,10 +37,11 @@ export default function VendorDashboard() {
         .from("user_bid_matches")
         .select(`
           *,
-          bids (*)
+          bids!inner (*)
         `)
         .eq("user_id", user.id)
         .eq("pipeline_stage", "new_match")
+        .gte("bids.end_date", new Date().toISOString())
         .order("fit_score", { ascending: false })
         .limit(10);
       setMatches(matchedBids || []);
@@ -48,12 +49,22 @@ export default function VendorDashboard() {
       // 3. Fetch Pipeline Counts
       const { data: allMatches } = await supabase
         .from("user_bid_matches")
-        .select("pipeline_stage")
+        .select(`
+          pipeline_stage,
+          bids!inner (end_date)
+        `)
         .eq("user_id", user.id);
       
       const stageCounts: Record<string, number> = {};
+      const nowStr = new Date().toISOString();
       allMatches?.forEach(m => {
-        stageCounts[m.pipeline_stage] = (stageCounts[m.pipeline_stage] || 0) + 1;
+        const stage = m.pipeline_stage;
+        const bidEndDate = (m.bids as any)?.end_date;
+        const isActive = !bidEndDate || bidEndDate >= nowStr;
+        // Count if active, or if it is in completed/historical stages (submitted, won, lost)
+        if (stage === "submitted" || stage === "won" || stage === "lost" || isActive) {
+          stageCounts[stage] = (stageCounts[stage] || 0) + 1;
+        }
       });
       setCounts(stageCounts);
 

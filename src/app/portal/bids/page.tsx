@@ -35,10 +35,15 @@ export default function BidsBrowsePage() {
     async function fetchBids() {
       setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
 
       let query = supabase
         .from("bids")
-        .select("*, user_bid_matches(*)", { count: "exact" });
+        .select("*, user_bid_matches(*)", { count: "exact" })
+        .eq("user_bid_matches.user_id", user.id);
 
       if (search) {
         query = query.ilike("event_name", `%${search}%`);
@@ -118,6 +123,7 @@ export default function BidsBrowsePage() {
             <SelectContent>
               <SelectItem value="all">All Portals</SelectItem>
               <SelectItem value="caleprocure">CaleProcure</SelectItem>
+              <SelectItem value="bidnet">BidNet</SelectItem>
               <SelectItem value="planetbids">PlanetBids</SelectItem>
               <SelectItem value="caltrans">Caltrans</SelectItem>
             </SelectContent>

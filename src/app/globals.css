@@ -83,6 +83,13 @@ body {
   .glass-card {
     @apply bg-white/70 dark:bg-brand-navy-900/50 backdrop-blur-lg border border-white/20 dark:border-white/10 shadow-xl;
   }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 :root {

@@ -42,13 +42,22 @@ export async function createCheckoutSession(formData: FormData) {
 
     if (bid) {
       const estValue = bid.estimated_value_max || 0;
-      if (estValue <= 1000000) {
-        amount = 45000; // $450
-      } else if (estValue <= 3500000) {
-        amount = 85000; // $850
+      const m = estValue / 1000000;
+      let fee = 450;
+      if (m <= 1) {
+        fee = 450;
+      } else if (m <= 2) {
+        fee = 750;
+      } else if (m <= 3) {
+        fee = 1000;
+      } else if (m <= 4) {
+        fee = 1250;
+      } else if (m <= 5) {
+        fee = 1500;
       } else {
-        amount = 150000; // $1,500
+        fee = 1500 + 250 * Math.ceil(m - 5);
       }
+      amount = fee * 100;
     }
   }
 

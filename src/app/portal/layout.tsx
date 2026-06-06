@@ -171,7 +171,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               href={item.href}
               className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-tight transition-all duration-200
                 ${pathname === item.href 
-                  ? (isAdmin ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20 translate-x-1' : 'bg-[#1E6FD9] text-white shadow-lg shadow-blue-500/20 translate-x-1')
+                  ? (isAdmin 
+                      ? 'bg-gradient-to-r from-amber-500/25 to-amber-500/5 text-amber-200 border-l-4 border-amber-500 shadow-lg shadow-amber-500/10 translate-x-1' 
+                      : 'bg-gradient-to-r from-blue-500/25 to-blue-500/5 text-blue-200 border-l-4 border-blue-500 shadow-lg shadow-blue-500/10 translate-x-1')
                   : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}
             >
               <div className="flex items-center gap-3">
@@ -179,7 +181,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 {item.label}
               </div>
               {!isAdmin && (item.badge || (item.label === "My Matches" && matchCount > 0)) && (
-                <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-white text-blue-900' : ''}`}>
+                <Badge className={`bg-white/10 text-white border-none text-[10px] h-5 px-1.5 ${pathname === item.href ? 'bg-blue-500/20 text-blue-400' : ''}`}>
                   {item.label === "My Matches" ? matchCount : item.badge}
                 </Badge>
               )}
@@ -196,8 +198,12 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
                 ${item.highlight 
-                  ? (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-[#1E6FD9] hover:bg-[#1E6FD9]/10')
-                  : (pathname === item.href ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
+                  ? (pathname === item.href 
+                      ? 'bg-gradient-to-r from-blue-500/25 to-blue-500/5 text-blue-200 border-l-4 border-blue-500 shadow-lg shadow-blue-500/10 translate-x-1' 
+                      : 'text-blue-400 hover:bg-blue-950/20')
+                  : (pathname === item.href 
+                      ? 'bg-gradient-to-r from-blue-500/25 to-blue-500/5 text-blue-200 border-l-4 border-blue-500 shadow-lg shadow-blue-500/10 translate-x-1' 
+                      : 'text-blue-100/60 hover:bg-white/5 hover:text-white')}`}
             >
               <item.icon className="h-4 w-4" />
               {item.label}
@@ -207,25 +213,48 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           <Link 
             href="/portal/settings"
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-              ${pathname === '/portal/settings' ? 'bg-[#1E6FD9] text-white' : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
+              ${pathname === '/portal/settings' 
+                ? 'bg-gradient-to-r from-blue-500/25 to-blue-500/5 text-blue-200 border-l-4 border-blue-500 shadow-lg shadow-blue-500/10 translate-x-1' 
+                : 'text-blue-100/60 hover:bg-white/5 hover:text-white'}`}
           >
             <User className="h-4 w-4" />
             {isAdmin ? "Admin Profile" : "Company Profile"}
           </Link>
+
+          {!isAdmin && (
+            <div className="mt-6 mx-2 p-4 rounded-2xl bg-gradient-to-br from-blue-600/15 via-blue-500/5 to-transparent border border-blue-500/20 shadow-md relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all duration-500" />
+              <div className="relative z-10 space-y-2">
+                <span className="inline-block text-[9px] font-black tracking-widest text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full uppercase">
+                  Featured Service
+                </span>
+                <h4 className="text-xs font-bold text-white tracking-tight">Need Bid Writing Experts?</h4>
+                <p className="text-[10.5px] text-slate-400 leading-normal">
+                  Get our premium proposal service with the <b>success-fee option</b>.
+                </p>
+                <Link 
+                  href="/portal/hire"
+                  className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-blue-400 group-hover:text-blue-300 transition-colors pt-1"
+                >
+                  Hire Us Today <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          )}
         </nav>
 
-        <div className="px-3 pt-6 border-t border-white/10">
-          <div className="flex items-center gap-3 px-3 py-2 mb-4">
-            <Avatar className="h-8 w-8 bg-blue-600 border border-white/20">
-              <AvatarFallback className="text-[10px] bg-blue-600 text-white">
+        <div className="px-3 pt-4 pb-6 border-t border-slate-800/40 space-y-3">
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-white/5 border border-white/5 shadow-inner">
+            <Avatar className="h-8 w-8 bg-blue-600 border border-white/10 shadow-sm shrink-0">
+              <AvatarFallback className="text-[10px] bg-gradient-to-br from-blue-500 to-blue-700 text-white font-bold">
                 {getInitials(userProfile?.business_name)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 overflow-hidden">
-              <p className="text-xs font-semibold text-white truncate">
+              <p className="text-xs font-semibold text-slate-200 truncate">
                 {userProfile?.business_name || (isAdmin ? "Super Admin" : "Enterprise User")}
               </p>
-              <Badge variant="outline" className={`text-[9px] uppercase tracking-tighter h-4 px-1 border-white/20 ${isAdmin ? 'bg-amber-500/20 text-amber-500 border-amber-500/30' : 'text-blue-200/60'}`}>
+              <Badge variant="outline" className={`text-[8px] font-bold uppercase tracking-widest h-4 px-1.5 border-transparent ${isAdmin ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/10 text-blue-400'}`}>
                 {isAdmin ? "SUPER ADMIN" : (userProfile?.subscription_tier?.toUpperCase() || "FREE")}
               </Badge>
             </div>
@@ -233,9 +262,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
           <Button 
             variant="ghost" 
             onClick={handleLogout}
-            className="w-full justify-start text-slate-400 hover:bg-red-500/10 hover:text-red-500 h-10 px-3 font-bold transition-all"
+            className="w-full justify-start text-slate-400 hover:bg-red-500/10 hover:text-red-400 h-10 px-3 font-bold rounded-xl transition-all"
           >
-            <LogOut className="h-4 w-4 mr-3" />
+            <LogOut className="h-4 w-4 mr-3 text-slate-400 group-hover:text-red-400" />
             Log Out
           </Button>
         </div>
@@ -246,7 +275,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-[260px] flex-col bg-[#0B1F3A] fixed inset-y-0 z-50">
+      <aside className="hidden lg:flex w-[260px] flex-col bg-gradient-to-b from-[#0B1528] via-[#090F1E] to-[#040811] border-r border-slate-800/60 fixed inset-y-0 z-50 shadow-2xl">
         <Navigation />
       </aside>
 
@@ -264,7 +293,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="p-0 border-none w-[260px]">
-                  <div className="h-full bg-[#0B1F3A]">
+                  <div className="h-full bg-gradient-to-b from-[#0B1528] via-[#090F1E] to-[#040811] border-r border-slate-800/60">
                     <Navigation />
                   </div>
                 </SheetContent>
