@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { getPublicBids } from "@/app/actions/bids";
+import { createClient } from "@/lib/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -78,11 +78,18 @@ export default function OpenBidsPage() {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertEmail, setAlertEmail] = useState("");
 
+  const supabase = createClient();
+
   useEffect(() => {
     async function loadBids() {
       setIsLoading(true);
       try {
-        const data = await getPublicBids();
+        const { data, error } = await supabase
+          .from("bids")
+          .select("id, event_id, event_name, department_name, comments, first_seen, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only, dbe_goal, dvbe_goal, bonding_required");
+        
+        if (error) throw error;
+
         if (data) {
           // Compute state for each bid once upon load
           const bidsWithState = data.map(bid => ({
@@ -98,7 +105,7 @@ export default function OpenBidsPage() {
       }
     }
     loadBids();
-  }, []);
+  }, [supabase]);
 
   // Filter and Sort in memory on the client side
   const { filteredBids, stateCounts } = useMemo(() => {
@@ -160,11 +167,11 @@ export default function OpenBidsPage() {
     } else if (sortBy === "highest_value") {
       list.sort((a, b) => (b.estimated_value_max || 0) - (a.estimated_value_max || 0));
     } else {
-      // Relevance (Default sorting: by start_date descending)
+      // Relevance (Default sorting: by first_seen descending)
       list.sort((a, b) => {
-        if (!a.start_date) return 1;
-        if (!b.start_date) return -1;
-        return b.start_date.localeCompare(a.start_date);
+        if (!a.first_seen) return 1;
+        if (!b.first_seen) return -1;
+        return b.first_seen.localeCompare(a.first_seen);
       });
     }
 
@@ -454,7 +461,7 @@ export default function OpenBidsPage() {
                             {highlightText(bid.department_name, search)}
                           </p>
                           <p className="flex items-center gap-4 flex-wrap text-slate-400">
-                            <span><span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Open:</span>{bid.start_date ? new Date(bid.start_date).toLocaleDateString() : 'N/A'}</span>
+                            <span><span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Open:</span>{bid.first_seen ? new Date(bid.first_seen).toLocaleDateString() : 'N/A'}</span>
                             <span className="hidden sm:inline text-slate-200">|</span>
                             <span><span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Close:</span>{bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'N/A'}</span>
                           </p>
