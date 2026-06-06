@@ -87,7 +87,7 @@ export default function AccessibilityPage() {
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-brand-navy-900 dark:text-slate-200 font-bold text-sm">
-                  <Mail className="w-4 h-4 text-brand-blue-600" /> info@strongerbuilt.us
+                  <Mail className="w-4 h-4 text-brand-blue-600" /> hello@strongerbuilt.xyz
                 </li>
                 <li className="flex items-center gap-3 text-brand-navy-900 dark:text-slate-200 font-bold text-sm">
                   <Phone className="w-4 h-4 text-brand-blue-600" /> (831) 760-0806

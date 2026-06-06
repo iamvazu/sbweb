@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     const { subject, text, html } = generateOutreachEmail(prospect, bid);
 
     const response = await resend.emails.send({
-      from: 'BidIQ <hello@strongerbuilt.us>',
+      from: 'Stronger Built <hello@strongerbuilt.xyz>',
       to: email,
       subject: subject,
       html: html,

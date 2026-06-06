@@ -147,16 +147,21 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
     return (
       <div className="flex flex-col h-full py-6 space-y-8">
-        <div className="px-6">
+        <div className="px-6 space-y-2.5">
           <Link href="/" className="flex flex-col group">
-            <span className="text-2xl font-black text-white tracking-tighter flex items-center gap-1">
-              Bid<span className="text-amber-500">IQ</span>
+            <span className="text-xl md:text-2xl font-black tracking-tight leading-none text-white">
+              STRONGER<span className="text-blue-500">built</span>
               {isAdmin && <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] font-black tracking-widest px-1 h-3.5 uppercase ml-1">Admin</Badge>}
             </span>
-            <span className="text-[9px] text-blue-200/40 font-black uppercase tracking-[0.2em] leading-none mt-1">
-              {isAdmin ? "Global Mission Control" : "Strategic Procurement"}
+            <span className="text-[9px] text-slate-400 font-semibold tracking-widest uppercase leading-none mt-1.5">
+              {isAdmin ? "Global Mission Control" : "Strategic Bids Portal"}
             </span>
           </Link>
+          <div>
+            <Link href="/" className="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-400 hover:text-white transition-colors">
+              &larr; Back to Homepage
+            </Link>
+          </div>
         </div>
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto scrollbar-hide">

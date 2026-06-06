@@ -68,49 +68,102 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 text-center">
-          <motion.div 
-            initial="hidden" 
-            animate="show" 
-            variants={STAGGER}
-            className="space-y-8 max-w-4xl mx-auto"
-          >
-            <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-500/10 border border-brand-blue-500/20 backdrop-blur-md">
-              <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-400 uppercase">
-                Expert Proposal Consultants · Nationwide
-              </span>
-            </motion.div>
-            
-            <motion.h1 variants={FADE_UP} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white tracking-tight leading-[1.1] font-bold">
-              We win government bids for you. <br />
-              <span className="italic text-brand-blue-500">You mostly pay when you win.</span>
-            </motion.h1>
-            
-            <motion.p variants={FADE_UP} className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-medium">
-              Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
-            </motion.p>
-            
-            <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
-                <span>Book a Free Consultation</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
-                <Search className="w-5 h-5 text-brand-blue-500" />
-                <span>Search Open Bids — Free</span>
-              </Link>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
+            {/* Left Column */}
+            <motion.div 
+              initial="hidden" 
+              animate="show" 
+              variants={STAGGER}
+              className="lg:col-span-7 space-y-6"
+            >
+              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-500/10 border border-brand-blue-500/20 backdrop-blur-md">
+                <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-400 uppercase">
+                  Expert Proposal Consultants · Nationwide
+                </span>
+              </motion.div>
+              
+              <motion.h1 variants={FADE_UP} className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-serif text-white tracking-tight leading-[1.15] font-bold">
+                We win government bids for you. <br />
+                <span className="italic text-brand-blue-500 block mt-2">You mostly pay when you win.</span>
+              </motion.h1>
+              
+              <motion.p variants={FADE_UP} className="text-sm sm:text-base md:text-lg text-slate-400 max-w-xl leading-relaxed font-medium">
+                Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
+              </motion.p>
+              
+              <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
+                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
+                  <span>Book a Free Consultation</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
+                  <Search className="w-5 h-5 text-brand-blue-500" />
+                  <span>Search Open Bids — Free</span>
+                </Link>
+              </motion.div>
+
+              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-3 gap-x-6 pt-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
+                <div>Nationwide Coverage</div>
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div>All 50 States</div>
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div>No Long-term Contract</div>
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div>Veteran-Owned</div>
+              </motion.div>
             </motion.div>
 
-            <motion.div variants={FADE_UP} className="flex flex-wrap items-center justify-center gap-y-3 gap-x-6 pt-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
-              <div>Nationwide Coverage</div>
-              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
-              <div>All 50 States</div>
-              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
-              <div>No Long-term Contract</div>
-              <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
-              <div>Veteran-Owned</div>
+            {/* Right Column: Visual Matrix Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
+              className="lg:col-span-5 hidden lg:block"
+            >
+              <div className="bg-white/5 dark:bg-brand-navy-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
+                
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-400 block mb-1">Service Matrix</span>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-tight">Proposal Wins</h3>
+                  </div>
+                  <div className="h-2.5 w-2.5 rounded-full bg-success animate-pulse" />
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    { label: "Requirement Extraction", val: "100% Completed", desc: "Every mandatory RFP point mapped to a response" },
+                    { label: "Compliance Verification", val: "Double Checked", desc: "Two-sets-of-eyes manual review of every bid" },
+                    { label: "Pricing Strategy", val: "Optimized to Win", desc: "Expert assessment of disqualification/pricing traps" },
+                    { label: "On-Time Submission", val: "Submission Guarantee", desc: "Filed early through buyer portals with receipt" }
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-4 items-start bg-white/5 dark:bg-white/5 p-4 rounded-2xl border border-white/5 hover:border-brand-blue-500/20 transition-all">
+                      <div className="w-8 h-8 rounded-xl bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-400 shrink-0">
+                        <CheckCircle2 className="w-4 h-4 text-brand-blue-500" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <h4 className="text-xs font-bold text-white uppercase tracking-wide truncate">{item.label}</h4>
+                          <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight shrink-0">{item.val}</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-brand-blue-600/10 border border-brand-blue-500/20 rounded-2xl p-4 flex justify-between items-center">
+                  <div>
+                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">Success Fee Option</span>
+                    <span className="text-xs font-bold text-white">Pay When You Win</span>
+                  </div>
+                  <span className="text-sm font-black text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -645,7 +698,7 @@ export default function Home() {
           <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-center items-center gap-y-2 gap-x-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
             <div>📞 (831) 760-0806</div>
             <div className="hidden sm:block">·</div>
-            <div>✉️ info@strongerbuilt.us</div>
+            <div>✉️ hello@strongerbuilt.xyz</div>
           </div>
         </div>
       </section>

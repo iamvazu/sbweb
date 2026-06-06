@@ -109,7 +109,7 @@ export default function CapabilitiesStatementPage() {
               <div className="text-right space-y-1 text-sm font-medium text-slate-300">
                 <p>San Diego, CA</p>
                 <p>(831) 760-0806</p>
-                <p>info@strongerbuilt.us</p>
+                <p>hello@strongerbuilt.xyz</p>
                 <p className="text-brand-blue-600 font-bold">www.strongerbuilt.us</p>
               </div>
             </div>

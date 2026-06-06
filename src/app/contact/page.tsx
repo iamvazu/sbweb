@@ -86,7 +86,7 @@ export default function ContactHub() {
                   </div>
                   <div>
                     <h4 className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-1.5">General Inquiries</h4>
-                    <p className="font-bold text-brand-navy-900 dark:text-gray-200 text-sm">info@strongerbuilt.us</p>
+                    <p className="font-bold text-brand-navy-900 dark:text-gray-200 text-sm">hello@strongerbuilt.xyz</p>
                   </div>
                 </li>
               </ul>
