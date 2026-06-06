@@ -24,7 +24,8 @@ import {
   Shield,
   Briefcase,
   Users,
-  Award
+  Award,
+  HelpCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import BidTicker from "@/components/market/bid-ticker";
@@ -107,13 +108,13 @@ export default function Home() {
   }, []);
 
   const industries = [
-    { name: "IT & Software", desc: "SaaS licenses, custom software development, cloud infrastructure, IT support, cybersecurity audits.", icon: Zap },
-    { name: "Healthcare & Staffing", desc: "Medical supplies, nursing services, technical staff augmentation, wellness program administration.", icon: Users },
-    { name: "Professional Services", desc: "Management consulting, engineering, financial audits, marketing agencies, legal support services.", icon: Briefcase },
-    { name: "Security & Operations", desc: "Armed/unarmed guard services, surveillance installation, alarm monitoring, cybersecurity monitoring.", icon: Shield },
-    { name: "Education & Training", desc: "Curriculum design, professional training, educational materials, school district supply services.", icon: Award },
-    { name: "Facilities & Maintenance", desc: "Janitorial services, HVAC maintenance, commercial landscaping, multi-trade repairs, electrical audits.", icon: Wrench },
-    { name: "Material Supply & Logistics", desc: "Bulk equipment sourcing, specialized materials, office supply networks, delivery services.", icon: Package }
+    { name: "IT & Software", desc: "SaaS licenses, custom software development, cloud infrastructure, IT support, cybersecurity audits.", icon: Zap, image: "/images/industries/it.png" },
+    { name: "Healthcare & Staffing", desc: "Medical supplies, nursing services, technical staff augmentation, wellness program administration.", icon: Users, image: "/images/industries/healthcare.png" },
+    { name: "Professional Services", desc: "Management consulting, engineering, financial audits, marketing agencies, legal support services.", icon: Briefcase, image: "/images/industries/professional.png" },
+    { name: "Security & Operations", desc: "Armed/unarmed guard services, surveillance installation, alarm monitoring, cybersecurity monitoring.", icon: Shield, image: "/images/industries/security.png" },
+    { name: "Education & Training", desc: "Curriculum design, professional training, educational materials, school district supply services.", icon: Award, image: "/images/industries/education.png" },
+    { name: "Facilities & Maintenance", desc: "Janitorial services, HVAC maintenance, commercial landscaping, multi-trade repairs, electrical audits.", icon: Wrench, image: "/images/industries/facilities.png" },
+    { name: "Material Supply & Logistics", desc: "Bulk equipment sourcing, specialized materials, office supply networks, delivery services.", icon: Package, image: "/images/industries/logistics.png" }
   ];
 
   return (
@@ -801,30 +802,68 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {industries.map((ind, i) => (
-              <div key={i} className="p-8 rounded-[2rem] border border-gray-100 dark:border-white/5 bg-slate-50/50 dark:bg-white/5 hover:bg-white dark:hover:bg-brand-navy-800 transition-all duration-300 hover:shadow-xl group">
-                <div className="w-10 h-10 rounded-xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600 mb-6 group-hover:scale-110 transition-transform">
+              <div 
+                key={i} 
+                className={cn(
+                  "relative rounded-[2rem] overflow-hidden group shadow-lg hover:shadow-2xl transition-all duration-500 min-h-[340px] flex flex-col justify-end p-8 border border-slate-200/60 dark:border-white/5",
+                  i === 0 ? "lg:col-span-2" : "lg:col-span-1"
+                )}
+              >
+                {/* Full-bleed background image */}
+                <div className="absolute inset-0 z-0">
+                  <Image 
+                    src={ind.image} 
+                    alt={ind.name}
+                    fill
+                    sizes={i === 0 ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 1024px) 100vw, 33vw"}
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* CSS overlay gradient (Scrim) */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#0b1736]/15 via-[#0b1736]/65 to-[#0b1736]/90 transition-opacity duration-500 group-hover:opacity-95" />
+                </div>
+
+                {/* Frosted icon badge (Accent) */}
+                <div className="absolute top-8 left-8 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white z-10 transition-transform duration-500 group-hover:scale-110">
                   <ind.icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-2 uppercase tracking-tight">
-                  {ind.name}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                  {ind.desc}
-                </p>
+
+                {/* Content aligned at the bottom scrim */}
+                <div className="relative z-10 space-y-2 md:translate-y-6 md:group-hover:translate-y-0 transition-transform duration-500">
+                  <h3 className="text-xl font-bold text-white uppercase tracking-tight">
+                    {ind.name}
+                  </h3>
+                  <p className="text-xs text-slate-200 leading-relaxed font-semibold opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
+                    {ind.desc}
+                  </p>
+                </div>
               </div>
             ))}
             
-            <div className="p-8 rounded-[2rem] border-2 border-dashed border-gray-200 dark:border-white/10 flex flex-col justify-center items-center text-center">
-              <h3 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-2 uppercase tracking-tight">
-                Don't see your industry?
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold mb-6 max-w-[200px]">
-                We handle bids across almost all sectors. Let's discuss your specific RFP.
-              </p>
-              <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-black text-brand-blue-600 uppercase tracking-widest group">
-                <span>Let's talk</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+            {/* CTA card: solid brand-blue tile */}
+            <div className="relative rounded-[2rem] overflow-hidden group shadow-lg hover:shadow-2xl transition-all duration-500 min-h-[340px] flex flex-col justify-between p-8 bg-brand-blue-600 text-white border border-transparent lg:col-span-1 md:col-span-2">
+              {/* Subtle background decorative map pattern simulation */}
+              <div className="absolute inset-0 z-0 opacity-10 bg-[radial-gradient(#ffffff_1.5px,transparent_1.5px)] [background-size:24px_24px]" />
+              
+              <div className="relative z-10 w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+                <HelpCircle className="w-5 h-5" />
+              </div>
+              
+              <div className="relative z-10 space-y-4">
+                <div>
+                  <h3 className="text-xl font-bold text-white uppercase tracking-tight mb-2">
+                    Don't see your industry?
+                  </h3>
+                  <p className="text-xs text-blue-100 leading-relaxed font-semibold">
+                    We handle bids across almost all sectors. Let's discuss your specific RFP.
+                  </p>
+                </div>
+                <div>
+                  <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-black text-white bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-3 rounded-full uppercase tracking-widest transition-all">
+                    <span>Let's talk</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
