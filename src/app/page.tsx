@@ -152,7 +152,7 @@ export default function Home() {
               </motion.h1>
               
               <motion.p variants={FADE_UP} className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-medium">
-                Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
+                Winning government contracts comes down to the details — the requirements, the compliance, the deadlines. Stronger Built's expert proposal consultants find the right RFPs, write the winning bid, and submit it on time, anywhere in the U.S. With Pay-When-You-Win, you cover a low bid writing fee and a success fee only if you're awarded — so you mostly pay when you win.
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
