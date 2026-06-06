@@ -27,6 +27,7 @@ import {
   Award
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BidTicker from "@/components/market/bid-ticker";
 
 const FADE_UP: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -440,8 +441,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Live Market Pulse / Bids Closing This Week */}
+      <section className="py-24 bg-slate-50 dark:bg-brand-navy-900/40 overflow-hidden border-b border-slate-100 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <BidTicker />
+        </div>
+      </section>
+
       {/* The Opportunity Section */}
-      <section className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden">
+      <section className="py-24 bg-white dark:bg-brand-navy-900 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
