@@ -329,6 +329,16 @@ body {
 /* traveling pulse dots */
 .sb-dot { fill: var(--pulse); filter: drop-shadow(0 0 3px rgba(59,130,246,.9)); }
 
+/* text container inside cards */
+.sb-txt {
+  display: flex;
+  flex-direction: column;
+}
+.sb-right-card .sb-txt {
+  align-items: flex-end;
+  text-align: right;
+}
+
 /* Custom Button overrides */
 .btn-primary-gradient {
   background: linear-gradient(180deg, #2f6bff, #1e54e6);
@@ -355,7 +365,23 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
+/* Trust Strip continuous sliding marquee ticker (left-to-right) */
+.sb-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: sbMarquee 40s linear infinite;
+}
+
+.sb-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes sbMarquee {
+  0% { transform: translate3d(-33.333%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sb-wires path, .sb-hub::before, .sb-card .inner, .sb-dot { animation: none !important; }
+  .sb-wires path, .sb-hub::before, .sb-card .inner, .sb-dot, .sb-marquee-track { animation: none !important; }
   .sb-in { opacity: 1; animation: none; }
 }

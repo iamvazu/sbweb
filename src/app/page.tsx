@@ -224,47 +224,47 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="sb-card sb-in" style={{ left: "82.1%", top: "12.9%", animationDelay: ".12s" }}>
+                <div className="sb-card sb-right-card sb-in" style={{ left: "79%", top: "12.9%", animationDelay: ".12s" }}>
                   <div className="inner" style={{ animationDelay: ".3s" }}>
+                    <span className="sb-txt">
+                      <span className="ttl">Pricing Strategy</span>
+                      <span className="tag">Input</span>
+                    </span>
                     <span className="sb-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                       </svg>
                     </span>
-                    <span className="sb-txt">
-                      <span className="ttl">Pricing Strategy</span>
-                      <span className="tag">Input</span>
-                    </span>
                   </div>
                 </div>
 
-                <div className="sb-card sb-in" style={{ left: "84.3%", top: "33.6%", animationDelay: ".25s" }}>
+                <div className="sb-card sb-right-card sb-in" style={{ left: "81%", top: "33.6%", animationDelay: ".25s" }}>
                   <div className="inner" style={{ animationDelay: ".9s" }}>
+                    <span className="sb-txt">
+                      <span className="ttl">Past Performance</span>
+                      <span className="tag">Input</span>
+                    </span>
                     <span className="sb-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/>
                         <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>
                       </svg>
                     </span>
-                    <span className="sb-txt">
-                      <span className="ttl">Past Performance</span>
-                      <span className="tag">Input</span>
-                    </span>
                   </div>
                 </div>
 
-                <div className="sb-card sb-in" style={{ left: "81.4%", top: "54.3%", animationDelay: ".38s" }}>
+                <div className="sb-card sb-right-card sb-in" style={{ left: "78%", top: "54.3%", animationDelay: ".38s" }}>
                   <div className="inner" style={{ animationDelay: "1.5s" }}>
+                    <span className="sb-txt">
+                      <span className="ttl">Win Strategy</span>
+                      <span className="tag">Input</span>
+                    </span>
                     <span className="sb-chip">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                         <circle cx="12" cy="12" r="9"/>
                         <circle cx="12" cy="12" r="5"/>
                         <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
                       </svg>
-                    </span>
-                    <span className="sb-txt">
-                      <span className="ttl">Win Strategy</span>
-                      <span className="tag">Input</span>
                     </span>
                   </div>
                 </div>
@@ -298,19 +298,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center lg:text-left">
-            {[
+      {/* Trust Strip - Continuous Infinite Marquee Ticker */}
+      <section className="bg-white dark:bg-brand-navy-900 border-b border-gray-100 dark:border-white/10 relative z-20 shadow-sm overflow-hidden py-5">
+        <div className="w-full relative flex items-center">
+          <div className="sb-marquee-track flex whitespace-nowrap gap-16 items-center">
+            {/* Duplicated sets of items for seamless infinite scrolling loop */}
+            {Array(3).fill([
               "Serving clients in all 50 states",
               "Named consultant on every engagement",
               "On-time submission guaranteed",
               "Two-sets-of-eyes compliance review"
-            ].map((text, i) => (
-              <div key={i} className="flex items-center justify-center lg:justify-start gap-3 py-2">
-                <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
-                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">{text}</span>
+            ]).flat().map((text, i) => (
+              <div key={i} className="flex items-center gap-3.5 shrink-0 px-4">
+                <CheckCircle2 className="w-4.5 h-4.5 text-success shrink-0" />
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">{text}</span>
               </div>
             ))}
           </div>
