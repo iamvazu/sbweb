@@ -60,7 +60,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section */}
-      <section className="relative px-6 pt-24 pb-16 md:pt-40 md:pb-28 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      <section className="relative px-6 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden bg-brand-navy-900 border-b border-white/5">
         {/* Background Decorative Gradients */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/15 blur-[120px]" />
@@ -69,13 +69,13 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
             {/* Left Column */}
             <motion.div 
               initial="hidden" 
               animate="show" 
               variants={STAGGER}
-              className="lg:col-span-7 space-y-6"
+              className="lg:col-span-7 space-y-4"
             >
               <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-500/10 border border-brand-blue-500/20 backdrop-blur-md">
                 <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-400 uppercase">
@@ -83,33 +83,33 @@ export default function Home() {
                 </span>
               </motion.div>
               
-              <motion.h1 variants={FADE_UP} className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-serif text-white tracking-tight leading-[1.15] font-bold">
+              <motion.h1 variants={FADE_UP} className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] xl:text-[46px] font-serif text-white tracking-tight leading-[1.15] font-bold">
                 We win government bids for you. <br />
-                <span className="italic text-brand-blue-500 block mt-2">You mostly pay when you win.</span>
+                <span className="italic text-brand-blue-500 block mt-1">You mostly pay when you win.</span>
               </motion.h1>
               
-              <motion.p variants={FADE_UP} className="text-sm sm:text-base md:text-lg text-slate-400 max-w-xl leading-relaxed font-medium">
+              <motion.p variants={FADE_UP} className="text-sm sm:text-base text-white/70 max-w-xl leading-relaxed font-medium">
                 Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
+                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
                   <span>Book a Free Consultation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
+                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
                   <Search className="w-5 h-5 text-brand-blue-500" />
                   <span>Search Open Bids — Free</span>
                 </Link>
               </motion.div>
 
-              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-3 gap-x-6 pt-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">
+              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-3 text-[10px] font-bold text-white/50 uppercase tracking-widest leading-none">
                 <div>Nationwide Coverage</div>
-                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
                 <div>All 50 States</div>
-                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
                 <div>No Long-term Contract</div>
-                <div className="h-1.5 w-1.5 rounded-full bg-slate-700" />
+                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
                 <div>Veteran-Owned</div>
               </motion.div>
             </motion.div>
@@ -121,45 +121,45 @@ export default function Home() {
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
               className="lg:col-span-5 hidden lg:block"
             >
-              <div className="bg-white/5 dark:bg-brand-navy-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-6 relative overflow-hidden">
+              <div className="bg-white/5 dark:bg-brand-navy-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 shadow-2xl space-y-4 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
                 
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                <div className="flex justify-between items-center border-b border-white/10 pb-3">
                   <div>
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-400 block mb-1">Service Matrix</span>
-                    <h3 className="text-lg font-bold text-white uppercase tracking-tight">Proposal Wins</h3>
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-400 block mb-0.5">Service Matrix</span>
+                    <h3 className="text-base font-bold text-white uppercase tracking-tight">Proposal Wins</h3>
                   </div>
-                  <div className="h-2.5 w-2.5 rounded-full bg-success animate-pulse" />
+                  <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {[
                     { label: "Requirement Extraction", val: "100% Completed", desc: "Every mandatory RFP point mapped to a response" },
                     { label: "Compliance Verification", val: "Double Checked", desc: "Two-sets-of-eyes manual review of every bid" },
                     { label: "Pricing Strategy", val: "Optimized to Win", desc: "Expert assessment of disqualification/pricing traps" },
                     { label: "On-Time Submission", val: "Submission Guarantee", desc: "Filed early through buyer portals with receipt" }
                   ].map((item, idx) => (
-                    <div key={idx} className="flex gap-4 items-start bg-white/5 dark:bg-white/5 p-4 rounded-2xl border border-white/5 hover:border-brand-blue-500/20 transition-all">
-                      <div className="w-8 h-8 rounded-xl bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-400 shrink-0">
-                        <CheckCircle2 className="w-4 h-4 text-brand-blue-500" />
+                    <div key={idx} className="flex gap-3 items-start bg-white/5 dark:bg-white/5 p-3 rounded-2xl border border-white/5 hover:border-brand-blue-500/20 transition-all">
+                      <div className="w-7 h-7 rounded-xl bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-400 shrink-0">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue-500" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-baseline mb-1">
-                          <h4 className="text-xs font-bold text-white uppercase tracking-wide truncate">{item.label}</h4>
-                          <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight shrink-0">{item.val}</span>
+                        <div className="flex justify-between items-baseline mb-0.5">
+                          <h4 className="text-[11px] font-bold text-white uppercase tracking-wide truncate">{item.label}</h4>
+                          <span className="text-[8px] font-black text-amber-500 uppercase tracking-tight shrink-0">{item.val}</span>
                         </div>
-                        <p className="text-[10px] text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
+                        <p className="text-[9px] text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-brand-blue-600/10 border border-brand-blue-500/20 rounded-2xl p-4 flex justify-between items-center">
+                <div className="bg-brand-blue-600/10 border border-brand-blue-500/20 rounded-2xl p-3.5 flex justify-between items-center">
                   <div>
                     <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">Success Fee Option</span>
-                    <span className="text-xs font-bold text-white">Pay When You Win</span>
+                    <span className="text-[11px] font-bold text-white">Pay When You Win</span>
                   </div>
-                  <span className="text-sm font-black text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
+                  <span className="text-xs font-black text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
                 </div>
               </div>
             </motion.div>
@@ -332,147 +332,118 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
             <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
-              Transparent pricing
+              Simple, aligned pricing
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
-              Three ways to pay. You pick.
+              One price. You mostly pay when you win.
             </h2>
-            <p className="text-base sm:text-lg text-slate-500 font-medium">
-              Same full-service delivery in every option—a named consultant, expert writing, full compliance review, and on-time submission. What changes is how you pay.
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+              A low upfront to get started, plus a success fee charged <strong className="text-brand-navy-900 dark:text-white">only if you're awarded the contract.</strong> Lose, and you've risked almost nothing. Win, and we both win — which is exactly the point. The bigger the contract, the lower the success-fee rate.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
             
-            {/* Pay When You Win */}
-            <div className="relative flex flex-col p-10 rounded-[3rem] bg-brand-navy-900 border-2 border-brand-blue-600 scale-100 lg:scale-105 shadow-2xl z-10 text-white">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-600 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
-                Most Popular
+            {/* Pricing Table Card */}
+            <div className="lg:col-span-7 bg-white dark:bg-brand-navy-900 border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-600 block mb-4">Pricing Structure</span>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-slate-200 dark:border-white/10 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <th className="pb-3 pr-2">Your contract is worth</th>
+                        <th className="pb-3 px-2 text-center">You pay upfront</th>
+                        <th className="pb-3 pl-2 text-right">Success fee <span className="text-amber-500 font-bold block sm:inline">*(only if you win)*</span></th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+                      {[
+                        { range: "Up to $1 million", upfront: "$450", fee: "1.00%" },
+                        { range: "Up to $2 million", upfront: "$750", fee: "0.90%" },
+                        { range: "Up to $3 million", upfront: "$1,000", fee: "0.80%" },
+                        { range: "Up to $4 million", upfront: "$1,250", fee: "0.70%" },
+                        { range: "Up to $5 million", upfront: "$1,500", fee: "0.60%" },
+                        { range: "Over $5 million", upfront: "$1,500 + $250 per add. $1M", fee: "0.50%" },
+                      ].map((row, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
+                          <td className="py-4 text-xs sm:text-sm font-bold text-brand-navy-900 dark:text-white pr-2">{row.range}</td>
+                          <td className="py-4 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 text-center px-2">{row.upfront}</td>
+                          <td className="py-4 text-xs sm:text-sm font-black text-brand-blue-600 dark:text-brand-blue-400 text-right pl-2">{row.fee}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 mb-2">LOW RISK START</span>
-              <div className="mb-4">
-                <span className="text-4xl font-bold">$1,500</span>
-                <span className="text-slate-400 font-bold text-sm"> upfront</span>
-              </div>
-              <p className="text-sm text-slate-400 mb-8 font-medium leading-relaxed">
-                Low upfront fee to cover initial extraction and strategy setup, plus a small success fee charged only if you win.
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed mt-6 pt-4 border-t border-slate-100 dark:border-white/5">
+                *The upfront covers requirement extraction, win strategy, full proposal writing, compliance review, and on-time submission. The success fee is charged only on an awarded contract.*
               </p>
-              
-              <div className="space-y-4 flex-grow mb-8 border-t border-white/10 pt-6">
-                <div className="flex justify-between items-center text-xs font-bold text-slate-300">
-                  <span>Success Fee</span>
-                  <span className="text-white font-black">1.0% of contract value</span>
-                </div>
-                <div className="text-[10px] text-slate-400 leading-relaxed italic">
-                  *Example: On a $300,000 contract, you pay a $3,000 success fee only if awarded the contract. Lose, and you pay nothing more.
-                </div>
-              </div>
-              
-              <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
-                Start a Pay-When-You-Win Bid
-              </Link>
             </div>
 
-            {/* Flat Rate */}
-            <div className="flex flex-col p-10 rounded-[3rem] border border-gray-200 dark:border-white/5 bg-white dark:bg-brand-navy-900/40 hover:shadow-xl transition-all">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue-600 mb-2">TOTAL CERTAINTY</span>
-              <div className="mb-4">
-                <span className="text-sm font-black text-slate-400 uppercase tracking-widest block mr-1">One All-Inclusive Price</span>
-                <span className="text-4xl font-bold text-brand-navy-900 dark:text-white">Per Bid</span>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 font-medium leading-relaxed">
-                Flat cost per bid with zero success fees. Ideal for businesses with clear budgeting requirements.
-              </p>
+            {/* Examples & CTA Card */}
+            <div className="lg:col-span-5 bg-brand-navy-900 text-white border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
+              
+              <div className="relative z-10 space-y-6">
+                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-brand-blue-400 block mb-1 font-sans">Pricing In Action</span>
+                <h3 className="text-xl font-bold uppercase tracking-tight">Examples</h3>
+                
+                <div className="space-y-4">
+                  {[
+                    { label: "$1,000,000 contract", val: "$450 to start, $10,000 only if you win." },
+                    { label: "$3,000,000 contract", val: "$1,000 to start, $24,000 only if you win (0.80%)." },
+                    { label: "$5,000,000 contract", val: "$1,500 to start, $30,000 only if you win (0.60%)." },
+                    { label: "$10,000,000 contract", val: "$2,750 to start, $50,000 only if you win (0.50%)." }
+                  ].map((ex, idx) => (
+                    <div key={idx} className="border-l-2 border-brand-blue-500 pl-4 space-y-0.5">
+                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{ex.label}</h4>
+                      <p className="text-xs sm:text-sm font-bold text-white leading-relaxed">
+                        {ex.val.split("only if you win")[0]}
+                        <span className="text-amber-500 font-black">only if you win</span>
+                        {ex.val.split("only if you win")[1] || ""}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-              <div className="flex flex-col mb-8 bg-slate-50 dark:bg-white/5 p-5 rounded-[2rem] border border-slate-100 dark:border-white/5 space-y-2.5">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Pricing by Contract Size</span>
-                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <span>Contracts up to $1M</span>
-                  <span className="text-brand-navy-900 dark:text-white font-black">$450</span>
-                </div>
-                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <span>Contracts up to $3.5M</span>
-                  <span className="text-brand-navy-900 dark:text-white font-black">$850</span>
-                </div>
-                <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <span>Contracts up to $6.5M</span>
-                  <span className="text-brand-navy-900 dark:text-white font-black">$1,500</span>
-                </div>
-              </div>
-
-              <div className="mt-auto">
-                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 dark:border-white/20 text-brand-navy-900 dark:text-white font-bold text-sm hover:bg-brand-navy-900 dark:hover:bg-white/10 hover:text-white dark:hover:text-white transition-all">
-                  Get a Flat-Rate Quote
-                </Link>
-              </div>
-            </div>
-
-            {/* Monthly Retainer */}
-            <div className="flex flex-col p-10 rounded-[3rem] border border-gray-200 dark:border-white/5 bg-white dark:bg-brand-navy-900/40 hover:shadow-xl transition-all">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-success mb-2">RECURRING VALUE</span>
-              <div className="mb-4">
-                <span className="text-sm font-black text-slate-400 uppercase tracking-widest block mr-1">For Active Bidders</span>
-                <span className="text-4xl font-bold text-brand-navy-900 dark:text-white">Proposal Team</span>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 font-medium leading-relaxed">
-                Add an entire proposal department to your company. Best for teams bidding on multiple opportunities regularly.
-              </p>
-
-              <div className="flex flex-col mb-8 bg-slate-50 dark:bg-white/5 p-5 rounded-[2rem] border border-slate-100 dark:border-white/5 space-y-2.5">
-                <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Retainer Tiers</span>
-                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <div>
-                    <span>Pursue</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">1 managed bid / mo</span>
-                  </div>
-                  <span className="text-brand-navy-900 dark:text-white font-black">$1,500/mo</span>
-                </div>
-                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <div>
-                    <span>Compete</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">2 managed bids / mo</span>
-                  </div>
-                  <span className="text-brand-navy-900 dark:text-white font-black">$2,800/mo</span>
-                </div>
-                <div className="flex justify-between items-start text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <div>
-                    <span>Dominate</span>
-                    <span className="block text-[9px] text-slate-400 font-medium">High volume & custom</span>
-                  </div>
-                  <span className="text-brand-navy-900 dark:text-white font-black">Custom</span>
-                </div>
+                <p className="text-[11px] text-slate-300 font-bold italic pt-4 border-t border-white/10">
+                  Lose, and you owe nothing beyond the upfront.
+                </p>
               </div>
 
-              <div className="mt-auto">
-                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full border-2 border-brand-navy-900 dark:border-white/20 text-brand-navy-900 dark:text-white font-bold text-sm hover:bg-brand-navy-900 dark:hover:bg-white/10 hover:text-white dark:hover:text-white transition-all">
-                  Talk to Us About a Retainer
+              <div className="relative z-10 pt-8 mt-6">
+                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
+                  Start My Bid — $450
                 </Link>
               </div>
             </div>
 
           </div>
 
-          {/* What You Get Grid */}
-          <div className="max-w-4xl mx-auto bg-white dark:bg-brand-navy-900 rounded-[2.5rem] border border-gray-100 dark:border-white/10 p-8 sm:p-10 shadow-lg text-left">
+          {/* Everything Included Checklist */}
+          <div className="max-w-4xl mx-auto bg-white dark:bg-brand-navy-900 rounded-[2.5rem] border border-slate-200 dark:border-white/10 p-8 sm:p-10 shadow-lg text-left">
             <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-6 uppercase tracking-tight border-b border-slate-100 dark:border-white/5 pb-4">
-              What you get on every bid
+              Everything is included in every bid
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {[
                 "A named consultant who owns your bid end to end",
-                "Eligibility and honest go/no-go assessment",
-                "Full requirement extraction and compliance matrix",
-                "Proposal writing, formatting, and design under your name",
+                "Full requirement extraction and a complete compliance matrix",
+                "Proposal writing and formatting under your company's name",
                 "Two-sets-of-eyes compliance and quality review",
                 "On-time submission through the buyer's portal",
-                "Post-award debrief session"
+                "Post-award debrief"
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-600 dark:text-slate-400 font-medium leading-normal">{item}</span>
+                  <span className="text-sm text-slate-600 dark:text-slate-400 font-bold leading-normal">{item}</span>
                 </div>
               ))}
             </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold italic text-center border-t border-slate-100 dark:border-white/5 pt-4">
+              *No hourly fees. No retainers. No surprises.*
+            </p>
           </div>
 
         </div>
