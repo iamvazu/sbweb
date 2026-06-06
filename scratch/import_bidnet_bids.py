@@ -129,7 +129,7 @@ def run_import(dry_run=False):
         print("[ERROR] NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be in .env.local")
         sys.exit(1)
 
-    filepath = r"C:\Users\dell\.gemini\antigravity\scratch\bidnet_scraper\bids.json"
+    filepath = "bidnet_scraper/bids.json"
     if not os.path.exists(filepath):
         print(f"[ERROR] Scraper bids.json not found at {filepath}")
         sys.exit(1)
@@ -185,10 +185,26 @@ def run_import(dry_run=False):
         if not comments:
             comments = "See official BidNet notice details."
 
+        # SBE only evaluation
+        title = r.get("title", "").strip()
+        description = r.get("description", "").strip()
+        text_for_keywords = (title + " " + description).lower()
+        
+        sbe_only = any(kw in text_for_keywords for kw in ["small business set-aside", "set-aside for small business", "sba set-aside", "8(a)", "8a", "wosb", "sdvosb"])
+        
+        # Prevailing wage evaluation
+        prevailing_wage = any(kw in text_for_keywords for kw in ["prevailing wage", "davis-bacon", "davis bacon", "certified payroll"])
+        
+        # Location mapping
+        location_val = r.get("location", "").strip()
+        dept_name = r.get("issuing_organization", "BidNet Direct").strip()
+        if location_val:
+            dept_name = f"{dept_name} ({location_val})"
+            
         row = {
             "event_id": event_id,
             "event_name": r.get("title", "Unknown BidNet Bid").strip(),
-            "department_name": r.get("issuing_organization", "BidNet Direct").strip(),
+            "department_name": dept_name,
             "type": r.get("solicitation_type", "Notice").strip(),
             "end_date": end_date,
             "published_date": published_date,
@@ -200,6 +216,9 @@ def run_import(dry_run=False):
             "source": "bidnet",
             "portal_link": r.get("detail_url", "https://www.bidnetdirect.com").strip(),
             "bonding_required": bonding_required,
+            "sbe_only": sbe_only,
+            "prevailing_wage": prevailing_wage,
+            "go_nogo": "PENDING",
             "doc_links": doc_links,
             "service_areas": service_areas,
             "mandatory_prebid": mandatory_prebid,
