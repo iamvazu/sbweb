@@ -38,6 +38,48 @@ const STAGGER: Variants = {
 };
 
 export default function Home() {
+  const [contractValue, setContractValue] = useState(1000000);
+
+  const calcPricing = (v: number) => {
+    const m = v / 1000000;
+    let fee = 450;
+    let rate = 1.00;
+    if (m <= 1) {
+      fee = 450;
+      rate = 1.00;
+    } else if (m <= 2) {
+      fee = 750;
+      rate = 0.90;
+    } else if (m <= 3) {
+      fee = 1000;
+      rate = 0.80;
+    } else if (m <= 4) {
+      fee = 1250;
+      rate = 0.70;
+    } else if (m <= 5) {
+      fee = 1500;
+      rate = 0.60;
+    } else {
+      fee = 1500 + 250 * Math.ceil(m - 5);
+      rate = 0.50;
+    }
+    return { fee, rate, success: (v * rate) / 100 };
+  };
+
+  const pricingResult = calcPricing(contractValue);
+
+  const formatShortVal = (v: number) => {
+    if (v >= 1000000) {
+      const m = v / 1000000;
+      const s = m % 1 === 0 ? m.toFixed(0) : m.toFixed(1);
+      return { num: s, unit: "M" };
+    }
+    return { num: (v / 1000).toFixed(0), unit: "K" };
+  };
+
+  const shortVal = formatShortVal(contractValue);
+  const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+
   const steps = [
     { num: "01", title: "Find & qualify", desc: "We search opportunities nationwide and bring you only the ones worth your time. Every match gets an honest go/no-go before you spend a dollar.", icon: Search },
     { num: "02", title: "Strategize", desc: "A named consultant builds your win strategy—how to position your strengths, where the disqualification traps are, and how to price to win.", icon: LineChart },
@@ -461,123 +503,77 @@ export default function Home() {
 
       {/* Pricing Section */}
       <section id="pricing" className="py-24 bg-slate-50 dark:bg-black/10 overflow-hidden border-b border-gray-100 dark:border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 max-w-3xl mx-auto space-y-4">
-            <span className="text-[10px] font-black text-amber-600 uppercase tracking-[0.25em]">
-              Simple, aligned pricing
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-brand-navy-900 dark:text-white font-bold leading-tight">
-              One price. You mostly pay when you win.
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto">
-              A low upfront to get started, plus a success fee charged <strong className="text-brand-navy-900 dark:text-white">only if you're awarded the contract.</strong> Lose, and you've risked almost nothing. Win, and we both win — which is exactly the point. The bigger the contract, the lower the success-fee rate.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
-            
-            {/* Pricing Table Card */}
-            <div className="lg:col-span-7 bg-white dark:bg-brand-navy-900 border border-slate-200 dark:border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col justify-between">
-              <div>
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-600 block mb-4">Pricing Structure</span>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-200 dark:border-white/10 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                        <th className="pb-3 pr-2">Your contract is worth</th>
-                        <th className="pb-3 px-2 text-center">You pay upfront</th>
-                        <th className="pb-3 pl-2 text-right">Success fee <span className="text-amber-500 font-bold block sm:inline">*(only if you win)*</span></th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-white/5">
-                      {[
-                        { range: "Up to $1 million", upfront: "$450", fee: "1.00%" },
-                        { range: "Up to $2 million", upfront: "$750", fee: "0.90%" },
-                        { range: "Up to $3 million", upfront: "$1,000", fee: "0.80%" },
-                        { range: "Up to $4 million", upfront: "$1,250", fee: "0.70%" },
-                        { range: "Up to $5 million", upfront: "$1,500", fee: "0.60%" },
-                        { range: "Over $5 million", upfront: "$1,500 + $250 per add. $1M", fee: "0.50%" },
-                      ].map((row, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-all">
-                          <td className="py-4 text-xs sm:text-sm font-bold text-brand-navy-900 dark:text-white pr-2">{row.range}</td>
-                          <td className="py-4 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 text-center px-2">{row.upfront}</td>
-                          <td className="py-4 text-xs sm:text-sm font-black text-brand-blue-600 dark:text-brand-blue-400 text-right pl-2">{row.fee}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed mt-6 pt-4 border-t border-slate-100 dark:border-white/5">
-                *The upfront covers requirement extraction, win strategy, full proposal writing, compliance review, and on-time submission. The success fee is charged only on an awarded contract.*
-              </p>
-            </div>
-
-            {/* Examples & CTA Card */}
-            <div className="lg:col-span-5 bg-brand-navy-900 text-white border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
-              
-              <div className="relative z-10 space-y-6">
-                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-brand-blue-400 block mb-1 font-sans">Pricing In Action</span>
-                <h3 className="text-xl font-bold uppercase tracking-tight">Examples</h3>
-                
-                <div className="space-y-4">
-                  {[
-                    { label: "$1,000,000 contract", val: "$450 to start, $10,000 only if you win." },
-                    { label: "$3,000,000 contract", val: "$1,000 to start, $24,000 only if you win (0.80%)." },
-                    { label: "$5,000,000 contract", val: "$1,500 to start, $30,000 only if you win (0.60%)." },
-                    { label: "$10,000,000 contract", val: "$2,750 to start, $50,000 only if you win (0.50%)." }
-                  ].map((ex, idx) => (
-                    <div key={idx} className="border-l-2 border-brand-blue-500 pl-4 space-y-0.5">
-                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{ex.label}</h4>
-                      <p className="text-xs sm:text-sm font-bold text-white leading-relaxed">
-                        {ex.val.split("only if you win")[0]}
-                        <span className="text-amber-500 font-black">only if you win</span>
-                        {ex.val.split("only if you win")[1] || ""}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="text-[11px] text-slate-300 font-bold italic pt-4 border-t border-white/10">
-                  Lose, and you owe nothing beyond the upfront.
-                </p>
-              </div>
-
-              <div className="relative z-10 pt-8 mt-6">
-                <Link href="/contact" className="w-full inline-flex items-center justify-center py-4 rounded-full bg-brand-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30">
-                  Start My Bid — $450
-                </Link>
-              </div>
-            </div>
-
+        <div className="pf">
+          <div className="pf-head">
+            <span className="pf-eyebrow">Simple, aligned pricing</span>
+            <h2>One model. <em>You mostly pay when you win.</em></h2>
+            <p>A low bid writing fee to produce your proposal — plus a success fee charged only if you're awarded the contract. The bigger the contract, the lower the success rate.</p>
           </div>
 
-          {/* Everything Included Checklist */}
-          <div className="max-w-4xl mx-auto bg-white dark:bg-brand-navy-900 rounded-[2.5rem] border border-slate-200 dark:border-white/10 p-8 sm:p-10 shadow-lg text-left">
-            <h4 className="text-lg font-bold text-brand-navy-900 dark:text-white mb-6 uppercase tracking-tight border-b border-slate-100 dark:border-white/5 pb-4">
-              Everything is included in every bid
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {[
-                "A named consultant who owns your bid end to end",
-                "Full requirement extraction and a complete compliance matrix",
-                "Proposal writing and formatting under your company's name",
-                "Two-sets-of-eyes compliance and quality review",
-                "On-time submission through the buyer's portal",
-                "Post-award debrief"
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-brand-blue-600 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-600 dark:text-slate-400 font-bold leading-normal">{item}</span>
-                </div>
-              ))}
+          <div className="pf-grid">
+            {/* REFERENCE TABLE */}
+            <div className="pf-table">
+              <div className="cap">Pricing structure</div>
+              <div className="pf-row h">
+                <div>Your contract is worth</div>
+                <div>Bid Writing Fee</div>
+                <div className="win" style={{ textAlign: "right" }}>Success Fee*</div>
+              </div>
+              <div className="pf-row d"><div className="tier">Up to $1 million</div><div className="fee">$450</div><div className="rate">1.00%</div></div>
+              <div className="pf-row d"><div className="tier">Up to $2 million</div><div className="fee">$750</div><div className="rate">0.90%</div></div>
+              <div className="pf-row d"><div className="tier">Up to $3 million</div><div className="fee">$1,000</div><div className="rate">0.80%</div></div>
+              <div className="pf-row d"><div className="tier">Up to $4 million</div><div className="fee">$1,250</div><div className="rate">0.70%</div></div>
+              <div className="pf-row d"><div className="tier">Up to $5 million</div><div className="fee">$1,500</div><div className="rate">0.60%</div></div>
+              <div className="pf-row d">
+                <div className="tier">Over $5 million</div>
+                <div className="fee">$1,500<small className="block font-semibold text-[11px] text-slate-500 mt-1">+ $250 / add'l $1M</small></div>
+                <div className="rate">0.50%</div>
+              </div>
+              <div className="pf-foot">*Success fee is charged <strong>only on an awarded contract</strong>. The bid writing fee covers requirement extraction, win strategy, full proposal writing, compliance review, and on-time submission.</div>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold italic text-center border-t border-slate-100 dark:border-white/5 pt-4">
-              *No hourly fees. No retainers. No surprises.*
-            </p>
-          </div>
 
+            {/* INTERACTIVE ESTIMATOR */}
+            <div className="pf-calc">
+              <div className="cap">Estimate your cost</div>
+              <h3>What will my bid cost?</h3>
+
+              <div className="pf-cv">
+                <span className="lbl">Contract value</span>
+                <span className="val">${shortVal.num}<span>{shortVal.unit}</span></span>
+              </div>
+              <input 
+                className="pf-slider" 
+                type="range" 
+                min={100000} 
+                max={20000000} 
+                step={100000} 
+                value={contractValue} 
+                onChange={(e) => setContractValue(Number(e.target.value))}
+                style={{
+                  background: `linear-gradient(90deg, #2563eb 0%, #2563eb ${((contractValue - 100000) / (20000000 - 100000)) * 100}%, rgba(255,255,255,0.14) ${((contractValue - 100000) / (20000000 - 100000)) * 100}%)`
+                }}
+              />
+              <div className="pf-scale"><span>$100K</span><span>$10M</span><span>$20M</span></div>
+
+              <div className="pf-out">
+                <div className="pf-tile fee">
+                  <div className="k">Bid Writing Fee</div>
+                  <div className="v">{money(pricingResult.fee)}</div>
+                  <div className="sub">due to start</div>
+                </div>
+                <div className="pf-tile win">
+                  <div className="k">If you win, you pay</div>
+                  <div className="v">{money(pricingResult.success)}</div>
+                  <div className="sub">{pricingResult.rate.toFixed(2)}% success fee</div>
+                </div>
+              </div>
+
+              <p className="pf-note">Lose, and you owe nothing beyond the bid writing fee.</p>
+              <Link className="pf-cta" href="/contact">
+                Start My Bid — {money(pricingResult.fee)}
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
