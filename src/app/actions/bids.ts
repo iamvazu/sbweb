@@ -84,3 +84,29 @@ export async function trackBid(bidId: string) {
   
   return { success: true, matchId: data?.id };
 }
+
+/**
+ * Fetch all bids from the database securely for public search (bypassing RLS)
+ */
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+
+export async function getPublicBids() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+  if (!url || !serviceKey) {
+    throw new Error("Missing Supabase configuration");
+  }
+
+  const supabase = createSupabaseClient(url, serviceKey);
+  const { data, error } = await supabase
+    .from("bids")
+    .select("id, event_id, department_code, department_name, event_name, format, type, end_date, status, contact_name, contact_email, portal_link, prebid_type, prebid_date, prebid_time, prebid_location, comments, source, pdf_urls, estimated_value_min, estimated_value_max, prevailing_wage, dbe_goal, dvbe_goal, sbe_only, bonding_required");
+
+  if (error) {
+    console.error("Error fetching public bids:", error);
+    throw error;
+  }
+
+  return data || [];
+}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
+import { getPublicBids } from "@/app/actions/bids";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -37,6 +37,7 @@ import {
   DollarSign
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 // Helper to determine bid state based on data fields
 function getBidState(bid: any): string {
@@ -77,27 +78,27 @@ export default function OpenBidsPage() {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertEmail, setAlertEmail] = useState("");
 
-  const supabase = createClient();
-
   useEffect(() => {
     async function loadBids() {
       setIsLoading(true);
-      const { data, error } = await supabase
-        .from("bids")
-        .select("id, event_id, event_name, department_name, comments, start_date, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only");
-      
-      if (!error && data) {
-        // Compute state for each bid once upon load
-        const bidsWithState = data.map(bid => ({
-          ...bid,
-          state: getBidState(bid)
-        }));
-        setAllBids(bidsWithState);
+      try {
+        const data = await getPublicBids();
+        if (data) {
+          // Compute state for each bid once upon load
+          const bidsWithState = data.map(bid => ({
+            ...bid,
+            state: getBidState(bid)
+          }));
+          setAllBids(bidsWithState);
+        }
+      } catch (error) {
+        console.error("Error loading public bids:", error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
     loadBids();
-  }, [supabase]);
+  }, []);
 
   // Filter and Sort in memory on the client side
   const { filteredBids, stateCounts } = useMemo(() => {
@@ -215,9 +216,15 @@ export default function OpenBidsPage() {
     );
   };
 
-  const formatMoney = (val: number | null | undefined) => {
+  const formatMoneyShorthand = (val: number | null | undefined) => {
     if (!val) return "TBD";
-    return "$" + val.toLocaleString("en-US");
+    if (val >= 1000000) {
+      return "$" + (val / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    }
+    if (val >= 1000) {
+      return "$" + (val / 1000).toFixed(0) + "K";
+    }
+    return "$" + val;
   };
 
   return (
@@ -233,10 +240,10 @@ export default function OpenBidsPage() {
         
         {/* Title Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 pt-8 pb-4">
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight leading-tight">
             Find an open bid <span className="bg-gradient-to-r from-emerald-500 via-green-500 to-lime-500 bg-clip-text text-transparent italic block sm:inline">ripe for the picking</span>
           </h1>
-          <p className="text-slate-500 font-medium max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
             Search hundreds of live government solicitations across multiple states and portals. Free to browse.
           </p>
         </div>
@@ -274,7 +281,7 @@ export default function OpenBidsPage() {
           {/* Currently Searching & Toggles */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-b pb-4">
             <div className="text-xs font-semibold text-slate-500 flex items-center gap-1">
-              Currently searching: <span className="text-slate-900 font-black uppercase tracking-tight">{activeTab === "open" ? "Open Bids" : activeTab === "closed" ? "Closed Bids" : "Award Date"}</span>
+              Currently searching: <span className="text-brand-navy-900 dark:text-white font-black uppercase tracking-tight">{activeTab === "open" ? "Open Bids" : activeTab === "closed" ? "Closed Bids" : "Award Date"}</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -352,9 +359,9 @@ export default function OpenBidsPage() {
                           {state}
                         </Label>
                       </div>
-                      <Badge variant="secondary" className="bg-slate-50 text-slate-400 border-none font-bold text-[10px] py-0 px-2 h-5 flex items-center">
+                      <span className="text-xs font-semibold text-slate-400">
                         {count}
-                      </Badge>
+                      </span>
                     </div>
                   );
                 })}
@@ -389,7 +396,7 @@ export default function OpenBidsPage() {
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page size</span>
                   <Select defaultValue="10">
-                    <SelectTrigger className="w-[140px] h-9 border-slate-200 bg-slate-50/50 rounded-lg text-xs font-bold text-slate-700" disabled>
+                    <SelectTrigger className="w-[170px] h-9 border-slate-200 bg-slate-50/50 rounded-lg text-xs font-bold text-slate-700" disabled>
                       <SelectValue placeholder="10 per page" />
                     </SelectTrigger>
                     <SelectContent>
@@ -413,75 +420,115 @@ export default function OpenBidsPage() {
                   </Card>
                 ))
               ) : paginatedBids.length > 0 ? (
-                paginatedBids.map((bid) => (
-                  <Card key={bid.id} className="border-slate-100 hover:border-slate-200 hover:shadow-xl shadow-sm rounded-[2rem] transition-all bg-white overflow-hidden p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start">
-                    
-                    {/* Main Bid details container */}
-                    <div className="flex-1 space-y-3 min-w-0 w-full">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-slate-50 border-slate-200 text-slate-500 rounded-sm">
-                          {bid.source}
-                        </Badge>
-                        <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-emerald-50 border-emerald-100 text-emerald-600 rounded-sm">
-                          {bid.state}
-                        </Badge>
-                      </div>
+                paginatedBids.map((bid) => {
+                  const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : null;
+                  const isUrgent = daysLeft !== null && daysLeft <= 7;
 
-                      <h3 className="text-lg font-extrabold text-slate-900 leading-snug group-hover:text-brand-blue-600">
-                        Title: {highlightText(bid.event_name, search)}
-                      </h3>
+                  return (
+                    <Card key={bid.id} className="group border border-slate-100 hover:border-slate-200 hover:shadow-lg shadow-sm rounded-3xl transition-all bg-white overflow-hidden p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start w-full">
+                      
+                      {/* Main Bid details container */}
+                      <div className="flex-1 space-y-3 min-w-0 w-full">
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-slate-50 border-slate-200 text-slate-500 rounded-sm">
+                            {bid.source}
+                          </Badge>
+                          <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-emerald-50 border-emerald-100 text-emerald-600 rounded-sm">
+                            {bid.state}
+                          </Badge>
+                          {daysLeft !== null && (
+                            <span className={cn("text-xs font-semibold flex items-center gap-1 shrink-0", isUrgent ? "text-red-600" : "text-slate-500")}>
+                              <Clock className="h-3.5 w-3.5" />
+                              {daysLeft < 0 ? "Closed" : `${daysLeft} days left`}
+                            </span>
+                          )}
+                        </div>
 
-                      <div className="space-y-1.5 font-medium text-slate-500 text-xs">
-                        <p className="truncate"><span className="text-slate-800 font-bold uppercase tracking-wide text-[10px] mr-1.5">Agency:</span>{highlightText(bid.department_name, search)}</p>
-                        <p><span className="text-slate-800 font-bold uppercase tracking-wide text-[10px] mr-1.5">State:</span>{bid.state}</p>
-                        <p><span className="text-slate-800 font-bold uppercase tracking-wide text-[10px] mr-1.5">Open Date:</span>{bid.start_date ? new Date(bid.start_date).toLocaleDateString() : 'N/A'}</p>
-                        <p><span className="text-slate-800 font-bold uppercase tracking-wide text-[10px] mr-1.5">Close Date:</span>{bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'N/A'}</p>
-                      </div>
+                        <h3 className="text-lg font-extrabold text-brand-navy-900 dark:text-white leading-snug group-hover:text-brand-blue-600 transition-colors">
+                          {highlightText(bid.event_name, search)}
+                        </h3>
 
-                      {bid.comments && (
-                        <div className="pt-2">
-                          <p className="text-xs text-slate-400 font-medium leading-relaxed line-clamp-3">
-                            <span className="text-slate-700 font-bold uppercase tracking-wide text-[10px] block mb-1">Description:</span>
-                            {highlightText(bid.comments, search)}
+                        <div className="text-slate-500 font-medium text-xs space-y-1">
+                          <p className="truncate">
+                            <span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Agency:</span>
+                            {highlightText(bid.department_name, search)}
+                          </p>
+                          <p className="flex items-center gap-4 flex-wrap text-slate-400">
+                            <span><span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Open:</span>{bid.start_date ? new Date(bid.start_date).toLocaleDateString() : 'N/A'}</span>
+                            <span className="hidden sm:inline text-slate-200">|</span>
+                            <span><span className="text-brand-navy-900 font-bold uppercase tracking-wide text-[9px] mr-1.5">Close:</span>{bid.end_date ? new Date(bid.end_date).toLocaleDateString() : 'N/A'}</span>
                           </p>
                         </div>
-                      )}
-                    </div>
 
-                    {/* Actions Side Box */}
-                    <div className="w-full md:w-auto flex flex-col items-stretch md:items-end justify-between md:h-full gap-4 shrink-0 md:min-w-[180px]">
-                      <div className="md:text-right">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Contract Value</span>
-                        <span className="text-base font-black text-slate-900 mt-1 block">
-                          {bid.estimated_value_min ? 
-                            `${formatMoney(bid.estimated_value_min)} – ${formatMoney(bid.estimated_value_max)}` : 
-                            "Value TBD"
-                          }
-                        </span>
+                        {/* Compliance Badges */}
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {bid.prevailing_wage && (
+                            <Badge variant="outline" className="text-[9px] font-semibold py-0.5 px-2 bg-amber-50 text-amber-700 border-none rounded-sm">
+                              PREVAILING WAGE
+                            </Badge>
+                          )}
+                          {bid.sbe_only && (
+                            <Badge variant="outline" className="text-[9px] font-semibold py-0.5 px-2 bg-blue-50 text-blue-700 border-none rounded-sm">
+                              SBE ONLY
+                            </Badge>
+                          )}
+                          {bid.dbe_goal && (
+                            <Badge variant="outline" className="text-[9px] font-semibold py-0.5 px-2 bg-purple-50 text-purple-700 border-none rounded-sm">
+                              DBE GOAL: {bid.dbe_goal}
+                            </Badge>
+                          )}
+                          {bid.bonding_required && (
+                            <Badge variant="outline" className="text-[9px] font-semibold py-0.5 px-2 bg-slate-100 text-slate-600 border-none rounded-sm">
+                              BONDING REQ
+                            </Badge>
+                          )}
+                        </div>
+
+                        {bid.comments && (
+                          <div className="pt-2">
+                            <p className="text-xs text-slate-400 font-medium leading-relaxed line-clamp-2">
+                              <span className="text-slate-700 font-bold uppercase tracking-wide text-[9px] block mb-1">Description:</span>
+                              {highlightText(bid.comments, search)}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="flex flex-row md:flex-col gap-2.5 w-full">
-                        <Button 
-                          onClick={() => setSelectedBid(bid)}
-                          variant="outline" 
-                          size="sm" 
-                          className="h-10 border-slate-200 text-slate-600 hover:bg-slate-50 flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider"
-                        >
-                          Details
-                        </Button>
-                        <Button 
-                          asChild
-                          size="sm" 
-                          className="h-10 bg-emerald-500 hover:bg-emerald-600 text-white flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider shadow-md shadow-emerald-500/10"
-                        >
-                          <Link href={`/login?tab=signup&redirect=/portal/hire?bid=${bid.id}`}>
-                            Get started!
-                          </Link>
-                        </Button>
+                      {/* Actions Side Box */}
+                      <div className="w-full md:w-auto flex flex-col items-stretch md:items-end justify-between md:h-full gap-4 shrink-0 md:min-w-[180px]">
+                        <div className="md:text-right">
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Contract Value</span>
+                          <span className="text-base font-black text-brand-navy-900 dark:text-white mt-1 block">
+                            {bid.estimated_value_min ? 
+                              `${formatMoneyShorthand(bid.estimated_value_min)} – ${formatMoneyShorthand(bid.estimated_value_max)}` : 
+                              "Value TBD"
+                            }
+                          </span>
+                        </div>
+
+                        <div className="flex flex-row md:flex-col gap-2.5 w-full">
+                          <Button 
+                            onClick={() => setSelectedBid(bid)}
+                            variant="outline" 
+                            size="sm" 
+                            className="h-10 border-slate-200 text-slate-600 hover:bg-slate-50 flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider"
+                          >
+                            Details
+                          </Button>
+                          <Button 
+                            asChild
+                            size="sm" 
+                            className="h-10 bg-emerald-500 hover:bg-emerald-600 text-white flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider shadow-md shadow-emerald-500/10"
+                          >
+                            <Link href={`/login?tab=signup&redirect=/portal/hire?bid=${bid.id}`}>
+                              Get started!
+                            </Link>
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                ))
+                    </Card>
+                  );
+                })
               ) : (
                 <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300">
                   <div className="max-w-xs mx-auto space-y-4">
@@ -564,9 +611,9 @@ export default function OpenBidsPage() {
                   </div>
                   <div>
                     <span className="text-[9px] font-black uppercase text-slate-400 tracking-widest block">Estimated Value</span>
-                    <span className="text-sm font-black text-slate-900">
+                    <span className="text-sm font-black text-brand-navy-900 dark:text-white">
                       {selectedBid.estimated_value_min ? 
-                        `$${(selectedBid.estimated_value_min/1000).toFixed(0)}K – $${(selectedBid.estimated_value_max/1000).toFixed(0)}K` : 
+                        `${formatMoneyShorthand(selectedBid.estimated_value_min)} – ${formatMoneyShorthand(selectedBid.estimated_value_max)}` : 
                         "Value TBD"}
                     </span>
                   </div>
