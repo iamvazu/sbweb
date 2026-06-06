@@ -60,7 +60,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section */}
-      <section className="relative px-6 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
+      <section className="relative px-6 pt-24 pb-8 md:pt-28 md:pb-12 overflow-hidden sb-hero border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Gradients */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[120px]" />
@@ -93,11 +93,11 @@ export default function Home() {
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-brand-blue-600/15 hover:-translate-y-1">
+                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 btn-primary-gradient px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1">
                   <span>Book a Free Consultation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-800 dark:text-white border border-slate-200 dark:border-white/20 px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-sm hover:-translate-y-1">
+                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 btn-ghost-custom border px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1">
                   <Search className="w-5 h-5 text-brand-blue-600 dark:text-brand-blue-400" />
                   <span>Search Open Bids — Free</span>
                 </Link>
@@ -114,52 +114,183 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Right Column: Visual Matrix Card */}
+            {/* Right Column: Animated Proposal Builder Stage */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
               className="lg:col-span-5 hidden lg:block"
             >
-              <div className="bg-white/90 dark:bg-brand-navy-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 rounded-[2.5rem] p-6 shadow-2xl space-y-4 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/5 dark:bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
-                
-                <div className="flex justify-between items-center border-b border-slate-100 dark:border-white/10 pb-3">
-                  <div>
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-600 dark:text-brand-blue-400 block mb-0.5">Service Matrix</span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-tight">Proposal Wins</h3>
+              <div className="sb-stage" aria-label="How a winning proposal is built">
+                <div className="sb-glow"></div>
+
+                {/* connector wires + traveling pulses */}
+                <svg className="sb-wires" viewBox="0 0 560 580" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <path id="w1" d="M175,85 C 250,120 235,260 280,345" />
+                  <path id="w2" d="M163,205 C 232,222 246,300 280,345" />
+                  <path id="w3" d="M179,325 C 232,334 252,340 280,345" />
+                  <path id="w4" d="M385,85 C 312,120 325,260 280,345" />
+                  <path id="w5" d="M397,205 C 330,222 314,300 280,345" />
+                  <path id="w6" d="M381,325 C 330,334 308,340 280,345" />
+                  <path id="w7" d="M280,415 L280,470" />
+
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="0.2s" repeatCount="indefinite">
+                      <mpath href="#w1"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="0.7s" repeatCount="indefinite">
+                      <mpath href="#w2"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.7s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="1.2s" repeatCount="indefinite">
+                      <mpath href="#w3"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="1.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="0.45s" repeatCount="indefinite">
+                      <mpath href="#w4"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.45s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="0.95s" repeatCount="indefinite">
+                      <mpath href="#w5"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="0.95s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.2">
+                    <animateMotion dur="2.6s" begin="1.45s" repeatCount="indefinite">
+                      <mpath href="#w6"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" begin="1.45s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle className="sb-dot" r="4.6" style={{ fill: "#44d18a" }}>
+                    <animateMotion dur="1.5s" begin="2s" repeatCount="indefinite">
+                      <mpath href="#w7"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.2;.8;1" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+
+                {/* INPUT CARDS */}
+                <div className="sb-card sb-in" style={{ left: "17.9%", top: "12.9%", animationDelay: ".05s" }}>
+                  <div className="inner" style={{ animationDelay: "0s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <path d="M8 13h8M8 17h6"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">RFP Requirements</span>
+                      <span className="tag">Input</span>
+                    </span>
                   </div>
-                  <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
                 </div>
 
-                <div className="space-y-3">
-                  {[
-                    { label: "Requirement Extraction", val: "100% Completed", desc: "Every mandatory RFP point mapped to a response", valColor: "text-emerald-600 dark:text-emerald-400" },
-                    { label: "Compliance Verification", val: "Double Checked", desc: "Two-sets-of-eyes manual review of every bid", valColor: "text-emerald-600 dark:text-emerald-400" },
-                    { label: "Pricing Strategy", val: "Optimized to Win", desc: "Expert assessment of disqualification/pricing traps", valColor: "text-brand-blue-600 dark:text-brand-blue-400" },
-                    { label: "On-Time Submission", val: "Submission Guarantee", desc: "Filed early through buyer portals with receipt", valColor: "text-brand-blue-600 dark:text-brand-blue-400" }
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex gap-3 items-start bg-slate-50/80 dark:bg-white/5 p-3 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-brand-blue-500/20 hover:bg-slate-100/50 transition-all">
-                      <div className="w-7 h-7 rounded-xl bg-brand-blue-50 dark:bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-600 dark:text-brand-blue-400 shrink-0">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue-600 dark:text-brand-blue-400" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-baseline mb-0.5">
-                          <h4 className="text-[11px] font-bold text-slate-800 dark:text-white uppercase tracking-wide truncate">{item.label}</h4>
-                          <span className={`text-[8px] font-black uppercase tracking-tight shrink-0 ${item.valColor}`}>{item.val}</span>
-                        </div>
-                        <p className="text-[9px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="sb-card sb-in" style={{ left: "15.7%", top: "33.6%", animationDelay: ".18s" }}>
+                  <div className="inner" style={{ animationDelay: ".6s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M3 21h18M5 21V7l7-4 7 4v14"/>
+                        <path d="M9 21v-5h6v5M9 11h.01M15 11h.01"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">Your Capabilities</span>
+                      <span className="tag">Input</span>
+                    </span>
+                  </div>
                 </div>
 
-                <div className="bg-brand-blue-50/50 dark:bg-brand-blue-950/20 border border-brand-blue-100 dark:border-brand-blue-900/30 rounded-2xl p-3.5 flex justify-between items-center">
-                  <div>
-                    <span className="text-[8px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest block">Success Fee Option</span>
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">Pay When You Win</span>
+                <div className="sb-card sb-in" style={{ left: "18.6%", top: "54.3%", animationDelay: ".31s" }}>
+                  <div className="inner" style={{ animationDelay: "1.2s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">Compliance Matrix</span>
+                      <span className="tag">Input</span>
+                    </span>
                   </div>
-                  <span className="text-xs font-black text-brand-blue-600 dark:text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
+                </div>
+
+                <div className="sb-card sb-in" style={{ left: "82.1%", top: "12.9%", animationDelay: ".12s" }}>
+                  <div className="inner" style={{ animationDelay: ".3s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">Pricing Strategy</span>
+                      <span className="tag">Input</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="sb-card sb-in" style={{ left: "84.3%", top: "33.6%", animationDelay: ".25s" }}>
+                  <div className="inner" style={{ animationDelay: ".9s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/>
+                        <path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">Past Performance</span>
+                      <span className="tag">Input</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="sb-card sb-in" style={{ left: "81.4%", top: "54.3%", animationDelay: ".38s" }}>
+                  <div className="inner" style={{ animationDelay: "1.5s" }}>
+                    <span className="sb-chip">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="5"/>
+                        <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+                      </svg>
+                    </span>
+                    <span className="sb-txt">
+                      <span className="ttl">Win Strategy</span>
+                      <span className="tag">Input</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* CENTRAL HUB */}
+                <div className="sb-hub sb-in" style={{ animationDelay: ".5s" }} aria-label="Stronger Built">
+                  <div className="sb-mono">
+                    <b>S<span>B</span></b>
+                    <small>Built by experts</small>
+                  </div>
+                </div>
+
+                {/* OUTPUT */}
+                <div className="sb-out sb-in" style={{ animationDelay: ".85s" }}>
+                  <div className="inner">
+                    <span className="medal">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <circle cx="12" cy="9" r="6"/>
+                        <path d="M9 14.5 8 22l4-2.2L16 22l-1-7.5"/>
+                      </svg>
+                    </span>
+                    <span>
+                      <span className="ttl">Winning Proposal</span>
+                      <span className="badges"><b>Compliant</b> · On Time · Pay When You Win</span>
+                    </span>
+                  </div>
                 </div>
               </div>
             </motion.div>
