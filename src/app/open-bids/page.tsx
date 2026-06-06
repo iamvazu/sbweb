@@ -39,26 +39,45 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
+const US_STATES = [
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
+  "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+  "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+  "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
+  "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
+  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
+  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+];
+
 // Helper to determine bid state based on data fields
 function getBidState(bid: any): string {
   const dept = (bid.department_name || "").toLowerCase();
   const name = (bid.event_name || "").toLowerCase();
   const text = (bid.comments || "").toLowerCase();
   
-  if (dept.includes("florida") || dept.includes("orlando") || text.includes("florida")) return "Florida";
-  if (dept.includes("colorado") || dept.includes("denver") || text.includes("colorado")) return "Colorado";
-  if (dept.includes("arizona") || dept.includes("phoenix") || text.includes("arizona")) return "Arizona";
-  if (dept.includes("alabama") || dept.includes("birmingham") || text.includes("alabama")) return "Alabama";
-  if (dept.includes("texas") || dept.includes("austin") || dept.includes("dallas") || text.includes("texas")) return "Texas";
-  if (dept.includes("georgia") || dept.includes("atlanta") || text.includes("georgia")) return "Georgia";
-  if (dept.includes("new york") || dept.includes("nyc") || text.includes("new york")) return "New York";
-  if (dept.includes("washington") || dept.includes("seattle") || text.includes("washington")) return "Washington";
-  if (dept.includes("california") || dept.includes("sacramento") || bid.source === "caleprocure" || bid.source === "caltrans") return "California";
+  if (bid.source === "caleprocure" || bid.source === "caltrans") return "California";
+  
+  for (const state of US_STATES) {
+    const stateLower = state.toLowerCase();
+    if (dept.includes(stateLower) || name.includes(stateLower) || text.includes(stateLower)) {
+      return state;
+    }
+  }
+  
+  // Specific cities/regions fallback
+  if (dept.includes("orlando") || text.includes("orlando")) return "Florida";
+  if (dept.includes("denver") || text.includes("denver")) return "Colorado";
+  if (dept.includes("phoenix") || text.includes("phoenix")) return "Arizona";
+  if (dept.includes("birmingham") || text.includes("birmingham")) return "Alabama";
+  if (dept.includes("austin") || dept.includes("dallas") || dept.includes("houston")) return "Texas";
+  if (dept.includes("atlanta") || text.includes("atlanta")) return "Georgia";
+  if (dept.includes("nyc") || dept.includes("new york city")) return "New York";
+  if (dept.includes("seattle") || text.includes("seattle")) return "Washington";
   
   // Deterministic fallback based on ID character code sum to spread data realistically
-  const states = ["California", "California", "Florida", "Texas", "Colorado", "Arizona", "New York", "Georgia", "Washington", "Alabama"];
+  const fallbackStates = ["California", "California", "Florida", "Texas", "Colorado", "Arizona", "New York", "Georgia", "Washington", "Alabama"];
   const charCodeSum = bid.id ? bid.id.split("").reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0) : 0;
-  return states[charCodeSum % states.length];
+  return fallbackStates[charCodeSum % fallbackStates.length];
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -79,6 +98,16 @@ export default function OpenBidsPage() {
   const [alertEmail, setAlertEmail] = useState("");
 
   const supabase = createClient();
+
+  const availableStates = useMemo(() => {
+    const statesSet = new Set<string>();
+    allBids.forEach(bid => {
+      if (bid.state) {
+        statesSet.add(bid.state);
+      }
+    });
+    return Array.from(statesSet).sort();
+  }, [allBids]);
 
   useEffect(() => {
     async function loadBids() {
@@ -348,7 +377,7 @@ export default function OpenBidsPage() {
               <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">State</h4>
               
               <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
-                {["Alabama", "Arizona", "California", "Colorado", "Connecticut", "Florida", "Georgia", "New York", "Texas", "Washington"].map((state) => {
+                {availableStates.map((state) => {
                   const count = stateCounts[state] || 0;
                   return (
                     <div key={state} className="flex items-center justify-between group">
