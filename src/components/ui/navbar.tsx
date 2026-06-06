@@ -56,14 +56,14 @@ export function Navbar() {
           <Link href="/" className="flex flex-col items-start gap-0.5 group">
             <span className={cn(
               "text-xl md:text-2xl font-black tracking-tight leading-none transition-colors",
-              !scrolled && "text-white",
+              !scrolled && "text-brand-navy-900 dark:text-white",
               scrolled && "text-brand-navy-900 dark:text-white"
             )}>
               STRONGER<span className="text-brand-blue-600 transition-colors group-hover:text-blue-500">built</span>
             </span>
             <span className={cn(
               "text-[9px] md:text-[10px] font-semibold tracking-widest uppercase leading-none transition-colors",
-              !scrolled && "text-slate-300",
+              !scrolled && "text-slate-500 dark:text-slate-400",
               scrolled && "text-slate-500 dark:text-slate-400"
             )}>
               LLC
@@ -78,7 +78,9 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-[13px] font-bold tracking-tight px-4 py-2 rounded-full transition-all",
-                  !scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
+                  !scrolled 
+                    ? "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-100/50 dark:hover:bg-white/5" 
+                    : "text-slate-600 dark:text-slate-300 hover:text-brand-blue-600 hover:bg-slate-50 dark:hover:bg-white/5"
                 )}
               >
                 {link.name}
@@ -94,7 +96,9 @@ export function Navbar() {
                   href="/login"
                   className={cn(
                     "text-[13px] font-bold px-4 py-2 transition-all",
-                    !scrolled ? "text-white hover:text-white/80" : "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white"
+                    !scrolled 
+                      ? "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white" 
+                      : "text-slate-600 dark:text-slate-300 hover:text-brand-navy-900 dark:hover:text-white"
                   )}
                 >
                   Portal Login
@@ -104,7 +108,7 @@ export function Navbar() {
                   className={cn(
                     "px-5 py-2.5 rounded-full text-[13px] font-bold transition-all border",
                     !scrolled 
-                      ? "border-white/20 hover:border-white text-white hover:bg-white/10" 
+                      ? "border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5" 
                       : "border-gray-200 dark:border-white/15 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5"
                   )}
                 >

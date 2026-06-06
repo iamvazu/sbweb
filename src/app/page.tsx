@@ -60,12 +60,12 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section */}
-      <section className="relative px-6 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      <section className="relative px-6 pt-20 pb-10 md:pt-32 md:pb-16 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Gradients */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/15 blur-[120px]" />
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[120px]" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -77,39 +77,39 @@ export default function Home() {
               variants={STAGGER}
               className="lg:col-span-7 space-y-4"
             >
-              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-500/10 border border-brand-blue-500/20 backdrop-blur-md">
-                <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-400 uppercase">
+              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-blue-50/80 dark:bg-brand-blue-500/10 border border-brand-blue-100 dark:border-brand-blue-500/20 backdrop-blur-md">
+                <span className="text-[10px] font-black tracking-[0.25em] text-brand-blue-600 dark:text-brand-blue-400 uppercase">
                   Expert Proposal Consultants · Nationwide
                 </span>
               </motion.div>
               
-              <motion.h1 variants={FADE_UP} className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] xl:text-[46px] font-serif text-white tracking-tight leading-[1.15] font-bold">
+              <motion.h1 variants={FADE_UP} className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] xl:text-[46px] font-serif text-slate-900 dark:text-white tracking-tight leading-[1.15] font-bold">
                 We win government bids for you. <br />
-                <span className="italic text-brand-blue-500 block mt-1">You mostly pay when you win.</span>
+                <span className="italic text-brand-blue-600 dark:text-brand-blue-400 block mt-1">You mostly pay when you win.</span>
               </motion.h1>
               
-              <motion.p variants={FADE_UP} className="text-sm sm:text-base text-white/70 max-w-xl leading-relaxed font-medium">
+              <motion.p variants={FADE_UP} className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-medium">
                 Government RFPs are won and lost on the details—the requirements, the compliance, the deadlines. Stronger Built's consultants find the right opportunities, write the winning proposal, and submit it on time. Choose how you pay: a low upfront with a success fee when you win, a flat rate, or a monthly retainer.
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
+                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-lg shadow-brand-blue-600/15 hover:-translate-y-1">
                   <span>Book a Free Consultation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
-                  <Search className="w-5 h-5 text-brand-blue-500" />
+                <Link href="/login?tab=signup" className="group inline-flex items-center justify-center gap-3 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-800 dark:text-white border border-slate-200 dark:border-white/20 px-8 py-3.5 rounded-full font-bold text-sm transition-all shadow-sm hover:-translate-y-1">
+                  <Search className="w-5 h-5 text-brand-blue-600 dark:text-brand-blue-400" />
                   <span>Search Open Bids — Free</span>
                 </Link>
               </motion.div>
 
-              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-3 text-[10px] font-bold text-white/50 uppercase tracking-widest leading-none">
+              <motion.div variants={FADE_UP} className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest leading-none">
                 <div>Nationwide Coverage</div>
-                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
                 <div>All 50 States</div>
-                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
                 <div>No Long-term Contract</div>
-                <div className="h-1.2 w-1.2 rounded-full bg-slate-700" />
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
                 <div>Veteran-Owned</div>
               </motion.div>
             </motion.div>
@@ -121,45 +121,45 @@ export default function Home() {
               transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
               className="lg:col-span-5 hidden lg:block"
             >
-              <div className="bg-white/5 dark:bg-brand-navy-900/50 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 shadow-2xl space-y-4 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
+              <div className="bg-white/90 dark:bg-brand-navy-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 rounded-[2.5rem] p-6 shadow-2xl space-y-4 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue-600/5 dark:bg-brand-blue-600/10 rounded-full blur-[40px] pointer-events-none" />
                 
-                <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-white/10 pb-3">
                   <div>
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-400 block mb-0.5">Service Matrix</span>
-                    <h3 className="text-base font-bold text-white uppercase tracking-tight">Proposal Wins</h3>
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-blue-600 dark:text-brand-blue-400 block mb-0.5">Service Matrix</span>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-tight">Proposal Wins</h3>
                   </div>
                   <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
                 </div>
 
                 <div className="space-y-3">
                   {[
-                    { label: "Requirement Extraction", val: "100% Completed", desc: "Every mandatory RFP point mapped to a response" },
-                    { label: "Compliance Verification", val: "Double Checked", desc: "Two-sets-of-eyes manual review of every bid" },
-                    { label: "Pricing Strategy", val: "Optimized to Win", desc: "Expert assessment of disqualification/pricing traps" },
-                    { label: "On-Time Submission", val: "Submission Guarantee", desc: "Filed early through buyer portals with receipt" }
+                    { label: "Requirement Extraction", val: "100% Completed", desc: "Every mandatory RFP point mapped to a response", valColor: "text-emerald-600 dark:text-emerald-400" },
+                    { label: "Compliance Verification", val: "Double Checked", desc: "Two-sets-of-eyes manual review of every bid", valColor: "text-emerald-600 dark:text-emerald-400" },
+                    { label: "Pricing Strategy", val: "Optimized to Win", desc: "Expert assessment of disqualification/pricing traps", valColor: "text-brand-blue-600 dark:text-brand-blue-400" },
+                    { label: "On-Time Submission", val: "Submission Guarantee", desc: "Filed early through buyer portals with receipt", valColor: "text-brand-blue-600 dark:text-brand-blue-400" }
                   ].map((item, idx) => (
-                    <div key={idx} className="flex gap-3 items-start bg-white/5 dark:bg-white/5 p-3 rounded-2xl border border-white/5 hover:border-brand-blue-500/20 transition-all">
-                      <div className="w-7 h-7 rounded-xl bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-400 shrink-0">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue-500" />
+                    <div key={idx} className="flex gap-3 items-start bg-slate-50/80 dark:bg-white/5 p-3 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-brand-blue-500/20 hover:bg-slate-100/50 transition-all">
+                      <div className="w-7 h-7 rounded-xl bg-brand-blue-50 dark:bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-600 dark:text-brand-blue-400 shrink-0">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-blue-600 dark:text-brand-blue-400" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-0.5">
-                          <h4 className="text-[11px] font-bold text-white uppercase tracking-wide truncate">{item.label}</h4>
-                          <span className="text-[8px] font-black text-amber-500 uppercase tracking-tight shrink-0">{item.val}</span>
+                          <h4 className="text-[11px] font-bold text-slate-800 dark:text-white uppercase tracking-wide truncate">{item.label}</h4>
+                          <span className={`text-[8px] font-black uppercase tracking-tight shrink-0 ${item.valColor}`}>{item.val}</span>
                         </div>
-                        <p className="text-[9px] text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
+                        <p className="text-[9px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-brand-blue-600/10 border border-brand-blue-500/20 rounded-2xl p-3.5 flex justify-between items-center">
+                <div className="bg-brand-blue-50/50 dark:bg-brand-blue-950/20 border border-brand-blue-100 dark:border-brand-blue-900/30 rounded-2xl p-3.5 flex justify-between items-center">
                   <div>
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">Success Fee Option</span>
-                    <span className="text-[11px] font-bold text-white">Pay When You Win</span>
+                    <span className="text-[8px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest block">Success Fee Option</span>
+                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">Pay When You Win</span>
                   </div>
-                  <span className="text-xs font-black text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
+                  <span className="text-xs font-black text-brand-blue-600 dark:text-brand-blue-400 uppercase tracking-wider">1.0% SUCCESS</span>
                 </div>
               </div>
             </motion.div>

@@ -10,18 +10,19 @@ export default function PrivacyPolicy() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Premium Hero Section */}
-      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[100px]" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
         <div className="max-w-5xl mx-auto relative z-10 text-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-blue-600/10 text-brand-blue-600 mb-8 border border-brand-blue-600/20 backdrop-blur-md"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-blue-50/80 dark:bg-brand-blue-600/10 text-brand-blue-600 mb-8 border border-brand-blue-100 dark:border-brand-blue-600/20 backdrop-blur-md"
           >
             <Shield className="w-8 h-8" />
           </motion.div>
@@ -30,16 +31,16 @@ export default function PrivacyPolicy() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-black text-white tracking-tight mb-8 leading-[1.1] uppercase"
+            className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-8 leading-[1.1] uppercase"
           >
-            Privacy <span className="text-brand-blue-600">Policy.</span>
+            Privacy <span className="text-brand-blue-600 dark:text-brand-blue-400">Policy.</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
+            className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
           >
             At Stronger Built LLC, we value your privacy and are committed to protecting your professional and personal data.
           </motion.p>
@@ -48,7 +49,7 @@ export default function PrivacyPolicy() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="inline-block bg-white/5 border border-white/10 rounded-full px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400"
+            className="inline-block bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400"
           >
             Last Updated: {lastUpdated}
           </motion.div>

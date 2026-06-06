@@ -103,36 +103,37 @@ export default function BidManagementPage() {
     <div className="flex flex-col min-h-screen">
       
       {/* Hero Section - COMPACTED */}
-      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[100px]" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
             
             <motion.div initial="hidden" animate="show" variants={STAGGER} className="lg:col-span-7 space-y-6">
-              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 backdrop-blur-md">
-                <span className="text-[10px] font-black tracking-[0.2em] text-amber-400 uppercase">Strategic Procurement Advisory</span>
+              <motion.div variants={FADE_UP} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 dark:bg-amber-400/10 border border-amber-500/20 dark:border-amber-400/20 backdrop-blur-md">
+                <span className="text-[10px] font-black tracking-[0.2em] text-amber-600 dark:text-amber-400 uppercase">Strategic Procurement Advisory</span>
               </motion.div>
               
-              <motion.h1 variants={FADE_UP} className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight leading-[1.1]">
+              <motion.h1 variants={FADE_UP} className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 dark:text-white tracking-tight leading-[1.1]">
                 Winning Government Bids <br className="hidden md:block"/>
-                <span className="italic text-brand-blue-600">Is a Full-Time Job.</span>
+                <span className="italic text-brand-blue-600 dark:text-brand-blue-400">Is a Full-Time Job.</span>
               </motion.h1>
               
-              <motion.p variants={FADE_UP} className="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed font-medium">
+              <motion.p variants={FADE_UP} className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed font-medium">
                 Stop guessing on RFP requirements. We've helped California small businesses win government contracts from $50,000 to $2 million.
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-2xl shadow-blue-500/20 hover:-translate-y-1">
+                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-lg shadow-brand-blue-600/15 hover:-translate-y-1">
                   <span>Start Successful Bidding</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link href="#how-it-works" className="group inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all backdrop-blur-sm hover:-translate-y-1">
-                  <PlayCircle className="w-5 h-5 text-brand-blue-600" />
+                <Link href="#how-it-works" className="group inline-flex items-center justify-center gap-3 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-800 dark:text-white border border-slate-200 dark:border-white/20 px-8 py-4 rounded-full font-bold text-sm transition-all shadow-sm hover:-translate-y-1">
+                  <PlayCircle className="w-5 h-5 text-brand-blue-600 dark:text-brand-blue-400" />
                   <span>See How It Works</span>
                 </Link>
               </motion.div>
@@ -146,7 +147,7 @@ export default function BidManagementPage() {
             >
                <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden border-8 border-white/5 shadow-2xl">
                   <img src="/images/bid-analysis-hero.png" alt="Bid IQ Dashboard" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-900/40 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
                </div>
             </motion.div>
           </div>

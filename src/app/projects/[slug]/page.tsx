@@ -16,15 +16,16 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
   return (
     <div className="flex flex-col min-h-screen">
       {/* Premium Hero Section */}
-      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-brand-navy-900 border-b border-white/5">
+      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 blur-[100px]" />
+          <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[100px]" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-brand-blue-600/5 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <Link href="/projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-10 transition-colors font-bold tracking-wide uppercase text-[10px]">
+          <Link href="/projects" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white mb-10 transition-colors font-bold tracking-wide uppercase text-[10px]">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Projects
           </Link>
 
@@ -33,19 +34,19 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 bg-brand-blue-600/10 text-brand-blue-600 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-brand-blue-600/20 mb-6 w-fit backdrop-blur-md"
+                className="flex items-center gap-2 bg-brand-blue-50/80 dark:bg-brand-blue-600/10 text-brand-blue-600 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-brand-blue-100 dark:border-brand-blue-600/20 mb-6 w-fit backdrop-blur-md"
               >
-                <CheckCircle2 className="w-4 h-4" /> Project Performance Record
+                <CheckCircle2 className="w-4 h-4 text-brand-blue-600 dark:text-brand-blue-400" /> Project Performance Record
               </motion.div>
 
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl font-black text-white leading-[1.1] uppercase tracking-tight"
+                className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white leading-[1.1] uppercase tracking-tight"
               >
                 {data.title.split(' ')[0]} <br className="hidden md:block" />
-                <span className="text-brand-blue-600">{data.title.split(' ').slice(1).join(' ')}</span>
+                <span className="text-brand-blue-600 dark:text-brand-blue-400">{data.title.split(' ').slice(1).join(' ')}</span>
               </motion.h1>
             </div>
 
@@ -53,10 +54,10 @@ export default function ProjectDetail({ params }: { params: Promise<{ slug: stri
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="hidden lg:block bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 min-w-[280px]"
+              className="hidden lg:block bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 rounded-3xl p-6 min-w-[280px]"
             >
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Location</p>
-              <div className="flex items-center gap-3 text-white font-bold">
+              <div className="flex items-center gap-3 text-slate-800 dark:text-white font-bold">
                 <MapPin className="w-5 h-5 text-brand-blue-600" />
                 <span>{data.location}</span>
               </div>
