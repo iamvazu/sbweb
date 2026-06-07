@@ -113,15 +113,35 @@ export default function OpenBidsPage() {
     async function loadBids() {
       setIsLoading(true);
       try {
-        const { data, error } = await supabase
-          .from("bids")
-          .select("id, event_id, event_name, department_name, comments, first_seen, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only, dbe_goal, dvbe_goal, bonding_required");
-        
-        if (error) throw error;
+        let allFetched: any[] = [];
+        let from = 0;
+        let to = 999;
+        let hasMore = true;
 
-        if (data) {
+        while (hasMore) {
+          const { data, error } = await supabase
+            .from("bids")
+            .select("id, event_id, event_name, department_name, comments, first_seen, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only, dbe_goal, dvbe_goal, bonding_required")
+            .range(from, to);
+          
+          if (error) throw error;
+
+          if (data && data.length > 0) {
+            allFetched = [...allFetched, ...data];
+            if (data.length < 1000) {
+              hasMore = false;
+            } else {
+              from += 1000;
+              to += 1000;
+            }
+          } else {
+            hasMore = false;
+          }
+        }
+
+        if (allFetched.length > 0) {
           // Compute state for each bid once upon load
-          const bidsWithState = data.map(bid => ({
+          const bidsWithState = allFetched.map(bid => ({
             ...bid,
             state: getBidState(bid)
           }));

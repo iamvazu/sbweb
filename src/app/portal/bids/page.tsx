@@ -127,6 +127,7 @@ export default function BidsBrowsePage() {
               <SelectItem value="planetbids">PlanetBids</SelectItem>
               <SelectItem value="caltrans">Caltrans</SelectItem>
               <SelectItem value="samgov">SAM.gov</SelectItem>
+              <SelectItem value="opengov">OpenGov</SelectItem>
             </SelectContent>
           </Select>
 
