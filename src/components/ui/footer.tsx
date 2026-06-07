@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, Award, MapPin, Phone, Mail, LayoutDashboard, LogIn, FileText } from "lucide-react";
+import { ShieldCheck, Award, MapPin, Phone, Mail, LayoutDashboard, LogIn } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -117,12 +117,7 @@ export function Footer() {
                   Contact Desk
                 </Link>
               </li>
-              <li>
-                <Link href="/llms.txt" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200" target="_blank">
-                  <FileText className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                  LLM Docs
-                </Link>
-              </li>
+
             </ul>
           </div>
 
