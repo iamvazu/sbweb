@@ -330,7 +330,7 @@ export default function OpenBidsPage() {
         {/* Title Header */}
         <div className="text-center max-w-4xl mx-auto space-y-4 pt-8 pb-4">
           <h1 className="text-4xl sm:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight leading-tight">
-            Every active bid that fits your business — <span className="text-teal-600 dark:text-teal-400 block sm:inline">in one place.</span>
+            Every active bid that fits your business — <span className="text-brand-blue-600 block sm:inline">in one place.</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Federal, state, local, and private databases. Continuously scanned, scored, and searchable on your schedule.
