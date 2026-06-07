@@ -34,7 +34,9 @@ import {
   MapPin,
   Calendar,
   Clock,
-  DollarSign
+  DollarSign,
+  Target,
+  BarChart3
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -47,6 +49,21 @@ const US_STATES = [
   "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
   "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
   "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+];
+
+const AVAILABLE_STATES = [
+  "California", "Pennsylvania", "Virginia", "Washington", "Texas", "Michigan", "Florida",
+  "Oklahoma", "Kansas", "Maryland", "Ohio", "New Jersey", "Utah", "Alabama", "Georgia",
+  "Wisconsin", "New Mexico", "Colorado", "Arizona", "Hawaii", "Louisiana", "South Carolina",
+  "South Dakota", "Mississippi", "New York", "Alaska", "Nebraska", "Minnesota", "North Carolina",
+  "Tennessee", "Connecticut", "Indiana", "Nevada", "Missouri", "Oregon", "Maine", "Illinois"
+].sort();
+
+const AVAILABLE_SOURCES = [
+  { key: "samgov", label: "SAM.gov" },
+  { key: "caleprocure", label: "CaleProcure" },
+  { key: "bidnet", label: "BidNet" },
+  { key: "opengov", label: "OpenGov" }
 ];
 
 // Helper to determine bid state based on data fields
@@ -83,10 +100,18 @@ function getBidState(bid: any): string {
 const ITEMS_PER_PAGE = 10;
 
 export default function OpenBidsPage() {
-  const [allBids, setAllBids] = useState<any[]>([]);
+  const [bids, setBids] = useState<any[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Filters State
   const [search, setSearch] = useState("");
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+  const [showSetAsidesOnly, setShowSetAsidesOnly] = useState(false);
+  const [showPrevailingWageOnly, setShowPrevailingWageOnly] = useState(false);
+  const [showBondingRequiredOnly, setShowBondingRequiredOnly] = useState(false);
+  const [valueFilter, setValueFilter] = useState("all");
   const [activeTab, setActiveTab] = useState<"open" | "closed" | "award">("open");
   const [sortBy, setSortBy] = useState("relevance");
   const [page, setPage] = useState(1);
@@ -97,147 +122,148 @@ export default function OpenBidsPage() {
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
   const [alertEmail, setAlertEmail] = useState("");
 
-  const supabase = createClient();
+  const handleSaveAlert = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAlertModalOpen(false);
+    setAlertEmail("");
+    alert(`Success! Email alerts for the query "${search || "All Open Bids"}" have been set up for ${alertEmail}.`);
+  };
 
-  const availableStates = useMemo(() => {
-    const statesSet = new Set<string>();
-    allBids.forEach(bid => {
-      if (bid.state) {
-        statesSet.add(bid.state);
-      }
-    });
-    return Array.from(statesSet).sort();
-  }, [allBids]);
+  const supabase = createClient();
 
   useEffect(() => {
     async function loadBids() {
       setIsLoading(true);
       try {
-        let allFetched: any[] = [];
-        let from = 0;
-        let to = 999;
-        let hasMore = true;
+        let query = supabase
+          .from("bids")
+          .select("id, event_id, event_name, department_name, comments, first_seen, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only, dbe_goal, dvbe_goal, bonding_required", { count: "exact" });
 
-        while (hasMore) {
-          const { data, error } = await supabase
-            .from("bids")
-            .select("id, event_id, event_name, department_name, comments, first_seen, end_date, source, estimated_value_min, estimated_value_max, prevailing_wage, sbe_only, dbe_goal, dvbe_goal, bonding_required")
-            .range(from, to);
-          
-          if (error) throw error;
+        const nowStr = new Date().toISOString();
 
-          if (data && data.length > 0) {
-            allFetched = [...allFetched, ...data];
-            if (data.length < 1000) {
-              hasMore = false;
+        // 1. Tab / Date Filter
+        if (activeTab === "open") {
+          query = query.gt("end_date", nowStr);
+        } else if (activeTab === "closed") {
+          query = query.lt("end_date", nowStr);
+        }
+
+        // 2. Search keyword
+        if (search) {
+          query = query.or(`event_name.ilike.%${search}%,department_name.ilike.%${search}%,comments.ilike.%${search}%`);
+        }
+
+        // 3. Source Portal filter
+        if (selectedSources.length > 0) {
+          query = query.in("source", selectedSources);
+        }
+
+        // 4. State filter (Resolves parenthesized state suffixes and textual matches)
+        if (selectedStates.length > 0) {
+          const stateConditions = selectedStates.map(state => {
+            if (state === "California") {
+              return "source.eq.caleprocure,source.eq.caltrans,department_name.ilike.%(California)%,event_name.ilike.%California%,comments.ilike.%California%";
             } else {
-              from += 1000;
-              to += 1000;
+              return `department_name.ilike.%(${state})%,event_name.ilike.%${state}%,comments.ilike.%${state}%`;
             }
-          } else {
-            hasMore = false;
-          }
+          });
+          query = query.or(stateConditions.join(","));
         }
 
-        if (allFetched.length > 0) {
-          // Compute state for each bid once upon load
-          const bidsWithState = allFetched.map(bid => ({
-            ...bid,
-            state: getBidState(bid)
-          }));
-          setAllBids(bidsWithState);
+        // 5. Set-Aside / SBE Only
+        if (showSetAsidesOnly) {
+          query = query.eq("sbe_only", true);
         }
+
+        // 6. Prevailing Wage Only
+        if (showPrevailingWageOnly) {
+          query = query.eq("prevailing_wage", true);
+        }
+
+        // 7. Bonding Required Only
+        if (showBondingRequiredOnly) {
+          query = query.eq("bonding_required", true);
+        }
+
+        // 8. Estimated Value range filter
+        if (valueFilter === "under-100k") {
+          query = query.lt("estimated_value_max", 100000);
+        } else if (valueFilter === "100k-1m") {
+          query = query.gte("estimated_value_max", 100000).lte("estimated_value_min", 1000000);
+        } else if (valueFilter === "over-1m") {
+          query = query.gte("estimated_value_min", 1000000);
+        }
+
+        // 9. Sorting
+        if (sortBy === "closing_soon") {
+          query = query.order("end_date", { ascending: true });
+        } else if (sortBy === "highest_value") {
+          query = query.order("estimated_value_max", { ascending: false, nullsFirst: false });
+        } else {
+          // Relevance (Default sorting: by first_seen descending)
+          query = query.order("first_seen", { ascending: false, nullsFirst: false });
+        }
+
+        // 10. Pagination Range
+        const from = (page - 1) * ITEMS_PER_PAGE;
+        const to = page * ITEMS_PER_PAGE - 1;
+        query = query.range(from, to);
+
+        const start = performance.now();
+        const { data, count, error } = await query;
+        const end = performance.now();
+        setSearchTime(Math.round(end - start) || 2);
+
+        if (error) throw error;
+
+        // Compute local state names for the current page
+        const bidsWithState = (data || []).map(bid => ({
+          ...bid,
+          state: getBidState(bid)
+        }));
+
+        setBids(bidsWithState);
+        setTotalCount(count || 0);
       } catch (error) {
-        console.error("Error loading public bids:", error);
+        console.error("Error loading public bids database:", error);
       } finally {
         setIsLoading(false);
       }
     }
-    loadBids();
-  }, [supabase]);
 
-  // Filter and Sort in memory on the client side
-  const { filteredBids, stateCounts } = useMemo(() => {
-    const start = performance.now();
-    const nowTime = new Date().getTime();
+    const timer = setTimeout(() => {
+      loadBids();
+    }, 300); // 300ms debounce to prevent API spam while typing
 
-    // 1. Initial filter by tab (Open vs Closed)
-    let list = allBids.filter(bid => {
-      const isClosed = bid.end_date && new Date(bid.end_date).getTime() < nowTime;
-      if (activeTab === "open") return !isClosed;
-      if (activeTab === "closed") return isClosed;
-      return true; // Award Date / All
-    });
+    return () => clearTimeout(timer);
+  }, [
+    supabase,
+    search,
+    selectedStates,
+    selectedSources,
+    showSetAsidesOnly,
+    showPrevailingWageOnly,
+    showBondingRequiredOnly,
+    valueFilter,
+    activeTab,
+    sortBy,
+    page
+  ]);
 
-    // 2. State counts based on search term (independent of state filter)
-    const counts: Record<string, number> = {};
-    const listForCounts = allBids.filter(bid => {
-      const isClosed = bid.end_date && new Date(bid.end_date).getTime() < nowTime;
-      const matchTab = activeTab === "open" ? !isClosed : activeTab === "closed" ? isClosed : true;
-      if (!matchTab) return false;
-
-      if (search) {
-        const query = search.toLowerCase();
-        const inName = (bid.event_name || "").toLowerCase().includes(query);
-        const inComments = (bid.comments || "").toLowerCase().includes(query);
-        const inDept = (bid.department_name || "").toLowerCase().includes(query);
-        return inName || inComments || inDept;
-      }
-      return true;
-    });
-
-    listForCounts.forEach(bid => {
-      counts[bid.state] = (counts[bid.state] || 0) + 1;
-    });
-
-    // 3. Filter list by search term
-    if (search) {
-      const query = search.toLowerCase();
-      list = list.filter(bid => {
-        const inName = (bid.event_name || "").toLowerCase().includes(query);
-        const inComments = (bid.comments || "").toLowerCase().includes(query);
-        const inDept = (bid.department_name || "").toLowerCase().includes(query);
-        return inName || inComments || inDept;
-      });
-    }
-
-    // 4. Filter list by selected states
-    if (selectedStates.length > 0) {
-      list = list.filter(bid => selectedStates.includes(bid.state));
-    }
-
-    // 5. Sort list
-    if (sortBy === "closing_soon") {
-      list.sort((a, b) => {
-        if (!a.end_date) return 1;
-        if (!b.end_date) return -1;
-        return a.end_date.localeCompare(b.end_date);
-      });
-    } else if (sortBy === "highest_value") {
-      list.sort((a, b) => (b.estimated_value_max || 0) - (a.estimated_value_max || 0));
-    } else {
-      // Relevance (Default sorting: by first_seen descending)
-      list.sort((a, b) => {
-        if (!a.first_seen) return 1;
-        if (!b.first_seen) return -1;
-        return b.first_seen.localeCompare(a.first_seen);
-      });
-    }
-
-    const end = performance.now();
-    setSearchTime(Math.round(end - start) || 2); // default to 2ms if 0
-    return { filteredBids: list, stateCounts: counts };
-  }, [allBids, search, selectedStates, activeTab, sortBy]);
-
-  // Handle pagination
-  const paginatedBids = useMemo(() => {
-    return filteredBids.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
-  }, [filteredBids, page]);
-
-  // Reset page when filters change
+  // Reset page to 1 when filters change
   useEffect(() => {
     setPage(1);
-  }, [search, selectedStates, activeTab, sortBy]);
+  }, [
+    search,
+    selectedStates,
+    selectedSources,
+    showSetAsidesOnly,
+    showPrevailingWageOnly,
+    showBondingRequiredOnly,
+    valueFilter,
+    activeTab,
+    sortBy
+  ]);
 
   const toggleStateFilter = (stateName: string) => {
     setSelectedStates(prev => 
@@ -247,15 +273,22 @@ export default function OpenBidsPage() {
     );
   };
 
-  const handleSavedSearchClick = () => {
-    setIsAlertModalOpen(true);
+  const toggleSourceFilter = (sourceKey: string) => {
+    setSelectedSources(prev => 
+      prev.includes(sourceKey) 
+        ? prev.filter(s => s !== sourceKey) 
+        : [...prev, sourceKey]
+    );
   };
 
-  const handleSaveAlert = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsAlertModalOpen(false);
-    setAlertEmail("");
-    alert(`Success! Email alerts for the query "${search || "All Open Bids"}" have been set up for ${alertEmail}.`);
+  const clearAllFilters = () => {
+    setSelectedStates([]);
+    setSelectedSources([]);
+    setShowSetAsidesOnly(false);
+    setShowPrevailingWageOnly(false);
+    setShowBondingRequiredOnly(false);
+    setValueFilter("all");
+    setSearch("");
   };
 
   const highlightText = (text: string, searchWord: string) => {
@@ -295,13 +328,49 @@ export default function OpenBidsPage() {
       <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 space-y-10">
         
         {/* Title Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 pt-8 pb-4">
+        <div className="text-center max-w-4xl mx-auto space-y-4 pt-8 pb-4">
           <h1 className="text-4xl sm:text-5xl font-black text-brand-navy-900 dark:text-white tracking-tight leading-tight">
-            Find an open bid <span className="bg-gradient-to-r from-brand-blue-600 via-blue-500 to-sky-400 bg-clip-text text-transparent italic block sm:inline">ripe for the picking</span>
+            Every active bid that fits your business — <span className="text-teal-600 dark:text-teal-400 block sm:inline">in one place.</span>
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            Search hundreds of live government solicitations across multiple states and portals. Free to browse.
+          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            Federal, state, local, and private databases. Continuously scanned, scored, and searchable on your schedule.
           </p>
+        </div>
+
+        {/* Feature Stat Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-2 pb-2">
+          {/* Card 1: Active RFPs */}
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow space-y-3">
+            <div className="h-10 w-10 rounded-xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center text-teal-600 dark:text-teal-400">
+              <Search className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-black text-brand-navy-900 dark:text-white uppercase tracking-tight">14,000+ active RFPs</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+              Federal, state, local, and private databases — all searchable in one place. Updated continuously.
+            </p>
+          </div>
+
+          {/* Card 2: Smart Matching */}
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow space-y-3">
+            <div className="h-10 w-10 rounded-xl bg-rose-50 dark:bg-rose-950/50 flex items-center justify-center text-rose-600 dark:text-rose-400">
+              <Target className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-black text-brand-navy-900 dark:text-white uppercase tracking-tight">Smart matching</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+              Filter by industry, geography, value, deadline, and complexity. Save searches. Get alerts.
+            </p>
+          </div>
+
+          {/* Card 3: Win Probability */}
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow space-y-3">
+            <div className="h-10 w-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <BarChart3 className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-black text-brand-navy-900 dark:text-white uppercase tracking-tight">Win-probability scoring</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+              Each bid scored for fit before you spend an hour reading the RFP. Pursue only the right ones.
+            </p>
+          </div>
         </div>
 
         {/* Search Bar Block */}
@@ -326,7 +395,10 @@ export default function OpenBidsPage() {
             </div>
 
             <Button 
-              onClick={handleSavedSearchClick}
+              onClick={() => {
+                // Focus and force refetch
+                setPage(1);
+              }}
               className="bg-brand-blue-600 hover:bg-blue-700 text-white rounded-full h-12 px-6 font-bold uppercase tracking-wider text-[11px] flex items-center gap-2 shadow-md shadow-blue-500/10 shrink-0 w-full sm:w-auto"
             >
               <Search className="h-4 w-4" />
@@ -382,47 +454,127 @@ export default function OpenBidsPage() {
                 <Filter className="h-4 w-4 text-slate-400" />
                 Filters
               </h3>
-              {selectedStates.length > 0 && (
+              {(selectedStates.length > 0 || selectedSources.length > 0 || showSetAsidesOnly || showPrevailingWageOnly || showBondingRequiredOnly || valueFilter !== "all") && (
                 <button 
-                  onClick={() => setSelectedStates([])}
-                  className="text-[10px] font-bold text-brand-blue-600 hover:underline"
+                  onClick={clearAllFilters}
+                  className="text-[10px] font-bold text-brand-blue-600 hover:underline animate-in fade-in"
                 >
                   Clear All
                 </button>
               )}
             </div>
 
-            {/* STATE Filter */}
+            {/* SOURCE PORTAL Filter */}
             <div className="space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">State</h4>
-              
-              <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
-                {availableStates.map((state) => {
-                  const count = stateCounts[state] || 0;
-                  return (
-                    <div key={state} className="flex items-center justify-between group">
-                      <div className="flex items-center space-x-2.5">
-                        <Checkbox 
-                          id={`state-${state}`} 
-                          checked={selectedStates.includes(state)}
-                          onCheckedChange={() => toggleStateFilter(state)}
-                          className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
-                        />
-                        <Label 
-                          htmlFor={`state-${state}`}
-                          className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
-                        >
-                          {state}
-                        </Label>
-                      </div>
-                      <span className="text-xs font-semibold text-slate-400">
-                        {count}
-                      </span>
-                    </div>
-                  );
-                })}
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Source Portal</h4>
+              <div className="space-y-2.5">
+                {AVAILABLE_SOURCES.map((source) => (
+                  <div key={source.key} className="flex items-center space-x-2.5 group">
+                    <Checkbox 
+                      id={`source-${source.key}`} 
+                      checked={selectedSources.includes(source.key)}
+                      onCheckedChange={() => toggleSourceFilter(source.key)}
+                      className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
+                    />
+                    <Label 
+                      htmlFor={`source-${source.key}`}
+                      className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
+                    >
+                      {source.label}
+                    </Label>
+                  </div>
+                ))}
               </div>
             </div>
+
+            {/* STATE Filter */}
+            <div className="space-y-4 border-t pt-4">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">State</h4>
+              <div className="space-y-2.5 max-h-[180px] overflow-y-auto pr-2 scrollbar-thin">
+                {AVAILABLE_STATES.map((state) => (
+                  <div key={state} className="flex items-center space-x-2.5 group">
+                    <Checkbox 
+                      id={`state-${state}`} 
+                      checked={selectedStates.includes(state)}
+                      onCheckedChange={() => toggleStateFilter(state)}
+                      className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
+                    />
+                    <Label 
+                      htmlFor={`state-${state}`}
+                      className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
+                    >
+                      {state}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* REQUIREMENTS Filter */}
+            <div className="space-y-4 border-t pt-4">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Requirements</h4>
+              <div className="space-y-2.5">
+                <div className="flex items-center space-x-2.5 group">
+                  <Checkbox 
+                    id="req-sbe" 
+                    checked={showSetAsidesOnly} 
+                    onCheckedChange={(checked) => setShowSetAsidesOnly(checked as boolean)}
+                    className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
+                  />
+                  <Label 
+                    htmlFor="req-sbe"
+                    className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
+                  >
+                    SBE / DVBE Set-Aside
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2.5 group">
+                  <Checkbox 
+                    id="req-wage" 
+                    checked={showPrevailingWageOnly} 
+                    onCheckedChange={(checked) => setShowPrevailingWageOnly(checked as boolean)}
+                    className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
+                  />
+                  <Label 
+                    htmlFor="req-wage"
+                    className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
+                  >
+                    Prevailing Wage
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2.5 group">
+                  <Checkbox 
+                    id="req-bond" 
+                    checked={showBondingRequiredOnly} 
+                    onCheckedChange={(checked) => setShowBondingRequiredOnly(checked as boolean)}
+                    className="border-slate-300 data-[state=checked]:bg-brand-blue-600 data-[state=checked]:border-brand-blue-600 rounded"
+                  />
+                  <Label 
+                    htmlFor="req-bond"
+                    className="text-xs font-semibold text-slate-600 group-hover:text-slate-900 cursor-pointer transition-colors"
+                  >
+                    Bonding Required
+                  </Label>
+                </div>
+              </div>
+            </div>
+
+            {/* ESTIMATED VALUE Filter */}
+            <div className="space-y-4 border-t pt-4">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Estimated Value</h4>
+              <Select value={valueFilter} onValueChange={setValueFilter}>
+                <SelectTrigger className="w-full h-10 border-slate-200 bg-slate-50/50 rounded-xl text-xs font-bold text-slate-700">
+                  <SelectValue placeholder="All Values" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Values</SelectItem>
+                  <SelectItem value="under-100k">Under $100K</SelectItem>
+                  <SelectItem value="100k-1m">$100K – $1M</SelectItem>
+                  <SelectItem value="over-1m">Over $1M</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
           </div>
 
           {/* Results Area */}
@@ -431,10 +583,21 @@ export default function OpenBidsPage() {
             {/* Header info bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white px-6 py-4 rounded-2xl border border-slate-100 shadow-sm">
               <div className="text-xs text-slate-500 font-semibold">
-                {filteredBids.length} results on {Math.ceil(filteredBids.length / ITEMS_PER_PAGE)} pages in <span className="text-brand-blue-600 font-bold">{searchTime}ms</span>
+                {totalCount} results on {Math.ceil(totalCount / ITEMS_PER_PAGE)} pages in <span className="text-brand-blue-600 font-bold">{searchTime}ms</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
+                {/* Save Alert Trigger CTA */}
+                <Button 
+                  onClick={() => setIsAlertModalOpen(true)}
+                  variant="outline" 
+                  size="sm" 
+                  className="h-9 border-slate-200 text-brand-blue-600 hover:bg-blue-50 font-bold uppercase text-[10px] tracking-wider rounded-lg flex items-center gap-1.5 shadow-sm"
+                >
+                  <Bell className="h-3.5 w-3.5 text-brand-blue-600" />
+                  Save Alert
+                </Button>
+
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sort by</span>
                   <Select value={sortBy} onValueChange={(v) => setSortBy(v || "relevance")}>
@@ -475,8 +638,8 @@ export default function OpenBidsPage() {
                     <div className="h-16 bg-slate-50 rounded animate-pulse" />
                   </Card>
                 ))
-              ) : paginatedBids.length > 0 ? (
-                paginatedBids.map((bid) => {
+              ) : bids.length > 0 ? (
+                bids.map((bid) => {
                   const bidTime = bid.end_date ? new Date(bid.end_date).getTime() : null;
                   const nowTimeMs = new Date().getTime();
                   const isPastDue = bidTime !== null && bidTime < nowTimeMs;
@@ -597,7 +760,7 @@ export default function OpenBidsPage() {
                       Try adjusting your search terms or clearing your filters to expand the scope.
                     </p>
                     <Button 
-                      onClick={() => { setSearch(""); setSelectedStates([]); }}
+                      onClick={clearAllFilters}
                       variant="link" 
                       className="text-brand-blue-600 font-bold"
                     >
@@ -609,12 +772,12 @@ export default function OpenBidsPage() {
             </div>
 
             {/* Pagination controls */}
-            {filteredBids.length > ITEMS_PER_PAGE && (
+            {totalCount > ITEMS_PER_PAGE && (
               <div className="flex items-center justify-between py-6 border-t">
                 <p className="text-xs text-slate-500 font-semibold">
                   Showing <span className="font-bold">{(page - 1) * ITEMS_PER_PAGE + 1}</span> to{" "}
-                  <span className="font-bold">{Math.min(page * ITEMS_PER_PAGE, filteredBids.length)}</span> of{" "}
-                  <span className="font-bold">{filteredBids.length}</span> bids
+                  <span className="font-bold">{Math.min(page * ITEMS_PER_PAGE, totalCount)}</span> of{" "}
+                  <span className="font-bold">{totalCount}</span> bids
                 </p>
                 <div className="flex gap-2">
                   <Button 
@@ -627,7 +790,7 @@ export default function OpenBidsPage() {
                   </Button>
                   <Button 
                     variant="outline" 
-                    disabled={page * ITEMS_PER_PAGE >= filteredBids.length}
+                    disabled={page * ITEMS_PER_PAGE >= totalCount}
                     onClick={() => setPage(page + 1)}
                     className="h-9 w-9 p-0 rounded-lg border-slate-200"
                   >
