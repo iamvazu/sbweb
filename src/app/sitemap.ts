@@ -98,11 +98,13 @@ export async function generateSitemaps() {
   return sitemaps;
 }
 
-export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap({ id }: { id: any }): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const resolvedId = await id;
+  const sitemapId = Number(resolvedId);
 
   // 1. Sitemap ID 0: Static Marketing Pages, Services, Projects, Cities, and PSEO County Routes
-  if (id === 0) {
+  if (sitemapId === 0) {
     // Static Routes
     const staticEntries = STATIC_ROUTES.map(route => ({
       url: `${BASE_URL}${route}`,
@@ -194,7 +196,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-  const bidIndex = id - 1;
+  const bidIndex = sitemapId - 1;
   const from = bidIndex * CHUNK_SIZE;
   const to = (bidIndex + 1) * CHUNK_SIZE - 1;
 
