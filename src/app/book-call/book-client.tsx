@@ -127,7 +127,7 @@ export default function BookClient() {
               transition={{ delay: 0.2 }}
               className="text-slate-600 dark:text-slate-400 font-medium text-base sm:text-lg leading-relaxed max-w-2xl"
             >
-              Book a free call with a real Stronger Built proposal consultant. In about 20 minutes we'll look at the contracts you want, surface opportunities that actually fit, and give you a straight answer on what's worth pursuing. No pressure, no sales script.
+              Book a free call with a real Stronger Built proposal consultant. In about 30 minutes we'll look at the contracts you want, surface opportunities that actually fit, and give you a straight answer on what's worth pursuing. No pressure, no sales script.
             </motion.p>
 
             <motion.ul 
@@ -166,7 +166,7 @@ export default function BookClient() {
               Book your free consultation
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mb-5">
-              ~20 minutes · Phone or video · Nationwide
+              ~30 minutes · Phone or video · Nationwide
             </p>
 
             <div className="flex flex-wrap gap-1.5 mb-6">
@@ -335,7 +335,7 @@ export default function BookClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { num: 1, title: "Pick a time", desc: "Grab a slot that works for you — about 20 minutes, phone or video." },
+              { num: 1, title: "Pick a time", desc: "Grab a slot that works for you — about 30 minutes, phone or video." },
               { num: 2, title: "Tell us your goals", desc: "Share your business, the contracts you want, and any bid you're eyeing." },
               { num: 3, title: "We review fit", desc: "We surface real opportunities and give you an honest go/no-go." },
               { num: 4, title: "Get your plan", desc: "You leave with clear next steps and pricing. Whether to move forward is entirely your call." }
@@ -374,7 +374,7 @@ export default function BookClient() {
             />
             <FAQItem 
               question="How long does it take?" 
-              answer="About 20 minutes. Bring a specific RFP if you have one, and we'll give you a straight read on it." 
+              answer="About 30 minutes. Bring a specific RFP if you have one, and we'll give you a straight read on it." 
             />
             <FAQItem 
               question="Do I have to commit to anything?" 
@@ -394,7 +394,7 @@ export default function BookClient() {
             Your next contract starts with a conversation.
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto font-medium">
-            Free, ~20 minutes, no obligation. And with Pay-When-You-Win, you don't carry the risk alone.
+            Free, ~30 minutes, no obligation. And with Pay-When-You-Win, you don't carry the risk alone.
           </p>
           <div className="pt-2">
             <Link 

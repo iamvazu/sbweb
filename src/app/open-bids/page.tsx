@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { bidSlug, getBidState } from "@/lib/bids";
 
 const US_STATES = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
@@ -65,37 +66,6 @@ const AVAILABLE_SOURCES = [
   { key: "bidnet", label: "BidNet" },
   { key: "opengov", label: "OpenGov" }
 ];
-
-// Helper to determine bid state based on data fields
-function getBidState(bid: any): string {
-  const dept = (bid.department_name || "").toLowerCase();
-  const name = (bid.event_name || "").toLowerCase();
-  const text = (bid.comments || "").toLowerCase();
-  
-  if (bid.source === "caleprocure" || bid.source === "caltrans") return "California";
-  
-  for (const state of US_STATES) {
-    const stateLower = state.toLowerCase();
-    if (dept.includes(stateLower) || name.includes(stateLower) || text.includes(stateLower)) {
-      return state;
-    }
-  }
-  
-  // Specific cities/regions fallback
-  if (dept.includes("orlando") || text.includes("orlando")) return "Florida";
-  if (dept.includes("denver") || text.includes("denver")) return "Colorado";
-  if (dept.includes("phoenix") || text.includes("phoenix")) return "Arizona";
-  if (dept.includes("birmingham") || text.includes("birmingham")) return "Alabama";
-  if (dept.includes("austin") || dept.includes("dallas") || dept.includes("houston")) return "Texas";
-  if (dept.includes("atlanta") || text.includes("atlanta")) return "Georgia";
-  if (dept.includes("nyc") || dept.includes("new york city")) return "New York";
-  if (dept.includes("seattle") || text.includes("seattle")) return "Washington";
-  
-  // Deterministic fallback based on ID character code sum to spread data realistically
-  const fallbackStates = ["California", "California", "Florida", "Texas", "Colorado", "Arizona", "New York", "Georgia", "Washington", "Alabama"];
-  const charCodeSum = bid.id ? bid.id.split("").reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0) : 0;
-  return fallbackStates[charCodeSum % fallbackStates.length];
-}
 
 const ITEMS_PER_PAGE = 10;
 
@@ -667,7 +637,16 @@ export default function OpenBidsPage() {
                         </div>
 
                         <h3 className="text-lg font-extrabold text-brand-navy-900 dark:text-white leading-snug group-hover:text-brand-blue-600 transition-colors">
-                          {highlightText(bid.event_name, search)}
+                          <Link 
+                            href={`/open-bids/${bidSlug(bid)}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              window.history.pushState(null, "", `/open-bids/${bidSlug(bid)}`);
+                              setSelectedBid(bid);
+                            }}
+                          >
+                            {highlightText(bid.event_name, search)}
+                          </Link>
                         </h3>
 
                         <div className="text-slate-500 font-medium text-xs space-y-1">
@@ -730,12 +709,21 @@ export default function OpenBidsPage() {
 
                         <div className="flex flex-row md:flex-col gap-2.5 w-full">
                           <Button 
-                            onClick={() => setSelectedBid(bid)}
+                            asChild
                             variant="outline" 
                             size="sm" 
                             className="h-10 border-slate-200 text-slate-600 hover:bg-slate-50 flex-1 md:w-full font-bold uppercase text-[10px] tracking-wider"
                           >
-                            Details
+                            <Link 
+                              href={`/open-bids/${bidSlug(bid)}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.history.pushState(null, "", `/open-bids/${bidSlug(bid)}`);
+                                setSelectedBid(bid);
+                              }}
+                            >
+                              Details
+                            </Link>
                           </Button>
                           <Button 
                             asChild
@@ -805,7 +793,15 @@ export default function OpenBidsPage() {
 
       {/* Bid Details Modal */}
       {selectedBid && (
-        <Dialog open={!!selectedBid} onOpenChange={() => setSelectedBid(null)}>
+        <Dialog 
+          open={!!selectedBid} 
+          onOpenChange={(open) => {
+            if (!open) {
+              window.history.pushState(null, "", "/open-bids");
+              setSelectedBid(null);
+            }
+          }}
+        >
           <DialogContent className="max-w-xl md:max-w-2xl overflow-y-auto max-h-[85vh] rounded-[2rem] border-slate-100 p-8">
             <DialogHeader className="space-y-3">
               <div className="flex items-center gap-2">
@@ -878,7 +874,10 @@ export default function OpenBidsPage() {
 
             <div className="flex items-center justify-end gap-3">
               <Button 
-                onClick={() => setSelectedBid(null)}
+                onClick={() => {
+                  window.history.pushState(null, "", "/open-bids");
+                  setSelectedBid(null);
+                }}
                 variant="ghost" 
                 className="h-11 rounded-xl text-xs font-black uppercase tracking-widest text-slate-400"
               >
