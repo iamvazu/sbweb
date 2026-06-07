@@ -71,6 +71,11 @@ export function Footer() {
             <h4 className="text-xs font-black tracking-[0.15em] text-slate-200 uppercase pb-2 border-b border-slate-800/50">Services</h4>
             <ul className="space-y-2.5 text-sm font-medium">
               <li>
+                <Link href="/services" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
+                  Services Hub
+                </Link>
+              </li>
+              <li>
                 <Link href="/open-bids" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
                   Open Bids
                 </Link>
@@ -78,11 +83,6 @@ export function Footer() {
               <li>
                 <Link href="/#pricing" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
                   Pricing Plans
-                </Link>
-              </li>
-              <li>
-                <Link href="/bid-management" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
-                  Bid Management
                 </Link>
               </li>
               <li>
@@ -100,6 +100,11 @@ export function Footer() {
               <li>
                 <Link href="/about" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
                   About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/learning-center" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
+                  Learning Center
                 </Link>
               </li>
               <li>

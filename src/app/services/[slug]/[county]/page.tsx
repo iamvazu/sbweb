@@ -13,37 +13,37 @@ const PSEO_DATA: Record<string, any> = {
     title: "Construction Consulting",
     naics: "236220",
     unspsc: "80101601",
-    valueProp: "Licensed engineering and feasibility reviews specifically for public infrastructure in {county} County."
+    valueProp: "Helping construction consulting and cost estimation firms find, write, and win government consulting contracts in {county} County."
   },
   "project-management": {
     title: "Project Management",
     naics: "236220",
     unspsc: "80101601",
-    valueProp: "Professional project oversight and QA/QC management tailored for {county} County municipal projects."
+    valueProp: "Helping project management and CM consulting companies find, write, and win public works oversight contracts in {county} County."
   },
   "subcontracting-services": {
     title: "Subcontracting Services",
     naics: "238990",
     unspsc: "72101500",
-    valueProp: "DVBE-certified specialty trade management ensuring CUF compliance for {county} County prime contractors."
+    valueProp: "Helping trade subcontractors find, write, and win public works specialty trade packages in {county} County."
   },
   "facility-maintenance": {
     title: "Facility Maintenance",
     naics: "561210",
     unspsc: "72101507",
-    valueProp: "Turnkey multi-trade facility repair and preventative maintenance for {county} County government buildings."
+    valueProp: "Helping facility maintenance and repair companies find, write, and win government building maintenance contracts in {county} County."
   },
   "janitorial-services": {
     title: "Janitorial Services",
     naics: "561720",
     unspsc: "76111501",
-    valueProp: "DIR-registered commercial cleaning and hard floor care serving agencies across {county} County."
+    valueProp: "Helping commercial cleaning and custodial businesses find, write, and win municipal and school district bids in {county} County."
   },
   "construction-material-supply": {
     title: "Material Supply & Logistics",
     naics: "236220",
     unspsc: "30000000",
-    valueProp: "Bulk material sourcing and logistics fulfillment to meet diversity spending goals in {county} County."
+    valueProp: "Helping wholesale material suppliers and logistics distributors find, write, and win government supply bids in {county} County."
   }
 };
 
@@ -57,7 +57,7 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
   const localizedValueProp = service.valueProp.replace("{county}", county.name);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen font-sans">
       {/* Premium Hero Section */}
       <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Elements */}
@@ -96,7 +96,7 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
             transition={{ delay: 0.2 }}
             className="text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium max-w-3xl"
           >
-            {localizedValueProp} Stronger Built Group LLC provides licensed, DVBE-certified solutions tailored to {county.name}'s specific procurement requirements.
+            {localizedValueProp} Stronger Built helps businesses locate municipal RFPs, write winning proposals, and submit on-time.
           </motion.p>
         </div>
       </section>
@@ -123,22 +123,22 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
                   </div>
                   <div className="bg-brand-navy-900 text-white p-8 rounded-2xl shadow-xl border border-white/5">
                      <h4 className="font-bold mb-3 flex items-center gap-3 text-sm">
-                        <Building2 className="w-5 h-5 text-brand-blue-600" /> CSLB License #1057434
+                        <Building2 className="w-5 h-5 text-brand-blue-600" /> Pay-When-You-Win
                      </h4>
                      <p className="text-xs text-slate-400 leading-relaxed font-medium">
-                        All work in {county.name} County is managed under our General Building Class B license, ensuring Commercially Useful Function (CUF) compliance.
+                        All proposals targeting {county.name} County agencies are structured by proposal experts to guarantee compliance. We take care of bid compilation, writing, and submission.
                      </p>
                   </div>
                </div>
 
                <div className="flex flex-col justify-center">
-                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Who We Serve in {county.name}</h3>
+                  <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8">Target Agencies in {county.name}</h3>
                   <ul className="space-y-5 mb-10">
                      {[
                         "Municipal Government Agencies",
                         "County Public Works Departments",
-                        "State Agency Local Offices",
-                        "Prime Contractors with DVBE Goals"
+                        "Local School Districts & Universities",
+                        "Institutional Facility Solicitations"
                      ].map((item, i) => (
                         <li key={i} className="flex items-center gap-4 text-brand-navy-900 dark:text-slate-200 font-bold text-sm">
                            <div className="w-2.5 h-2.5 rounded-full bg-brand-blue-600 shadow-[0_0_10px_rgba(30,111,217,0.5)]" />
@@ -147,11 +147,8 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
                      ))}
                   </ul>
                   <div className="flex flex-wrap gap-4">
-                    <Link href="/government/capabilities-statement" className="flex items-center gap-2 bg-brand-navy-900 text-white px-8 py-4 rounded-2xl font-bold text-xs shadow-xl hover:bg-slate-800 transition-all uppercase tracking-widest">
-                      <Download className="w-4 h-4" /> Capabilities Statement
-                    </Link>
                     <Link href="/contact" className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-xs shadow-xl shadow-brand-blue-600/20 hover:bg-blue-500 transition-all uppercase tracking-widest">
-                      Contact for Proposal <ArrowRight className="w-4 h-4" />
+                      Book a Consultation <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                </div>
@@ -159,11 +156,10 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
           </motion.div>
 
           <div className="text-center text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">
-             Serving California's Infrastructure · Active in {county.name} County Hub
+             Sourcing Government Opportunities · Active in {county.name} County Hub
           </div>
         </div>
       </section>
     </div>
-
   );
 }

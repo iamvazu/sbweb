@@ -3,166 +3,70 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, MapPin, HelpCircle, Briefcase, ChevronRight } from "lucide-react";
+import { 
+  ArrowLeft, 
+  ArrowRight, 
+  CheckCircle2, 
+  ShieldCheck, 
+  HelpCircle, 
+  Briefcase, 
+  ChevronRight,
+  Search,
+  Building2,
+  Calendar,
+  DollarSign
+} from "lucide-react";
 import { use } from "react";
-import { cn } from "@/lib/utils";
-import { SERVICE_FAQS } from "@/lib/data/faqs";
+import { INDUSTRIES_DATA } from "@/lib/data/industries";
 import { JsonLd } from "@/components/seo/json-ld";
-import BidAdvisoryCheckout from "@/components/checkout/BidAdvisoryCheckout";
-
-const serviceData: Record<string, any> = {
-  "construction-consulting": {
-    title: "Construction Consulting Services",
-    lead: "Navigate the complexities of California public and commercial construction with licensed expertise. We provide comprehensive consulting, from initial feasibility studies to final constructability reviews, ensuring your project is designed to be built efficiently, compliantly, and within budget.",
-    included: ["Feasibility studies", "Cost estimation analysis", "Constructability review", "Value engineering", "Owner’s representative"],
-    whoFor: "Municipal agencies, school districts, and private developers requiring deep local and state compliance oversight.",
-    approach: "Self-performed by our experienced leadership team under our CSLB Class B license, ensuring transparent, unbiased guidance.",
-    image: "/images/services/construction-consulting.jpg"
-  },
-  "project-management": {
-    title: "Government & Commercial Project Management",
-    lead: "Stronger Built Group delivers end-to-end project management services designed to mitigate risk and keep critical infrastructure projects on schedule. We integrate schedule oversight with stringent QA/QC to protect your investment.",
-    included: ["Critical Path Method (CPM) scheduling", "Budget pacing and management", "Comprehensive QA/QC programs", "Stakeholder coordination", "Design-build oversight"],
-    whoFor: "State agencies (e.g., DGS, Caltrans) and heavy commercial prime contractors needing reliable, licensed project control.",
-    approach: "Directly managed by Stronger Built leadership, utilizing industry-standard oversight workflows tailored for government reporting requirements.",
-    image: "/images/services/project-management-team.jpg"
-  },
-  "subcontracting-services": {
-    title: "Diverse Subcontracting Services (DVBE)",
-    lead: "Partner with a certified Disabled Veteran Business Enterprise (DVBE) and Small Business (SB) for your subcontracting needs. Stronger Built Group directly coordinates a vetted network of specialized trades, helping prime contractors fulfill participation goals while executing high-quality work.",
-    included: ["Coordination and management of licensed specialty trades", "C-10 Electrical", "C-20 HVAC", "C-33 Painting", "C-36 Plumbing"],
-    whoFor: "Prime contractors on state/federal projects requiring DVBE/SB participation (e.g., Caltrans, CHP, local municipalities).",
-    approach: "A hybrid delivery model. We self-perform scope where applicable and rigorously manage our curated network of certified, DIR-registered specialty subcontractors to deliver a commercially useful function (CUF).",
-    image: "/images/services/subcontracting-logistics.jpg"
-  },
-  "facility-maintenance": {
-    title: "Comprehensive Facility Maintenance",
-    lead: "Keep your public buildings, transit centers, and commercial properties operational with our multi-trade facility maintenance programs. We provide rapid emergency response and ongoing preventative care to minimize downtime and extend asset lifecycles.",
-    included: ["Multi-trade ongoing maintenance contracts", "Scheduled preventative maintenance programs", "Rapid emergency repair response", "Digital work order management"],
-    whoFor: "Facilities directors, state and county property managers, and commercial building owners spanning California.",
-    approach: "Managed centrally via our CSLB Class B license (#1057434), deploying both in-house technicians and specialized trade partners depending on the facility needs."
-  },
-  "janitorial-services": {
-    title: "Professional Janitorial & Custodial Services",
-    lead: "Maintain pristine, safe, and compliant facilities with Stronger Built Group’s DIR-registered janitorial operations. From high-traffic government buildings to sensitive operational hubs, we deliver consistent, verifiable cleanliness.",
-    included: ["5-day commercial cleaning schedules", "Periodic deep cleaning/sanitization", "Hard floor care", "Carpet maintenance", "Restroom supply management"],
-    whoFor: "High-footfall state/county offices, municipal complexes, and large-scale commercial property managers.",
-    approach: "Self-performed by fully insured, background-checked, and DIR-registered personnel using state-approved green cleaning products and protocols.",
-    image: "/images/services/janitorial-service.jpg"
-  },
-  "construction-material-supply": {
-    title: "Construction Material Supply & Logistics",
-    lead: "Secure your project’s supply chain while simultaneously hitting your DVBE/SB participation targets. We source and deliver bulk construction materials exactly when and where you need them.",
-    included: ["Bulk material sourcing (lumber, concrete, drywall, steel)", "Site delivery logistics", "Just-in-time (JIT) fulfillment scheduling"],
-    whoFor: "Prime contractors, heavy civil firms, and agency maintenance departments requiring reliable procurement coupled with diversity spend credit.",
-  },
-  "landscape-grounds-maintenance": {
-    title: "Landscape & Grounds Maintenance",
-    lead: "Maintain the exterior aesthetics, safety, and operational flow of your facilities. We handle everything from routine Caltrans right-of-way mowing to complex municipal park upkeep.",
-    included: ["Scheduled mowing and edging", "Tree trimming and hazard removal", "Irrigation system maintenance", "Weed abatement (chemical and manual)", "Seasonal planting"],
-    whoFor: "State agencies (Caltrans, DWR), county parks departments, and commercial property managers.",
-    approach: "Delivered via C-27 licensed trade partners within our verified DVBE/SB network, managed strictly by Stronger Built to guarantee compliance."
-  },
-  "graffiti-abatement": {
-    title: "Graffiti Abatement & Washing",
-    lead: "Rapid response graffiti removal and industrial pressure washing services designed to preserve civic dignity and maintain high-traffic public spaces safely.",
-    included: ["Emergency graffiti response (24-48 hours)", "Color-matched paint-overs", "Chemical removal from sensitive masonry", "High-heat pressure washing", "Anti-graffiti coating application"],
-    whoFor: "City public works, school districts, and transit authorities facing constant urban wear.",
-    approach: "Self-performed or subcontracted to local certified teams depending on geographic territory and emergency SLA requirements."
-  },
-  "parking-lot-striping": {
-    title: "Parking Lot Striping & Sealcoating",
-    lead: "Ensure ADA compliance and extend the lifecycle of your asphalt assets. Properly maintained parking infrastructure reduces liability and improves immediate public perception.",
-    included: ["ADA compliance striping and signage", "Fire lane red curbing", "Asphalt sealcoating", "Crack filling and patching", "Directional arrow mapping"],
-    whoFor: "DMV offices, county administrative complexes, school districts, and high-volume commercial centers.",
-    approach: "Executed under our CSLB coordination model, utilizing specialized C-32 contractors to deliver high-quality traffic coatings."
-  },
-  "window-cleaning": {
-    title: "Commercial Window Cleaning",
-    lead: "Establish a clear, professional image for your facilities with regular interior and exterior window cleaning programs. Easily bundled with our janitorial scopes for single-vendor simplicity.",
-    included: ["Multi-story exterior washing", "Interior glass sanitization", "Hard water stain removal", "Awning and canopy cleaning", "Post-construction window clearing"],
-    whoFor: "Mid-to-high-rise state offices, municipal courthouses, and commercial real estate portfolios.",
-    approach: "Self-performed by fully insured and safety-trained (OSHA compliant) technicians, often integrated directly into existing janitorial Master Service Agreements."
-  },
-  "painting-services": {
-    title: "Commercial Painting Services",
-    lead: "Protect and refresh your public and commercial infrastructure. From tenant improvements in active government buildings to exterior weatherproofing, we handle it all with minimal disruption.",
-    included: ["Interior tenant improvement (TI) repaints", "Exterior elastomeric weatherproofing", "Epoxy floor coatings", "Lead-safe practices", "High-durability scuff resistant applications"],
-    whoFor: "Agencies managing frequent office configurations, low-income housing authorities, and industrial facility owners.",
-    approach: "Managed by Stronger Built using highly vetted C-33 Painting and Decorating contractors within our DVBE network."
-  },
-  "roofing-repair": {
-    title: "Roofing Maintenance & Repair",
-    lead: "Stop leaks before they compromise your operations. We provide rapid-response commercial roof repairs and scheduled preventative maintenance to maximize the lifespan of your roofing assets.",
-    included: ["Emergency leak detection and patching", "TPO, PVC, and EPDM single-ply repair", "Built-up roofing (BUR) maintenance", "Gutter and downspout clearing", "Annual roof condition reporting"],
-    whoFor: "School districts facing aging infrastructure and commercial facility managers requiring rapid weatherization.",
-    approach: "Partnered strictly with fully insured C-39 Roofing contractors, carrying specific limits required for overhead public works."
-  },
-  "hvac-maintenance": {
-    title: "HVAC Maintenance & Service",
-    lead: "Optimize building climate control, improve indoor air quality, and reduce energy expenditures across your facility portfolio with tailored preventative maintenance contracts.",
-    included: ["Quarterly filter replacement and coil cleaning", "Chiller and cooling tower maintenance", "Rooftop unit (RTU) servicing", "Duct inspection and sealing", "Emergency system failure response"],
-    whoFor: "Large-scale government buildings, hospitals, and educational institutions where climate control is mission-critical.",
-    approach: "Delivered exclusively by C-20 Warm-Air Heating, Ventilating and Air-Conditioning contractors under our rigorous quality oversight.",
-    image: "/images/services/hvac-service.jpg"
-  },
-  "electrical-repair": {
-    title: "Electrical Repair & Installation",
-    lead: "Ensure the safety and continuous operation of your facilities with licensed electrical services. From lighting retrofits to critical panel upgrades, we manage all power requirements.",
-    included: ["LED lighting retrofits (Title 24 compliance)", "Panel and breaker replacements", "Dedicated circuit installations", "Exterior security lighting repair", "Emergency troubleshooting"],
-    whoFor: "Municipalities upgrading to energy-efficient systems and commercial complexes requiring rapid fault resolution.",
-    approach: "Subcontracted to state-certified, DIR-registered C-10 Electrical Contractors to ensure absolute safety and code compliance."
-  },
-  "plumbing-repair": {
-    title: "Commercial Plumbing Services",
-    lead: "Maintain sanitary and operational facilities. We cover everything from routine restroom fixture swaps to emergency mainline jetting to keep your buildings open to the public.",
-    included: ["Emergency leak and clog resolution", "Commercial fixture replacement (touchless)", "Hydro-jetting and mainline clearing", "Backflow preventer testing", "Water heater / boiler servicing"],
-    whoFor: "High-traffic facilities including DMVs, courthouses, public restrooms, and dense commercial properties.",
-    approach: "Managed through our C-36 Plumbing subcontractor network, guaranteeing fully licensed remediation of all water and sanitary systems."
-  },
-  "moving-relocation": {
-    title: "Moving & Relocation Services",
-    lead: "Seamlessly transition state agencies or commercial offices to new facilities. We provide the logistics, labor, and project management required to minimize administrative downtime.",
-    included: ["Internal office reconfigurations", "Full facility relocations", "IT equipment dismount and transport", "Furniture assembly / disassembly", "Secure document transport"],
-    whoFor: "State agencies executing lease transitions, school districts moving campus footprints, and expanding commercial enterprises.",
-    approach: "Self-performed via our internal logistics division utilizing insured fleets and background-checked personnel to secure sensitive chain-of-custody."
-  },
-  "website-build-redesign": {
-    title: "Government Website Build & Redesign",
-    lead: "High-performance, secure, and fully accessible digital infrastructure for local municipalities and public agencies. We build specialized web environments that meet WCAG 2.1 AA standards while serving as a credible gateway for your constituents.",
-    included: ["WCAG 2.1 AA Accessibility compliance", "Secure Next.js/React architecture", "Automated deployment pipelines", "Constituent-focused UI/UX design", "Mobile-optimized responsive layouts"],
-    whoFor: "Local city departments, municipal districts, and public-sector agencies requiring modernized digital front-ends.",
-    approach: "Built using the same core technology powering Stronger Built's own infrastructure—Next.js, Tailwind CSS, and Vercel—ensuring elite performance and near-zero downtime."
-  },
-  "strategic-bid-advisory": {
-    title: "Strategic Bid & Procurement Management",
-    lead: "High-precision government procurement and RFP response services led by CEO Roy Krautstrunk. We leverage advanced analytics and decades of executive oversight to secure multi-million dollar contracts for specialized trades across California.",
-    included: ["Full-Cycle Bid Management", "DIR & Prevailing Wage Compliance", "Financial modeling & QA", "RFP Analysis & Compliance Tracking", "Mandatory Site Walk Representation"],
-    whoFor: "Specialized trade contractors and high-capacity firms looking to secure complex municipal and state contracts with expert precision.",
-    approach: "Expert-led strategy managed directly by Roy Krautstrunk. We combine deep DIR compliance knowledge with modern data analytics to build winnable, compliant, and highly competitive proposals.",
-    image: "/images/services/construction-consulting.jpg", // Reusing consulting image for professional tone
-    isPremium: true
-  },
-  "search-visibility-seo-aeo": {
-    title: "Modern Search & Visibility (SEO/AEO/GEO)",
-    lead: "Ensure your agency or real estate firm remains visible across all search paradigms. We optimize for traditional Google Search (SEO) as well as the emerging world of Answer Engines and Generative AI Search.",
-    included: ["Programmatic SEO (PSEO) for local agencies", "Answer Engine Optimization (AEO)", "Generative Engine Optimization (GEO)", "Local San Diego search authority", "Digital footprint auditing"],
-    whoFor: "Government agencies, municipal organizations, and real estate development firms needing high visibility in AI-driven search environments.",
-    approach: "A data-first strategy that focuses on semantic authority and structured data (Schema), ensuring your information is correctly indexed by both traditional spiders and modern LLMs."
-  }
-};
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function ServiceDetail({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
-  const data = serviceData[resolvedParams.slug];
+  const data = INDUSTRIES_DATA[resolvedParams.slug];
 
   if (!data) return notFound();
 
+  // Create Article schema dynamically
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": data.title,
+    "description": data.lead,
+    "datePublished": "2026-06-01T00:00:00Z",
+    "dateModified": "2026-06-06T18:24:00Z",
+    "author": {
+      "@type": "Organization",
+      "name": "Stronger Built LLC"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Stronger Built LLC",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.strongerbuilt.us/logo.png"
+      }
+    },
+    "mainEntityOfPage": `https://strongerbuilt.us/services/${resolvedParams.slug}`
+  };
+
   return (
-    <div className="min-h-screen bg-white dark:bg-black/20">
+    <div className="min-h-screen bg-white dark:bg-black/20 font-sans">
+      
+      {/* Dynamic Article JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <JsonLd type="FAQPage" data={data.faqs} />
       
       {/* Premium Light Hero - HARMONIZED */}
-      <section className="relative px-6 pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
+      <section className="relative px-6 pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white dark:from-brand-navy-950 dark:via-brand-navy-900 dark:to-brand-navy-950 border-b border-slate-200/50 dark:border-white/5">
         {/* Background Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/4 w-[1000px] h-[1000px] rounded-full bg-brand-blue-600/10 dark:bg-brand-blue-600/15 blur-[100px]" />
@@ -170,167 +74,136 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
           <div className="absolute bottom-0 left-0 right-0 h-96 opacity-[0.03] dark:opacity-10 bg-[radial-gradient(#1E6FD9_1px,transparent_1px)] [background-size:40px_40px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 text-center">
+        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-6">
+          <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 transition-colors font-black tracking-widest uppercase text-[10px]">
+            <ArrowLeft className="w-4 h-4" /> Back to Services
+          </Link>
+          
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-50/80 dark:bg-brand-blue-600/10 border border-brand-blue-100 dark:border-brand-blue-600/20 mb-6 backdrop-blur-md"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue-50/80 dark:bg-brand-blue-600/10 border border-brand-blue-100 dark:border-brand-blue-600/20 backdrop-blur-md"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-600 dark:text-brand-blue-400" />
-            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 dark:text-brand-blue-400 uppercase">Licensed Service Division</span>
+            <span className="text-[10px] font-black tracking-[0.2em] text-brand-blue-600 dark:text-brand-blue-400 uppercase">RFP Target Vertical</span>
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 dark:text-white tracking-tight mb-8 leading-[1.1]"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif text-slate-900 dark:text-white tracking-tight leading-[1.1] capitalize"
           >
-            {data.title.split(' ')[0]} <br className="hidden md:block"/>
-            <span className="italic text-brand-blue-600 dark:text-brand-blue-400">{data.title.split(' ').slice(1).join(' ')}.</span>
+            Win <span className="italic text-brand-blue-600 dark:text-brand-blue-400">{data.title.split(' ').slice(1, -2).join(' ')}</span> <br className="hidden md:block"/>
+            Government Contracts.
           </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10 font-medium leading-relaxed"
-          >
-            Detailed specifications and procurement guidelines for our {data.title} division. Standardized for California public works compliance.
-          </motion.p>
+
+          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-4 pt-2">
+            <span>NAICS: {data.naics}</span>
+            <span className="text-slate-200 dark:text-slate-800">|</span>
+            <span>UNSPSC: {data.unspsc}</span>
+          </div>
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-6 py-16 w-full">
-        <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 mb-12 transition-colors font-black tracking-widest uppercase text-[10px]">
-          <ArrowLeft className="w-4 h-4" /> Back to Services
-        </Link>
+      {/* Main Content Layout */}
+      <div className="max-w-4xl mx-auto px-6 py-16 w-full space-y-16">
         
+        {/* Intro Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-brand-blue-600/5 mb-16 relative"
+          className="bg-slate-50 dark:bg-brand-navy-900/40 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 md:p-14 lg:p-16 shadow-xl relative overflow-hidden"
         >
-          {data.image && (
-            <div className="w-full h-64 md:h-80 relative overflow-hidden">
-               <img 
-                 src={data.image} 
-                 alt={data.title}
-                 className="w-full h-full object-cover grayscale opacity-70"
-               />
-               <div className="absolute inset-0 bg-gradient-to-t from-slate-50/100 dark:from-brand-navy-900/100 via-transparent to-transparent" />
-            </div>
-          )}
-
-          <div className="p-8 md:p-14 lg:p-16 relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/5 rounded-full blur-[80px]" />
-            
-            <p className="text-xl md:text-2xl font-serif text-brand-navy-900 dark:text-slate-200 leading-relaxed mb-12 relative z-10 italic">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue-600/5 rounded-full blur-[80px]" />
+          
+          <div className="relative z-10 space-y-8">
+            <p className="text-xl md:text-2xl font-serif text-brand-navy-900 dark:text-slate-200 leading-relaxed italic border-l-4 border-brand-blue-600 pl-6">
               {data.lead}
             </p>
-
-            <JsonLd type="Service" data={{ title: data.title, description: data.lead }} />
-            <JsonLd type="FAQPage" data={SERVICE_FAQS[resolvedParams.slug] || []} />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 mb-12">
-              <div>
-                <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-6 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-brand-blue-600" /> What's Included
-                </h3>
-                <ul className="space-y-4">
-                  {data.included.map((item: string, i: number) => (
-                    <li key={i} className="flex items-start gap-3 text-brand-navy-900 dark:text-white font-bold text-sm">
-                      <ChevronRight className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="space-y-12">
-                <div>
-                  <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-4 flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-brand-blue-600" /> Reach & Eligibility
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-bold text-sm">
-                    {data.whoFor}
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase mb-4 flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-success" /> Direct Oversight
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-bold text-sm">
-                    {data.approach}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Procurement FAQ Section */}
-            {SERVICE_FAQS[resolvedParams.slug] && (
-              <div className="mt-20 pt-16 border-t border-gray-100 dark:border-white/5 relative z-10">
-                <div className="flex items-center gap-3 mb-10">
-                  <div className="w-10 h-10 rounded-xl bg-brand-blue-600/10 flex items-center justify-center text-brand-blue-600">
-                    <HelpCircle className="w-5 h-5" />
-                  </div>
-                  <h2 className="text-xl font-bold text-brand-navy-900 dark:text-white uppercase tracking-tight">Compliance & Procurement FAQ</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                  {SERVICE_FAQS[resolvedParams.slug].map((faq, i) => (
-                    <div key={i} className="space-y-3 group">
-                      <h3 className="text-base font-bold text-brand-navy-900 dark:text-white group-hover:text-brand-blue-600 transition-colors leading-tight">
-                        {faq.question}
-                      </h3>
-                      <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-[13px] font-medium">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </motion.div>
 
-        {data.isPremium ? (
-          <div className="max-w-2xl mx-auto space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-3xl p-8 flex flex-col shadow-sm">
-                <h3 className="text-xl font-bold text-brand-navy-900 dark:text-white mb-2">Growth Track</h3>
-                <p className="text-slate-500 mb-6 text-sm">For contractors targeting regional municipal bids.</p>
-                <div className="text-3xl font-black text-brand-navy-900 dark:text-white mb-8">
-                  $750 <span className="text-sm font-normal text-slate-400">/ 50% Deposit</span>
-                </div>
-                <div className="mt-auto">
-                  <BidAdvisoryCheckout priceId="price_growth_track_placeholder" tierName="Growth Track" depositAmount="$750" />
-                </div>
-              </div>
-
-              <div className="bg-brand-navy-900 border border-brand-blue-600/30 rounded-3xl p-8 flex flex-col shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-brand-blue-600 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl">Recommended</div>
-                <h3 className="text-xl font-bold text-white mb-2">Enterprise Track</h3>
-                <p className="text-slate-400 mb-6 text-sm">For high-capacity firms eyeing multi-million dollar state contracts.</p>
-                <div className="text-3xl font-black text-white mb-8">
-                  $1,250 <span className="text-sm font-normal text-slate-500">/ 50% Deposit</span>
-                </div>
-                <div className="mt-auto">
-                  <BidAdvisoryCheckout priceId="price_enterprise_track_placeholder" tierName="Enterprise Track" depositAmount="$1,250" />
-                </div>
-              </div>
-            </div>
-            <p className="text-center text-xs text-slate-400">
-              *Full compliance consult and CEO site-walk representation are included in both tracks. Remaining 50% due upon bid submission.
+        {/* Core Layout - Why bids won/lost & What we do */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-6">
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase flex items-center gap-2">
+              <HelpCircle className="w-4 h-4 text-amber-600" /> Why Bids Are Won & Lost
+            </h3>
+            <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white font-serif italic">The specifics evaluators score in this vertical</h4>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+              {data.whyBidsWonLost}
             </p>
           </div>
-        ) : (
-          <div className="text-center">
-            <Link href="/contact" className="inline-flex items-center gap-3 bg-brand-blue-600 hover:bg-blue-500 text-white px-12 py-5 rounded-2xl font-bold transition-all shadow-xl shadow-brand-blue-600/30 hover:-translate-y-1">
-              Request a Proposal <ArrowRight className="w-5 h-5" />
-            </Link>
+
+          <div className="space-y-4">
+            <h3 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase flex items-center gap-2">
+              <Briefcase className="w-4 h-4 text-brand-blue-600" /> What We Do For Bidders
+            </h3>
+            <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white font-serif italic">Full-cycle response under your brand</h4>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+              {data.whatWeDo}
+            </p>
           </div>
-        )}
+        </div>
+
+        {/* Who We Help Section */}
+        <div className="bg-slate-50 dark:bg-white/5 rounded-3xl p-8 md:p-12 border border-slate-100 dark:border-white/10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div className="md:col-span-4 space-y-2">
+            <span className="text-[9px] font-black text-amber-600 uppercase tracking-widest">Eligibility Match</span>
+            <h4 className="text-xl font-bold text-brand-navy-900 dark:text-white font-serif italic">Who We Help</h4>
+          </div>
+          <div className="md:col-span-8">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+              {data.whoWeHelp}
+            </p>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="pt-8 border-t border-slate-100 dark:border-white/5">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white italic">Frequently Asked Questions</h3>
+          </div>
+          
+          <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto">
+            {data.faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`faq-${index}`} className="border-slate-100 dark:border-white/10">
+                <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600 text-left">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+
+        {/* CTA Area */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-12 border-t border-slate-100 dark:border-white/5">
+          <Link 
+            href="/contact" 
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-navy-900 hover:bg-slate-800 text-white px-10 py-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-xl hover:-translate-y-0.5"
+          >
+            Book a Free Consultation
+          </Link>
+          <Link 
+            href={`/open-bids?search=${encodeURIComponent(data.industryName)}`} 
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-xl shadow-brand-blue-600/20 hover:-translate-y-0.5"
+          >
+            <Search className="w-4 h-4" /> Search Open {data.title.split(' ').slice(1, -2).join(' ')} Bids
+          </Link>
+        </div>
+
+        {/* Byline / Trust Badges */}
+        <div className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest pt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+          <span>Veteran-owned</span>
+          <span>•</span>
+          <span>Nationwide Sourcing</span>
+          <span>•</span>
+          <span>Updated June 2026</span>
+        </div>
 
       </div>
     </div>

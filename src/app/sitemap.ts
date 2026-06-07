@@ -4,8 +4,6 @@ import { CATEGORIES, ALL_ARTICLES } from '@/lib/data/learning-center';
 
 const BASE_URL = 'https://www.strongerbuilt.us';
 
-// We'll hardcode the service and project slugs here to keep the sitemap generator 
-// performant and independent of complex component-level data structures.
 const SERVICE_SLUGS = [
   "construction-consulting",
   "project-management",
@@ -25,7 +23,12 @@ const SERVICE_SLUGS = [
   "moving-relocation",
   "website-build-redesign",
   "strategic-bid-advisory",
-  "search-visibility-seo-aeo"
+  "search-visibility-seo-aeo",
+  "security-services",
+  "it-software",
+  "healthcare-staffing",
+  "professional-services",
+  "education-training"
 ];
 
 const PROJECT_SLUGS = [

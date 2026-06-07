@@ -20,9 +20,20 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("signin");
   const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      if (tab === "signup" || tab === "signin") {
+        setActiveTab(tab);
+      }
+    }
+  }, []);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -169,7 +180,7 @@ export default function LoginPage() {
           </motion.div>
 
           <Card className="border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl overflow-hidden rounded-[2.5rem]">
-            <Tabs defaultValue="signin" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-black/40 rounded-none h-14 p-1">
                 <TabsTrigger 
                   value="signin" 
