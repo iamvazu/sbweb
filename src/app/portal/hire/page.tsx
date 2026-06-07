@@ -280,8 +280,10 @@ function HireContent() {
           <Button asChild size="lg" className="bg-white text-blue-900 hover:bg-blue-50 font-black uppercase tracking-widest text-xs h-14 px-8">
             <Link href="/contact">Get Pricing <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
-          <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/5 font-black uppercase tracking-widest text-xs h-14 px-8">
-            <PhoneCall className="mr-2 h-4 w-4" /> Schedule Call
+          <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/5 font-black uppercase tracking-widest text-xs h-14 px-8">
+            <Link href="/book-call">
+              <PhoneCall className="mr-2 h-4 w-4" /> Schedule Call
+            </Link>
           </Button>
         </div>
       </div>

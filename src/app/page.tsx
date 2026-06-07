@@ -243,7 +243,7 @@ export default function Home() {
               </motion.p>
               
               <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 btn-primary-gradient px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1">
+                <Link href="/book-call" className="group relative inline-flex items-center justify-center gap-3 btn-primary-gradient px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1">
                   <span>Book a Free Consultation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -858,7 +858,7 @@ export default function Home() {
               </div>
 
               <p className="pf-note">Lose, and you owe nothing beyond the bid writing fee.</p>
-              <Link className="pf-cta" href="/contact">
+              <Link className="pf-cta" href="/book-call">
                 Start My Bid — {money(pricingResult.fee)}
               </Link>
             </div>
@@ -1048,7 +1048,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div>
-                  <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-black text-white bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-3 rounded-full uppercase tracking-widest transition-all">
+                  <Link href="/book-call" className="inline-flex items-center gap-2 text-xs font-black text-white bg-white/10 hover:bg-white/20 border border-white/20 px-6 py-3 rounded-full uppercase tracking-widest transition-all">
                     <span>Let's talk</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -1147,7 +1147,7 @@ export default function Home() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link 
-                href="/contact" 
+                href="/book-call" 
                 className="inline-flex items-center justify-center gap-2 font-bold text-sm px-6 py-3.5 rounded-full bg-white dark:bg-slate-800 text-brand-navy-900 dark:text-white border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:-translate-y-0.5 transition-all shadow-sm"
               >
                 <span>Book a Free Call</span>
@@ -1173,7 +1173,7 @@ export default function Home() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Link href="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-xl hover:-translate-y-1">
+            <Link href="/book-call" className="group relative inline-flex items-center justify-center gap-3 bg-brand-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-sm transition-all shadow-xl hover:-translate-y-1">
               <span>Book a Free Consultation</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>

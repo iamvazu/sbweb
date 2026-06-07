@@ -41,7 +41,7 @@ export default function BidAdvisoryCheckout({
       const { error } = await (stripe as any).redirectToCheckout({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: 'payment',
-        successUrl: `${window.location.origin}/contact?service=success`,
+        successUrl: `${window.location.origin}/book-call?service=success`,
         cancelUrl: `${window.location.origin}/services/strategic-bid-advisory`,
       });
 

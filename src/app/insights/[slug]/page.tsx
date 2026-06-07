@@ -137,7 +137,7 @@ export default function InsightDetail({ params }: { params: Promise<{ slug: stri
                     Download Capability Statement
                   </Link>
                   <Link 
-                    href="/contact" 
+                    href="/book-call" 
                     className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all backdrop-blur-md"
                   >
                     Request a Consultation
@@ -211,7 +211,7 @@ export default function InsightDetail({ params }: { params: Promise<{ slug: stri
                     Download Capability Statement
                   </Link>
                   <Link 
-                    href="/contact" 
+                    href="/book-call" 
                     className="inline-flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all backdrop-blur-md"
                   >
                     Request a Consultation

@@ -53,6 +53,7 @@ const STATIC_ROUTES = [
   "/partners",
   "/partners/join",
   "/contact",
+  "/book-call",
   "/service-areas",
   "/insights",
   "/careers",

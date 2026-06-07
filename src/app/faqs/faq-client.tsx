@@ -350,7 +350,7 @@ export default function FaqClient() {
 
             <div className="flex flex-wrap gap-4 items-center shrink-0">
               <Link
-                href="/contact"
+                href="/book-call"
                 className="inline-flex items-center gap-2 text-xs font-black text-brand-navy-900 bg-white hover:bg-slate-100 px-6 py-4 rounded-full uppercase tracking-widest shadow-lg transition-all hover:-translate-y-0.5"
               >
                 <Phone className="w-4 h-4" />

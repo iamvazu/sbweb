@@ -420,7 +420,7 @@ export default function ArticleDetailPage({ params }: PageProps) {
                 Hire Us to Write Your Bid
               </Link>
               <Link
-                href="/contact"
+                href="/book-call"
                 className="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-2xl border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-all text-center"
               >
                 Book Free Consultation

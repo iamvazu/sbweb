@@ -147,7 +147,7 @@ export default function PseoPage({ params }: { params: Promise<{ slug: string, c
                      ))}
                   </ul>
                   <div className="flex flex-wrap gap-4">
-                    <Link href="/contact" className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-xs shadow-xl shadow-brand-blue-600/20 hover:bg-blue-500 transition-all uppercase tracking-widest">
+                    <Link href="/book-call" className="flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-xs shadow-xl shadow-brand-blue-600/20 hover:bg-blue-500 transition-all uppercase tracking-widest">
                       Book a Consultation <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>

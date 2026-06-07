@@ -178,7 +178,7 @@ export default function ServicesOverview() {
             
             <div className="pt-10 flex flex-col sm:flex-row gap-4">
               <Link 
-                href="/contact" 
+                href="/book-call" 
                 className="flex items-center justify-center gap-2 bg-brand-navy-900 text-white hover:bg-slate-800 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg flex-1"
               >
                 Book a Free Consultation
@@ -329,7 +329,7 @@ export default function ServicesOverview() {
               <UserPlus className="w-4 h-4" /> Create Company Profile
             </Link>
             <Link 
-              href="/contact" 
+              href="/book-call" 
               className="inline-flex items-center gap-2 bg-white text-brand-navy-900 hover:bg-slate-100 px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg hover:-translate-y-0.5"
             >
               Book a Free Consultation <ArrowRight className="w-4 h-4" />

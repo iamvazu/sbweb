@@ -118,7 +118,7 @@ export function Navbar() {
                   Search Open Bids
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/book-call"
                   className="bg-brand-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-[13px] font-bold transition-all shadow-md shadow-blue-500/10 hover:shadow-blue-500/20"
                 >
                   Book a Free Call
@@ -191,7 +191,7 @@ export function Navbar() {
                       Search Open Bids
                     </Link>
                     <Link
-                      href="/contact"
+                      href="/book-call"
                       onClick={() => setMobileMenuOpen(false)}
                       className="block w-full text-center bg-brand-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-500/20"
                     >

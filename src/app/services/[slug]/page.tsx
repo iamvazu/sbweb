@@ -183,7 +183,7 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
         {/* CTA Area */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-12 border-t border-slate-100 dark:border-white/5">
           <Link 
-            href="/contact" 
+            href="/book-call" 
             className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-brand-navy-900 hover:bg-slate-800 text-white px-10 py-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-xl hover:-translate-y-0.5"
           >
             Book a Free Consultation
