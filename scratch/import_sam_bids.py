@@ -138,10 +138,10 @@ def run_import(dry_run=False):
                     # If unparseable date, skip it to ensure data quality
                     continue
 
-                # Filter: NAICS Code starts with target industry prefixes
+                # Filter: NAICS Code starts with target industry prefixes (Bypassed to import all active bids)
                 naics = row[idx_naics].strip()
-                if not naics.startswith(TARGET_PREFIXES):
-                    continue
+                # if not naics.startswith(TARGET_PREFIXES):
+                #     continue
 
                 matching_count += 1
 
