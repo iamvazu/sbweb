@@ -56,11 +56,11 @@ export default function VendorDashboard() {
         .eq("user_id", user.id);
       
       const stageCounts: Record<string, number> = {};
-      const nowStr = new Date().toISOString();
+      const nowTime = new Date().getTime();
       allMatches?.forEach(m => {
         const stage = m.pipeline_stage;
         const bidEndDate = (m.bids as any)?.end_date;
-        const isActive = !bidEndDate || bidEndDate >= nowStr;
+        const isActive = !bidEndDate || new Date(bidEndDate).getTime() >= nowTime;
         // Count if active, or if it is in completed/historical stages (submitted, won, lost)
         if (stage === "submitted" || stage === "won" || stage === "lost" || isActive) {
           stageCounts[stage] = (stageCounts[stage] || 0) + 1;

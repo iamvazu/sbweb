@@ -159,11 +159,11 @@ export default function OpenBidsPage() {
   // Filter and Sort in memory on the client side
   const { filteredBids, stateCounts } = useMemo(() => {
     const start = performance.now();
-    const nowStr = new Date().toISOString();
+    const nowTime = new Date().getTime();
 
     // 1. Initial filter by tab (Open vs Closed)
     let list = allBids.filter(bid => {
-      const isClosed = bid.end_date && bid.end_date < nowStr;
+      const isClosed = bid.end_date && new Date(bid.end_date).getTime() < nowTime;
       if (activeTab === "open") return !isClosed;
       if (activeTab === "closed") return isClosed;
       return true; // Award Date / All
@@ -172,7 +172,7 @@ export default function OpenBidsPage() {
     // 2. State counts based on search term (independent of state filter)
     const counts: Record<string, number> = {};
     const listForCounts = allBids.filter(bid => {
-      const isClosed = bid.end_date && bid.end_date < nowStr;
+      const isClosed = bid.end_date && new Date(bid.end_date).getTime() < nowTime;
       const matchTab = activeTab === "open" ? !isClosed : activeTab === "closed" ? isClosed : true;
       if (!matchTab) return false;
 
@@ -477,8 +477,11 @@ export default function OpenBidsPage() {
                 ))
               ) : paginatedBids.length > 0 ? (
                 paginatedBids.map((bid) => {
-                  const daysLeft = bid.end_date ? Math.ceil((new Date(bid.end_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)) : null;
-                  const isUrgent = daysLeft !== null && daysLeft <= 7;
+                  const bidTime = bid.end_date ? new Date(bid.end_date).getTime() : null;
+                  const nowTimeMs = new Date().getTime();
+                  const isPastDue = bidTime !== null && bidTime < nowTimeMs;
+                  const daysLeft = bidTime !== null ? Math.ceil((bidTime - nowTimeMs) / (1000 * 3600 * 24)) : null;
+                  const isUrgent = daysLeft !== null && daysLeft <= 7 && !isPastDue;
 
                   return (
                     <Card key={bid.id} className="group border border-slate-100 hover:border-slate-200 hover:shadow-lg shadow-sm rounded-3xl transition-all bg-white overflow-hidden p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start w-full">
@@ -492,10 +495,10 @@ export default function OpenBidsPage() {
                           <Badge variant="outline" className="text-[10px] font-bold h-5 uppercase tracking-tight bg-blue-50 border-blue-100 text-brand-blue-600 rounded-sm">
                             {bid.state}
                           </Badge>
-                          {daysLeft !== null && (
-                            <span className={cn("text-xs font-semibold flex items-center gap-1 shrink-0", isUrgent ? "text-red-600" : "text-slate-500")}>
+                          {bidTime !== null && (
+                            <span className={cn("text-xs font-semibold flex items-center gap-1 shrink-0", isPastDue ? "text-red-600" : isUrgent ? "text-red-600" : "text-slate-500")}>
                               <Clock className="h-3.5 w-3.5" />
-                              {daysLeft < 0 ? "Closed" : `${daysLeft} days left`}
+                              {isPastDue ? "Closed" : daysLeft === 0 ? "Closing today" : `${daysLeft} days left`}
                             </span>
                           )}
                         </div>
