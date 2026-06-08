@@ -546,11 +546,11 @@ body {
 .hiw-line .fill { position:absolute; inset:0; width:0; border-radius:99px;
   background:linear-gradient(90deg,#4f86ff,#1741b6); transition:width 1.7s cubic-bezier(.4,.05,.2,1); }
 .hiw.in .hiw-line .fill { width:100%; }
-.hiw-pulse { position:absolute; top:50%; left:0; width:13px; height:13px; border-radius:50%;
+.hiw-pulse { position:absolute; top:calc(var(--tile)/2); left:10%; width:13px; height:13px; border-radius:50%;
   background:#fff; border:3px solid var(--blue); box-shadow:0 0 0 5px rgba(37,99,235,.18), 0 0 12px rgba(37,99,235,.7);
   transform:translate(-50%,-50%); opacity:0; }
 .hiw.in .hiw-pulse { opacity:1; animation:hiwTravel 3.4s 1.2s cubic-bezier(.45,0,.55,1) infinite; }
-@keyframes hiwTravel { 0%{ left:0; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:100%; opacity:0; } }
+@keyframes hiwTravel { 0%{ left:10%; } 12%{ opacity:1; } 88%{ opacity:1; } 100%{ left:90%; opacity:0; } }
 
 .hiw-steps { display:flex; gap:18px; position:relative; z-index:1; }
 .step { flex:1; display:flex; flex-direction:column; align-items:center; text-align:center;
