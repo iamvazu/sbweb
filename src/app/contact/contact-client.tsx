@@ -1,11 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Send, Headset } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Headset, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { submitContactForm } from "@/app/actions/contact";
 
 export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [inquiryType, setInquiryType] = useState("Request a Quote");
+  const [messageBrief, setMessageBrief] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      await submitContactForm({ fullName, email, inquiryType, messageBrief });
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to submit inquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-black/20">
@@ -114,24 +136,51 @@ export default function ContactClient() {
                 </div>
               ) : (
                 <form 
-                  onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} 
+                  onSubmit={handleSubmit} 
                   className="space-y-8"
                 >
+                  {error && (
+                    <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 text-xs font-semibold">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
                       <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Full Name <span className="text-brand-blue-600">*</span></label>
-                      <input required type="text" className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all" placeholder="John Doe" />
+                      <input 
+                        required 
+                        type="text" 
+                        disabled={isSubmitting}
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all disabled:opacity-50" 
+                        placeholder="John Doe" 
+                      />
                     </div>
                     <div className="space-y-3">
                       <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Email Address <span className="text-brand-blue-600">*</span></label>
-                      <input required type="email" className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all" placeholder="john@agency.gov" />
+                      <input 
+                        required 
+                        type="email" 
+                        disabled={isSubmitting}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 font-medium transition-all disabled:opacity-50" 
+                        placeholder="john@agency.gov" 
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Inquiry Type</label>
                     <div className="relative">
-                      <select className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 appearance-none font-bold text-sm cursor-pointer">
+                      <select 
+                        disabled={isSubmitting}
+                        value={inquiryType}
+                        onChange={(e) => setInquiryType(e.target.value)}
+                        className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 appearance-none font-bold text-sm cursor-pointer disabled:opacity-50"
+                      >
                         <option>Request a Quote</option>
                         <option>Government Solicitation</option>
                         <option>Subcontractor Application</option>
@@ -145,12 +194,33 @@ export default function ContactClient() {
 
                   <div className="space-y-3">
                     <label className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">Message Brief <span className="text-brand-blue-600">*</span></label>
-                    <textarea required rows={5} className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 resize-none font-medium transition-all" placeholder="Provide project specifications or solicitation reference..."></textarea>
+                    <textarea 
+                      required 
+                      rows={5} 
+                      disabled={isSubmitting}
+                      value={messageBrief}
+                      onChange={(e) => setMessageBrief(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-4 text-brand-navy-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-600/50 resize-none font-medium transition-all disabled:opacity-50" 
+                      placeholder="Provide project specifications or solicitation reference..."
+                    />
                   </div>
 
-                  <button type="submit" className="w-full bg-brand-navy-900 hover:bg-brand-blue-600 text-white font-black text-xs uppercase tracking-[0.2em] py-5 rounded-2xl flex items-center justify-center gap-3 transition-all group shadow-xl hover:-translate-y-1">
-                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    Transmit Inquiry
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-brand-navy-900 hover:bg-brand-blue-600 text-white font-black text-xs uppercase tracking-[0.2em] py-5 rounded-2xl flex items-center justify-center gap-3 transition-all group shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:hover:bg-brand-navy-900 disabled:hover:translate-y-0"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Transmitting...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        Transmit Inquiry
+                      </>
+                    )}
                   </button>
                 </form>
               )}
