@@ -23,7 +23,7 @@ export default function GeminiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "model",
-      content: "Hi! I'm Gemini, the Stronger Built AI Assistant. Ask me anything about our construction services, DVBE/SB certifications, or our unique **Pay-When-You-Win** pricing model!"
+      content: "Hi! I'm Gemini, your AI Assistant. Ask me anything about government contracts, open bids in your industry, or if you want us to manage your entire bid pipeline!"
     }
   ]);
   const [input, setInput] = useState("");
@@ -101,7 +101,8 @@ export default function GeminiChatbot() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch response");
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || "Failed to fetch response");
       }
 
       const data = await response.json();
@@ -110,10 +111,10 @@ export default function GeminiChatbot() {
       }
 
       setMessages((prev) => [...prev, { role: "model", content: data.text }]);
-    } catch (err) {
+    } catch (err: any) {
       setMessages((prev) => [
         ...prev,
-        { role: "model", content: "I'm sorry, I encountered an issue connecting to Gemini. Please try again shortly or contact bids@strongerbuilt.us." }
+        { role: "model", content: `Connection error: ${err.message || "Unknown error"}. Please check that the GEMINI_API_KEY environment variable is configured in the Vercel dashboard.` }
       ]);
     } finally {
       setIsLoading(false);
@@ -126,50 +127,30 @@ export default function GeminiChatbot() {
     <div className="fixed bottom-6 right-6 z-50 font-sans flex flex-col items-end">
       <AnimatePresence initial={false}>
         {!isOpen ? (
-          /* Collapsed State: Pill Card (matches GovSignals style) */
+          /* Collapsed State: Compact Premium Pill Button matching site CTAs */
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="group relative flex items-center justify-between gap-5 bg-slate-900 border border-slate-800 text-white rounded-2xl p-4 shadow-xl hover:border-[#7fa6ff]/30 hover:shadow-blue-500/5 transition-all max-w-[340px] md:max-w-[380px]"
+            className="flex items-center gap-2"
           >
-            {/* Clickable Area to Expand */}
             <button
               onClick={() => setIsOpen(true)}
-              className="flex items-center gap-4 text-left cursor-pointer flex-grow"
+              className="flex items-center gap-2 bg-brand-blue-600 hover:bg-blue-700 text-white rounded-full px-5 py-2.5 shadow-lg shadow-blue-500/20 border border-blue-500/20 hover:scale-105 transition-all cursor-pointer font-bold text-xs uppercase tracking-wider select-none"
             >
-              {/* Gemini Star Icon with Custom Gold/Blue Gradient Sparkle */}
-              <div className="relative flex items-center justify-center w-11 h-11 rounded-full bg-slate-800 border border-slate-700/60 flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
-                <svg viewBox="0 0 24 24" fill="none" className="w-5.5 h-5.5 animate-pulse">
-                  <path
-                    d="M12 3c.13 2.87 1.13 3.87 4 4-2.87.13-3.87 1.13-4 4-.13-2.87-1.13-3.87-4-4 2.87-.13 3.87-1.13 4-4zm0 13c.07 1.43.57 1.93 2 2-1.43.07-1.93.57-2 2-.07-1.43-.57-1.93-2-2 1.43-.07 1.93-.57 2-2zm6-4c.03.72.28.97 1 1-.72.03-.97.28-1 1-.03-.72-.28-.97-1-1 .72-.03.97-.28 1-1z"
-                    fill="url(#geminiGrad)"
-                  />
-                  <defs>
-                    <linearGradient id="geminiGrad" x1="4" y1="3" x2="20" y2="21" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#4f86ff" />
-                      <stop offset="50%" stopColor="#9b51e0" />
-                      <stop offset="100%" stopColor="#f2994a" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-
-              <div>
-                <h4 className="font-bold text-xs uppercase tracking-wider text-slate-100 group-hover:text-[#7fa6ff] transition-colors leading-none">
-                  Ask Gemini about us
-                </h4>
-                <p className="text-[11px] text-slate-400 font-semibold mt-1">
-                  Learn more about StrongerBuilt
-                </p>
-              </div>
+              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 text-white flex-shrink-0 animate-pulse">
+                <path
+                  d="M12 3c.13 2.87 1.13 3.87 4 4-2.87.13-3.87 1.13-4 4-.13-2.87-1.13-3.87-4-4 2.87-.13 3.87-1.13 4-4zm0 13c.07 1.43.57 1.93 2 2-1.43.07-1.93.57-2 2-.07-1.43-.57-1.93-2-2 1.43-.07 1.93-.57 2-2zm6-4c.03.72.28.97 1 1-.72.03-.97.28-1 1-.03-.72-.28-.97-1-1 .72-.03.97-.28 1-1z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span>Ask Gemini</span>
             </button>
 
-            {/* Dismiss Button */}
             <button
               onClick={() => setIsDismissed(true)}
-              className="p-1 text-slate-500 hover:text-slate-300 transition-colors rounded-full hover:bg-slate-800/80 cursor-pointer flex-shrink-0"
+              className="flex items-center justify-center w-9 h-9 bg-slate-900/80 hover:bg-slate-900 border border-slate-800 text-slate-400 hover:text-white rounded-full shadow-lg transition-colors cursor-pointer"
               aria-label="Dismiss chatbot"
             >
               <X className="w-4 h-4" />
