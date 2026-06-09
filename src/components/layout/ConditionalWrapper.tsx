@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
+import GeminiChatbot from "@/components/layout/GeminiChatbot";
 
 export function ConditionalWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ export function ConditionalWrapper({ children }: { children: React.ReactNode }) 
         {children}
       </main>
       <Footer />
+      <GeminiChatbot />
     </>
   );
 }
