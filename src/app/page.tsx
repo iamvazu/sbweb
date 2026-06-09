@@ -20,8 +20,6 @@ import {
   Zap, 
   Clock, 
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   X,
   Shield,
   Briefcase,
@@ -62,22 +60,34 @@ const AGENCIES = [
 
 const TESTIMONIALS = [
   {
-    quote: "Stronger Built did an incredible job helping us secure the local county janitorial services contract for the sheriff's office. Their team guided us through the local business preference requirements, making our bid stand out. We couldn't have won this without their government contracting expertise.",
+    quote: (
+      <>
+        Stronger Built did an incredible job helping us <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">secure the local county janitorial services contract</span> for the sheriff's office. Their team guided us through the <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">local business preference</span> requirements, making our bid stand out. We couldn't have won this without their government contracting expertise.
+      </>
+    ),
     name: "Latecia Maia",
-    title: "Founder & CEO",
-    company: "Dozeles Professional Cleaning"
+    company: "Dozeles Cleaning",
+    image: "/images/testimonials/latecia.jpg"
   },
   {
-    quote: "Winning the Caltrans maintenance project across the bay was a massive milestone for us. Stronger Built helped us leverage our SB and DVBE certifications to the fullest. Their meticulous bid preparation and compliance review ensured a flawless submission.",
+    quote: (
+      <>
+        <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">Winning the Caltrans maintenance project</span> across the bay was a massive milestone for us. Stronger Built helped us leverage our <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">SB and DVBE certifications</span> to the fullest. Their meticulous bid preparation and compliance review ensured a flawless submission.
+      </>
+    ),
     name: "Marcos Pericilin",
-    title: "President",
-    company: "Pericilin Janitorial Services"
+    company: "Pericilin Janitorial",
+    image: "/images/testimonials/marcos.jpg"
   },
   {
-    quote: "Thanks to Stronger Built, we successfully secured a major state-level Adobe licensing reseller contract. They mapped out every compliance matrix, managed our pricing sheet strategy, and handled the submission perfectly. Their Pay-When-You-Win model aligned perfectly with our growth goals.",
+    quote: (
+      <>
+        Thanks to Stronger Built, we successfully <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">secured a major state-level Adobe licensing reseller contract</span>. They mapped out every compliance matrix, managed our pricing sheet strategy, and handled the submission perfectly. Their <span className="bg-cyan-100/70 text-slate-900 font-extrabold px-1 rounded-[4px]">Pay-When-You-Win model</span> aligned perfectly with our growth goals.
+      </>
+    ),
     name: "Haresh Vataliya",
-    title: "President & CEO",
-    company: "vTech Solution"
+    company: "vTech Solution",
+    image: "/images/testimonials/haresh.jpg"
   }
 ];
 
@@ -125,14 +135,6 @@ export default function Home() {
   const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
   const [hiwInView, setHiwInView] = useState(false);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const el = document.querySelector('.hiw');
@@ -1051,72 +1053,66 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="max-w-4xl mx-auto relative mt-16">
-            <div className="relative overflow-hidden bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 sm:p-12 shadow-xl">
-              {/* Giant quote mark background */}
-              <span className="absolute top-2 left-6 text-8xl font-serif text-brand-blue-500/10 pointer-events-none select-none">“</span>
-              
-              <div className="relative min-h-[180px] flex flex-col justify-center text-center px-4">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentTestimonial}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.35, ease: "easeInOut" }}
-                    className="space-y-6"
-                  >
-                    <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300 font-medium italic leading-relaxed">
-                      "{TESTIMONIALS[currentTestimonial].quote}"
-                    </p>
-                    
-                    <div>
-                      <div className="text-sm font-bold text-brand-navy-900 dark:text-white uppercase tracking-wider">
-                        {TESTIMONIALS[currentTestimonial].name}
-                      </div>
-                      <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
-                        {TESTIMONIALS[currentTestimonial].title} &middot; <span className="text-brand-blue-600 dark:text-brand-blue-400">{TESTIMONIALS[currentTestimonial].company}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
 
-              {/* Slider Controls */}
-              <div className="flex items-center justify-center gap-4 mt-8 relative z-10">
-                <button
-                  onClick={() => setCurrentTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
-                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 hover:border-brand-blue-600 hover:text-brand-blue-600 transition-colors text-slate-500 dark:text-slate-400 cursor-pointer"
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                
-                <div className="flex items-center gap-2">
-                  {TESTIMONIALS.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentTestimonial(idx)}
-                      className={cn(
-                        "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
-                        currentTestimonial === idx 
-                          ? "bg-brand-blue-600 w-4" 
-                          : "bg-slate-300 dark:bg-white/10"
-                      )}
-                      aria-label={`Go to testimonial ${idx + 1}`}
-                    />
-                  ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-[#0B1526] text-white relative overflow-hidden border-b border-white/5">
+        {/* Subtle background glows */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-sans font-bold text-white tracking-tight">
+              Trusted by thousands.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((t, idx) => (
+              <div 
+                key={idx} 
+                className="bg-white rounded-[1.5rem] p-8 shadow-xl flex flex-col justify-between border border-slate-100 hover:scale-[1.02] transition-transform duration-300 min-h-[340px]"
+              >
+                <div className="space-y-4">
+                  <p className="text-[15px] leading-relaxed text-slate-700 font-medium font-sans">
+                    {t.quote}
+                  </p>
                 </div>
 
-                <button
-                  onClick={() => setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length)}
-                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 hover:border-brand-blue-600 hover:text-brand-blue-600 transition-colors text-slate-500 dark:text-slate-400 cursor-pointer"
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                <div className="flex items-center justify-between mt-8 border-t border-slate-100 pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200">
+                      <Image 
+                        src={t.image} 
+                        alt={t.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-sm font-bold text-slate-800 block leading-tight">
+                        {t.name}
+                      </span>
+                      <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider block mt-0.5 leading-none">
+                        {t.company}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 5 Cyan Stars */}
+                  <div className="flex gap-0.5 text-[#06b6d4]">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
