@@ -20,6 +20,8 @@ import {
   Zap, 
   Clock, 
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   X,
   Shield,
   Briefcase,
@@ -41,6 +43,43 @@ const STAGGER: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
+
+const AGENCIES = [
+  { name: "DoD", logo: "/images/logos/dod.svg", category: "Federal" },
+  { name: "DHS", logo: "/images/logos/dhs.svg", category: "Federal" },
+  { name: "HHS", logo: "/images/logos/hhs.svg", category: "Federal" },
+  { name: "DOE", logo: "/images/logos/doe.svg", category: "Federal" },
+  { name: "DOJ", logo: "/images/logos/doj.svg", category: "Federal" },
+  { name: "Army", logo: "/images/logos/army.svg", category: "Federal" },
+  { name: "Air Force", logo: "/images/logos/airforce.svg", category: "Federal" },
+  { name: "NASA", logo: "/images/logos/nasa.svg", category: "Federal" },
+  { name: "California", logo: "/images/logos/california.svg", category: "State" },
+  { name: "LA County", logo: "/images/logos/lacounty.svg", category: "Local" },
+  { name: "LA City", logo: "/images/logos/lacity.svg", category: "Local" },
+  { name: "San Francisco", logo: "/images/logos/sf.svg", category: "Local" },
+  { name: "Caltrans", logo: "/images/logos/caltrans.svg", category: "State" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote: "Stronger Built did an incredible job helping us secure the local county janitorial services contract for the sheriff's office. Their team guided us through the local business preference requirements, making our bid stand out. We couldn't have won this without their government contracting expertise.",
+    name: "Latecia Maia",
+    title: "Founder & CEO",
+    company: "Dozeles Professional Cleaning"
+  },
+  {
+    quote: "Winning the Caltrans maintenance project across the bay was a massive milestone for us. Stronger Built helped us leverage our SB and DVBE certifications to the fullest. Their meticulous bid preparation and compliance review ensured a flawless submission.",
+    name: "Marcos Pericilin",
+    title: "President",
+    company: "Pericilin Janitorial Services"
+  },
+  {
+    quote: "Thanks to Stronger Built, we successfully secured a major state-level Adobe licensing reseller contract. They mapped out every compliance matrix, managed our pricing sheet strategy, and handled the submission perfectly. Their Pay-When-You-Win model aligned perfectly with our growth goals.",
+    name: "Haresh Vataliya",
+    title: "President & CEO",
+    company: "vTech Solution"
+  }
+];
 
 export default function Home() {
   const [contractValue, setContractValue] = useState(1000000);
@@ -86,6 +125,14 @@ export default function Home() {
   const money = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
   const [hiwInView, setHiwInView] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const el = document.querySelector('.hiw');
@@ -686,6 +733,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Agencies Logos Section */}
+      <section className="py-16 bg-[#0B1526] dark:bg-[#070e1b] border-t border-b border-white/5 relative overflow-hidden">
+        {/* Subtle decorative elements matching premium dark theme */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute -top-12 left-1/4 w-96 h-24 bg-brand-blue-600/10 rounded-full blur-[80px] pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#7fa6ff] dark:text-brand-blue-400">
+            PROPOSALS PREPARED FOR OPPORTUNITIES AT THESE AGENCIES
+          </span>
+          
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-5 md:gap-7 max-w-5xl mx-auto">
+            {AGENCIES.map((agency) => (
+              <div 
+                key={agency.name}
+                className="group relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-navy-900/40 dark:bg-black/20 border border-white/10 dark:border-white/5 p-3.5 shadow-lg hover:border-[#7fa6ff]/40 hover:shadow-cyan-500/5 transition-all duration-300 hover:scale-105"
+                title={`${agency.name} (${agency.category})`}
+              >
+                {/* Outer Glow Ring on Hover */}
+                <div className="absolute inset-0 rounded-full bg-[#7fa6ff]/0 group-hover:bg-[#7fa6ff]/5 blur-md transition-all duration-300" />
+                
+                <div className="relative w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                  <Image
+                    src={agency.logo}
+                    alt={`${agency.name} Logo`}
+                    fill
+                    sizes="(max-width: 768px) 48px, 64px"
+                    className="object-contain filter group-hover:brightness-110 transition-all duration-300"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-relaxed">
+            <div>+ USMC · Navy · USSOCOM · FBI · DISA · NRO · Caltrans · LA County · SF City · and 30 more</div>
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className={cn("hiw", hiwInView && "in")} id="how-it-works">
         <div className="hiw-head">
@@ -964,12 +1051,71 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="max-w-3xl mx-auto bg-brand-blue-600/5 rounded-3xl p-8 border border-brand-blue-600/10 text-center">
-            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 font-medium italic mb-4">
-              "[Real client quote, with permission.]"
-            </p>
-            <div className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
-              [Name, Title, Company]
+          <div className="max-w-4xl mx-auto relative mt-16">
+            <div className="relative overflow-hidden bg-white dark:bg-brand-navy-900 border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 sm:p-12 shadow-xl">
+              {/* Giant quote mark background */}
+              <span className="absolute top-2 left-6 text-8xl font-serif text-brand-blue-500/10 pointer-events-none select-none">“</span>
+              
+              <div className="relative min-h-[180px] flex flex-col justify-center text-center px-4">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentTestimonial}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="space-y-6"
+                  >
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300 font-medium italic leading-relaxed">
+                      "{TESTIMONIALS[currentTestimonial].quote}"
+                    </p>
+                    
+                    <div>
+                      <div className="text-sm font-bold text-brand-navy-900 dark:text-white uppercase tracking-wider">
+                        {TESTIMONIALS[currentTestimonial].name}
+                      </div>
+                      <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+                        {TESTIMONIALS[currentTestimonial].title} &middot; <span className="text-brand-blue-600 dark:text-brand-blue-400">{TESTIMONIALS[currentTestimonial].company}</span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Slider Controls */}
+              <div className="flex items-center justify-center gap-4 mt-8 relative z-10">
+                <button
+                  onClick={() => setCurrentTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
+                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 hover:border-brand-blue-600 hover:text-brand-blue-600 transition-colors text-slate-500 dark:text-slate-400 cursor-pointer"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                
+                <div className="flex items-center gap-2">
+                  {TESTIMONIALS.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentTestimonial(idx)}
+                      className={cn(
+                        "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        currentTestimonial === idx 
+                          ? "bg-brand-blue-600 w-4" 
+                          : "bg-slate-300 dark:bg-white/10"
+                      )}
+                      aria-label={`Go to testimonial ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setCurrentTestimonial((prev) => (prev + 1) % TESTIMONIALS.length)}
+                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 dark:border-white/10 hover:border-brand-blue-600 hover:text-brand-blue-600 transition-colors text-slate-500 dark:text-slate-400 cursor-pointer"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
