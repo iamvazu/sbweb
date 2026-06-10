@@ -62,7 +62,8 @@ const STATIC_ROUTES = [
   "/insights",
   "/careers",
   "/faqs",
-  "/glossary"
+  "/glossary",
+  "/naics"
 ];
 
 const CITY_SLUGS = [
