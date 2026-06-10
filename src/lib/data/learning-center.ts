@@ -614,8 +614,388 @@ export const STATE_GUIDES: StateData[] = [
       { question: "Who oversees it?", answer: "The State Purchasing Division manages state-level purchasing contracts." },
       { question: "Top buyer?", answer: "The Nevada Department of Transportation (NDOT) is a major procurer of services." }
     ]
+  },
+  {
+    state: "Alaska",
+    slug: "alaska-rfp-guide",
+    seoTitle: "Alaska RFPs: How to Find & Win Alaska Government Bids",
+    metaDescription: "Find, register for, and win Alaska government RFPs. Portals, agencies, deadlines, and expert tips — free guide from Stronger Built.",
+    portal: "IRIS Vendor Self-Service (VSS) / Alaska Online Public Notice System",
+    registration: "IRIS VSS registration",
+    keyAgencies: "DOT&PF, DOA, DEC, DNR",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Alaska, register as a vendor on IRIS VSS, search active solicitations on the IRIS Vendor Self-Service and Online Public Notice System, and submit your proposal before the listed deadline. Most opportunities are posted by DOT&PF, DOA, DEC, DNR. Registration is Free.",
+    officialPortalUrl: "https://iris-vss.alaska.gov",
+    hook: "From remote infrastructure projects to statewide administrative support, Alaska's unique geography offers specialized opportunities for vendors.",
+    faqs: [
+      { question: "Where are Alaska RFPs posted?", answer: "Alaska state bids are posted on the IRIS Vendor Self-Service (VSS) and the Alaska Online Public Notice System." },
+      { question: "How do I register?", answer: "You can register as a supplier directly on the Alaska IRIS VSS portal." },
+      { question: "Who is the largest buying agency?", answer: "The Department of Transportation & Public Facilities (DOT&PF) is the largest procuring body for construction and engineering." },
+      { question: "Is registration free?", answer: "Yes, supplier registration on the Alaska IRIS VSS is free of charge." }
+    ]
+  },
+  {
+    state: "Arkansas",
+    slug: "arkansas-rfp-guide",
+    seoTitle: "Arkansas RFPs: How to Find & Win Arkansas Government Bids",
+    metaDescription: "A free guide to winning Arkansas government RFPs — ARBuy registration, key agencies, and how to submit a winning bid.",
+    portal: "TSS Office of State Procurement / ARBuy",
+    registration: "ARBuy Vendor Registration",
+    keyAgencies: "ARDOT, DHS, ADC, TSS",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Arkansas, register as a vendor on ARBuy, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by ARDOT, DHS, ADC, TSS. Registration is Free.",
+    officialPortalUrl: "https://arbuy.arkansas.gov",
+    hook: "Arkansas centralizes its procurement through the ARBuy portal, creating a structured path for businesses to supply state agencies.",
+    faqs: [
+      { question: "Where are Arkansas bids posted?", answer: "Arkansas bids are posted on the ARBuy portal managed by the Office of State Procurement." },
+      { question: "How do I register?", answer: "Register online via the ARBuy Vendor Portal to respond to state bids." },
+      { question: "Is there a fee to bid?", answer: "No, registering and bidding through ARBuy is completely free." },
+      { question: "Who are the top buyers?", answer: "The Arkansas Department of Transportation (ARDOT) and Department of Human Services (DHS) are the state's largest spenders." }
+    ]
+  },
+  {
+    state: "Delaware",
+    slug: "delaware-rfp-guide",
+    seoTitle: "Delaware RFPs: How to Find & Win Delaware Government Bids",
+    metaDescription: "Win Delaware State RFPs — the Delaware Contracting Portal, eSupplier registration, key agencies, and bidding tips. Free guide.",
+    portal: "Delaware Contracting Portal",
+    registration: "Delaware eSupplier Portal",
+    keyAgencies: "DelDOT, OMB, DHSS, DTI",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Delaware, register as a vendor on Delaware eSupplier Portal, search active solicitations on the Delaware Contracting Portal, and submit your proposal before the listed deadline. Most opportunities are posted by DelDOT, OMB, DHSS, DTI. Registration is Free.",
+    officialPortalUrl: "https://mmp.delaware.gov",
+    hook: "Known for its business-friendly laws, the First State offers clear and accessible pathways for state-level contracting.",
+    faqs: [
+      { question: "Where are Delaware RFPs posted?", answer: "Delaware government bids are advertised on the Delaware Contracting Portal (My Marketplace Delaware)." },
+      { question: "How do I register?", answer: "Register as a supplier online through the Delaware eSupplier Portal." },
+      { question: "Is registration free?", answer: "Yes, creating a supplier profile in Delaware is free." },
+      { question: "Who handles technology bids?", answer: "The Department of Technology and Information (DTI) manages major state IT procurements." }
+    ]
+  },
+  {
+    state: "Hawaii",
+    slug: "hawaii-rfp-guide",
+    seoTitle: "Hawaii RFPs: How to Find & Win Hawaii Government Bids",
+    metaDescription: "A free guide to Hawaii government RFPs — HIePRO, HANDS registration, key agencies, and how to bid.",
+    portal: "Hawaii State eProcurement System (HIePRO) + HANDS",
+    registration: "HIePRO Vendor Registration",
+    keyAgencies: "DOT, DOE, DOH, DAGS",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Hawaii, register as a vendor on HIePRO, search active solicitations on HIePRO and HANDS, and submit your proposal before the listed deadline. Most opportunities are posted by DOT, DOE, DOH, DAGS. Registration is Free.",
+    officialPortalUrl: "https://hiepro.ehawaii.gov",
+    hook: "Hawaii's island economy relies heavily on external contractors for construction, shipping, technology, and environmental consulting.",
+    faqs: [
+      { question: "Where are Hawaii bids posted?", answer: "Hawaii state opportunities are listed on the Hawaii Awards & Database System (HANDS) and HIePRO." },
+      { question: "How do I register?", answer: "You must register for free online through the HIePRO vendor portal." },
+      { question: "Are there fees?", answer: "Registration is free, but some minor transaction fees may apply for payment processing in certain Hawaii state programs." },
+      { question: "What are the major agencies?", answer: "The Department of Transportation (DOT) and the Department of Education (DOE) represent the largest contracting budgets." }
+    ]
+  },
+  {
+    state: "Idaho",
+    slug: "idaho-rfp-guide",
+    seoTitle: "Idaho RFPs: How to Find & Win Idaho Government Bids",
+    metaDescription: "Win Idaho government RFPs — the IPRO portal, supplier registration, key agencies, and expert bidding tips. Free guide.",
+    portal: "IPRO (Idaho eProcurement)",
+    registration: "IPRO Vendor Registration",
+    keyAgencies: "ITD, IDHW, IDOC, Admin",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Idaho, register as a vendor on IPRO, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by ITD, IDHW, IDOC, Admin. Registration is Free.",
+    officialPortalUrl: "https://ipro.idaho.gov",
+    hook: "Idaho is one of the fastest-growing states, offering expanding public opportunities in transportation, construction, and IT.",
+    faqs: [
+      { question: "Where are Idaho bids posted?", answer: "Idaho bids are hosted on the IPRO (Idaho eProcurement) portal." },
+      { question: "How do I register?", answer: "Register online via the IPRO vendor page to receive notifications." },
+      { question: "Is there a fee?", answer: "Registration and bidding in Idaho are free for all vendors." },
+      { question: "Who buys the most?", answer: "The Idaho Transportation Department (ITD) and Department of Health and Welfare (IDHW) are major buyers." }
+    ]
+  },
+  {
+    state: "Iowa",
+    slug: "iowa-rfp-guide",
+    seoTitle: "Iowa RFPs: How to Find & Win Iowa Government Bids",
+    metaDescription: "Find, register for, and win Iowa government RFPs. VSS portal, key agencies, and bidding strategies. Free guide.",
+    portal: "Iowa Vendor Self Service (VSS)",
+    registration: "Iowa VSS registration",
+    keyAgencies: "Iowa DOT, DAS, DHS, DNR",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Iowa, register as a vendor on Iowa VSS, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by Iowa DOT, DAS, DHS, DNR. Registration is Free.",
+    officialPortalUrl: "https://vss.iowa.gov",
+    hook: "Iowa's Department of Administrative Services coordinates procurement across all state entities, prioritizing transparency.",
+    faqs: [
+      { question: "Where are Iowa RFPs posted?", answer: "Iowa bids are posted on the Iowa Vendor Self Service (VSS) portal." },
+      { question: "How do I register?", answer: "Register online through the Iowa VSS portal." },
+      { question: "Is registration free?", answer: "Yes, registering as a vendor in Iowa is completely free." },
+      { question: "Who handles highway bids?", answer: "The Iowa Department of Transportation (Iowa DOT) manages road and highway construction bids." }
+    ]
+  },
+  {
+    state: "Kansas",
+    slug: "kansas-rfp-guide",
+    seoTitle: "Kansas RFPs: How to Find & Win Kansas Government Bids",
+    metaDescription: "Win Kansas government RFPs — vendor registration, the SMART portal, agencies, and expert bidding tips. Free guide.",
+    portal: "Kansas Procurement Portal",
+    registration: "Kansas Vendor Registration (via SMART System)",
+    keyAgencies: "KDOT, KDADS, KDOC, Admin",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Kansas, register as a vendor on the SMART System, search active solicitations on the Kansas Procurement Portal, and submit your proposal before the listed deadline. Most opportunities are posted by KDOT, KDADS, KDOC, Admin. Registration is Free.",
+    officialPortalUrl: "https://admin.ks.gov/offices/procurement-contracts",
+    hook: "The Sunflower State procures hundreds of millions in services annually, from agriculture-related contracts to highway maintenance.",
+    faqs: [
+      { question: "Where are Kansas bids posted?", answer: "Kansas bids are published on the Department of Administration Procurement Contracts page." },
+      { question: "How do I register?", answer: "Register online via the Kansas SMART Vendor Portal." },
+      { question: "Is there a fee?", answer: "Registration is free, though bid bonds may be required for specific construction contracts." },
+      { question: "Top buying agencies?", answer: "The Kansas Department of Transportation (KDOT) accounts for the largest share of public spend." }
+    ]
+  },
+  {
+    state: "Maine",
+    slug: "maine-rfp-guide",
+    seoTitle: "Maine RFPs: How to Find & Win Maine Government Bids",
+    metaDescription: "A free guide to Maine government RFPs — Maine Vendor Self Service, registration, agencies, and winning tips.",
+    portal: "Maine Division of Procurement Services",
+    registration: "Maine Vendor Self Service (VSS)",
+    keyAgencies: "MaineDOT, DAFS, DHHS, DACF",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Maine, register as a vendor on Maine VSS, search active solicitations on the Maine Division of Procurement Services portal, and submit your proposal before the listed deadline. Most opportunities are posted by MaineDOT, DAFS, DHHS, DACF. Registration is Free.",
+    officialPortalUrl: "https://mevss.maine.gov",
+    hook: "Maine offers a centralized bidding process for local and national suppliers looking to support New England public services.",
+    faqs: [
+      { question: "Where are Maine bids posted?", answer: "Maine state bids are posted on the Division of Procurement Services website." },
+      { question: "How do I register?", answer: "Register as a supplier online through the Maine Vendor Self Service (VSS) portal." },
+      { question: "Is there any fee?", answer: "No, registering and searching for bids in Maine is free." },
+      { question: "Who buys the most in Maine?", answer: "The Maine Department of Transportation (MaineDOT) is the state's largest purchasing agency." }
+    ]
+  },
+  {
+    state: "Mississippi",
+    slug: "mississippi-rfp-guide",
+    seoTitle: "Mississippi RFPs: How to Find & Win Mississippi Government Bids",
+    metaDescription: "Win Mississippi government RFPs — MAGIC registration, the procurement portal, agencies, and expert tips. Free guide.",
+    portal: "Mississippi Web Portal (MPTSR)",
+    registration: "Mississippi Vendor VSS Portal (MAGIC)",
+    keyAgencies: "MDOT, DFA, MDHS, MDEQ",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Mississippi, register as a vendor on the Mississippi Vendor VSS Portal, search active solicitations on the Mississippi Web Portal, and submit your proposal before the listed deadline. Most opportunities are posted by MDOT, DFA, MDHS, MDEQ. Registration is Free.",
+    officialPortalUrl: "https://www.dfa.ms.gov",
+    hook: "Mississippi's centralized Magic system allows suppliers to register once and access bids across all major state agencies.",
+    faqs: [
+      { question: "Where are Mississippi RFPs posted?", answer: "Mississippi bids are posted on the Mississippi Procurement Technical Assistance Program and MAGIC portals." },
+      { question: "How do I register?", answer: "Register online via the Mississippi MAGIC Vendor Self Service (VSS) portal." },
+      { question: "Is registration free?", answer: "Yes, registering as a vendor in Mississippi is free." },
+      { question: "Who oversees procurement?", answer: "The Department of Finance and Administration (DFA) manages state procurement policies." }
+    ]
+  },
+  {
+    state: "Montana",
+    slug: "montana-rfp-guide",
+    seoTitle: "Montana RFPs: How to Find & Win Montana Government Bids",
+    metaDescription: "Win Montana government RFPs — the eMACS portal, registration, agencies, and expert bidding tips. Free guide.",
+    portal: "eMACS (Montana Acquisition & Contracting System)",
+    registration: "eMACS Vendor Registration",
+    keyAgencies: "MDT, DPHHS, DOC, DEQ",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Montana, register as a vendor on eMACS, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by MDT, DPHHS, DOC, DEQ. Registration is Free.",
+    officialPortalUrl: "https://spb.mt.gov",
+    hook: "Montana's vast landscape creates continuous demand for infrastructure, forestry, and environmental engineering contractors.",
+    faqs: [
+      { question: "Where are Montana bids posted?", answer: "Montana state bids are posted on the eMACS procurement portal." },
+      { question: "How do I register?", answer: "Register for free as a vendor directly on the eMACS vendor registration page." },
+      { question: "Is there a fee?", answer: "Bidding and registering in Montana is free of charge." },
+      { question: "Who are the leading buyers?", answer: "The Montana Department of Transportation (MDT) is the leading contracting entity." }
+    ]
+  },
+  {
+    state: "Nebraska",
+    slug: "nebraska-rfp-guide",
+    seoTitle: "Nebraska RFPs: How to Find & Win Nebraska Government Bids",
+    metaDescription: "A free guide to Nebraska government RFPs — DAS Materiel division, registration, agencies, and winning tips.",
+    portal: "Nebraska DAS Materiel Division",
+    registration: "Nebraska DAS Vendor Portal (ASAP)",
+    keyAgencies: "NDOT, DHHS, DCS, DAS",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Nebraska, register as a vendor on the Nebraska DAS Vendor Portal, search active solicitations on the DAS Materiel Division website, and submit your proposal before the listed deadline. Most opportunities are posted by NDOT, DHHS, DCS, DAS. Registration is Free.",
+    officialPortalUrl: "https://das.nebraska.gov/materiel/purchasing.html",
+    hook: "Nebraska offers structured contracting pathways, prioritizing small businesses and regional providers for state-level bids.",
+    faqs: [
+      { question: "Where are Nebraska bids posted?", answer: "Nebraska bids are posted on the Department of Administrative Services (DAS) Materiel Division website." },
+      { question: "How do I register?", answer: "Register online via the Nebraska State Purchasing Vendor registration portal." },
+      { question: "Is registration free?", answer: "Yes, registering as a vendor in Nebraska is free." },
+      { question: "Who is the largest buyer?", answer: "The Nebraska Department of Transportation (NDOT) is the state's largest contracting agency." }
+    ]
+  },
+  {
+    state: "New Hampshire",
+    slug: "new-hampshire-rfp-guide",
+    seoTitle: "New Hampshire RFPs: How to Find & Win NH Government Bids",
+    metaDescription: "Win New Hampshire government RFPs — Bureau of Purchase and Property, registration, agencies, and tips. Free guide.",
+    portal: "NH Bureau of Purchase and Property",
+    registration: "NH Vendor Registration Portal",
+    keyAgencies: "NHDOT, DAS, DHHS, DNCR",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in New Hampshire, register as a vendor on the NH Vendor Registration Portal, search active solicitations on the Bureau of Purchase and Property website, and submit your proposal before the listed deadline. Most opportunities are posted by NHDOT, DAS, DHHS, DNCR. Registration is Free.",
+    officialPortalUrl: "https://das.nh.gov/purchasing/",
+    hook: "The Granite State focuses on efficient, cost-effective purchasing, offering streamlined registration for suppliers.",
+    faqs: [
+      { question: "Where are NH bids posted?", answer: "New Hampshire bids are advertised on the Bureau of Purchase and Property portal." },
+      { question: "How do I register?", answer: "Register online through the NH Bureau of Purchase and Property vendor registration link." },
+      { question: "Is there a fee?", answer: "Bidding and registering in New Hampshire are completely free." },
+      { question: "Who buys the most?", answer: "The New Hampshire Department of Transportation (NHDOT) is the state's largest contracting agency." }
+    ]
+  },
+  {
+    state: "New Mexico",
+    slug: "new-mexico-rfp-guide",
+    seoTitle: "New Mexico RFPs: How to Find & Win NM Government Bids",
+    metaDescription: "Win New Mexico government RFPs — State Purchasing division, registration, agencies, and expert tips. Free guide.",
+    portal: "NM State Purchasing Division Portal",
+    registration: "NM State Purchasing Vendor Registration",
+    keyAgencies: "NMDOT, GSD, HSD, DOH",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in New Mexico, register as a vendor on NM State Purchasing Vendor Registration, search active solicitations on the State Purchasing Division Portal, and submit your proposal before the listed deadline. Most opportunities are posted by NMDOT, GSD, HSD, DOH. Registration is Free.",
+    officialPortalUrl: "https://www.generalservices.state.nm.us/statepurchasing/",
+    hook: "New Mexico's rich cultural and environmental landscape drives opportunities in construction, tourism, and healthcare.",
+    faqs: [
+      { question: "Where are New Mexico RFPs posted?", answer: "New Mexico RFPs are published on the General Services Department (GSD) State Purchasing portal." },
+      { question: "How do I register?", answer: "Register as a supplier online through the NM State Purchasing Vendor portal." },
+      { question: "Is registration free?", answer: "Yes, registering to bid in New Mexico is free." },
+      { question: "Who oversees state purchases?", answer: "The General Services Department (GSD) manages centralized procurement." }
+    ]
+  },
+  {
+    state: "North Dakota",
+    slug: "north-dakota-rfp-guide",
+    seoTitle: "North Dakota RFPs: How to Find & Win ND Government Bids",
+    metaDescription: "A free guide to North Dakota government RFPs — SPO Online registration, key agencies, and bidding tips.",
+    portal: "ND State Procurement Portal (SPO Online)",
+    registration: "ND SPO Vendor Registration",
+    keyAgencies: "NDDOT, OMB, DHS, DPI",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in North Dakota, register as a vendor on ND SPO Vendor Registration, search active solicitations on SPO Online, and submit your proposal before the listed deadline. Most opportunities are posted by NDDOT, OMB, DHS, DPI. Registration is Free.",
+    officialPortalUrl: "https://www.nd.gov/omb/vendor",
+    hook: "Driven by energy, agriculture, and infrastructure, North Dakota has a robust public sector market for active bidders.",
+    faqs: [
+      { question: "Where are ND bids posted?", answer: "North Dakota bids are listed on the State Procurement Online (SPO) system." },
+      { question: "How do I register?", answer: "Register for free as a supplier on the ND OMB Vendor Registry." },
+      { question: "Is there any fee?", answer: "Bidding and registration in North Dakota are free of charge." },
+      { question: "Major agencies?", answer: "The Department of Transportation (NDDOT) is the leading contracting agency." }
+    ]
+  },
+  {
+    state: "Rhode Island",
+    slug: "rhode-island-rfp-guide",
+    seoTitle: "Rhode Island RFPs: How to Find & Win RI Government Bids",
+    metaDescription: "Win Rhode Island government RFPs — Ocean State Procures (OSP), registration, agencies, and expert tips. Free guide.",
+    portal: "Ocean State Procures (OSP)",
+    registration: "Ocean State Procures Vendor Registration",
+    keyAgencies: "RIDOT, DOA, RIDOH, DEM",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Rhode Island, register as a vendor on Ocean State Procures, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by RIDOT, DOA, RIDOH, DEM. Registration is Free.",
+    officialPortalUrl: "https://ridop.ri.gov",
+    hook: "The smallest state in the nation has a highly centralized procurement process, making it easy for vendors to navigate and bid.",
+    faqs: [
+      { question: "Where are RI bids posted?", answer: "Rhode Island bids are advertised on the Ocean State Procures (OSP) portal." },
+      { question: "How do I register?", answer: "Register online as a vendor through the Ocean State Procures portal." },
+      { question: "Is registration free?", answer: "Yes, creating a vendor account on OSP is free." },
+      { question: "Who oversees it?", answer: "The Division of Purchases under the Department of Administration (DOA)." }
+    ]
+  },
+  {
+    state: "South Dakota",
+    slug: "south-dakota-rfp-guide",
+    seoTitle: "South Dakota RFPs: How to Find & Win SD Government Bids",
+    metaDescription: "Win South Dakota government RFPs — Bureau of Administration, registration, agencies, and bidding tips. Free guide.",
+    portal: "SD Bureau of Administration Portal",
+    registration: "SD Vendor Registration",
+    keyAgencies: "SDDOT, BOA, DHS, DSS",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in South Dakota, register as a vendor on SD Vendor Registration, search active solicitations on the Bureau of Administration Portal, and submit your proposal before the listed deadline. Most opportunities are posted by SDDOT, BOA, DHS, DSS. Registration is Free.",
+    officialPortalUrl: "https://boa.sd.gov/state-purchasing/",
+    hook: "South Dakota offers a straightforward bidding system with minimal bureaucratic hurdles for qualified contractors.",
+    faqs: [
+      { question: "Where are SD bids posted?", answer: "South Dakota state bids are listed on the Bureau of Administration (BOA) State Purchasing site." },
+      { question: "How do I register?", answer: "Register online via the SD Bureau of Administration vendor page." },
+      { question: "Is there a fee?", answer: "Registration and bidding in South Dakota are free." },
+      { question: "Top contracting agency?", answer: "The South Dakota Department of Transportation (SDDOT) has the largest budget for public contracts." }
+    ]
+  },
+  {
+    state: "Utah",
+    slug: "utah-rfp-guide",
+    seoTitle: "Utah RFPs: How to Find & Win Utah Government Bids",
+    metaDescription: "A free guide to Utah government RFPs — the U3P portal, supplier registration, key agencies, and winning tips.",
+    portal: "Utah Public Procurement Place (U3P)",
+    registration: "U3P Vendor Registration",
+    keyAgencies: "UDOT, Division of Purchasing, UDOH",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Utah, register as a vendor on U3P, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by UDOT, Division of Purchasing, UDOH. Registration is Free.",
+    officialPortalUrl: "https://purchasing.utah.gov",
+    hook: "Utah's rapid economic growth and advanced tech sector translate to massive public investments in infrastructure and IT services.",
+    faqs: [
+      { question: "Where are Utah bids posted?", answer: "Utah state and local bids are hosted on the Utah Public Procurement Place (U3P)." },
+      { question: "How do I register?", answer: "Register online for free in the U3P database." },
+      { question: "Is registration free?", answer: "Yes, vendor registration is free, though some specific contract management platforms may apply vendor fees." },
+      { question: "Top buyers?", answer: "The Utah Department of Transportation (UDOT) is a leading purchaser of construction and engineering." }
+    ]
+  },
+  {
+    state: "Vermont",
+    slug: "vermont-rfp-guide",
+    seoTitle: "Vermont RFPs: How to Find & Win Vermont Government Bids",
+    metaDescription: "Win Vermont government RFPs — Department of Buildings and General Services, registration, agencies, and tips. Free guide.",
+    portal: "Vermont BGS Procurement Portal",
+    registration: "Vermont Vendor Portal",
+    keyAgencies: "VTrans, BGS, AHS, ANR",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Vermont, register as a vendor on the Vermont Vendor Portal, search active solicitations on the BGS Procurement Portal, and submit your proposal before the listed deadline. Most opportunities are posted by VTrans, BGS, AHS, ANR. Registration is Free.",
+    officialPortalUrl: "https://bgs.vermont.gov/purchasing",
+    hook: "Vermont emphasizes sustainability and green solutions in its purchasing guidelines, attracting forward-thinking contractors.",
+    faqs: [
+      { question: "Where are VT bids posted?", answer: "Vermont bids are listed on the Department of Buildings and General Services (BGS) Office of Purchasing & Contracting." },
+      { question: "How do I register?", answer: "Register online via the Vermont Bidder registration portal." },
+      { question: "Is there a fee?", answer: "Bidding and registering in Vermont are completely free." },
+      { question: "Who buys the most?", answer: "The Vermont Agency of Transportation (VTrans) awards the most infrastructure contracts." }
+    ]
+  },
+  {
+    state: "West Virginia",
+    slug: "west-virginia-rfp-guide",
+    seoTitle: "West Virginia RFPs: How to Find & Win West Virginia Government Bids",
+    metaDescription: "Win West Virginia government RFPs — wvOASIS registration, the procurement portal, agencies, and expert tips. Free guide.",
+    portal: "wvOASIS Vendor Self Service",
+    registration: "wvOASIS registration",
+    keyAgencies: "WVDOH, Department of Administration, DHHR",
+    fee: "Free to register, but has an annual fee for certain statewide contracts",
+    quickAnswer: "To bid on government contracts in West Virginia, register as a vendor on wvOASIS, search active solicitations there, and submit your proposal before the listed deadline. Most opportunities are posted by WVDOH, Department of Administration, DHHR. Registration is Free to register, but has an annual fee for certain statewide contracts.",
+    officialPortalUrl: "https://www.wvoasis.gov",
+    hook: "West Virginia centralizes all financial and procurement actions within the wvOASIS portal, ensuring clear tracking of active bids.",
+    faqs: [
+      { question: "Where are WV bids posted?", answer: "West Virginia state opportunities are posted on the wvOASIS Vendor Self Service portal." },
+      { question: "How do I register?", answer: "Register online via the wvOASIS registration portal." },
+      { question: "Is there an annual fee?", answer: "Registration is free, but vendors who receive statewide contracts or want active status may be charged a $125 annual fee." },
+      { question: "Top buyers?", answer: "The West Virginia Division of Highways (WVDOH) represents the largest procurement spend." }
+    ]
+  },
+  {
+    state: "Wyoming",
+    slug: "wyoming-rfp-guide",
+    seoTitle: "Wyoming RFPs: How to Find & Win Wyoming Government Bids",
+    metaDescription: "A free guide to Wyoming government RFPs — A&I Division, registration, agencies, and winning tips.",
+    portal: "Wyoming A&I Division Portal",
+    registration: "Wyoming Vendor Portal (via Public Purchase)",
+    keyAgencies: "WYDOT, A&I, WDH, WDE",
+    fee: "Free",
+    quickAnswer: "To bid on government contracts in Wyoming, register as a vendor on the Wyoming Vendor Portal, search active solicitations on the A&I Division Portal, and submit your proposal before the listed deadline. Most opportunities are posted by WYDOT, A&I, WDH, WDE. Registration is Free.",
+    officialPortalUrl: "https://ai.wyo.gov/divisions/general-services/procurement",
+    hook: "Wyoming's mineral-rich and natural resources-focused economy generates unique bids in environmental safety, land management, and logistics.",
+    faqs: [
+      { question: "Where are WY bids posted?", answer: "Wyoming state bids are posted on the Administration & Information (A&I) Procurement site and Public Purchase." },
+      { question: "How do I register?", answer: "Register online via the Wyoming Vendor Portal through the Public Purchase service." },
+      { question: "Is registration free?", answer: "Yes, registering via Public Purchase for Wyoming bids is free." },
+      { question: "Top contracting agency?", answer: "The Wyoming Department of Transportation (WYDOT) represents the state's largest contract budget." }
+    ]
   }
-];
+]
 
 export const STANDARD_ARTICLES: Article[] = [
   {
@@ -782,6 +1162,50 @@ export const STANDARD_ARTICLES: Article[] = [
       
       <h2>Evaluating the ROI</h2>
       <p>Many traditional proposal firms charge $5,000 to $10,000 upfront per bid. For small businesses, this presents a significant financial risk. Stronger Built addresses this by offering a hybrid model: a low entry cost (e.g. $450) and a success-based fee when you win. This aligns incentives and makes professional bid writing accessible to companies looking to enter the government market.</p>
+    `
+  },
+  {
+    slug: "best-sam-gov-alternatives-2026",
+    title: "The Best SAM.gov Alternatives in 2026: An Honest Guide for Small Businesses",
+    metaTitle: "Best SAM.gov Alternatives in 2026: Compare Free & Paid Procurement Sites",
+    metaDescription: "Looking for the best SAM.gov alternatives? Compare top bidding platforms like ContractRadar, HigherGov, GovTribe, and learn why Stronger Built is the ultimate winning choice.",
+    category: "getting-started",
+    quickAnswer: "While search platforms like ContractRadar, HigherGov, and GovTribe make finding federal bids easier, they only solve half the problem. Stronger Built offers the ultimate SAM.gov alternative by combining AI-powered bid matching with a Pay-When-You-Win proposal writing model—taking you from search to submission under a shared-risk partnership.",
+    readTime: "6 min read",
+    datePublished: "2026-06-08",
+    dateModified: "2026-06-09",
+    content: `
+      <h2>Why Look for a SAM.gov Alternative?</h2>
+      <p>SAM.gov (System for Award Management) is the official U.S. government portal where all federal contracts over $25,000 are posted. While it is free and contains every single opportunity, it is notoriously hard to use. The search interface is clunky, search results are often irrelevant, and you cannot save automated searches without an account that frequently experiences login errors.</p>
+      <p>For a small business trying to secure a piece of the federal market, navigating SAM.gov can be a full-time chore. Fortunately, several platforms have emerged that aggregate SAM.gov data, clean it up, and offer modern search tools. But how do they compare, and what is the best strategy for your business?</p>
+      
+      <h2>At-a-Glance: The Top SAM.gov Search Alternatives</h2>
+      <p>Here is a breakdown of the leading search and aggregation sites in 2026:</p>
+      <ul>
+        <li><strong>ContractRadar:</strong> A clean, budget-friendly search tool with basic email alerts. Best for solo contractors looking for a simple interface.</li>
+        <li><strong>HigherGov:</strong> High-end data analytics and market intelligence. Exceptional for looking up competitor win history, but can be expensive and complex.</li>
+        <li><strong>GovTribe:</strong> Great team-collaboration features and pipeline tracking. Highly popular for mid-market business development teams.</li>
+        <li><strong>Deltek GovWin IQ:</strong> The absolute titan of enterprise contract intelligence, tracking bids years before they are released. However, its pricing is out of reach for small businesses (frequently costing $10,000+ per year).</li>
+      </ul>
+
+      <h2>The Big Catch: Why Search Tools Only Solve Half Your Problem</h2>
+      <p>Every single one of the search alternatives listed above works on the same basic model: <strong>they charge you a monthly subscription to find opportunities, and then they leave you to write the proposals on your own.</strong></p>
+      <p>Finding a government contract takes 5 minutes. Writing a compliant, professional, winning proposal takes 40+ hours of painstaking work. For a small business, hiring an in-house proposal writer is too expensive, and traditional consulting firms charge $5,000 to $10,000 upfront per bid with no guarantee of success. If you subscribe to a search platform and fail to submit compliant proposals, your subscription fee is wasted money.</p>
+
+      <h2>The Stronger Built Difference: Pay-When-You-Win Bid Execution</h2>
+      <p>At Stronger Built, we believe small businesses shouldn't carry all the risk. We don't just give you a search engine and wish you luck. Instead, we combine advanced AI-powered bid matching with a professional proposal writing service under a <strong>shared-risk, success-aligned model</strong>:</p>
+      <ul>
+        <li><strong>Zero Risk Search:</strong> We help you find the absolute best-fit opportunities for your company.</li>
+        <li><strong>Professional Proposal Writing:</strong> Our experienced team of government writers handles the entire RFP response, from technical design to compliance matrices.</li>
+        <li><strong>Pay-When-You-Win:</strong> Instead of charging thousands of dollars upfront, we charge a small commitment fee (e.g. $450) and take a success fee only when the contract is awarded.</li>
+      </ul>
+      <p>By aligning our incentives with your success, we act as your outsourced proposal department, converting the bids you find into actual, revenue-generating contract wins.</p>
+
+      <h2>Do You Still Need a SAM.gov Registration?</h2>
+      <p>Yes. Even if you use an alternative search tool or partner with Stronger Built, your business must be registered on SAM.gov to receive payments from federal contracts. Registration is completely free on the official government website. Avoid any third-party service that charges you to register your company on SAM.gov—these are scams.</p>
+
+      <h2>Conclusion: How to Choose</h2>
+      <p>If you have an in-house proposal team and just need a search feed, a budget-friendly platform like ContractRadar or a detailed search engine like GovTribe is a solid choice. However, if you are a small business looking to win government contracts without draining your cash flow or distracting your core staff, a partner like Stronger Built is the ultimate solution. We don't just help you watch the radar—we help you secure the win.</p>
     `
   }
 ];
