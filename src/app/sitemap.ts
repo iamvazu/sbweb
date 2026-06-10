@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { COUNTIES } from '@/lib/data/counties';
 import { CATEGORIES, ALL_ARTICLES } from '@/lib/data/learning-center';
 import { bidSlug } from '@/lib/bids';
+import { GLOSSARY_TERMS } from '@/lib/data/glossary';
 
 const BASE_URL = 'https://www.strongerbuilt.us';
 const CHUNK_SIZE = 5000;
@@ -60,7 +61,8 @@ const STATIC_ROUTES = [
   "/service-areas",
   "/insights",
   "/careers",
-  "/faqs"
+  "/faqs",
+  "/glossary"
 ];
 
 const CITY_SLUGS = [
@@ -179,6 +181,14 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
       priority: 0.8,
     }));
 
+    // Glossary Terms
+    const glossaryTermEntries = GLOSSARY_TERMS.map(term => ({
+      url: `${BASE_URL}/glossary/${term.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }));
+
     return [
       ...staticEntries,
       ...serviceEntries,
@@ -188,6 +198,7 @@ export default async function sitemap({ id }: { id: any }): Promise<MetadataRout
       learningCenterIndexEntry,
       ...learningCenterCategoryEntries,
       ...learningCenterArticleEntries,
+      ...glossaryTermEntries,
     ];
   }
 

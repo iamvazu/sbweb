@@ -108,6 +108,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/glossary" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
+                  GovCon Glossary
+                </Link>
+              </li>
+              <li>
                 <Link href="/careers" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
                   Careers
                 </Link>
