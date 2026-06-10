@@ -17,13 +17,13 @@ const SUGGESTIONS = [
   "How do I download your capabilities statement?"
 ];
 
-export default function GeminiChatbot() {
+export default function BidIQChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "model",
-      content: "Hi! I'm Gemini, your AI Assistant. Ask me anything about government contracts, open bids in your industry, or if you want us to manage your entire bid pipeline!"
+      content: "Hi! I'm BidIQ, your AI Assistant. Ask me anything about government contracts, open bids in your industry, or if you want us to manage your entire bid pipeline!"
     }
   ]);
   const [input, setInput] = useState("");
@@ -94,7 +94,7 @@ export default function GeminiChatbot() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/chat/gemini", {
+      const response = await fetch("/api/chat/bidiq", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: newMessages })
@@ -145,7 +145,7 @@ export default function GeminiChatbot() {
                   fill="currentColor"
                 />
               </svg>
-              <span>Ask Gemini</span>
+              <span>BidIQ by STRONGERbuilt</span>
             </button>
 
             <button
@@ -187,8 +187,8 @@ export default function GeminiChatbot() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-xs uppercase tracking-widest text-slate-100">Ask Gemini</h3>
-                  <p className="text-[9px] font-semibold text-slate-400 mt-0.5 uppercase tracking-wide">StrongerBuilt Assistant</p>
+                  <h3 className="font-extrabold text-xs uppercase tracking-widest text-slate-100">BidIQ</h3>
+                  <p className="text-[9px] font-semibold text-slate-400 mt-0.5 uppercase tracking-wide">BY STRONGERbuilt</p>
                 </div>
               </div>
 
