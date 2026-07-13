@@ -40,7 +40,7 @@ export function Navbar() {
   const navLinks = [
     { name: "How It Works", href: "/#how-it-works" },
     { name: "Services", href: "/services" },
-    { name: "Pricing", href: "/#pricing" },
+    { name: "Pricing", href: "/pricing" },
     { name: "Learning Center", href: "/learning-center" },
   ];
 

@@ -275,7 +275,7 @@ export default function LearningCenterPage() {
                 Start My Bid — $450 Upfront
               </Link>
               <Link
-                href="/#pricing"
+                href="/pricing"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-full border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white text-sm font-bold transition-all text-center hover:bg-white/5"
               >
                 View Pricing Estimator

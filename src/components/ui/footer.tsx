@@ -123,7 +123,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/faqs" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
+                <Link href="/faq" className="hover:text-brand-blue-400 transition-colors flex items-center gap-1.5 hover:translate-x-0.5 transform duration-200">
                   FAQs
                 </Link>
               </li>

@@ -296,6 +296,9 @@ export default function Home() {
                   <span>Book a Free Consultation</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                <Link href="/pricing" className="group inline-flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 bg-transparent px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1 hover:bg-slate-50 dark:hover:bg-slate-800">
+                  <span>View Pricing</span>
+                </Link>
                 <Link href="/open-bids" className="group inline-flex items-center justify-center gap-3 btn-ghost-custom border px-8 py-3.5 rounded-full font-bold text-sm transition-all hover:-translate-y-1">
                   <Search className="w-5 h-5 text-brand-blue-600 dark:text-brand-blue-400" />
                   <span>Search Open Bids — Free</span>

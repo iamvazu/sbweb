@@ -19,12 +19,8 @@ import {
 import { use } from "react";
 import { INDUSTRIES_DATA } from "@/lib/data/industries";
 import { JsonLd } from "@/components/seo/json-ld";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { FAQAccordion } from "@/components/FAQAccordion";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ServiceDetail({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
@@ -75,9 +71,12 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
         </div>
 
         <div className="max-w-4xl mx-auto relative z-10 text-center space-y-6">
-          <Link href="/services" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-blue-600 transition-colors font-black tracking-widest uppercase text-[10px]">
-            <ArrowLeft className="w-4 h-4" /> Back to Services
-          </Link>
+          <div className="max-w-4xl mx-auto flex justify-center pb-4">
+            <Breadcrumbs items={[
+              { label: "Services", href: "/services" },
+              { label: data.title, href: `/services/${resolvedParams.slug}` }
+            ]} />
+          </div>
           
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
@@ -166,18 +165,7 @@ export default function ServiceDetail({ params }: { params: Promise<{ slug: stri
             <h3 className="text-2xl font-serif text-brand-navy-900 dark:text-white italic">Frequently Asked Questions</h3>
           </div>
           
-          <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto">
-            {data.faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`faq-${index}`} className="border-slate-100 dark:border-white/10">
-                <AccordionTrigger className="text-sm font-bold text-brand-navy-900 dark:text-white hover:text-brand-blue-600 text-left">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <FAQAccordion faqs={data.faqs} />
         </div>
 
         {/* CTA Area */}

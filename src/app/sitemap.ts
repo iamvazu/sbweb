@@ -62,6 +62,11 @@ const STATIC_ROUTES = [
   "/insights",
   "/careers",
   "/faqs",
+  "/faq",
+  "/pricing",
+  "/resources",
+  "/resources/rfp-checklist",
+  "/resources/proposal-template",
   "/glossary",
   "/naics"
 ];

@@ -1,7 +1,7 @@
 import { FAQItem } from "@/lib/data/faqs";
 
 interface JsonLdProps {
-  type: "Service" | "LocalBusiness" | "FAQPage";
+  type: "Service" | "LocalBusiness" | "FAQPage" | "BreadcrumbList" | "Article";
   data: any;
 }
 
@@ -103,6 +103,14 @@ export function JsonLd({ type, data }: JsonLdProps) {
         }
       ]
     };
+  }
+
+  if (type === "BreadcrumbList") {
+    schema = data;
+  }
+
+  if (type === "Article") {
+    schema = data;
   }
 
   return (

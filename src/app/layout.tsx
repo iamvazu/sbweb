@@ -17,8 +17,27 @@ const lora = Lora({ subsets: ['latin'], variable: '--font-serif' });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Stronger Built — We Find, Write & Win Government Bids. You Pay When You Win.",
+  metadataBase: new URL("https://www.strongerbuilt.us"),
+  title: {
+    default: "STRONGERbuilt — We Find, Write & Win Gov Bids. You Pay When You Win.",
+    template: "%s | STRONGERbuilt",
+  },
   description: "Stronger Built's expert consultants find, manage, and win government RFPs for businesses nationwide. Pay-when-you-win pricing. Free consultation.",
+  openGraph: {
+    type: "website",
+    siteName: "STRONGERbuilt",
+    url: "https://www.strongerbuilt.us",
+    title: "STRONGERbuilt — We Find, Write & Win Gov Bids. You Pay When You Win.",
+    description: "Stronger Built's expert consultants find, manage, and win government RFPs for businesses nationwide. Pay-when-you-win pricing. Free consultation.",
+    images: ["/og-default.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@strongerbuilt",
+    title: "STRONGERbuilt — We Find, Write & Win Gov Bids. You Pay When You Win.",
+    description: "Stronger Built's expert consultants find, manage, and win government RFPs for businesses nationwide. Pay-when-you-win pricing. Free consultation.",
+    images: ["/og-default.png"],
+  },
 };
 
 export default function RootLayout({
