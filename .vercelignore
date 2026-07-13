@@ -1,0 +1,13 @@
+*.csv
+*.db
+scratch/
+opt_data_files/
+*.db-shm
+*.db-wal
+*.xls
+*.xlsx
+OpenGov Scraper/
+bidnet_scraper/
+bids/
+/Data/
+strongerbuilt_bids_*.json

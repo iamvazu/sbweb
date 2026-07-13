@@ -50,5 +50,7 @@ opt_data_files/
 OpenGov Scraper/
 bidnet_scraper/
 bids/
-Data/
+/Data/
 strongerbuilt_bids_*.json
+.vercel
+.env*
