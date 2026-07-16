@@ -64,7 +64,8 @@ const AVAILABLE_SOURCES = [
   { key: "samgov", label: "SAM.gov" },
   { key: "caleprocure", label: "CaleProcure" },
   { key: "bidnet", label: "BidNet" },
-  { key: "opengov", label: "OpenGov" }
+  { key: "opengov", label: "OpenGov" },
+  { key: "laramp", label: "LA RAMP" }
 ];
 
 const ITEMS_PER_PAGE = 10;
